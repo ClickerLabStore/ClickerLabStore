@@ -37,9 +37,10 @@
         .navbar-image {
             position: relative;
             width: 100%;
+            overflow: visible;
         }
 
-        .navbar img {
+        .navbar-main-image {
             display: block;
             width: 100%;
             height: auto;
@@ -57,7 +58,62 @@
         }
 
 
-        /* SHOP */
+        /* =========================
+           LOGO
+        ========================== */
+
+        .logo {
+            position: absolute;
+
+            left: 3.5%;
+            top: 15%;
+
+            width: 19%;
+            height: 70%;
+
+            overflow: hidden;
+
+            z-index: 10;
+
+            cursor: pointer;
+
+            transition: transform 0.2s ease;
+
+            transform-origin: center;
+        }
+
+
+        /*
+           This is another copy of navbar.png.
+
+           We make it much larger and position it so
+           only the logo portion appears inside the box.
+        */
+
+        .logo img {
+            position: absolute;
+
+            width: 526.32%;
+
+            max-width: none;
+
+            left: -18.42%;
+            top: -21.43%;
+
+            display: block;
+        }
+
+
+        /* Slightly enlarge logo when hovering */
+
+        .logo:hover {
+            transform: scale(1.04);
+        }
+
+
+        /* =========================
+           SHOP
+        ========================== */
 
         .shop {
             left: 26.5%;
@@ -67,7 +123,9 @@
         }
 
 
-        /* BUNDLES */
+        /* =========================
+           BUNDLES
+        ========================== */
 
         .bundles {
             left: 34.2%;
@@ -77,7 +135,9 @@
         }
 
 
-        /* BUILD YOUR OWN */
+        /* =========================
+           BUILD YOUR OWN
+        ========================== */
 
         .build {
             left: 44.1%;
@@ -87,7 +147,9 @@
         }
 
 
-        /* ABOUT */
+        /* =========================
+           ABOUT
+        ========================== */
 
         .about {
             left: 59.4%;
@@ -97,7 +159,9 @@
         }
 
 
-        /* FAQ */
+        /* =========================
+           FAQ
+        ========================== */
 
         .faq {
             left: 67.5%;
@@ -123,6 +187,7 @@
             background-color: black;
 
             transform: translateX(-50%) scaleX(0);
+
             transform-origin: center;
 
             transition: transform 0.2s ease;
@@ -144,9 +209,7 @@
         }
 
 
-        /* ABOUT
-           Move underline slightly LEFT
-        */
+        /* About */
 
         .about::after {
             width: 90%;
@@ -154,9 +217,7 @@
         }
 
 
-        /* FAQ
-           Move underline slightly RIGHT
-        */
+        /* FAQ */
 
         .faq::after {
             width: 90%;
@@ -205,13 +266,37 @@
 
         <div class="navbar-image">
 
+
+            <!-- MAIN NAVBAR IMAGE -->
+
             <img
                 src="navbar.png"
                 alt="ClickerLabStore navigation bar"
+                class="navbar-main-image"
             >
 
 
-            <!-- SHOP -->
+            <!-- =========================
+                 LOGO
+            ========================== -->
+
+            <a
+                href="index.html"
+                class="logo"
+                aria-label="ClickerLabStore Home"
+            >
+
+                <img
+                    src="navbar.png"
+                    alt=""
+                >
+
+            </a>
+
+
+            <!-- =========================
+                 SHOP
+            ========================== -->
 
             <a
                 href="shop.html"
@@ -220,7 +305,9 @@
             ></a>
 
 
-            <!-- BUNDLES -->
+            <!-- =========================
+                 BUNDLES
+            ========================== -->
 
             <a
                 href="bundles.html"
@@ -229,7 +316,9 @@
             ></a>
 
 
-            <!-- BUILD YOUR OWN -->
+            <!-- =========================
+                 BUILD YOUR OWN
+            ========================== -->
 
             <a
                 href="build.html"
@@ -238,7 +327,9 @@
             ></a>
 
 
-            <!-- ABOUT -->
+            <!-- =========================
+                 ABOUT
+            ========================== -->
 
             <a
                 href="about.html"
@@ -247,13 +338,16 @@
             ></a>
 
 
-            <!-- FAQ -->
+            <!-- =========================
+                 FAQ
+            ========================== -->
 
             <a
                 href="faq.html"
                 class="nav-click faq"
                 aria-label="FAQ"
             ></a>
+
 
         </div>
 
