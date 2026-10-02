@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,11 @@
     <title>ClickerLabStore</title>
 
     <style>
+
+        /* =========================
+           GENERAL PAGE SETTINGS
+        ========================== */
+
         * {
             margin: 0;
             padding: 0;
@@ -19,8 +25,17 @@
             background-color: white;
         }
 
-        /* Navbar */
+
+        /* =========================
+           NAVBAR
+        ========================== */
+
         .navbar {
+            width: 100%;
+        }
+
+        .navbar-image {
+            position: relative;
             width: 100%;
         }
 
@@ -30,7 +45,32 @@
             height: auto;
         }
 
-        /* Temporary homepage content */
+
+        /* =========================
+           INVISIBLE NAVBAR BUTTONS
+        ========================== */
+
+        .nav-click {
+            position: absolute;
+            display: block;
+            cursor: pointer;
+        }
+
+
+        /* SHOP BUTTON */
+
+        .shop {
+            left: 26.5%;
+            top: 28%;
+            width: 5.5%;
+            height: 45%;
+        }
+
+
+        /* =========================
+           HOMEPAGE
+        ========================== */
+
         .home {
             text-align: center;
             padding: 80px 20px;
@@ -44,21 +84,57 @@
         .home p {
             font-size: 18px;
         }
+
     </style>
 </head>
 
+
 <body>
 
-    <!-- NAVBAR -->
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
     <header class="navbar">
-        <img src="navbar.png" alt="ClickerLabStore navigation bar">
+
+        <div class="navbar-image">
+
+            <!-- Navbar artwork -->
+            <img
+                src="navbar.png"
+                alt="ClickerLabStore navigation bar"
+            >
+
+
+            <!-- SHOP -->
+            <a
+                href="shop.html"
+                class="nav-click shop"
+                aria-label="Shop"
+            ></a>
+
+        </div>
+
     </header>
 
-    <!-- HOMEPAGE -->
+
+
+    <!-- =========================
+         HOMEPAGE
+    ========================== -->
+
     <main class="home">
+
         <h1>Welcome to ClickerLabStore!</h1>
-        <p>Our mechanical keyboard fidgets are coming soon.</p>
+
+        <p>
+            Our mechanical keyboard fidgets are coming soon.
+        </p>
+
     </main>
 
+
 </body>
+
 </html>
