@@ -57,7 +57,7 @@
         }
 
 
-        /* Shop */
+        /* SHOP */
 
         .shop {
             left: 26.5%;
@@ -67,32 +67,32 @@
         }
 
 
-        /* Bundles */
+        /* BUNDLES */
 
         .bundles {
-            left: 34.1%;
+            left: 34.2%;
             top: 28%;
-            width: 8%;
+            width: 7.8%;
             height: 45%;
         }
 
 
-        /* Build Your Own */
+        /* BUILD YOUR OWN */
 
         .build {
             left: 44.1%;
             top: 28%;
-            width: 13%;
+            width: 13.1%;
             height: 45%;
         }
 
 
-        /* About */
+        /* ABOUT */
 
         .about {
-            left: 59.3%;
+            left: 59.4%;
             top: 28%;
-            width: 6%;
+            width: 5.9%;
             height: 45%;
         }
 
@@ -100,39 +100,55 @@
         /* FAQ */
 
         .faq {
-            left: 67.4%;
+            left: 67.5%;
             top: 28%;
-            width: 4.5%;
+            width: 4.3%;
             height: 45%;
         }
 
 
         /* =========================
-           HOVER UNDERLINES
+           UNDERLINES
         ========================== */
 
         .nav-click::after {
             content: "";
             position: absolute;
 
-            /* Perfectly center underline */
+            /* Perfect horizontal center */
             left: 50%;
 
-            /* Height we adjusted earlier */
+            /* Height we already perfected */
             bottom: 16%;
 
-            width: 90%;
             height: 2px;
 
             background-color: black;
 
-            /* Hidden normally */
+            /* Hidden until hovered */
             transform: translateX(-50%) scaleX(0);
 
-            /* Grow outward from center */
+            /* Grow outward equally */
             transform-origin: center;
 
             transition: transform 0.2s ease;
+        }
+
+
+        /* Normal underline length */
+
+        .shop::after,
+        .bundles::after,
+        .about::after,
+        .faq::after {
+            width: 90%;
+        }
+
+
+        /* Build Your Own gets a slightly longer line */
+
+        .build::after {
+            width: 96%;
         }
 
 
@@ -176,8 +192,6 @@
     <header class="navbar">
 
         <div class="navbar-image">
-
-            <!-- Navbar artwork -->
 
             <img
                 src="navbar.png"
@@ -229,11 +243,9 @@
                 aria-label="FAQ"
             ></a>
 
-
         </div>
 
     </header>
-
 
 
     <!-- =========================
