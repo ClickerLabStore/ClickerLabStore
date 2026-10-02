@@ -115,44 +115,56 @@
             content: "";
             position: absolute;
 
-            /* Perfect horizontal center */
             left: 50%;
-
-            /* Height we already perfected */
             bottom: 16%;
 
             height: 2px;
 
             background-color: black;
 
-            /* Hidden until hovered */
             transform: translateX(-50%) scaleX(0);
-
-            /* Grow outward equally */
             transform-origin: center;
 
             transition: transform 0.2s ease;
         }
 
 
-        /* Normal underline length */
+        /* Normal underline lengths */
 
         .shop::after,
-        .bundles::after,
-        .about::after,
-        .faq::after {
+        .bundles::after {
             width: 90%;
         }
 
 
-        /* Build Your Own gets a slightly longer line */
+        /* Build Your Own */
 
         .build::after {
             width: 96%;
         }
 
 
-        /* Show underline */
+        /* ABOUT
+           Move underline slightly LEFT
+        */
+
+        .about::after {
+            width: 90%;
+            left: 46%;
+        }
+
+
+        /* FAQ
+           Move underline slightly RIGHT
+        */
+
+        .faq::after {
+            width: 90%;
+            left: 54%;
+        }
+
+
+        /* Show underline when hovering */
 
         .nav-click:hover::after {
             transform: translateX(-50%) scaleX(1);
