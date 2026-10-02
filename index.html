@@ -69,24 +69,30 @@
         }
 
 
-        /* Shop underline */
+        /* =========================
+           SHOP HOVER UNDERLINE
+        ========================== */
 
         .shop::after {
             content: "";
             position: absolute;
 
-            left: 5%;
-            bottom: 5%;
+            /* Center underline */
+            left: 50%;
 
+            /* Move underline slightly higher */
+            bottom: 12%;
+
+            /* Underline size */
             width: 90%;
             height: 2px;
 
             background-color: black;
 
             /* Hide underline normally */
-            transform: scaleX(0);
+            transform: translateX(-50%) scaleX(0);
 
-            /* Start animation from center */
+            /* Make animation grow from center */
             transform-origin: center;
 
             /* Smooth animation */
@@ -94,10 +100,10 @@
         }
 
 
-        /* Show underline when hovering */
+        /* Show underline when hovering over Shop */
 
         .shop:hover::after {
-            transform: scaleX(1);
+            transform: translateX(-50%) scaleX(1);
         }
 
 
