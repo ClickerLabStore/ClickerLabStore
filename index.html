@@ -57,13 +57,47 @@
         }
 
 
-        /* SHOP BUTTON */
+        /* =========================
+           SHOP BUTTON
+        ========================== */
 
         .shop {
             left: 26.5%;
             top: 28%;
             width: 5.5%;
             height: 45%;
+        }
+
+
+        /* Shop underline */
+
+        .shop::after {
+            content: "";
+            position: absolute;
+
+            left: 5%;
+            bottom: 5%;
+
+            width: 90%;
+            height: 2px;
+
+            background-color: black;
+
+            /* Hide underline normally */
+            transform: scaleX(0);
+
+            /* Start animation from center */
+            transform-origin: center;
+
+            /* Smooth animation */
+            transition: transform 0.2s ease;
+        }
+
+
+        /* Show underline when hovering */
+
+        .shop:hover::after {
+            transform: scaleX(1);
         }
 
 
@@ -86,6 +120,7 @@
         }
 
     </style>
+
 </head>
 
 
@@ -100,14 +135,16 @@
 
         <div class="navbar-image">
 
-            <!-- Navbar artwork -->
+            <!-- Navbar image -->
+
             <img
                 src="navbar.png"
                 alt="ClickerLabStore navigation bar"
             >
 
 
-            <!-- SHOP -->
+            <!-- Invisible Shop button -->
+
             <a
                 href="shop.html"
                 class="nav-click shop"
