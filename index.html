@@ -37,7 +37,6 @@
         .navbar-image {
             position: relative;
             width: 100%;
-            overflow: visible;
         }
 
         .navbar-main-image {
@@ -65,17 +64,17 @@
         .logo {
             position: absolute;
 
-            left: 2.5%;
-            top: 10%;
+            left: 3%;
+            top: 18%;
 
-            width: 28%;
-            height: 80%;
-
-            overflow: hidden;
+            width: 22%;
+            height: 64%;
 
             z-index: 10;
 
             cursor: pointer;
+
+            overflow: hidden;
 
             transition: transform 0.2s ease;
 
@@ -83,26 +82,26 @@
         }
 
 
-        /* Duplicate navbar image inside logo */
+        /* Copy of navbar used for logo */
 
         .logo img {
             position: absolute;
 
-            width: 357.14%;
+            width: 454.55%;
 
             max-width: none;
 
-            left: -8.93%;
-            top: -12.5%;
+            left: -13.64%;
+            top: -28.1%;
 
             display: block;
         }
 
 
-        /* Make entire logo slightly bigger */
+        /* Small smooth hover */
 
         .logo:hover {
-            transform: scale(1.04);
+            transform: scale(1.02);
         }
 
 
@@ -220,7 +219,7 @@
         }
 
 
-        /* Show underline when hovering */
+        /* Show underline */
 
         .nav-click:hover::after {
             transform: translateX(-50%) scaleX(1);
@@ -262,7 +261,7 @@
         <div class="navbar-image">
 
 
-            <!-- MAIN NAVBAR IMAGE -->
+            <!-- MAIN NAVBAR -->
 
             <img
                 src="navbar.png"
