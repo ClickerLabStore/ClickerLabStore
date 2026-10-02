@@ -10,7 +10,7 @@
     <style>
 
         /* =========================
-           GENERAL PAGE SETTINGS
+           GENERAL
         ========================== */
 
         * {
@@ -47,7 +47,7 @@
 
 
         /* =========================
-           INVISIBLE NAVBAR BUTTONS
+           NAVBAR BUTTONS
         ========================== */
 
         .nav-click {
@@ -57,9 +57,7 @@
         }
 
 
-        /* =========================
-           SHOP BUTTON
-        ========================== */
+        /* Shop */
 
         .shop {
             left: 26.5%;
@@ -69,40 +67,78 @@
         }
 
 
+        /* Bundles */
+
+        .bundles {
+            left: 34.1%;
+            top: 28%;
+            width: 8%;
+            height: 45%;
+        }
+
+
+        /* Build Your Own */
+
+        .build {
+            left: 44.1%;
+            top: 28%;
+            width: 13%;
+            height: 45%;
+        }
+
+
+        /* About */
+
+        .about {
+            left: 59.3%;
+            top: 28%;
+            width: 6%;
+            height: 45%;
+        }
+
+
+        /* FAQ */
+
+        .faq {
+            left: 67.4%;
+            top: 28%;
+            width: 4.5%;
+            height: 45%;
+        }
+
+
         /* =========================
-           SHOP HOVER UNDERLINE
+           HOVER UNDERLINES
         ========================== */
 
-        .shop::after {
+        .nav-click::after {
             content: "";
             position: absolute;
 
-            /* Center underline */
+            /* Perfectly center underline */
             left: 50%;
 
-            /* Move underline slightly higher */
+            /* Height we adjusted earlier */
             bottom: 16%;
 
-            /* Underline size */
             width: 90%;
             height: 2px;
 
             background-color: black;
 
-            /* Hide underline normally */
+            /* Hidden normally */
             transform: translateX(-50%) scaleX(0);
 
-            /* Make animation grow from center */
+            /* Grow outward from center */
             transform-origin: center;
 
-            /* Smooth animation */
             transition: transform 0.2s ease;
         }
 
 
-        /* Show underline when hovering over Shop */
+        /* Show underline */
 
-        .shop:hover::after {
+        .nav-click:hover::after {
             transform: translateX(-50%) scaleX(1);
         }
 
@@ -141,7 +177,7 @@
 
         <div class="navbar-image">
 
-            <!-- Navbar image -->
+            <!-- Navbar artwork -->
 
             <img
                 src="navbar.png"
@@ -149,13 +185,50 @@
             >
 
 
-            <!-- Invisible Shop button -->
+            <!-- SHOP -->
 
             <a
                 href="shop.html"
                 class="nav-click shop"
                 aria-label="Shop"
             ></a>
+
+
+            <!-- BUNDLES -->
+
+            <a
+                href="bundles.html"
+                class="nav-click bundles"
+                aria-label="Bundles"
+            ></a>
+
+
+            <!-- BUILD YOUR OWN -->
+
+            <a
+                href="build.html"
+                class="nav-click build"
+                aria-label="Build Your Own"
+            ></a>
+
+
+            <!-- ABOUT -->
+
+            <a
+                href="about.html"
+                class="nav-click about"
+                aria-label="About"
+            ></a>
+
+
+            <!-- FAQ -->
+
+            <a
+                href="faq.html"
+                class="nav-click faq"
+                aria-label="FAQ"
+            ></a>
+
 
         </div>
 
