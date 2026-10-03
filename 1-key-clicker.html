@@ -245,7 +245,66 @@
             font-size: 17px;
             line-height: 1.7;
             color: #667085;
-            margin-bottom: 32px;
+            margin-bottom: 30px;
+        }
+
+
+        /* =========================
+           SWITCH OPTIONS
+        ========================== */
+
+        .option-title {
+            display: block;
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .switch-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .switch-option {
+            padding: 15px;
+            border: 2px solid #d8dde5;
+            border-radius: 12px;
+            background: white;
+            color: #17243c;
+            font-family: inherit;
+            text-align: left;
+            cursor: pointer;
+
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .switch-option:hover {
+            border-color: #9ba6b5;
+            transform: translateY(-2px);
+        }
+
+        .switch-option.selected {
+            border-color: #17243c;
+            background: #f5f7fa;
+        }
+
+        .switch-name {
+            display: block;
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 3px;
+        }
+
+        .switch-description {
+            display: block;
+            color: #667085;
+            font-size: 13px;
+            line-height: 1.4;
         }
 
 
@@ -314,6 +373,7 @@
             font-size: 17px;
             font-weight: 800;
             cursor: pointer;
+
             transition:
                 transform 0.2s ease,
                 opacity 0.2s ease;
@@ -371,6 +431,14 @@
 
             .product-details h1 {
                 font-size: 36px;
+            }
+
+        }
+
+        @media (max-width: 450px) {
+
+            .switch-options {
+                grid-template-columns: 1fr;
             }
 
         }
@@ -491,6 +559,52 @@
                 </p>
 
 
+                <!-- SWITCH CHOICE -->
+
+                <span class="option-title">
+                    Choose Your Switch
+                </span>
+
+                <div class="switch-options">
+
+                    <button
+                        type="button"
+                        class="switch-option"
+                        id="clicky-option"
+                        onclick="selectSwitch('Clicky')"
+                    >
+
+                        <span class="switch-name">
+                            Clicky
+                        </span>
+
+                        <span class="switch-description">
+                            Crisp, tactile click
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="switch-option"
+                        id="creamy-option"
+                        onclick="selectSwitch('Creamy')"
+                    >
+
+                        <span class="switch-name">
+                            Creamy
+                        </span>
+
+                        <span class="switch-description">
+                            Smooth, softer sound
+                        </span>
+
+                    </button>
+
+                </div>
+
+
                 <!-- QUANTITY -->
 
                 <span class="quantity-label">
@@ -549,7 +663,7 @@
 
                     <div class="product-note">
                         <span class="check">✓</span>
-                        <span>Satisfying mechanical key switch</span>
+                        <span>Your choice of Clicky or Creamy switch</span>
                     </div>
 
                     <div class="product-note">
@@ -568,7 +682,7 @@
 
 
     <!-- =========================
-         QUANTITY + PRICE SCRIPT
+         PRODUCT SCRIPT
     ========================== -->
 
     <script>
@@ -579,6 +693,8 @@
         const maximumQuantity = 99;
 
         let quantity = 1;
+
+        let selectedSwitch = null;
 
 
         const quantityDisplay =
@@ -596,6 +712,44 @@
         const plusButton =
             document.getElementById("plus-button");
 
+        const clickyOption =
+            document.getElementById("clicky-option");
+
+        const creamyOption =
+            document.getElementById("creamy-option");
+
+
+        /* =========================
+           SWITCH SELECTION
+        ========================== */
+
+        function selectSwitch(switchType) {
+
+            selectedSwitch = switchType;
+
+            clickyOption.classList.remove("selected");
+            creamyOption.classList.remove("selected");
+
+
+            if (switchType === "Clicky") {
+
+                clickyOption.classList.add("selected");
+
+            }
+
+
+            if (switchType === "Creamy") {
+
+                creamyOption.classList.add("selected");
+
+            }
+
+        }
+
+
+        /* =========================
+           PRICE + QUANTITY
+        ========================== */
 
         function updateProduct() {
 
