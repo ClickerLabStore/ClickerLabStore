@@ -1,1 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shop | ClickerLabStore</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Nunito Sans", sans-serif;
+            background: white;
+            color: #17243c;
+            overflow-x: hidden;
+        }
+
+
+        /* NAVBAR */
+
+        .navbar {
+            width: 100%;
+        }
+
+        .navbar-image {
+            position: relative;
+            width: 100%;
+        }
+
+        .navbar-main-image {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .nav-click {
+            position: absolute;
+            display: block;
+            cursor: pointer;
+        }
+
+
+        /* LOGO */
+
+        .logo {
+            position: absolute;
+            left: 1.5%;
+            top: 5%;
+            width: 23.5%;
+            height: 90%;
+            overflow: hidden;
+            z-index: 10;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            transform-origin: center;
+        }
+
+        .logo img {
+            position: absolute;
+            width: 425.53%;
+            max-width: none;
+            left: -6.38%;
+            top: -5.56%;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
+
+        /* NAV BUTTON POSITIONS */
+
+        .shop {
+            left: 26.5%;
+            top: 28%;
+            width: 5.5%;
+            height: 45%;
+        }
+
+        .bundles {
+            left: 34.2%;
+            top: 28%;
+            width: 7.8%;
+            height: 45%;
+        }
+
+        .build {
+            left: 44.1%;
+            top: 28%;
+            width: 13.1%;
+            height: 45%;
+        }
+
+        .about {
+            left: 59.4%;
+            top: 28%;
+            width: 5.9%;
+            height: 45%;
+        }
+
+        .faq {
+            left: 67.5%;
+            top: 28%;
+            width: 4.3%;
+            height: 45%;
+        }
+
+
+        /* NAV UNDERLINES */
+
+        .nav-click::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 16%;
+            height: 2px;
+            background: black;
+            transform: translateX(-50%) scaleX(0);
+            transform-origin: center;
+            transition: transform 0.2s ease;
+        }
+
+        .shop::after,
+        .bundles::after,
+        .about::after,
+        .faq::after {
+            width: 90%;
+        }
+
+        .build::after {
+            width: 96%;
+        }
+
+        .about::after {
+            left: 46%;
+        }
+
+        .faq::after {
+            left: 61%;
+        }
+
+        .nav-click:hover::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+
+        /* SHOP PAGE */
+
+        .shop-page {
+            padding: 65px 6% 100px;
+        }
+
+        .shop-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .shop-header h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .shop-header p {
+            font-size: 19px;
+            color: #667085;
+        }
+
+
+        /* PRODUCT GRID */
+
+        .product-grid {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 35px 28px;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid #e8ebf0;
+            border-radius: 18px;
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 30px rgba(23, 36, 60, 0.12);
+        }
+
+
+        /* PLACEHOLDER IMAGE */
+
+        .product-image {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #eef4ff, #f8faff);
+            color: #8190a5;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+
+        /* PRODUCT INFO */
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-info h2 {
+            font-size: 21px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .product-description {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #6b7280;
+            margin-bottom: 15px;
+        }
+
+        .product-price {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 17px;
+        }
+
+        .product-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            background: #17243c;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: 0.2s ease;
+        }
+
+        .product-button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+
+        /* SMALLER SCREENS */
+
+        @media (max-width: 900px) {
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .shop-page {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .shop-header h1 {
+                font-size: 38px;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <div class="navbar-image">
+
+            <img
+                src="navbar.png"
+                alt="ClickerLabStore navigation bar"
+                class="navbar-main-image"
+            >
+
+            <a
+                href="index.html"
+                class="logo"
+                aria-label="ClickerLabStore Home"
+            >
+                <img src="navbar.png" alt="">
+            </a>
+
+            <a href="shop.html" class="nav-click shop" aria-label="Shop"></a>
+            <a href="bundles.html" class="nav-click bundles" aria-label="Bundles"></a>
+            <a href="build.html" class="nav-click build" aria-label="Build Your Own"></a>
+            <a href="about.html" class="nav-click about" aria-label="About"></a>
+            <a href="faq.html" class="nav-click faq" aria-label="FAQ"></a>
+
+        </div>
+
+    </header>
+
+
+    <!-- SHOP -->
+
+    <main class="shop-page">
+
+        <section class="shop-header">
+
+            <h1>Shop Clickers</h1>
+
+            <p>
+                Find the clicker that fits you.
+            </p>
+
+        </section>
+
+
+        <section class="product-grid">
+
+
+            <!-- PRODUCT 1 -->
+
+            <article class="product-card">
+
+                <div class="product-image">
+                    Product Photo
+                </div>
+
+                <div class="product-info">
+
+                    <h2>Single Key Clicker</h2>
+
+                    <p class="product-description">
+                        A compact one-key mechanical fidget made for satisfying clicks anywhere.
+                    </p>
+
+                    <p class="product-price">
+                        $9.99
+                    </p>
+
+                    <a href="#" class="product-button">
+                        View Product
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- PRODUCT 2 -->
+
+            <article class="product-card">
+
+                <div class="product-image">
+                    Product Photo
+                </div>
+
+                <div class="product-info">
+
+                    <h2>3-Key Clicker</h2>
+
+                    <p class="product-description">
+                        Three mechanical switches in one compact fidget for even more clicking.
+                    </p>
+
+                    <p class="product-price">
+                        $14.99
+                    </p>
+
+                    <a href="#" class="product-button">
+                        View Product
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- PRODUCT 3 -->
+
+            <article class="product-card">
+
+                <div class="product-image">
+                    Product Photo
+                </div>
+
+                <div class="product-info">
+
+                    <h2>Single Key Keychain</h2>
+
+                    <p class="product-description">
+                        Take your favorite mechanical click with you wherever you go.
+                    </p>
+
+                    <p class="product-price">
+                        $11.99
+                    </p>
+
+                    <a href="#" class="product-button">
+                        View Product
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- PRODUCT 4 -->
+
+            <article class="product-card">
+
+                <div class="product-image">
+                    Product Photo
+                </div>
+
+                <div class="product-info">
+
+                    <h2>3-Key Keychain</h2>
+
+                    <p class="product-description">
+                        A portable three-key clicker with a keychain attachment.
+                    </p>
+
+                    <p class="product-price">
+                        $16.99
+                    </p>
+
+                    <a href="#" class="product-button">
+                        View Product
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- PRODUCT 5 -->
+
+            <article class="product-card">
+
+                <div class="product-image">
+                    Product Photo
+                </div>
+
+                <div class="product-info">
+
+                    <h2>Custom Clicker</h2>
+
+                    <p class="product-description">
+                        Choose your favorite colors and switches to create your own clicker.
+                    </p>
+
+                    <p class="product-price">
+                        $19.99
+                    </p>
+
+                    <a href="#" class="product-button">
+                        View Product
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- PRODUCT 6 -->
+
+            <article class="product-card">
+
+                <div class="product-image">
+                    Product Photo
+                </div>
+
+                <div class="product-info">
+
+                    <h2>Clicker Bundle</h2>
+
+                    <p class="product-description">
+                        A starter bundle with multiple ClickerLab fidgets together.
+                    </p>
+
+                    <p class="product-price">
+                        $24.99
+                    </p>
+
+                    <a href="#" class="product-button">
+                        View Product
+                    </a>
+
+                </div>
+
+            </article>
+
+
+        </section>
+
+    </main>
+
+
+</body>
+
+</html>
