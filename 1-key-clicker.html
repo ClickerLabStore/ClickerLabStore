@@ -285,6 +285,12 @@
             background: #f5f7fa;
         }
 
+        .quantity-selector button:disabled {
+            color: #c5cad3;
+            cursor: not-allowed;
+            background: white;
+        }
+
         .quantity-number {
             width: 48px;
             text-align: center;
@@ -471,7 +477,10 @@
                     1-Key Clicker
                 </h1>
 
-                <p class="product-price">
+                <p
+                    class="product-price"
+                    id="product-price"
+                >
                     $2.49
                 </p>
 
@@ -492,6 +501,7 @@
 
                     <button
                         type="button"
+                        id="minus-button"
                         onclick="decreaseQuantity()"
                         aria-label="Decrease quantity"
                     >
@@ -507,6 +517,7 @@
 
                     <button
                         type="button"
+                        id="plus-button"
                         onclick="increaseQuantity()"
                         aria-label="Increase quantity"
                     >
@@ -521,6 +532,7 @@
                 <button
                     type="button"
                     class="add-to-cart"
+                    id="add-to-cart"
                 >
                     Add to Cart — $2.49
                 </button>
@@ -556,37 +568,90 @@
 
 
     <!-- =========================
-         QUANTITY SCRIPT
+         QUANTITY + PRICE SCRIPT
     ========================== -->
 
     <script>
 
+        const unitPrice = 2.49;
+
+        const minimumQuantity = 1;
+        const maximumQuantity = 99;
+
         let quantity = 1;
+
 
         const quantityDisplay =
             document.getElementById("quantity");
 
-        function increaseQuantity() {
+        const productPriceDisplay =
+            document.getElementById("product-price");
 
-            quantity++;
+        const addToCartButton =
+            document.getElementById("add-to-cart");
+
+        const minusButton =
+            document.getElementById("minus-button");
+
+        const plusButton =
+            document.getElementById("plus-button");
+
+
+        function updateProduct() {
+
+            const totalPrice =
+                unitPrice * quantity;
+
 
             quantityDisplay.textContent =
                 quantity;
 
+
+            productPriceDisplay.textContent =
+                "$" + totalPrice.toFixed(2);
+
+
+            addToCartButton.textContent =
+                "Add to Cart — $" + totalPrice.toFixed(2);
+
+
+            minusButton.disabled =
+                quantity <= minimumQuantity;
+
+
+            plusButton.disabled =
+                quantity >= maximumQuantity;
+
         }
 
-        function decreaseQuantity() {
 
-            if (quantity > 1) {
+        function increaseQuantity() {
 
-                quantity--;
+            if (quantity < maximumQuantity) {
 
-                quantityDisplay.textContent =
-                    quantity;
+                quantity++;
+
+                updateProduct();
 
             }
 
         }
+
+
+        function decreaseQuantity() {
+
+            if (quantity > minimumQuantity) {
+
+                quantity--;
+
+                updateProduct();
+
+            }
+
+        }
+
+
+        updateProduct();
 
     </script>
 
