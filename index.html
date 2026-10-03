@@ -23,6 +23,7 @@
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: white;
+            overflow-x: hidden;
         }
 
 
@@ -64,11 +65,9 @@
         .logo {
             position: absolute;
 
-            /* Left/right size */
             left: 1.5%;
             width: 23.5%;
 
-            /* Taller area so bottom is NOT clipped */
             top: 5%;
             height: 90%;
 
@@ -84,8 +83,6 @@
         }
 
 
-        /* Copy of navbar used for logo */
-
         .logo img {
             position: absolute;
 
@@ -94,15 +91,11 @@
             max-width: none;
 
             left: -6.38%;
-
-            /* Adjusted for taller crop */
             top: -5.56%;
 
             display: block;
         }
 
-
-        /* Small smooth hover */
 
         .logo:hover {
             transform: scale(1.02);
@@ -192,22 +185,16 @@
         }
 
 
-        /* Shop + Bundles */
-
         .shop::after,
         .bundles::after {
             width: 90%;
         }
 
 
-        /* Build Your Own */
-
         .build::after {
             width: 96%;
         }
 
-
-        /* About */
 
         .about::after {
             width: 90%;
@@ -215,15 +202,11 @@
         }
 
 
-        /* FAQ */
-
         .faq::after {
             width: 90%;
             left: 61%;
         }
 
-
-        /* Show underline */
 
         .nav-click:hover::after {
             transform: translateX(-50%) scaleX(1);
@@ -235,17 +218,119 @@
         ========================== */
 
         .home {
+            padding: 55px 0 80px 0;
+        }
+
+
+        .home-title {
             text-align: center;
-            padding: 80px 20px;
+            padding: 0 20px 35px 20px;
         }
 
-        .home h1 {
+
+        .home-title h1 {
             font-size: 42px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
-        .home p {
+
+        .home-title p {
             font-size: 18px;
+        }
+
+
+        /* =========================
+           MOVING PHOTO GALLERY
+        ========================== */
+
+        .gallery {
+            width: 100%;
+            overflow: hidden;
+
+            padding: 20px 0 30px 0;
+        }
+
+
+        .gallery-track {
+            display: flex;
+
+            width: max-content;
+
+            gap: 22px;
+
+            animation: gallerySlide 35s linear infinite;
+        }
+
+
+        .gallery:hover .gallery-track {
+            animation-play-state: paused;
+        }
+
+
+        .gallery img {
+            width: 280px;
+            height: 380px;
+
+            object-fit: cover;
+
+            border-radius: 18px;
+
+            box-shadow:
+                0 6px 18px rgba(0, 0, 0, 0.15);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+
+            flex-shrink: 0;
+        }
+
+
+        .gallery img:hover {
+            transform: scale(1.03);
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.22);
+        }
+
+
+        /* =========================
+           GALLERY ANIMATION
+        ========================== */
+
+        @keyframes gallerySlide {
+
+            from {
+                transform: translateX(-50%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+
+        }
+
+
+        /* =========================
+           SMALLER SCREENS
+        ========================== */
+
+        @media (max-width: 700px) {
+
+            .home-title h1 {
+                font-size: 32px;
+            }
+
+            .gallery img {
+                width: 210px;
+                height: 290px;
+            }
+
+            .gallery-track {
+                gap: 15px;
+                animation-duration: 30s;
+            }
+
         }
 
     </style>
@@ -274,9 +359,7 @@
             >
 
 
-            <!-- =========================
-                 LOGO
-            ========================== -->
+            <!-- LOGO -->
 
             <a
                 href="index.html"
@@ -292,9 +375,7 @@
             </a>
 
 
-            <!-- =========================
-                 SHOP
-            ========================== -->
+            <!-- SHOP -->
 
             <a
                 href="shop.html"
@@ -303,9 +384,7 @@
             ></a>
 
 
-            <!-- =========================
-                 BUNDLES
-            ========================== -->
+            <!-- BUNDLES -->
 
             <a
                 href="bundles.html"
@@ -314,9 +393,7 @@
             ></a>
 
 
-            <!-- =========================
-                 BUILD YOUR OWN
-            ========================== -->
+            <!-- BUILD YOUR OWN -->
 
             <a
                 href="build.html"
@@ -325,9 +402,7 @@
             ></a>
 
 
-            <!-- =========================
-                 ABOUT
-            ========================== -->
+            <!-- ABOUT -->
 
             <a
                 href="about.html"
@@ -336,9 +411,7 @@
             ></a>
 
 
-            <!-- =========================
-                 FAQ
-            ========================== -->
+            <!-- FAQ -->
 
             <a
                 href="faq.html"
@@ -358,11 +431,71 @@
 
     <main class="home">
 
-        <h1>Welcome to ClickerLabStore!</h1>
 
-        <p>
-            Our mechanical keyboard fidgets are coming soon.
-        </p>
+        <!-- TITLE -->
+
+        <section class="home-title">
+
+            <h1>Welcome to ClickerLabStore!</h1>
+
+            <p>
+                Mechanical keyboard fidgets made to click anywhere.
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             MOVING GALLERY
+        ========================== -->
+
+        <section class="gallery">
+
+            <div class="gallery-track">
+
+
+                <!-- FIRST SET -->
+
+                <img src="gallery1.png" alt="ClickerLab keyboard fidget">
+
+                <img src="gallery2.png" alt="ClickerLab keyboard fidgets">
+
+                <img src="gallery3.png" alt="ClickerLab keychain fidgets">
+
+                <img src="gallery4.png" alt="ClickerLab keycaps and fidgets">
+
+                <img src="gallery5.png" alt="Single ClickerLab keychain">
+
+                <img src="gallery6.png" alt="Three key ClickerLab keychain">
+
+                <img src="gallery7.png" alt="ClickerLab three key fidget">
+
+                <img src="gallery8.png" alt="ClickerLab single key fidget">
+
+
+                <!-- SECOND SET FOR LOOP -->
+
+                <img src="gallery1.png" alt="">
+
+                <img src="gallery2.png" alt="">
+
+                <img src="gallery3.png" alt="">
+
+                <img src="gallery4.png" alt="">
+
+                <img src="gallery5.png" alt="">
+
+                <img src="gallery6.png" alt="">
+
+                <img src="gallery7.png" alt="">
+
+                <img src="gallery8.png" alt="">
+
+
+            </div>
+
+        </section>
+
 
     </main>
 
