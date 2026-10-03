@@ -1,27 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | ClickerLabStore</title>
 
-    <title>ClickerLabStore</title>
-
-    <!-- NUNITO SANS FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap"
-        rel="stylesheet"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-
-        /* =========================
-           GENERAL
-        ========================== */
-
         * {
             margin: 0;
             padding: 0;
@@ -29,36 +17,25 @@
         }
 
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: white;
+            font-family: "Nunito Sans", sans-serif;
+            background: white;
+            color: #17243c;
             overflow-x: hidden;
         }
 
-
-        /* =========================
-           NAVBAR
-        ========================== */
-
-        .navbar {
+        .navbar,
+        .navbar-image {
             width: 100%;
         }
 
         .navbar-image {
             position: relative;
-            width: 100%;
         }
 
         .navbar-main-image {
             display: block;
             width: 100%;
-            height: auto;
         }
-
-
-        /* =========================
-           NAVBAR BUTTONS
-        ========================== */
 
         .nav-click {
             position: absolute;
@@ -66,54 +43,30 @@
             cursor: pointer;
         }
 
-
-        /* =========================
-           LOGO
-        ========================== */
-
         .logo {
             position: absolute;
-
             left: 1.5%;
-            width: 23.5%;
-
             top: 5%;
+            width: 23.5%;
             height: 90%;
-
-            z-index: 10;
-
-            cursor: pointer;
-
             overflow: hidden;
-
+            z-index: 10;
+            cursor: pointer;
             transition: transform 0.2s ease;
-
             transform-origin: center;
         }
 
-
         .logo img {
             position: absolute;
-
             width: 425.53%;
-
             max-width: none;
-
             left: -6.38%;
             top: -5.56%;
-
-            display: block;
         }
-
 
         .logo:hover {
             transform: scale(1.02);
         }
-
-
-        /* =========================
-           SHOP
-        ========================== */
 
         .shop {
             left: 26.5%;
@@ -122,22 +75,12 @@
             height: 45%;
         }
 
-
-        /* =========================
-           BUNDLES
-        ========================== */
-
         .bundles {
             left: 34.2%;
             top: 28%;
             width: 7.8%;
             height: 45%;
         }
-
-
-        /* =========================
-           BUILD YOUR OWN
-        ========================== */
 
         .build {
             left: 44.1%;
@@ -146,22 +89,12 @@
             height: 45%;
         }
 
-
-        /* =========================
-           ABOUT
-        ========================== */
-
         .about {
             left: 59.4%;
             top: 28%;
             width: 5.9%;
             height: 45%;
         }
-
-
-        /* =========================
-           FAQ
-        ========================== */
 
         .faq {
             left: 67.5%;
@@ -170,349 +103,263 @@
             height: 45%;
         }
 
-
-        /* =========================
-           UNDERLINES
-        ========================== */
-
         .nav-click::after {
             content: "";
             position: absolute;
-
             left: 50%;
             bottom: 16%;
-
             height: 2px;
-
-            background-color: black;
-
+            background: black;
             transform: translateX(-50%) scaleX(0);
-
             transform-origin: center;
-
             transition: transform 0.2s ease;
         }
 
-
         .shop::after,
-        .bundles::after {
+        .bundles::after,
+        .about::after,
+        .faq::after {
             width: 90%;
         }
-
 
         .build::after {
             width: 96%;
         }
 
-
         .about::after {
-            width: 90%;
             left: 46%;
         }
 
-
         .faq::after {
-            width: 90%;
             left: 61%;
         }
-
 
         .nav-click:hover::after {
             transform: translateX(-50%) scaleX(1);
         }
 
-
-        /* =========================
-           HOMEPAGE
-        ========================== */
-
-        .home {
-            padding: 55px 0 80px 0;
+        .shop-page {
+            padding: 65px 6% 100px;
         }
 
-
-        .home-title {
+        .shop-header {
             text-align: center;
-            padding: 0 20px 35px 20px;
+            margin-bottom: 55px;
         }
 
-
-        .home-title h1 {
-            font-family: "Nunito Sans", sans-serif;
-            font-size: 42px;
+        .shop-header h1 {
+            font-size: 48px;
             font-weight: 800;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
-
-        .home-title p {
-            font-family: "Nunito Sans", sans-serif;
-            font-size: 18px;
-            font-weight: 400;
+        .shop-header p {
+            font-size: 19px;
+            color: #667085;
         }
 
+        .product-grid {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 38px 28px;
+        }
 
-        /* =========================
-           MOVING PHOTO GALLERY
-        ========================== */
-
-        .gallery {
-            width: 100%;
+        .product-card {
+            background: white;
+            border: 1px solid #e8ebf0;
+            border-radius: 20px;
             overflow: hidden;
-
-            padding: 20px 0 30px 0;
+            transition: 0.25s ease;
         }
 
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 32px rgba(23, 36, 60, 0.12);
+        }
 
-        .gallery-track {
+        .product-image {
+            width: 100%;
+            aspect-ratio: 1 / 1;
             display: flex;
-
-            width: max-content;
-
-            gap: 22px;
-
-            animation: gallerySlide 35s linear infinite;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #eef4ff, #f7f9fc);
+            color: #8190a5;
+            font-size: 17px;
+            font-weight: 700;
         }
 
-
-        .gallery:hover .gallery-track {
-            animation-play-state: paused;
+        .product-info {
+            padding: 20px;
         }
 
-
-        .gallery img {
-            width: 280px;
-            height: 380px;
-
-            object-fit: cover;
-
-            border-radius: 18px;
-
-            box-shadow:
-                0 6px 18px rgba(0, 0, 0, 0.15);
-
-            transition:
-                transform 0.25s ease,
-                box-shadow 0.25s ease;
-
-            flex-shrink: 0;
+        .product-info h2 {
+            font-size: 21px;
+            font-weight: 800;
+            margin-bottom: 6px;
         }
 
-
-        .gallery img:hover {
-            transform: scale(1.03);
-
-            box-shadow:
-                0 10px 25px rgba(0, 0, 0, 0.22);
+        .product-description {
+            color: #6b7280;
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 15px;
         }
 
+        .product-price {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 17px;
+        }
 
-        /* =========================
-           GALLERY ANIMATION
-        ========================== */
+        .product-button {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+            color: white;
+            background: #17243c;
+            font-size: 15px;
+            font-weight: 700;
+            transition: 0.2s ease;
+        }
 
-        @keyframes gallerySlide {
+        .product-button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
 
-            from {
-                transform: translateX(-50%);
+        @media (max-width: 900px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .shop-page {
+                padding-left: 20px;
+                padding-right: 20px;
             }
 
-            to {
-                transform: translateX(0);
+            .shop-header h1 {
+                font-size: 38px;
             }
 
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
         }
-
-
-        /* =========================
-           SMALLER SCREENS
-        ========================== */
-
-        @media (max-width: 700px) {
-
-            .home-title h1 {
-                font-size: 32px;
-            }
-
-            .gallery img {
-                width: 210px;
-                height: 290px;
-            }
-
-            .gallery-track {
-                gap: 15px;
-                animation-duration: 30s;
-            }
-
-        }
-
     </style>
-
 </head>
-
 
 <body>
 
-
-    <!-- =========================
-         NAVBAR
-    ========================== -->
-
-    <header class="navbar">
-
-        <div class="navbar-image">
-
-
-            <!-- MAIN NAVBAR -->
-
-            <img
-                src="navbar.png"
-                alt="ClickerLabStore navigation bar"
-                class="navbar-main-image"
-            >
-
-
-            <!-- LOGO -->
-
-            <a
-                href="index.html"
-                class="logo"
-                aria-label="ClickerLabStore Home"
-            >
-
-                <img
-                    src="navbar.png"
-                    alt=""
-                >
-
-            </a>
-
-
-            <!-- SHOP -->
-
-            <a
-                href="shop.html"
-                class="nav-click shop"
-                aria-label="Shop"
-            ></a>
-
-
-            <!-- BUNDLES -->
-
-            <a
-                href="bundles.html"
-                class="nav-click bundles"
-                aria-label="Bundles"
-            ></a>
-
-
-            <!-- BUILD YOUR OWN -->
-
-            <a
-                href="build.html"
-                class="nav-click build"
-                aria-label="Build Your Own"
-            ></a>
-
-
-            <!-- ABOUT -->
-
-            <a
-                href="about.html"
-                class="nav-click about"
-                aria-label="About"
-            ></a>
-
-
-            <!-- FAQ -->
-
-            <a
-                href="faq.html"
-                class="nav-click faq"
-                aria-label="FAQ"
-            ></a>
-
-
-        </div>
-
-    </header>
-
-
-    <!-- =========================
-         HOMEPAGE
-    ========================== -->
-
-    <main class="home">
-
-
-        <!-- TITLE -->
-
-        <section class="home-title">
-
-            <h1>Welcome to ClickerLabStore!</h1>
-
-            <p>
-                Mechanical keyboard fidgets made to click anywhere.
-            </p>
-
-        </section>
-
-
-        <!-- =========================
-             MOVING GALLERY
-        ========================== -->
-
-        <section class="gallery">
-
-            <div class="gallery-track">
-
-
-                <!-- FIRST SET -->
-
-                <img src="gallery1.png" alt="ClickerLab keyboard fidget">
-
-                <img src="gallery2.png" alt="ClickerLab keyboard fidgets">
-
-                <img src="gallery3.png" alt="ClickerLab keychain fidgets">
-
-                <img src="gallery4.png" alt="ClickerLab keycaps and fidgets">
-
-                <img src="gallery5.png" alt="Single ClickerLab keychain">
-
-                <img src="gallery6.png" alt="Three key ClickerLab keychain">
-
-                <img src="gallery7.png" alt="ClickerLab three key fidget">
-
-                <img src="gallery8.png" alt="ClickerLab single key fidget">
-
-
-                <!-- SECOND SET FOR LOOP -->
-
-                <img src="gallery1.png" alt="">
-
-                <img src="gallery2.png" alt="">
-
-                <img src="gallery3.png" alt="">
-
-                <img src="gallery4.png" alt="">
-
-                <img src="gallery5.png" alt="">
-
-                <img src="gallery6.png" alt="">
-
-                <img src="gallery7.png" alt="">
-
-                <img src="gallery8.png" alt="">
-
-
+<header class="navbar">
+    <div class="navbar-image">
+
+        <img src="navbar.png" alt="ClickerLabStore navigation bar" class="navbar-main-image">
+
+        <a href="index.html" class="logo" aria-label="ClickerLabStore Home">
+            <img src="navbar.png" alt="">
+        </a>
+
+        <a href="shop.html" class="nav-click shop" aria-label="Shop"></a>
+        <a href="bundles.html" class="nav-click bundles" aria-label="Bundles"></a>
+        <a href="build.html" class="nav-click build" aria-label="Build Your Own"></a>
+        <a href="about.html" class="nav-click about" aria-label="About"></a>
+        <a href="faq.html" class="nav-click faq" aria-label="FAQ"></a>
+
+    </div>
+</header>
+
+<main class="shop-page">
+
+    <section class="shop-header">
+        <h1>Shop Clickers</h1>
+        <p>Find the clicker that fits you.</p>
+    </section>
+
+    <section class="product-grid">
+
+        <article class="product-card">
+            <div class="product-image">Product Photo</div>
+            <div class="product-info">
+                <h2>Single Key Clicker</h2>
+                <p class="product-description">
+                    A compact one-key mechanical fidget made for satisfying clicks anywhere.
+                </p>
+                <p class="product-price">$9.99</p>
+                <a href="#" class="product-button">View Product</a>
             </div>
+        </article>
 
-        </section>
+        <article class="product-card">
+            <div class="product-image">Product Photo</div>
+            <div class="product-info">
+                <h2>3-Key Clicker</h2>
+                <p class="product-description">
+                    Three mechanical switches in one compact fidget for even more clicking.
+                </p>
+                <p class="product-price">$14.99</p>
+                <a href="#" class="product-button">View Product</a>
+            </div>
+        </article>
 
+        <article class="product-card">
+            <div class="product-image">Product Photo</div>
+            <div class="product-info">
+                <h2>Single Key Keychain</h2>
+                <p class="product-description">
+                    Take your favorite mechanical click with you wherever you go.
+                </p>
+                <p class="product-price">$11.99</p>
+                <a href="#" class="product-button">View Product</a>
+            </div>
+        </article>
 
-    </main>
+        <article class="product-card">
+            <div class="product-image">Product Photo</div>
+            <div class="product-info">
+                <h2>3-Key Keychain</h2>
+                <p class="product-description">
+                    A portable three-key clicker with a keychain attachment.
+                </p>
+                <p class="product-price">$16.99</p>
+                <a href="#" class="product-button">View Product</a>
+            </div>
+        </article>
 
+        <article class="product-card">
+            <div class="product-image">Product Photo</div>
+            <div class="product-info">
+                <h2>Custom Clicker</h2>
+                <p class="product-description">
+                    Choose your favorite colors and switches to create your own clicker.
+                </p>
+                <p class="product-price">$19.99</p>
+                <a href="#" class="product-button">View Product</a>
+            </div>
+        </article>
+
+        <article class="product-card">
+            <div class="product-image">Product Photo</div>
+            <div class="product-info">
+                <h2>Clicker Bundle</h2>
+                <p class="product-description">
+                    A starter bundle with multiple ClickerLab fidgets together.
+                </p>
+                <p class="product-price">$24.99</p>
+                <a href="#" class="product-button">View Product</a>
+            </div>
+        </article>
+
+    </section>
+
+</main>
 
 </body>
-
 </html>
