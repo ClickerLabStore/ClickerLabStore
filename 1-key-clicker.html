@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>1-Key Clicker | ClickerLabStore</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Nunito Sans", sans-serif;
+            background: white;
+            color: #17243c;
+            overflow-x: hidden;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================== */
+
+        .navbar {
+            width: 100%;
+        }
+
+        .navbar-image {
+            position: relative;
+            width: 100%;
+        }
+
+        .navbar-main-image {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .nav-click {
+            position: absolute;
+            display: block;
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           LOGO
+        ========================== */
+
+        .logo {
+            position: absolute;
+            left: 1.5%;
+            top: 5%;
+            width: 23.5%;
+            height: 90%;
+            overflow: hidden;
+            z-index: 10;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            transform-origin: center;
+        }
+
+        .logo img {
+            position: absolute;
+            width: 425.53%;
+            max-width: none;
+            left: -6.38%;
+            top: -5.56%;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
+
+        /* =========================
+           NAV BUTTONS
+        ========================== */
+
+        .shop {
+            left: 26.5%;
+            top: 28%;
+            width: 5.5%;
+            height: 45%;
+        }
+
+        .bundles {
+            left: 34.2%;
+            top: 28%;
+            width: 7.8%;
+            height: 45%;
+        }
+
+        .build {
+            left: 44.1%;
+            top: 28%;
+            width: 13.1%;
+            height: 45%;
+        }
+
+        .about {
+            left: 59.4%;
+            top: 28%;
+            width: 5.9%;
+            height: 45%;
+        }
+
+        .faq {
+            left: 67.5%;
+            top: 28%;
+            width: 4.3%;
+            height: 45%;
+        }
+
+
+        /* =========================
+           NAV UNDERLINES
+        ========================== */
+
+        .nav-click::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 16%;
+            height: 2px;
+            background: black;
+            transform: translateX(-50%) scaleX(0);
+            transform-origin: center;
+            transition: transform 0.2s ease;
+        }
+
+        .shop::after,
+        .bundles::after,
+        .about::after,
+        .faq::after {
+            width: 90%;
+        }
+
+        .build::after {
+            width: 96%;
+        }
+
+        .about::after {
+            left: 46%;
+        }
+
+        .faq::after {
+            left: 61%;
+        }
+
+        .nav-click:hover::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+
+        /* =========================
+           PRODUCT PAGE
+        ========================== */
+
+        .product-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 70px 40px 100px;
+        }
+
+        .back-to-shop {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: #667085;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 700;
+            transition: color 0.2s ease;
+        }
+
+        .back-to-shop:hover {
+            color: #17243c;
+        }
+
+        .product-layout {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 65px;
+            align-items: start;
+        }
+
+
+        /* =========================
+           PRODUCT PHOTO
+        ========================== */
+
+        .product-photo {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            border-radius: 22px;
+            background: #f7f7f7;
+        }
+
+        .product-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+
+        /* =========================
+           PRODUCT DETAILS
+        ========================== */
+
+        .product-details {
+            padding-top: 10px;
+        }
+
+        .product-details h1 {
+            font-size: 44px;
+            line-height: 1.1;
+            font-weight: 800;
+            margin-bottom: 14px;
+        }
+
+        .product-price {
+            font-size: 27px;
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .product-description {
+            font-size: 17px;
+            line-height: 1.7;
+            color: #667085;
+            margin-bottom: 32px;
+        }
+
+
+        /* =========================
+           QUANTITY
+        ========================== */
+
+        .quantity-label {
+            display: block;
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            width: fit-content;
+            border: 1px solid #d8dde5;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .quantity-selector button {
+            width: 45px;
+            height: 45px;
+            border: none;
+            background: white;
+            color: #17243c;
+            font-family: inherit;
+            font-size: 21px;
+            cursor: pointer;
+        }
+
+        .quantity-selector button:hover {
+            background: #f5f7fa;
+        }
+
+        .quantity-number {
+            width: 48px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+
+        /* =========================
+           ADD TO CART
+        ========================== */
+
+        .add-to-cart {
+            width: 100%;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 12px;
+            background: #17243c;
+            color: white;
+            font-family: inherit;
+            font-size: 17px;
+            font-weight: 800;
+            cursor: pointer;
+            transition:
+                transform 0.2s ease,
+                opacity 0.2s ease;
+        }
+
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+            opacity: 0.92;
+        }
+
+
+        /* =========================
+           EXTRA DETAILS
+        ========================== */
+
+        .product-notes {
+            margin-top: 28px;
+            padding-top: 25px;
+            border-top: 1px solid #e8ebf0;
+        }
+
+        .product-note {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+            color: #667085;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .check {
+            color: #17243c;
+            font-weight: 800;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================== */
+
+        @media (max-width: 800px) {
+
+            .product-page {
+                padding: 40px 20px 70px;
+            }
+
+            .product-layout {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+
+            .product-details {
+                padding-top: 0;
+            }
+
+            .product-details h1 {
+                font-size: 36px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <header class="navbar">
+
+        <div class="navbar-image">
+
+            <img
+                src="navbar.png"
+                alt="ClickerLabStore navigation bar"
+                class="navbar-main-image"
+            >
+
+            <a
+                href="index.html"
+                class="logo"
+                aria-label="ClickerLabStore Home"
+            >
+                <img
+                    src="navbar.png"
+                    alt=""
+                >
+            </a>
+
+            <a
+                href="shop.html"
+                class="nav-click shop"
+                aria-label="Shop"
+            ></a>
+
+            <a
+                href="bundles.html"
+                class="nav-click bundles"
+                aria-label="Bundles"
+            ></a>
+
+            <a
+                href="build.html"
+                class="nav-click build"
+                aria-label="Build Your Own"
+            ></a>
+
+            <a
+                href="about.html"
+                class="nav-click about"
+                aria-label="About"
+            ></a>
+
+            <a
+                href="faq.html"
+                class="nav-click faq"
+                aria-label="FAQ"
+            ></a>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         PRODUCT PAGE
+    ========================== -->
+
+    <main class="product-page">
+
+        <a href="shop.html" class="back-to-shop">
+            ← Back to Shop
+        </a>
+
+
+        <div class="product-layout">
+
+
+            <!-- PRODUCT PHOTO -->
+
+            <div class="product-photo">
+
+                <img
+                    src="/1-key-clicker.png"
+                    alt="1-Key Clicker"
+                >
+
+            </div>
+
+
+            <!-- PRODUCT INFORMATION -->
+
+            <section class="product-details">
+
+                <h1>
+                    1-Key Clicker
+                </h1>
+
+                <p class="product-price">
+                    $2.49
+                </p>
+
+                <p class="product-description">
+                    A compact single-key mechanical fidget made for quick,
+                    satisfying clicks wherever you go. Small enough to attach
+                    to your keys, backpack, or bag.
+                </p>
+
+
+                <!-- QUANTITY -->
+
+                <span class="quantity-label">
+                    Quantity
+                </span>
+
+                <div class="quantity-selector">
+
+                    <button
+                        type="button"
+                        onclick="decreaseQuantity()"
+                        aria-label="Decrease quantity"
+                    >
+                        −
+                    </button>
+
+                    <span
+                        class="quantity-number"
+                        id="quantity"
+                    >
+                        1
+                    </span>
+
+                    <button
+                        type="button"
+                        onclick="increaseQuantity()"
+                        aria-label="Increase quantity"
+                    >
+                        +
+                    </button>
+
+                </div>
+
+
+                <!-- ADD TO CART -->
+
+                <button
+                    type="button"
+                    class="add-to-cart"
+                >
+                    Add to Cart — $2.49
+                </button>
+
+
+                <!-- EXTRA DETAILS -->
+
+                <div class="product-notes">
+
+                    <div class="product-note">
+                        <span class="check">✓</span>
+                        <span>Compact keychain design</span>
+                    </div>
+
+                    <div class="product-note">
+                        <span class="check">✓</span>
+                        <span>Satisfying mechanical key switch</span>
+                    </div>
+
+                    <div class="product-note">
+                        <span class="check">✓</span>
+                        <span>Easy to take anywhere</span>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         QUANTITY SCRIPT
+    ========================== -->
+
+    <script>
+
+        let quantity = 1;
+
+        const quantityDisplay =
+            document.getElementById("quantity");
+
+        function increaseQuantity() {
+
+            quantity++;
+
+            quantityDisplay.textContent =
+                quantity;
+
+        }
+
+        function decreaseQuantity() {
+
+            if (quantity > 1) {
+
+                quantity--;
+
+                quantityDisplay.textContent =
+                    quantity;
+
+            }
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
