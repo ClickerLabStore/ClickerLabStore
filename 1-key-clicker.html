@@ -327,9 +327,12 @@
             width: 100%;
             aspect-ratio: 1 / 1;
             padding: 0;
+
             border: 2px solid #d8dde5;
             border-radius: 12px;
+
             background: #f7f5f2;
+
             overflow: hidden;
             cursor: pointer;
 
@@ -339,7 +342,7 @@
                 box-shadow 0.2s ease;
         }
 
-        .keycap-option:hover {
+        .keycap-option:hover:not(:disabled) {
             border-color: #9ba6b5;
             transform: translateY(-2px);
         }
@@ -347,6 +350,10 @@
         .keycap-option.selected {
             border-color: #17243c;
             box-shadow: 0 0 0 1px #17243c;
+        }
+
+        .keycap-option:disabled {
+            cursor: not-allowed;
         }
 
         .keycap-image-wrapper {
@@ -362,7 +369,10 @@
             object-position: center;
             display: block;
             transform-origin: center;
-            transition: transform 0.2s ease;
+
+            transition:
+                transform 0.2s ease,
+                opacity 0.2s ease;
         }
 
 
@@ -416,6 +426,67 @@
 
 
         /* =========================
+           STOCK BADGE
+        ========================== */
+
+        .stock-badge {
+            position: absolute;
+            left: 7px;
+            bottom: 7px;
+
+            padding: 4px 7px;
+
+            border-radius: 7px;
+
+            background: rgba(255, 255, 255, 0.92);
+            color: #17243c;
+
+            font-family: "Nunito Sans", sans-serif;
+            font-size: 11px;
+            font-weight: 800;
+
+            z-index: 4;
+
+            box-shadow: 0 2px 7px rgba(0, 0, 0, 0.08);
+        }
+
+
+        /* =========================
+           SOLD OUT
+        ========================== */
+
+        .keycap-option.sold-out img {
+            opacity: 0.42;
+        }
+
+        .sold-out-overlay {
+            position: absolute;
+            inset: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(255, 255, 255, 0.18);
+
+            z-index: 3;
+        }
+
+        .sold-out-text {
+            padding: 7px 10px;
+
+            border-radius: 8px;
+
+            background: rgba(23, 36, 60, 0.9);
+            color: white;
+
+            font-family: "Nunito Sans", sans-serif;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+
+        /* =========================
            SELECTED KEYCAP CHECKMARK
         ========================== */
 
@@ -423,6 +494,7 @@
             position: absolute;
             top: 7px;
             right: 7px;
+
             width: 24px;
             height: 24px;
 
@@ -431,6 +503,7 @@
             justify-content: center;
 
             border-radius: 50%;
+
             background: #17243c;
             color: white;
 
@@ -444,7 +517,7 @@
                 opacity 0.2s ease,
                 transform 0.2s ease;
 
-            z-index: 3;
+            z-index: 5;
         }
 
         .keycap-option.selected .keycap-check {
@@ -481,24 +554,31 @@
             display: flex;
             align-items: center;
             width: fit-content;
+
             border: 1px solid #d8dde5;
             border-radius: 10px;
+
             overflow: hidden;
-            margin-bottom: 20px;
+
+            margin-bottom: 8px;
         }
 
         .quantity-selector button {
             width: 45px;
             height: 45px;
+
             border: none;
+
             background: white;
             color: #17243c;
+
             font-family: inherit;
             font-size: 21px;
+
             cursor: pointer;
         }
 
-        .quantity-selector button:hover {
+        .quantity-selector button:hover:not(:disabled) {
             background: #f5f7fa;
         }
 
@@ -515,6 +595,16 @@
             font-weight: 700;
         }
 
+        .quantity-stock-message {
+            color: #667085;
+            font-size: 12px;
+            font-weight: 600;
+
+            min-height: 18px;
+
+            margin-bottom: 18px;
+        }
+
 
         /* =========================
            ADD TO CART
@@ -523,13 +613,17 @@
         .add-to-cart {
             width: 100%;
             padding: 16px 20px;
+
             border: none;
             border-radius: 12px;
+
             background: #17243c;
             color: white;
+
             font-family: inherit;
             font-size: 17px;
             font-weight: 800;
+
             cursor: pointer;
 
             transition:
@@ -610,6 +704,7 @@
 
         }
 
+
         @media (max-width: 500px) {
 
             .switch-options {
@@ -630,7 +725,9 @@
 <body>
 
 
-    <!-- NAVBAR -->
+    <!-- =========================
+         NAVBAR
+    ========================== -->
 
     <header class="navbar">
 
@@ -650,22 +747,44 @@
                 <img src="navbar.png" alt="">
             </a>
 
-            <a href="shop.html" class="nav-click shop" aria-label="Shop"></a>
+            <a
+                href="shop.html"
+                class="nav-click shop"
+                aria-label="Shop"
+            ></a>
 
-            <a href="bundles.html" class="nav-click bundles" aria-label="Bundles"></a>
+            <a
+                href="bundles.html"
+                class="nav-click bundles"
+                aria-label="Bundles"
+            ></a>
 
-            <a href="build.html" class="nav-click build" aria-label="Build Your Own"></a>
+            <a
+                href="build.html"
+                class="nav-click build"
+                aria-label="Build Your Own"
+            ></a>
 
-            <a href="about.html" class="nav-click about" aria-label="About"></a>
+            <a
+                href="about.html"
+                class="nav-click about"
+                aria-label="About"
+            ></a>
 
-            <a href="faq.html" class="nav-click faq" aria-label="FAQ"></a>
+            <a
+                href="faq.html"
+                class="nav-click faq"
+                aria-label="FAQ"
+            ></a>
 
         </div>
 
     </header>
 
 
-    <!-- PRODUCT PAGE -->
+    <!-- =========================
+         PRODUCT PAGE
+    ========================== -->
 
     <main class="product-page">
 
@@ -711,7 +830,9 @@
                 </p>
 
 
-                <!-- SWITCH CHOICE -->
+                <!-- =========================
+                     SWITCH CHOICE
+                ========================== -->
 
                 <span class="option-title">
                     Choose Your Switch
@@ -757,7 +878,9 @@
                 </div>
 
 
-                <!-- KEYCAP CHOICE -->
+                <!-- =========================
+                     KEYCAP CHOICE
+                ========================== -->
 
                 <div class="keycap-section">
 
@@ -765,149 +888,265 @@
                         Choose Your Keycap
                     </span>
 
+
                     <div class="keycap-grid">
 
+
+                        <!-- KEYCAP 1 - STOCK 4 -->
 
                         <button
                             type="button"
                             class="keycap-option keycap-1"
                             onclick="selectKeycap(1)"
-                            aria-label="Select Keycap 1"
+                            aria-label="Select Keycap 1, 4 in stock"
                         >
+
                             <div class="keycap-image-wrapper">
                                 <img src="/keycap-1.png" alt="Keycap 1">
                             </div>
-                            <span class="keycap-check">✓</span>
+
+                            <span class="stock-badge">
+                                4 left
+                            </span>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
                         </button>
 
+
+                        <!-- KEYCAP 2 - STOCK 2 -->
 
                         <button
                             type="button"
                             class="keycap-option keycap-2"
                             onclick="selectKeycap(2)"
-                            aria-label="Select Keycap 2"
+                            aria-label="Select Keycap 2, 2 in stock"
                         >
+
                             <div class="keycap-image-wrapper">
                                 <img src="/keycap-2.png" alt="Keycap 2">
                             </div>
-                            <span class="keycap-check">✓</span>
+
+                            <span class="stock-badge">
+                                2 left
+                            </span>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
                         </button>
 
 
+                        <!-- KEYCAP 3 - SOLD OUT -->
+
                         <button
                             type="button"
-                            class="keycap-option keycap-3"
-                            onclick="selectKeycap(3)"
-                            aria-label="Select Keycap 3"
+                            class="keycap-option keycap-3 sold-out"
+                            disabled
+                            aria-label="Keycap 3 sold out"
                         >
+
                             <div class="keycap-image-wrapper">
                                 <img src="/keycap-3.png" alt="Keycap 3">
                             </div>
-                            <span class="keycap-check">✓</span>
+
+                            <div class="sold-out-overlay">
+                                <span class="sold-out-text">
+                                    Sold out
+                                </span>
+                            </div>
+
                         </button>
 
+
+                        <!-- KEYCAP 4 - SOLD OUT -->
 
                         <button
                             type="button"
-                            class="keycap-option keycap-4"
-                            onclick="selectKeycap(4)"
-                            aria-label="Select Keycap 4"
+                            class="keycap-option keycap-4 sold-out"
+                            disabled
+                            aria-label="Keycap 4 sold out"
                         >
+
                             <div class="keycap-image-wrapper">
                                 <img src="/keycap-4.png" alt="Keycap 4">
                             </div>
-                            <span class="keycap-check">✓</span>
+
+                            <div class="sold-out-overlay">
+                                <span class="sold-out-text">
+                                    Sold out
+                                </span>
+                            </div>
+
                         </button>
 
+
+                        <!-- KEYCAP 5 - STOCK 2 -->
 
                         <button
                             type="button"
                             class="keycap-option keycap-5"
                             onclick="selectKeycap(5)"
-                            aria-label="Select Keycap 5"
+                            aria-label="Select Keycap 5, 2 in stock"
                         >
+
                             <div class="keycap-image-wrapper">
                                 <img src="/keycap-5.png" alt="Keycap 5">
                             </div>
-                            <span class="keycap-check">✓</span>
+
+                            <span class="stock-badge">
+                                2 left
+                            </span>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
                         </button>
 
+
+                        <!-- KEYCAP 6 - SOLD OUT -->
 
                         <button
                             type="button"
-                            class="keycap-option keycap-6"
-                            onclick="selectKeycap(6)"
-                            aria-label="Select Keycap 6"
+                            class="keycap-option keycap-6 sold-out"
+                            disabled
+                            aria-label="Keycap 6 sold out"
                         >
+
                             <div class="keycap-image-wrapper">
                                 <img src="/keycap-6.png" alt="Keycap 6">
                             </div>
-                            <span class="keycap-check">✓</span>
+
+                            <div class="sold-out-overlay">
+                                <span class="sold-out-text">
+                                    Sold out
+                                </span>
+                            </div>
+
                         </button>
 
+
+                        <!-- KEYCAP 7 - STOCK 3 -->
 
                         <button
                             type="button"
                             class="keycap-option keycap-7"
                             onclick="selectKeycap(7)"
-                            aria-label="Select Keycap 7"
+                            aria-label="Select Keycap 7, 3 in stock"
                         >
+
                             <div class="keycap-image-wrapper">
                                 <img src="/keycap-7.png" alt="Keycap 7">
                             </div>
-                            <span class="keycap-check">✓</span>
+
+                            <span class="stock-badge">
+                                3 left
+                            </span>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
                         </button>
 
+
+                        <!-- KEYCAP 8 - STOCK 4 -->
 
                         <button
                             type="button"
                             class="keycap-option keycap-8"
                             onclick="selectKeycap(8)"
-                            aria-label="Select Keycap 8"
+                            aria-label="Select Keycap 8, 4 in stock"
                         >
+
                             <div class="keycap-image-wrapper">
                                 <img src="/keycap-8.png" alt="Keycap 8">
                             </div>
-                            <span class="keycap-check">✓</span>
+
+                            <span class="stock-badge">
+                                4 left
+                            </span>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
                         </button>
 
+
+                        <!-- KEYCAP 9 - STOCK 5 -->
 
                         <button
                             type="button"
                             class="keycap-option keycap-9"
                             onclick="selectKeycap(9)"
-                            aria-label="Select Keycap 9"
+                            aria-label="Select Keycap 9, 5 in stock"
                         >
+
                             <div class="keycap-image-wrapper">
                                 <img src="/keycap-9.png" alt="Keycap 9">
                             </div>
-                            <span class="keycap-check">✓</span>
+
+                            <span class="stock-badge">
+                                5 left
+                            </span>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
                         </button>
 
+
+                        <!-- KEYCAP 10 - STOCK 3 -->
 
                         <button
                             type="button"
                             class="keycap-option keycap-10"
                             onclick="selectKeycap(10)"
-                            aria-label="Select Keycap 10"
+                            aria-label="Select Keycap 10, 3 in stock"
                         >
+
                             <div class="keycap-image-wrapper">
                                 <img src="/keycap-10.png" alt="Keycap 10">
                             </div>
-                            <span class="keycap-check">✓</span>
+
+                            <span class="stock-badge">
+                                3 left
+                            </span>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
                         </button>
 
+
+                        <!-- KEYCAP 11 - STOCK 3 -->
 
                         <button
                             type="button"
                             class="keycap-option keycap-11"
                             onclick="selectKeycap(11)"
-                            aria-label="Select Keycap 11"
+                            aria-label="Select Keycap 11, 3 in stock"
                         >
+
                             <div class="keycap-image-wrapper">
                                 <img src="/keycap-11.png" alt="Keycap 11">
                             </div>
-                            <span class="keycap-check">✓</span>
+
+                            <span class="stock-badge">
+                                3 left
+                            </span>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
                         </button>
 
 
@@ -924,7 +1163,9 @@
                 </div>
 
 
-                <!-- QUANTITY -->
+                <!-- =========================
+                     QUANTITY
+                ========================== -->
 
                 <span class="quantity-label">
                     Quantity
@@ -960,7 +1201,17 @@
                 </div>
 
 
-                <!-- ADD TO CART -->
+                <p
+                    class="quantity-stock-message"
+                    id="quantity-stock-message"
+                >
+                    Select a keycap to see available quantity.
+                </p>
+
+
+                <!-- =========================
+                     ADD TO CART
+                ========================== -->
 
                 <button
                     type="button"
@@ -971,7 +1222,9 @@
                 </button>
 
 
-                <!-- EXTRA DETAILS -->
+                <!-- =========================
+                     EXTRA DETAILS
+                ========================== -->
 
                 <div class="product-notes">
 
@@ -1004,20 +1257,52 @@
     </main>
 
 
-    <!-- PRODUCT SCRIPT -->
+    <!-- =========================
+         PRODUCT SCRIPT
+    ========================== -->
 
     <script>
 
+        /* =========================
+           PRICE
+        ========================== */
+
         const unitPrice = 2.49;
 
-        const minimumQuantity = 1;
-        const maximumQuantity = 99;
+
+        /* =========================
+           STOCK
+        ========================== */
+
+        const keycapStock = {
+            1: 4,
+            2: 2,
+            3: 0,
+            4: 0,
+            5: 2,
+            6: 0,
+            7: 3,
+            8: 4,
+            9: 5,
+            10: 3,
+            11: 3
+        };
+
+
+        /* =========================
+           CURRENT SELECTIONS
+        ========================== */
 
         let quantity = 1;
 
         let selectedSwitch = null;
+
         let selectedKeycap = null;
 
+
+        /* =========================
+           PAGE ELEMENTS
+        ========================== */
 
         const quantityDisplay =
             document.getElementById("quantity");
@@ -1043,43 +1328,75 @@
         const selectedKeycapText =
             document.getElementById("selected-keycap-text");
 
+        const quantityStockMessage =
+            document.getElementById("quantity-stock-message");
 
-        /* SWITCH SELECTION */
+
+        /* =========================
+           SWITCH SELECTION
+        ========================== */
 
         function selectSwitch(switchType) {
 
             selectedSwitch = switchType;
 
+
             clickyOption.classList.remove("selected");
+
             creamyOption.classList.remove("selected");
 
 
             if (switchType === "Clicky") {
+
                 clickyOption.classList.add("selected");
+
             }
 
 
             if (switchType === "Creamy") {
+
                 creamyOption.classList.add("selected");
+
             }
 
         }
 
 
-        /* KEYCAP SELECTION */
+        /* =========================
+           KEYCAP SELECTION
+        ========================== */
 
         function selectKeycap(keycapNumber) {
 
-            selectedKeycap = keycapNumber;
+            const stock =
+                keycapStock[keycapNumber];
+
+
+            /* Prevent sold-out selection */
+
+            if (stock <= 0) {
+                return;
+            }
+
+
+            selectedKeycap =
+                keycapNumber;
+
+
+            /* Remove selection from all */
 
             const allKeycaps =
                 document.querySelectorAll(".keycap-option");
 
 
             allKeycaps.forEach(function(keycap) {
+
                 keycap.classList.remove("selected");
+
             });
 
+
+            /* Select clicked keycap */
 
             const selectedOption =
                 document.querySelector(
@@ -1090,15 +1407,64 @@
             selectedOption.classList.add("selected");
 
 
+            /* If current quantity is too high,
+               lower it to available stock */
+
+            if (quantity > stock) {
+
+                quantity = stock;
+
+            }
+
+
             selectedKeycapText.textContent =
-                "Selected: Keycap " + keycapNumber;
+                "Selected: Keycap " +
+                keycapNumber +
+                " — " +
+                stock +
+                " in stock";
+
+
+            quantityStockMessage.textContent =
+                "Maximum quantity for this keycap: " +
+                stock;
+
+
+            updateProduct();
 
         }
 
 
-        /* PRICE + QUANTITY */
+        /* =========================
+           MAXIMUM QUANTITY
+        ========================== */
+
+        function getMaximumQuantity() {
+
+            /* Before selecting a keycap,
+               keep the old limit of 99 */
+
+            if (selectedKeycap === null) {
+
+                return 99;
+
+            }
+
+
+            return keycapStock[selectedKeycap];
+
+        }
+
+
+        /* =========================
+           PRICE + QUANTITY
+        ========================== */
 
         function updateProduct() {
+
+            const maximumQuantity =
+                getMaximumQuantity();
+
 
             const totalPrice =
                 unitPrice * quantity;
@@ -1113,11 +1479,12 @@
 
 
             addToCartButton.textContent =
-                "Add to Cart — $" + totalPrice.toFixed(2);
+                "Add to Cart — $" +
+                totalPrice.toFixed(2);
 
 
             minusButton.disabled =
-                quantity <= minimumQuantity;
+                quantity <= 1;
 
 
             plusButton.disabled =
@@ -1126,7 +1493,15 @@
         }
 
 
+        /* =========================
+           INCREASE QUANTITY
+        ========================== */
+
         function increaseQuantity() {
+
+            const maximumQuantity =
+                getMaximumQuantity();
+
 
             if (quantity < maximumQuantity) {
 
@@ -1139,9 +1514,13 @@
         }
 
 
+        /* =========================
+           DECREASE QUANTITY
+        ========================== */
+
         function decreaseQuantity() {
 
-            if (quantity > minimumQuantity) {
+            if (quantity > 1) {
 
                 quantity--;
 
@@ -1151,6 +1530,10 @@
 
         }
 
+
+        /* =========================
+           START PAGE
+        ========================== */
 
         updateProduct();
 
