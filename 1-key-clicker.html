@@ -366,44 +366,42 @@
             object-fit: cover;
             object-position: center;
             display: block;
+            transform-origin: center;
 
             transition: transform 0.2s ease;
         }
 
 
         /* =========================
-           INDIVIDUAL KEYCAP ZOOM
-
-           These make the keycaps look
-           closer to the same physical size.
+           KEYCAP SIZE BALANCING
         ========================== */
 
         .keycap-1 img {
-            transform: scale(1.00);
+            transform: scale(1.08);
         }
 
         .keycap-2 img {
-            transform: scale(1.16);
+            transform: scale(1.29);
         }
 
         .keycap-3 img {
-            transform: scale(1.02);
+            transform: scale(1.08);
         }
 
         .keycap-4 img {
-            transform: scale(1.18);
+            transform: scale(1.24);
         }
 
         .keycap-5 img {
-            transform: scale(1.13);
+            transform: scale(1.23);
         }
 
         .keycap-6 img {
-            transform: scale(1.03);
+            transform: scale(1.00);
         }
 
         .keycap-7 img {
-            transform: scale(1.10);
+            transform: scale(1.14);
         }
 
         .keycap-8 img {
@@ -411,15 +409,15 @@
         }
 
         .keycap-9 img {
-            transform: scale(1.14);
+            transform: scale(1.29);
         }
 
         .keycap-10 img {
-            transform: scale(1.08);
+            transform: scale(1.11);
         }
 
         .keycap-11 img {
-            transform: scale(1.08);
+            transform: scale(1.12);
         }
 
 
@@ -624,7 +622,6 @@
 
         }
 
-
         @media (max-width: 500px) {
 
             .switch-options {
@@ -664,10 +661,7 @@
                 class="logo"
                 aria-label="ClickerLabStore Home"
             >
-                <img
-                    src="navbar.png"
-                    alt=""
-                >
+                <img src="navbar.png" alt="">
             </a>
 
             <a
@@ -719,9 +713,7 @@
         <div class="product-layout">
 
 
-            <!-- =========================
-                 PRODUCT PHOTO
-            ========================== -->
+            <!-- PRODUCT PHOTO -->
 
             <div class="product-photo">
 
@@ -733,9 +725,7 @@
             </div>
 
 
-            <!-- =========================
-                 PRODUCT INFORMATION
-            ========================== -->
+            <!-- PRODUCT INFORMATION -->
 
             <section class="product-details">
 
@@ -757,9 +747,7 @@
                 </p>
 
 
-                <!-- =========================
-                     SWITCH CHOICE
-                ========================== -->
+                <!-- SWITCH CHOICE -->
 
                 <span class="option-title">
                     Choose Your Switch
@@ -805,9 +793,7 @@
                 </div>
 
 
-                <!-- =========================
-                     KEYCAP CHOICE
-                ========================== -->
+                <!-- KEYCAP CHOICE -->
 
                 <div class="keycap-section">
 
@@ -815,11 +801,8 @@
                         Choose Your Keycap
                     </span>
 
-
                     <div class="keycap-grid">
 
-
-                        <!-- KEYCAP 1 -->
 
                         <button
                             type="button"
@@ -827,24 +810,12 @@
                             onclick="selectKeycap(1)"
                             aria-label="Select Keycap 1"
                         >
-
                             <div class="keycap-image-wrapper">
-
-                                <img
-                                    src="/keycap-1.png"
-                                    alt="Keycap 1"
-                                >
-
+                                <img src="/keycap-1.png" alt="Keycap 1">
                             </div>
-
-                            <span class="keycap-check">
-                                ✓
-                            </span>
-
+                            <span class="keycap-check">✓</span>
                         </button>
 
-
-                        <!-- KEYCAP 2 -->
 
                         <button
                             type="button"
@@ -852,24 +823,12 @@
                             onclick="selectKeycap(2)"
                             aria-label="Select Keycap 2"
                         >
-
                             <div class="keycap-image-wrapper">
-
-                                <img
-                                    src="/keycap-2.png"
-                                    alt="Keycap 2"
-                                >
-
+                                <img src="/keycap-2.png" alt="Keycap 2">
                             </div>
-
-                            <span class="keycap-check">
-                                ✓
-                            </span>
-
+                            <span class="keycap-check">✓</span>
                         </button>
 
-
-                        <!-- KEYCAP 3 -->
 
                         <button
                             type="button"
@@ -877,24 +836,12 @@
                             onclick="selectKeycap(3)"
                             aria-label="Select Keycap 3"
                         >
-
                             <div class="keycap-image-wrapper">
-
-                                <img
-                                    src="/keycap-3.png"
-                                    alt="Keycap 3"
-                                >
-
+                                <img src="/keycap-3.png" alt="Keycap 3">
                             </div>
-
-                            <span class="keycap-check">
-                                ✓
-                            </span>
-
+                            <span class="keycap-check">✓</span>
                         </button>
 
-
-                        <!-- KEYCAP 4 -->
 
                         <button
                             type="button"
@@ -902,24 +849,12 @@
                             onclick="selectKeycap(4)"
                             aria-label="Select Keycap 4"
                         >
-
                             <div class="keycap-image-wrapper">
-
-                                <img
-                                    src="/keycap-4.png"
-                                    alt="Keycap 4"
-                                >
-
+                                <img src="/keycap-4.png" alt="Keycap 4">
                             </div>
-
-                            <span class="keycap-check">
-                                ✓
-                            </span>
-
+                            <span class="keycap-check">✓</span>
                         </button>
 
-
-                        <!-- KEYCAP 5 -->
 
                         <button
                             type="button"
@@ -927,24 +862,12 @@
                             onclick="selectKeycap(5)"
                             aria-label="Select Keycap 5"
                         >
-
                             <div class="keycap-image-wrapper">
-
-                                <img
-                                    src="/keycap-5.png"
-                                    alt="Keycap 5"
-                                >
-
+                                <img src="/keycap-5.png" alt="Keycap 5">
                             </div>
-
-                            <span class="keycap-check">
-                                ✓
-                            </span>
-
+                            <span class="keycap-check">✓</span>
                         </button>
 
-
-                        <!-- KEYCAP 6 -->
 
                         <button
                             type="button"
@@ -952,24 +875,12 @@
                             onclick="selectKeycap(6)"
                             aria-label="Select Keycap 6"
                         >
-
                             <div class="keycap-image-wrapper">
-
-                                <img
-                                    src="/keycap-6.png"
-                                    alt="Keycap 6"
-                                >
-
+                                <img src="/keycap-6.png" alt="Keycap 6">
                             </div>
-
-                            <span class="keycap-check">
-                                ✓
-                            </span>
-
+                            <span class="keycap-check">✓</span>
                         </button>
 
-
-                        <!-- KEYCAP 7 -->
 
                         <button
                             type="button"
@@ -977,24 +888,12 @@
                             onclick="selectKeycap(7)"
                             aria-label="Select Keycap 7"
                         >
-
                             <div class="keycap-image-wrapper">
-
-                                <img
-                                    src="/keycap-7.png"
-                                    alt="Keycap 7"
-                                >
-
+                                <img src="/keycap-7.png" alt="Keycap 7">
                             </div>
-
-                            <span class="keycap-check">
-                                ✓
-                            </span>
-
+                            <span class="keycap-check">✓</span>
                         </button>
 
-
-                        <!-- KEYCAP 8 -->
 
                         <button
                             type="button"
@@ -1002,24 +901,12 @@
                             onclick="selectKeycap(8)"
                             aria-label="Select Keycap 8"
                         >
-
                             <div class="keycap-image-wrapper">
-
-                                <img
-                                    src="/keycap-8.png"
-                                    alt="Keycap 8"
-                                >
-
+                                <img src="/keycap-8.png" alt="Keycap 8">
                             </div>
-
-                            <span class="keycap-check">
-                                ✓
-                            </span>
-
+                            <span class="keycap-check">✓</span>
                         </button>
 
-
-                        <!-- KEYCAP 9 -->
 
                         <button
                             type="button"
@@ -1027,24 +914,12 @@
                             onclick="selectKeycap(9)"
                             aria-label="Select Keycap 9"
                         >
-
                             <div class="keycap-image-wrapper">
-
-                                <img
-                                    src="/keycap-9.png"
-                                    alt="Keycap 9"
-                                >
-
+                                <img src="/keycap-9.png" alt="Keycap 9">
                             </div>
-
-                            <span class="keycap-check">
-                                ✓
-                            </span>
-
+                            <span class="keycap-check">✓</span>
                         </button>
 
-
-                        <!-- KEYCAP 10 -->
 
                         <button
                             type="button"
@@ -1052,24 +927,12 @@
                             onclick="selectKeycap(10)"
                             aria-label="Select Keycap 10"
                         >
-
                             <div class="keycap-image-wrapper">
-
-                                <img
-                                    src="/keycap-10.png"
-                                    alt="Keycap 10"
-                                >
-
+                                <img src="/keycap-10.png" alt="Keycap 10">
                             </div>
-
-                            <span class="keycap-check">
-                                ✓
-                            </span>
-
+                            <span class="keycap-check">✓</span>
                         </button>
 
-
-                        <!-- KEYCAP 11 -->
 
                         <button
                             type="button"
@@ -1077,20 +940,10 @@
                             onclick="selectKeycap(11)"
                             aria-label="Select Keycap 11"
                         >
-
                             <div class="keycap-image-wrapper">
-
-                                <img
-                                    src="/keycap-11.png"
-                                    alt="Keycap 11"
-                                >
-
+                                <img src="/keycap-11.png" alt="Keycap 11">
                             </div>
-
-                            <span class="keycap-check">
-                                ✓
-                            </span>
-
+                            <span class="keycap-check">✓</span>
                         </button>
 
 
@@ -1107,9 +960,7 @@
                 </div>
 
 
-                <!-- =========================
-                     QUANTITY
-                ========================== -->
+                <!-- QUANTITY -->
 
                 <span class="quantity-label">
                     Quantity
@@ -1145,9 +996,7 @@
                 </div>
 
 
-                <!-- =========================
-                     ADD TO CART
-                ========================== -->
+                <!-- ADD TO CART -->
 
                 <button
                     type="button"
@@ -1158,9 +1007,7 @@
                 </button>
 
 
-                <!-- =========================
-                     EXTRA DETAILS
-                ========================== -->
+                <!-- EXTRA DETAILS -->
 
                 <div class="product-notes">
 
@@ -1199,10 +1046,6 @@
 
     <script>
 
-        /* =========================
-           PRODUCT SETTINGS
-        ========================== */
-
         const unitPrice = 2.49;
 
         const minimumQuantity = 1;
@@ -1213,10 +1056,6 @@
         let selectedSwitch = null;
         let selectedKeycap = null;
 
-
-        /* =========================
-           PAGE ELEMENTS
-        ========================== */
 
         const quantityDisplay =
             document.getElementById("quantity");
@@ -1256,16 +1095,12 @@
 
 
             if (switchType === "Clicky") {
-
                 clickyOption.classList.add("selected");
-
             }
 
 
             if (switchType === "Creamy") {
-
                 creamyOption.classList.add("selected");
-
             }
 
         }
@@ -1285,9 +1120,7 @@
 
 
             allKeycaps.forEach(function(keycap) {
-
                 keycap.classList.remove("selected");
-
             });
 
 
@@ -1338,10 +1171,6 @@
         }
 
 
-        /* =========================
-           INCREASE QUANTITY
-        ========================== */
-
         function increaseQuantity() {
 
             if (quantity < maximumQuantity) {
@@ -1355,10 +1184,6 @@
         }
 
 
-        /* =========================
-           DECREASE QUANTITY
-        ========================== */
-
         function decreaseQuantity() {
 
             if (quantity > minimumQuantity) {
@@ -1371,10 +1196,6 @@
 
         }
 
-
-        /* =========================
-           START PAGE
-        ========================== */
 
         updateProduct();
 
