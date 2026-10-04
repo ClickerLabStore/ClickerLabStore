@@ -326,16 +326,11 @@
             position: relative;
             width: 100%;
             aspect-ratio: 1 / 1;
-
             padding: 0;
-
             border: 2px solid #d8dde5;
             border-radius: 12px;
-
             background: #f7f5f2;
-
             overflow: hidden;
-
             cursor: pointer;
 
             transition:
@@ -367,7 +362,6 @@
             object-position: center;
             display: block;
             transform-origin: center;
-
             transition: transform 0.2s ease;
         }
 
@@ -397,7 +391,7 @@
         }
 
         .keycap-6 img {
-            transform: scale(0.82);
+            transform: scale(1.20);
         }
 
         .keycap-7 img {
@@ -429,7 +423,6 @@
             position: absolute;
             top: 7px;
             right: 7px;
-
             width: 24px;
             height: 24px;
 
@@ -438,7 +431,6 @@
             justify-content: center;
 
             border-radius: 50%;
-
             background: #17243c;
             color: white;
 
@@ -531,17 +523,13 @@
         .add-to-cart {
             width: 100%;
             padding: 16px 20px;
-
             border: none;
             border-radius: 12px;
-
             background: #17243c;
             color: white;
-
             font-family: inherit;
             font-size: 17px;
             font-weight: 800;
-
             cursor: pointer;
 
             transition:
@@ -642,9 +630,7 @@
 <body>
 
 
-    <!-- =========================
-         NAVBAR
-    ========================== -->
+    <!-- NAVBAR -->
 
     <header class="navbar">
 
@@ -664,44 +650,22 @@
                 <img src="navbar.png" alt="">
             </a>
 
-            <a
-                href="shop.html"
-                class="nav-click shop"
-                aria-label="Shop"
-            ></a>
+            <a href="shop.html" class="nav-click shop" aria-label="Shop"></a>
 
-            <a
-                href="bundles.html"
-                class="nav-click bundles"
-                aria-label="Bundles"
-            ></a>
+            <a href="bundles.html" class="nav-click bundles" aria-label="Bundles"></a>
 
-            <a
-                href="build.html"
-                class="nav-click build"
-                aria-label="Build Your Own"
-            ></a>
+            <a href="build.html" class="nav-click build" aria-label="Build Your Own"></a>
 
-            <a
-                href="about.html"
-                class="nav-click about"
-                aria-label="About"
-            ></a>
+            <a href="about.html" class="nav-click about" aria-label="About"></a>
 
-            <a
-                href="faq.html"
-                class="nav-click faq"
-                aria-label="FAQ"
-            ></a>
+            <a href="faq.html" class="nav-click faq" aria-label="FAQ"></a>
 
         </div>
 
     </header>
 
 
-    <!-- =========================
-         PRODUCT PAGE
-    ========================== -->
+    <!-- PRODUCT PAGE -->
 
     <main class="product-page">
 
@@ -1040,9 +1004,7 @@
     </main>
 
 
-    <!-- =========================
-         PRODUCT SCRIPT
-    ========================== -->
+    <!-- PRODUCT SCRIPT -->
 
     <script>
 
@@ -1082,9 +1044,7 @@
             document.getElementById("selected-keycap-text");
 
 
-        /* =========================
-           SWITCH SELECTION
-        ========================== */
+        /* SWITCH SELECTION */
 
         function selectSwitch(switchType) {
 
@@ -1106,14 +1066,11 @@
         }
 
 
-        /* =========================
-           KEYCAP SELECTION
-        ========================== */
+        /* KEYCAP SELECTION */
 
         function selectKeycap(keycapNumber) {
 
             selectedKeycap = keycapNumber;
-
 
             const allKeycaps =
                 document.querySelectorAll(".keycap-option");
@@ -1139,9 +1096,7 @@
         }
 
 
-        /* =========================
-           PRICE + QUANTITY
-        ========================== */
+        /* PRICE + QUANTITY */
 
         function updateProduct() {
 
