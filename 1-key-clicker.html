@@ -3,19 +3,52 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>1-Key Clicker | ClickerLabStore</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- =========================
+         FAVICON
+    ========================== -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="/favicon.png?v=2"
+    >
+
+
+    <!-- =========================
+         NUNITO SANS
+    ========================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
     <link
         href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap"
         rel="stylesheet"
     >
 
+
     <style>
+
+        /* =========================
+           RESET
+        ========================== */
 
         * {
             margin: 0;
@@ -37,23 +70,22 @@
 
         .navbar {
             width: 100%;
+            height: 110px;
+
+            background-image: url("blank navbar.png");
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        .navbar-image {
-            position: relative;
+        .navbar-inner {
             width: 100%;
-        }
+            height: 100%;
 
-        .navbar-main-image {
-            display: block;
-            width: 100%;
-            height: auto;
-        }
+            display: flex;
+            align-items: center;
 
-        .nav-click {
-            position: absolute;
-            display: block;
-            cursor: pointer;
+            padding: 0 2.3%;
         }
 
 
@@ -61,109 +93,139 @@
            LOGO
         ========================== */
 
-        .logo {
-            position: absolute;
-            left: 1.5%;
-            top: 5%;
-            width: 23.5%;
-            height: 90%;
-            overflow: hidden;
-            z-index: 10;
-            cursor: pointer;
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+
+            width: 310px;
+
+            flex-shrink: 0;
+
+            text-decoration: none;
+
             transition: transform 0.2s ease;
-            transform-origin: center;
         }
 
-        .logo img {
-            position: absolute;
-            width: 425.53%;
-            max-width: none;
-            left: -6.38%;
-            top: -5.56%;
-        }
-
-        .logo:hover {
+        .navbar-logo:hover {
             transform: scale(1.02);
         }
 
+        .navbar-logo img {
+            display: block;
 
-        /* =========================
-           NAV BUTTONS
-        ========================== */
-
-        .shop {
-            left: 26.5%;
-            top: 28%;
-            width: 5.5%;
-            height: 45%;
-        }
-
-        .bundles {
-            left: 34.2%;
-            top: 28%;
-            width: 7.8%;
-            height: 45%;
-        }
-
-        .build {
-            left: 44.1%;
-            top: 28%;
-            width: 13.1%;
-            height: 45%;
-        }
-
-        .about {
-            left: 59.4%;
-            top: 28%;
-            width: 5.9%;
-            height: 45%;
-        }
-
-        .faq {
-            left: 67.5%;
-            top: 28%;
-            width: 4.3%;
-            height: 45%;
+            width: 100%;
+            height: auto;
         }
 
 
         /* =========================
-           NAV UNDERLINES
+           NAV LINKS
         ========================== */
 
-        .nav-click::after {
+        .nav-links {
+            display: flex;
+            align-items: center;
+
+            margin-left: 150px;
+
+            gap: 50px;
+        }
+
+        .nav-links a {
+            position: relative;
+
+            color: #4b2247;
+
+            text-decoration: none;
+
+            font-size: 23px;
+            font-weight: 600;
+
+            white-space: nowrap;
+
+            padding: 10px 0;
+        }
+
+
+        /* =========================
+           NAV UNDERLINE
+        ========================== */
+
+        .nav-links a::after {
             content: "";
+
             position: absolute;
+
             left: 50%;
-            bottom: 16%;
+            bottom: 3px;
+
+            width: 100%;
             height: 2px;
-            background: black;
-            transform: translateX(-50%) scaleX(0);
+
+            background: #4b2247;
+
+            transform:
+                translateX(-50%)
+                scaleX(0);
+
             transform-origin: center;
+
             transition: transform 0.2s ease;
         }
 
-        .shop::after,
-        .bundles::after,
-        .about::after,
-        .faq::after {
-            width: 90%;
+        .nav-links a:hover::after {
+            transform:
+                translateX(-50%)
+                scaleX(1);
         }
 
-        .build::after {
-            width: 96%;
+
+        /* =========================
+           SEARCH + CART
+        ========================== */
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+
+            gap: 14px;
+
+            margin-left: auto;
+            margin-right: 20px;
+
+            flex-shrink: 0;
         }
 
-        .about::after {
-            left: 46%;
+        .nav-icon-button {
+            width: 72px;
+            height: 72px;
+
+            padding: 0;
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            transition: transform 0.2s ease;
         }
 
-        .faq::after {
-            left: 61%;
+        .nav-icon-button:hover {
+            transform: scale(1.08);
         }
 
-        .nav-click:hover::after {
-            transform: translateX(-50%) scaleX(1);
+        .nav-icon-button img {
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
         }
 
 
@@ -173,17 +235,24 @@
 
         .product-page {
             max-width: 1200px;
+
             margin: 0 auto;
+
             padding: 70px 40px 100px;
         }
 
         .back-to-shop {
             display: inline-block;
+
             margin-bottom: 30px;
+
             color: #667085;
+
             text-decoration: none;
+
             font-size: 15px;
             font-weight: 700;
+
             transition: color 0.2s ease;
         }
 
@@ -193,29 +262,39 @@
 
         .product-layout {
             display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
+
+            grid-template-columns:
+                1.1fr 0.9fr;
+
             gap: 65px;
+
             align-items: start;
         }
 
 
         /* =========================
-           MAIN PRODUCT PHOTO
+           PRODUCT PHOTO
         ========================== */
 
         .product-photo {
             width: 100%;
+
             aspect-ratio: 1 / 1;
+
             overflow: hidden;
+
             border-radius: 22px;
+
             background: #f7f7f7;
         }
 
         .product-photo img {
             width: 100%;
             height: 100%;
+
             object-fit: cover;
             object-position: center;
+
             display: block;
         }
 
@@ -231,27 +310,34 @@
         .product-details h1 {
             font-size: 44px;
             line-height: 1.1;
+
             font-weight: 800;
+
             margin-bottom: 14px;
         }
 
         .product-price {
             font-size: 27px;
             font-weight: 800;
+
             margin-bottom: 24px;
         }
 
         .product-description {
             font-size: 17px;
             line-height: 1.7;
+
             color: #667085;
+
             margin-bottom: 30px;
         }
 
         .option-title {
             display: block;
+
             font-size: 15px;
             font-weight: 800;
+
             margin-bottom: 10px;
         }
 
@@ -262,19 +348,30 @@
 
         .switch-options {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+
+            grid-template-columns:
+                1fr 1fr;
+
             gap: 12px;
+
             margin-bottom: 30px;
         }
 
         .switch-option {
             padding: 15px;
-            border: 2px solid #d8dde5;
+
+            border:
+                2px solid #d8dde5;
+
             border-radius: 12px;
+
             background: white;
             color: #17243c;
+
             font-family: inherit;
+
             text-align: left;
+
             cursor: pointer;
 
             transition:
@@ -285,24 +382,31 @@
 
         .switch-option:hover {
             border-color: #9ba6b5;
-            transform: translateY(-2px);
+
+            transform:
+                translateY(-2px);
         }
 
         .switch-option.selected {
             border-color: #17243c;
+
             background: #f5f7fa;
         }
 
         .switch-name {
             display: block;
+
             font-size: 16px;
             font-weight: 800;
+
             margin-bottom: 3px;
         }
 
         .switch-description {
             display: block;
+
             color: #667085;
+
             font-size: 13px;
             line-height: 1.4;
         }
@@ -318,22 +422,31 @@
 
         .keycap-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
             gap: 10px;
         }
 
         .keycap-option {
             position: relative;
+
             width: 100%;
+
             aspect-ratio: 1 / 1;
+
             padding: 0;
 
-            border: 2px solid #d8dde5;
+            border:
+                2px solid #d8dde5;
+
             border-radius: 12px;
 
             background: #f7f5f2;
 
             overflow: hidden;
+
             cursor: pointer;
 
             transition:
@@ -344,12 +457,16 @@
 
         .keycap-option:hover:not(:disabled) {
             border-color: #9ba6b5;
-            transform: translateY(-2px);
+
+            transform:
+                translateY(-2px);
         }
 
         .keycap-option.selected {
             border-color: #17243c;
-            box-shadow: 0 0 0 1px #17243c;
+
+            box-shadow:
+                0 0 0 1px #17243c;
         }
 
         .keycap-option:disabled {
@@ -358,16 +475,21 @@
 
         .keycap-image-wrapper {
             position: absolute;
+
             inset: 0;
+
             overflow: hidden;
         }
 
         .keycap-option img {
             width: 100%;
             height: 100%;
+
             object-fit: cover;
             object-position: center;
+
             display: block;
+
             transform-origin: center;
 
             transition:
@@ -377,7 +499,7 @@
 
 
         /* =========================
-           KEYCAP SIZE BALANCING
+           KEYCAP ZOOM
         ========================== */
 
         .keycap-1 img {
@@ -431,6 +553,7 @@
 
         .stock-badge {
             position: absolute;
+
             left: 7px;
             bottom: 7px;
 
@@ -438,16 +561,19 @@
 
             border-radius: 7px;
 
-            background: rgba(255, 255, 255, 0.92);
+            background:
+                rgba(255, 255, 255, 0.92);
+
             color: #17243c;
 
-            font-family: "Nunito Sans", sans-serif;
             font-size: 11px;
             font-weight: 800;
 
             z-index: 4;
 
-            box-shadow: 0 2px 7px rgba(0, 0, 0, 0.08);
+            box-shadow:
+                0 2px 7px
+                rgba(0, 0, 0, 0.08);
         }
 
 
@@ -461,13 +587,15 @@
 
         .sold-out-overlay {
             position: absolute;
+
             inset: 0;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            background: rgba(255, 255, 255, 0.18);
+            background:
+                rgba(255, 255, 255, 0.18);
 
             z-index: 3;
         }
@@ -477,21 +605,23 @@
 
             border-radius: 8px;
 
-            background: rgba(23, 36, 60, 0.9);
+            background:
+                rgba(23, 36, 60, 0.9);
+
             color: white;
 
-            font-family: "Nunito Sans", sans-serif;
             font-size: 12px;
             font-weight: 800;
         }
 
 
         /* =========================
-           SELECTED KEYCAP CHECKMARK
+           SELECTED CHECK
         ========================== */
 
         .keycap-check {
             position: absolute;
+
             top: 7px;
             right: 7px;
 
@@ -511,7 +641,9 @@
             font-weight: 800;
 
             opacity: 0;
-            transform: scale(0.7);
+
+            transform:
+                scale(0.7);
 
             transition:
                 opacity 0.2s ease,
@@ -520,9 +652,12 @@
             z-index: 5;
         }
 
-        .keycap-option.selected .keycap-check {
+        .keycap-option.selected
+        .keycap-check {
             opacity: 1;
-            transform: scale(1);
+
+            transform:
+                scale(1);
         }
 
 
@@ -532,9 +667,12 @@
 
         .selected-keycap-text {
             margin-top: 10px;
+
             color: #667085;
+
             font-size: 13px;
             font-weight: 600;
+
             min-height: 19px;
         }
 
@@ -545,17 +683,22 @@
 
         .quantity-label {
             display: block;
+
             font-size: 15px;
             font-weight: 800;
+
             margin-bottom: 10px;
         }
 
         .quantity-selector {
             display: flex;
             align-items: center;
+
             width: fit-content;
 
-            border: 1px solid #d8dde5;
+            border:
+                1px solid #d8dde5;
+
             border-radius: 10px;
 
             overflow: hidden;
@@ -573,6 +716,7 @@
             color: #17243c;
 
             font-family: inherit;
+
             font-size: 21px;
 
             cursor: pointer;
@@ -584,25 +728,30 @@
 
         .quantity-selector button:disabled {
             color: #c5cad3;
+
             cursor: not-allowed;
+
             background: white;
         }
 
         .quantity-number {
             width: 48px;
+
             text-align: center;
+
             font-size: 16px;
             font-weight: 700;
         }
 
         .quantity-stock-message {
-            color: #667085;
-            font-size: 12px;
-            font-weight: 600;
-
             min-height: 18px;
 
             margin-bottom: 18px;
+
+            color: #667085;
+
+            font-size: 12px;
+            font-weight: 600;
         }
 
 
@@ -612,15 +761,18 @@
 
         .add-to-cart {
             width: 100%;
+
             padding: 16px 20px;
 
             border: none;
+
             border-radius: 12px;
 
             background: #17243c;
             color: white;
 
             font-family: inherit;
+
             font-size: 17px;
             font-weight: 800;
 
@@ -632,44 +784,142 @@
         }
 
         .add-to-cart:hover {
-            transform: translateY(-2px);
+            transform:
+                translateY(-2px);
+
             opacity: 0.92;
         }
 
 
         /* =========================
-           EXTRA DETAILS
+           PRODUCT NOTES
         ========================== */
 
         .product-notes {
             margin-top: 28px;
+
             padding-top: 25px;
-            border-top: 1px solid #e8ebf0;
+
+            border-top:
+                1px solid #e8ebf0;
         }
 
         .product-note {
             display: flex;
+
             gap: 10px;
+
             margin-bottom: 12px;
+
             color: #667085;
+
             font-size: 15px;
             line-height: 1.5;
         }
 
         .check {
             color: #17243c;
+
             font-weight: 800;
         }
 
 
         /* =========================
-           TABLET
+           SMALLER LAPTOPS
+        ========================== */
+
+        @media (max-width: 1200px) {
+
+            .navbar-logo {
+                width: 260px;
+            }
+
+            .nav-links {
+                margin-left: 50px;
+
+                gap: 28px;
+            }
+
+            .nav-links a {
+                font-size: 19px;
+
+                font-weight: 600;
+            }
+
+            .nav-icon-button {
+                width: 60px;
+                height: 60px;
+            }
+
+            .nav-actions {
+                margin-right: 12px;
+            }
+
+        }
+
+
+        /* =========================
+           TABLETS
         ========================== */
 
         @media (max-width: 950px) {
 
             .keycap-grid {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 900px) {
+
+            .navbar {
+                height: auto;
+
+                min-height: 150px;
+
+                background-size: cover;
+            }
+
+            .navbar-inner {
+                flex-wrap: wrap;
+
+                padding:
+                    10px 18px 15px;
+            }
+
+            .navbar-logo {
+                width: 225px;
+            }
+
+            .nav-actions {
+                margin-left: auto;
+                margin-right: 0;
+            }
+
+            .nav-icon-button {
+                width: 52px;
+                height: 52px;
+            }
+
+            .nav-links {
+                width: 100%;
+
+                order: 3;
+
+                margin-left: 0;
+                margin-top: 5px;
+
+                justify-content: center;
+
+                gap: 25px;
+            }
+
+            .nav-links a {
+                font-size: 16px;
+
+                font-weight: 600;
             }
 
         }
@@ -682,11 +932,13 @@
         @media (max-width: 800px) {
 
             .product-page {
-                padding: 40px 20px 70px;
+                padding:
+                    40px 20px 70px;
             }
 
             .product-layout {
                 grid-template-columns: 1fr;
+
                 gap: 35px;
             }
 
@@ -699,7 +951,38 @@
             }
 
             .keycap-grid {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns:
+                    repeat(4, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .navbar-logo {
+                width: 185px;
+            }
+
+            .nav-icon-button {
+                width: 46px;
+                height: 46px;
+            }
+
+            .nav-actions {
+                gap: 5px;
+            }
+
+            .nav-links {
+                gap: 14px;
+
+                flex-wrap: wrap;
+            }
+
+            .nav-links a {
+                font-size: 14px;
+
+                font-weight: 600;
             }
 
         }
@@ -712,7 +995,8 @@
             }
 
             .keycap-grid {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns:
+                    repeat(3, 1fr);
             }
 
         }
@@ -726,56 +1010,94 @@
 
 
     <!-- =========================
-         NAVBAR
+         NEW NAVBAR
     ========================== -->
 
     <header class="navbar">
 
-        <div class="navbar-image">
+        <div class="navbar-inner">
 
-            <img
-                src="navbar.png"
-                alt="ClickerLabStore navigation bar"
-                class="navbar-main-image"
-            >
+
+            <!-- LOGO -->
 
             <a
                 href="index.html"
-                class="logo"
+                class="navbar-logo"
                 aria-label="ClickerLabStore Home"
             >
-                <img src="navbar.png" alt="">
+
+                <img
+                    src="ClickerLabLogo.png"
+                    alt="ClickerLabStore"
+                >
+
             </a>
 
-            <a
-                href="shop.html"
-                class="nav-click shop"
-                aria-label="Shop"
-            ></a>
 
-            <a
-                href="bundles.html"
-                class="nav-click bundles"
-                aria-label="Bundles"
-            ></a>
+            <!-- CLICKABLE NAV LINKS -->
 
-            <a
-                href="build.html"
-                class="nav-click build"
-                aria-label="Build Your Own"
-            ></a>
+            <nav class="nav-links">
 
-            <a
-                href="about.html"
-                class="nav-click about"
-                aria-label="About"
-            ></a>
+                <a href="shop.html">
+                    Shop
+                </a>
 
-            <a
-                href="faq.html"
-                class="nav-click faq"
-                aria-label="FAQ"
-            ></a>
+                <a href="bundles.html">
+                    Bundles
+                </a>
+
+                <a href="build.html">
+                    Build Your Own
+                </a>
+
+                <a href="about.html">
+                    About
+                </a>
+
+                <a href="faq.html">
+                    FAQ
+                </a>
+
+            </nav>
+
+
+            <!-- SEARCH + CART -->
+
+            <div class="nav-actions">
+
+
+                <button
+                    type="button"
+                    class="nav-icon-button"
+                    id="search-button"
+                    aria-label="Search"
+                >
+
+                    <img
+                        src="search_button_cropped_580x580.png"
+                        alt=""
+                    >
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="nav-icon-button"
+                    id="cart-button"
+                    aria-label="Cart"
+                >
+
+                    <img
+                        src="cart_button_cropped_580x580.png"
+                        alt=""
+                    >
+
+                </button>
+
+
+            </div>
+
 
         </div>
 
@@ -788,7 +1110,11 @@
 
     <main class="product-page">
 
-        <a href="shop.html" class="back-to-shop">
+
+        <a
+            href="shop.html"
+            class="back-to-shop"
+        >
             ← Back to Shop
         </a>
 
@@ -796,7 +1122,9 @@
         <div class="product-layout">
 
 
-            <!-- PRODUCT PHOTO -->
+            <!-- =========================
+                 PRODUCT PHOTO
+            ========================== -->
 
             <div class="product-photo">
 
@@ -808,13 +1136,17 @@
             </div>
 
 
-            <!-- PRODUCT INFORMATION -->
+            <!-- =========================
+                 PRODUCT DETAILS
+            ========================== -->
 
             <section class="product-details">
+
 
                 <h1>
                     1-Key Clicker
                 </h1>
+
 
                 <p
                     class="product-price"
@@ -823,22 +1155,27 @@
                     $2.49
                 </p>
 
+
                 <p class="product-description">
+
                     A compact single-key mechanical fidget made for quick,
                     satisfying clicks wherever you go. Small enough to attach
                     to your keys, backpack, or bag.
+
                 </p>
 
 
                 <!-- =========================
-                     SWITCH CHOICE
+                     SWITCH
                 ========================== -->
 
                 <span class="option-title">
                     Choose Your Switch
                 </span>
 
+
                 <div class="switch-options">
+
 
                     <button
                         type="button"
@@ -875,11 +1212,12 @@
 
                     </button>
 
+
                 </div>
 
 
                 <!-- =========================
-                     KEYCAP CHOICE
+                     KEYCAPS
                 ========================== -->
 
                 <div class="keycap-section">
@@ -892,7 +1230,7 @@
                     <div class="keycap-grid">
 
 
-                        <!-- KEYCAP 1 - STOCK 4 -->
+                        <!-- KEYCAP 1 -->
 
                         <button
                             type="button"
@@ -902,12 +1240,19 @@
                         >
 
                             <div class="keycap-image-wrapper">
-                                <img src="/keycap-1.png" alt="Keycap 1">
+
+                                <img
+                                    src="/keycap-1.png"
+                                    alt="Keycap 1"
+                                >
+
                             </div>
+
 
                             <span class="stock-badge">
                                 4 left
                             </span>
+
 
                             <span class="keycap-check">
                                 ✓
@@ -916,7 +1261,7 @@
                         </button>
 
 
-                        <!-- KEYCAP 2 - STOCK 2 -->
+                        <!-- KEYCAP 2 -->
 
                         <button
                             type="button"
@@ -926,12 +1271,19 @@
                         >
 
                             <div class="keycap-image-wrapper">
-                                <img src="/keycap-2.png" alt="Keycap 2">
+
+                                <img
+                                    src="/keycap-2.png"
+                                    alt="Keycap 2"
+                                >
+
                             </div>
+
 
                             <span class="stock-badge">
                                 2 left
                             </span>
+
 
                             <span class="keycap-check">
                                 ✓
@@ -940,7 +1292,7 @@
                         </button>
 
 
-                        <!-- KEYCAP 3 - SOLD OUT -->
+                        <!-- KEYCAP 3 -->
 
                         <button
                             type="button"
@@ -950,19 +1302,27 @@
                         >
 
                             <div class="keycap-image-wrapper">
-                                <img src="/keycap-3.png" alt="Keycap 3">
+
+                                <img
+                                    src="/keycap-3.png"
+                                    alt="Keycap 3"
+                                >
+
                             </div>
 
+
                             <div class="sold-out-overlay">
+
                                 <span class="sold-out-text">
                                     Sold out
                                 </span>
+
                             </div>
 
                         </button>
 
 
-                        <!-- KEYCAP 4 - SOLD OUT -->
+                        <!-- KEYCAP 4 -->
 
                         <button
                             type="button"
@@ -972,19 +1332,27 @@
                         >
 
                             <div class="keycap-image-wrapper">
-                                <img src="/keycap-4.png" alt="Keycap 4">
+
+                                <img
+                                    src="/keycap-4.png"
+                                    alt="Keycap 4"
+                                >
+
                             </div>
 
+
                             <div class="sold-out-overlay">
+
                                 <span class="sold-out-text">
                                     Sold out
                                 </span>
+
                             </div>
 
                         </button>
 
 
-                        <!-- KEYCAP 5 - STOCK 2 -->
+                        <!-- KEYCAP 5 -->
 
                         <button
                             type="button"
@@ -994,12 +1362,19 @@
                         >
 
                             <div class="keycap-image-wrapper">
-                                <img src="/keycap-5.png" alt="Keycap 5">
+
+                                <img
+                                    src="/keycap-5.png"
+                                    alt="Keycap 5"
+                                >
+
                             </div>
+
 
                             <span class="stock-badge">
                                 2 left
                             </span>
+
 
                             <span class="keycap-check">
                                 ✓
@@ -1008,7 +1383,7 @@
                         </button>
 
 
-                        <!-- KEYCAP 6 - SOLD OUT -->
+                        <!-- KEYCAP 6 -->
 
                         <button
                             type="button"
@@ -1018,19 +1393,27 @@
                         >
 
                             <div class="keycap-image-wrapper">
-                                <img src="/keycap-6.png" alt="Keycap 6">
+
+                                <img
+                                    src="/keycap-6.png"
+                                    alt="Keycap 6"
+                                >
+
                             </div>
 
+
                             <div class="sold-out-overlay">
+
                                 <span class="sold-out-text">
                                     Sold out
                                 </span>
+
                             </div>
 
                         </button>
 
 
-                        <!-- KEYCAP 7 - STOCK 3 -->
+                        <!-- KEYCAP 7 -->
 
                         <button
                             type="button"
@@ -1040,12 +1423,19 @@
                         >
 
                             <div class="keycap-image-wrapper">
-                                <img src="/keycap-7.png" alt="Keycap 7">
+
+                                <img
+                                    src="/keycap-7.png"
+                                    alt="Keycap 7"
+                                >
+
                             </div>
+
 
                             <span class="stock-badge">
                                 3 left
                             </span>
+
 
                             <span class="keycap-check">
                                 ✓
@@ -1054,7 +1444,7 @@
                         </button>
 
 
-                        <!-- KEYCAP 8 - STOCK 4 -->
+                        <!-- KEYCAP 8 -->
 
                         <button
                             type="button"
@@ -1064,12 +1454,19 @@
                         >
 
                             <div class="keycap-image-wrapper">
-                                <img src="/keycap-8.png" alt="Keycap 8">
+
+                                <img
+                                    src="/keycap-8.png"
+                                    alt="Keycap 8"
+                                >
+
                             </div>
+
 
                             <span class="stock-badge">
                                 4 left
                             </span>
+
 
                             <span class="keycap-check">
                                 ✓
@@ -1078,7 +1475,7 @@
                         </button>
 
 
-                        <!-- KEYCAP 9 - STOCK 5 -->
+                        <!-- KEYCAP 9 -->
 
                         <button
                             type="button"
@@ -1088,12 +1485,19 @@
                         >
 
                             <div class="keycap-image-wrapper">
-                                <img src="/keycap-9.png" alt="Keycap 9">
+
+                                <img
+                                    src="/keycap-9.png"
+                                    alt="Keycap 9"
+                                >
+
                             </div>
+
 
                             <span class="stock-badge">
                                 5 left
                             </span>
+
 
                             <span class="keycap-check">
                                 ✓
@@ -1102,7 +1506,7 @@
                         </button>
 
 
-                        <!-- KEYCAP 10 - STOCK 3 -->
+                        <!-- KEYCAP 10 -->
 
                         <button
                             type="button"
@@ -1112,12 +1516,19 @@
                         >
 
                             <div class="keycap-image-wrapper">
-                                <img src="/keycap-10.png" alt="Keycap 10">
+
+                                <img
+                                    src="/keycap-10.png"
+                                    alt="Keycap 10"
+                                >
+
                             </div>
+
 
                             <span class="stock-badge">
                                 3 left
                             </span>
+
 
                             <span class="keycap-check">
                                 ✓
@@ -1126,7 +1537,7 @@
                         </button>
 
 
-                        <!-- KEYCAP 11 - STOCK 3 -->
+                        <!-- KEYCAP 11 -->
 
                         <button
                             type="button"
@@ -1136,12 +1547,19 @@
                         >
 
                             <div class="keycap-image-wrapper">
-                                <img src="/keycap-11.png" alt="Keycap 11">
+
+                                <img
+                                    src="/keycap-11.png"
+                                    alt="Keycap 11"
+                                >
+
                             </div>
+
 
                             <span class="stock-badge">
                                 3 left
                             </span>
+
 
                             <span class="keycap-check">
                                 ✓
@@ -1160,6 +1578,7 @@
                         Select a keycap
                     </p>
 
+
                 </div>
 
 
@@ -1171,7 +1590,9 @@
                     Quantity
                 </span>
 
+
                 <div class="quantity-selector">
+
 
                     <button
                         type="button"
@@ -1182,12 +1603,14 @@
                         −
                     </button>
 
+
                     <span
                         class="quantity-number"
                         id="quantity"
                     >
                         1
                     </span>
+
 
                     <button
                         type="button"
@@ -1197,6 +1620,7 @@
                     >
                         +
                     </button>
+
 
                 </div>
 
@@ -1223,36 +1647,72 @@
 
 
                 <!-- =========================
-                     EXTRA DETAILS
+                     PRODUCT NOTES
                 ========================== -->
 
                 <div class="product-notes">
 
-                    <div class="product-note">
-                        <span class="check">✓</span>
-                        <span>Choose from 11 keycap designs</span>
-                    </div>
 
                     <div class="product-note">
-                        <span class="check">✓</span>
-                        <span>Your choice of Clicky or Creamy switch</span>
+
+                        <span class="check">
+                            ✓
+                        </span>
+
+                        <span>
+                            Choose from 11 keycap designs
+                        </span>
+
                     </div>
 
-                    <div class="product-note">
-                        <span class="check">✓</span>
-                        <span>Compact keychain design</span>
-                    </div>
 
                     <div class="product-note">
-                        <span class="check">✓</span>
-                        <span>Easy to take anywhere</span>
+
+                        <span class="check">
+                            ✓
+                        </span>
+
+                        <span>
+                            Your choice of Clicky or Creamy switch
+                        </span>
+
                     </div>
+
+
+                    <div class="product-note">
+
+                        <span class="check">
+                            ✓
+                        </span>
+
+                        <span>
+                            Compact keychain design
+                        </span>
+
+                    </div>
+
+
+                    <div class="product-note">
+
+                        <span class="check">
+                            ✓
+                        </span>
+
+                        <span>
+                            Easy to take anywhere
+                        </span>
+
+                    </div>
+
 
                 </div>
 
+
             </section>
 
+
         </div>
+
 
     </main>
 
@@ -1271,10 +1731,11 @@
 
 
         /* =========================
-           STOCK
+           KEYCAP STOCK
         ========================== */
 
         const keycapStock = {
+
             1: 4,
             2: 2,
             3: 0,
@@ -1286,6 +1747,7 @@
             9: 5,
             10: 3,
             11: 3
+
         };
 
 
@@ -1301,61 +1763,105 @@
 
 
         /* =========================
-           PAGE ELEMENTS
+           ELEMENTS
         ========================== */
 
         const quantityDisplay =
-            document.getElementById("quantity");
+            document.getElementById(
+                "quantity"
+            );
+
 
         const productPriceDisplay =
-            document.getElementById("product-price");
+            document.getElementById(
+                "product-price"
+            );
+
 
         const addToCartButton =
-            document.getElementById("add-to-cart");
+            document.getElementById(
+                "add-to-cart"
+            );
+
 
         const minusButton =
-            document.getElementById("minus-button");
+            document.getElementById(
+                "minus-button"
+            );
+
 
         const plusButton =
-            document.getElementById("plus-button");
+            document.getElementById(
+                "plus-button"
+            );
+
 
         const clickyOption =
-            document.getElementById("clicky-option");
+            document.getElementById(
+                "clicky-option"
+            );
+
 
         const creamyOption =
-            document.getElementById("creamy-option");
+            document.getElementById(
+                "creamy-option"
+            );
+
 
         const selectedKeycapText =
-            document.getElementById("selected-keycap-text");
+            document.getElementById(
+                "selected-keycap-text"
+            );
+
 
         const quantityStockMessage =
-            document.getElementById("quantity-stock-message");
+            document.getElementById(
+                "quantity-stock-message"
+            );
 
 
         /* =========================
            SWITCH SELECTION
         ========================== */
 
-        function selectSwitch(switchType) {
+        function selectSwitch(
+            switchType
+        ) {
 
-            selectedSwitch = switchType;
-
-
-            clickyOption.classList.remove("selected");
-
-            creamyOption.classList.remove("selected");
+            selectedSwitch =
+                switchType;
 
 
-            if (switchType === "Clicky") {
+            clickyOption.classList.remove(
+                "selected"
+            );
 
-                clickyOption.classList.add("selected");
+
+            creamyOption.classList.remove(
+                "selected"
+            );
+
+
+            if (
+                switchType ===
+                "Clicky"
+            ) {
+
+                clickyOption.classList.add(
+                    "selected"
+                );
 
             }
 
 
-            if (switchType === "Creamy") {
+            if (
+                switchType ===
+                "Creamy"
+            ) {
 
-                creamyOption.classList.add("selected");
+                creamyOption.classList.add(
+                    "selected"
+                );
 
             }
 
@@ -1366,16 +1872,22 @@
            KEYCAP SELECTION
         ========================== */
 
-        function selectKeycap(keycapNumber) {
+        function selectKeycap(
+            keycapNumber
+        ) {
 
             const stock =
-                keycapStock[keycapNumber];
+                keycapStock[
+                    keycapNumber
+                ];
 
 
-            /* Prevent sold-out selection */
+            if (
+                stock <= 0
+            ) {
 
-            if (stock <= 0) {
                 return;
+
             }
 
 
@@ -1383,36 +1895,41 @@
                 keycapNumber;
 
 
-            /* Remove selection from all */
-
             const allKeycaps =
-                document.querySelectorAll(".keycap-option");
-
-
-            allKeycaps.forEach(function(keycap) {
-
-                keycap.classList.remove("selected");
-
-            });
-
-
-            /* Select clicked keycap */
-
-            const selectedOption =
-                document.querySelector(
-                    ".keycap-" + keycapNumber
+                document.querySelectorAll(
+                    ".keycap-option"
                 );
 
 
-            selectedOption.classList.add("selected");
+            allKeycaps.forEach(
+                function(keycap) {
+
+                    keycap.classList.remove(
+                        "selected"
+                    );
+
+                }
+            );
 
 
-            /* If current quantity is too high,
-               lower it to available stock */
+            const selectedOption =
+                document.querySelector(
+                    ".keycap-" +
+                    keycapNumber
+                );
 
-            if (quantity > stock) {
 
-                quantity = stock;
+            selectedOption.classList.add(
+                "selected"
+            );
+
+
+            if (
+                quantity > stock
+            ) {
+
+                quantity =
+                    stock;
 
             }
 
@@ -1436,28 +1953,29 @@
 
 
         /* =========================
-           MAXIMUM QUANTITY
+           MAX QUANTITY
         ========================== */
 
         function getMaximumQuantity() {
 
-            /* Before selecting a keycap,
-               keep the old limit of 99 */
-
-            if (selectedKeycap === null) {
+            if (
+                selectedKeycap === null
+            ) {
 
                 return 99;
 
             }
 
 
-            return keycapStock[selectedKeycap];
+            return keycapStock[
+                selectedKeycap
+            ];
 
         }
 
 
         /* =========================
-           PRICE + QUANTITY
+           UPDATE PRODUCT
         ========================== */
 
         function updateProduct() {
@@ -1467,7 +1985,8 @@
 
 
             const totalPrice =
-                unitPrice * quantity;
+                unitPrice *
+                quantity;
 
 
             quantityDisplay.textContent =
@@ -1475,7 +1994,8 @@
 
 
             productPriceDisplay.textContent =
-                "$" + totalPrice.toFixed(2);
+                "$" +
+                totalPrice.toFixed(2);
 
 
             addToCartButton.textContent =
@@ -1488,13 +2008,14 @@
 
 
             plusButton.disabled =
-                quantity >= maximumQuantity;
+                quantity >=
+                maximumQuantity;
 
         }
 
 
         /* =========================
-           INCREASE QUANTITY
+           QUANTITY
         ========================== */
 
         function increaseQuantity() {
@@ -1503,7 +2024,10 @@
                 getMaximumQuantity();
 
 
-            if (quantity < maximumQuantity) {
+            if (
+                quantity <
+                maximumQuantity
+            ) {
 
                 quantity++;
 
@@ -1514,13 +2038,11 @@
         }
 
 
-        /* =========================
-           DECREASE QUANTITY
-        ========================== */
-
         function decreaseQuantity() {
 
-            if (quantity > 1) {
+            if (
+                quantity > 1
+            ) {
 
                 quantity--;
 
@@ -1532,7 +2054,7 @@
 
 
         /* =========================
-           START PAGE
+           START
         ========================== */
 
         updateProduct();
