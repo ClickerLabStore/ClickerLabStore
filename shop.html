@@ -3,12 +3,32 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Shop | ClickerLabStore</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- FAVICON -->
+    <link
+        rel="icon"
+        type="image/png"
+        href="/favicon.png?v=2"
+    >
+
+    <!-- NUNITO SANS -->
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
     <link
         href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap"
@@ -16,6 +36,10 @@
     >
 
     <style>
+
+        /* =========================
+           RESET
+        ========================== */
 
         * {
             margin: 0;
@@ -37,23 +61,22 @@
 
         .navbar {
             width: 100%;
+            height: 110px;
+
+            background-image: url("blank navbar.png");
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        .navbar-image {
-            position: relative;
+        .navbar-inner {
             width: 100%;
-        }
+            height: 100%;
 
-        .navbar-main-image {
-            display: block;
-            width: 100%;
-            height: auto;
-        }
+            display: flex;
+            align-items: center;
 
-        .nav-click {
-            position: absolute;
-            display: block;
-            cursor: pointer;
+            padding: 0 2.3%;
         }
 
 
@@ -61,114 +84,144 @@
            LOGO
         ========================== */
 
-        .logo {
-            position: absolute;
-            left: 1.5%;
-            top: 5%;
-            width: 23.5%;
-            height: 90%;
-            overflow: hidden;
-            z-index: 10;
-            cursor: pointer;
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+
+            width: 310px;
+
+            flex-shrink: 0;
+
+            text-decoration: none;
 
             transition: transform 0.2s ease;
-            transform-origin: center;
         }
 
-        .logo img {
-            position: absolute;
-            width: 425.53%;
-            max-width: none;
-            left: -6.38%;
-            top: -5.56%;
-        }
-
-        .logo:hover {
+        .navbar-logo:hover {
             transform: scale(1.02);
         }
 
+        .navbar-logo img {
+            display: block;
 
-        /* =========================
-           NAV BUTTONS
-        ========================== */
-
-        .shop {
-            left: 26.5%;
-            top: 28%;
-            width: 5.5%;
-            height: 45%;
-        }
-
-        .bundles {
-            left: 34.2%;
-            top: 28%;
-            width: 7.8%;
-            height: 45%;
-        }
-
-        .build {
-            left: 44.1%;
-            top: 28%;
-            width: 13.1%;
-            height: 45%;
-        }
-
-        .about {
-            left: 59.4%;
-            top: 28%;
-            width: 5.9%;
-            height: 45%;
-        }
-
-        .faq {
-            left: 67.5%;
-            top: 28%;
-            width: 4.3%;
-            height: 45%;
+            width: 100%;
+            height: auto;
         }
 
 
         /* =========================
-           NAV UNDERLINES
+           NAV LINKS
         ========================== */
 
-        .nav-click::after {
+        .nav-links {
+            display: flex;
+            align-items: center;
+
+            margin-left: 150px;
+
+            gap: 50px;
+        }
+
+        .nav-links a {
+            position: relative;
+
+            color: #4b2247;
+
+            text-decoration: none;
+
+            font-size: 23px;
+            font-weight: 600;
+
+            white-space: nowrap;
+
+            padding: 10px 0;
+        }
+
+
+        /* =========================
+           NAV LINK UNDERLINE
+        ========================== */
+
+        .nav-links a::after {
             content: "";
-            position: absolute;
-            left: 50%;
-            bottom: 16%;
 
+            position: absolute;
+
+            left: 50%;
+            bottom: 3px;
+
+            width: 100%;
             height: 2px;
 
-            background: black;
+            background: #4b2247;
 
-            transform: translateX(-50%) scaleX(0);
+            transform:
+                translateX(-50%)
+                scaleX(0);
+
             transform-origin: center;
 
             transition: transform 0.2s ease;
         }
 
-        .shop::after,
-        .bundles::after,
-        .about::after,
-        .faq::after {
-            width: 90%;
+        .nav-links a:hover::after {
+            transform:
+                translateX(-50%)
+                scaleX(1);
         }
 
-        .build::after {
-            width: 96%;
+
+        /* =========================
+           SEARCH + CART AREA
+        ========================== */
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+
+            gap: 14px;
+
+            margin-left: auto;
+            margin-right: 20px;
+
+            flex-shrink: 0;
         }
 
-        .about::after {
-            left: 46%;
+
+        /* =========================
+           SEARCH + CART BUTTONS
+        ========================== */
+
+        .nav-icon-button {
+            width: 72px;
+            height: 72px;
+
+            padding: 0;
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            transition: transform 0.2s ease;
         }
 
-        .faq::after {
-            left: 61%;
+        .nav-icon-button:hover {
+            transform: scale(1.08);
         }
 
-        .nav-click:hover::after {
-            transform: translateX(-50%) scaleX(1);
+        .nav-icon-button img {
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
         }
 
 
@@ -182,17 +235,20 @@
 
         .shop-header {
             text-align: center;
+
             margin-bottom: 50px;
         }
 
         .shop-header h1 {
             font-size: 48px;
             font-weight: 800;
+
             margin-bottom: 10px;
         }
 
         .shop-header p {
             font-size: 19px;
+
             color: #667085;
         }
 
@@ -203,10 +259,13 @@
 
         .product-grid {
             max-width: 1200px;
+
             margin: auto;
 
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+
+            grid-template-columns:
+                repeat(3, 1fr);
 
             gap: 35px 28px;
         }
@@ -220,6 +279,7 @@
             background: white;
 
             border: 1px solid #e8ebf0;
+
             border-radius: 18px;
 
             overflow: hidden;
@@ -230,7 +290,8 @@
         }
 
         .product-card:hover {
-            transform: translateY(-6px);
+            transform:
+                translateY(-6px);
 
             box-shadow:
                 0 14px 30px
@@ -244,9 +305,11 @@
 
         .product-image {
             width: 100%;
+
             aspect-ratio: 1 / 1;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
@@ -320,9 +383,11 @@
             padding: 12px;
 
             text-align: center;
+
             text-decoration: none;
 
             color: white;
+
             background: #17243c;
 
             border-radius: 10px;
@@ -333,8 +398,44 @@
         }
 
         .product-button:hover {
-            transform: translateY(-2px);
+            transform:
+                translateY(-2px);
+
             opacity: 0.9;
+        }
+
+
+        /* =========================
+           SMALLER LAPTOPS
+        ========================== */
+
+        @media (max-width: 1200px) {
+
+            .navbar-logo {
+                width: 260px;
+            }
+
+            .nav-links {
+                margin-left: 50px;
+
+                gap: 28px;
+            }
+
+            .nav-links a {
+                font-size: 19px;
+
+                font-weight: 600;
+            }
+
+            .nav-icon-button {
+                width: 60px;
+                height: 60px;
+            }
+
+            .nav-actions {
+                margin-right: 12px;
+            }
+
         }
 
 
@@ -344,8 +445,57 @@
 
         @media (max-width: 900px) {
 
+            .navbar {
+                height: auto;
+
+                min-height: 150px;
+
+                background-size: cover;
+            }
+
+            .navbar-inner {
+                flex-wrap: wrap;
+
+                padding:
+                    10px 18px 15px;
+            }
+
+            .navbar-logo {
+                width: 225px;
+            }
+
+            .nav-actions {
+                margin-left: auto;
+                margin-right: 0;
+            }
+
+            .nav-icon-button {
+                width: 52px;
+                height: 52px;
+            }
+
+            .nav-links {
+                width: 100%;
+
+                order: 3;
+
+                margin-left: 0;
+                margin-top: 5px;
+
+                justify-content: center;
+
+                gap: 25px;
+            }
+
+            .nav-links a {
+                font-size: 16px;
+
+                font-weight: 600;
+            }
+
             .product-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns:
+                    repeat(2, 1fr);
             }
 
         }
@@ -356,6 +506,31 @@
         ========================== */
 
         @media (max-width: 600px) {
+
+            .navbar-logo {
+                width: 185px;
+            }
+
+            .nav-icon-button {
+                width: 46px;
+                height: 46px;
+            }
+
+            .nav-actions {
+                gap: 5px;
+            }
+
+            .nav-links {
+                gap: 14px;
+
+                flex-wrap: wrap;
+            }
+
+            .nav-links a {
+                font-size: 14px;
+
+                font-weight: 600;
+            }
 
             .shop-page {
                 padding-left: 20px;
@@ -386,54 +561,89 @@
 
     <header class="navbar">
 
-        <div class="navbar-image">
+        <div class="navbar-inner">
 
-            <img
-                src="navbar.png"
-                alt="ClickerLabStore navigation bar"
-                class="navbar-main-image"
-            >
+
+            <!-- LOGO -->
 
             <a
                 href="index.html"
-                class="logo"
+                class="navbar-logo"
                 aria-label="ClickerLabStore Home"
             >
+
                 <img
-                    src="navbar.png"
-                    alt=""
+                    src="ClickerLabLogo.png"
+                    alt="ClickerLabStore"
                 >
+
             </a>
 
-            <a
-                href="shop.html"
-                class="nav-click shop"
-                aria-label="Shop"
-            ></a>
 
-            <a
-                href="bundles.html"
-                class="nav-click bundles"
-                aria-label="Bundles"
-            ></a>
+            <!-- CLICKABLE TEXT LINKS -->
 
-            <a
-                href="build.html"
-                class="nav-click build"
-                aria-label="Build Your Own"
-            ></a>
+            <nav class="nav-links">
 
-            <a
-                href="about.html"
-                class="nav-click about"
-                aria-label="About"
-            ></a>
+                <a href="shop.html">
+                    Shop
+                </a>
 
-            <a
-                href="faq.html"
-                class="nav-click faq"
-                aria-label="FAQ"
-            ></a>
+                <a href="bundles.html">
+                    Bundles
+                </a>
+
+                <a href="build.html">
+                    Build Your Own
+                </a>
+
+                <a href="about.html">
+                    About
+                </a>
+
+                <a href="faq.html">
+                    FAQ
+                </a>
+
+            </nav>
+
+
+            <!-- SEARCH + CART -->
+
+            <div class="nav-actions">
+
+
+                <button
+                    type="button"
+                    class="nav-icon-button"
+                    id="search-button"
+                    aria-label="Search"
+                >
+
+                    <img
+                        src="search_button_cropped_580x580.png"
+                        alt=""
+                    >
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="nav-icon-button"
+                    id="cart-button"
+                    aria-label="Cart"
+                >
+
+                    <img
+                        src="cart_button_cropped_580x580.png"
+                        alt=""
+                    >
+
+                </button>
+
+
+            </div>
+
 
         </div>
 
@@ -529,8 +739,8 @@
                     </h2>
 
                     <p class="product-description">
-                        Two mechanical keys in a compact clicker for twice
-                        the clicking.
+                        Two mechanical keys in a compact clicker
+                        for twice the clicking.
                     </p>
 
                     <p class="product-price">
