@@ -9,6 +9,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link
         href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap"
         rel="stylesheet"
@@ -69,6 +70,7 @@
             overflow: hidden;
             z-index: 10;
             cursor: pointer;
+
             transition: transform 0.2s ease;
             transform-origin: center;
         }
@@ -135,10 +137,13 @@
             position: absolute;
             left: 50%;
             bottom: 16%;
+
             height: 2px;
             background: black;
+
             transform: translateX(-50%) scaleX(0);
             transform-origin: center;
+
             transition: transform 0.2s ease;
         }
 
@@ -198,20 +203,24 @@
         .product-grid {
             max-width: 1200px;
             margin: auto;
+
             display: grid;
             grid-template-columns: repeat(3, 1fr);
+
             gap: 35px 28px;
         }
 
 
         /* =========================
-           PRODUCT CARDS
+           PRODUCT CARD
         ========================== */
 
         .product-card {
             background: white;
+
             border: 1px solid #e8ebf0;
             border-radius: 18px;
+
             overflow: hidden;
 
             transition:
@@ -221,12 +230,15 @@
 
         .product-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 14px 30px rgba(23, 36, 60, 0.12);
+
+            box-shadow:
+                0 14px 30px
+                rgba(23, 36, 60, 0.12);
         }
 
 
         /* =========================
-           PRODUCT IMAGES
+           PRODUCT IMAGE
         ========================== */
 
         .product-image {
@@ -254,8 +266,10 @@
         .product-image img {
             width: 100%;
             height: 100%;
+
             object-fit: cover;
             object-position: center;
+
             display: block;
         }
 
@@ -277,24 +291,29 @@
         .product-description {
             font-size: 15px;
             line-height: 1.5;
+
             color: #6b7280;
+
             margin-bottom: 15px;
         }
 
         .product-price {
             font-size: 20px;
             font-weight: 800;
+
             margin-bottom: 17px;
         }
 
 
         /* =========================
-           VIEW PRODUCT BUTTON
+           PRODUCT BUTTON
         ========================== */
 
         .product-button {
             display: block;
+
             width: 100%;
+
             padding: 12px;
 
             text-align: center;
@@ -317,7 +336,7 @@
 
 
         /* =========================
-           SMALLER SCREENS
+           TABLET
         ========================== */
 
         @media (max-width: 900px) {
@@ -327,6 +346,11 @@
             }
 
         }
+
+
+        /* =========================
+           MOBILE
+        ========================== */
 
         @media (max-width: 600px) {
 
@@ -419,9 +443,12 @@
 
     <main class="shop-page">
 
+
         <section class="shop-header">
 
-            <h1>Shop Clickers</h1>
+            <h1>
+                Shop Clickers
+            </h1>
 
             <p>
                 Find the clicker that fits you.
@@ -448,12 +475,16 @@
 
                 </div>
 
+
                 <div class="product-info">
 
-                    <h2>1-Key Clicker</h2>
+                    <h2>
+                        1-Key Clicker
+                    </h2>
 
                     <p class="product-description">
-                        A compact single-key mechanical fidget for quick, satisfying clicks.
+                        A compact single-key mechanical fidget for quick,
+                        satisfying clicks.
                     </p>
 
                     <p class="product-price">
@@ -487,19 +518,26 @@
 
                 </div>
 
+
                 <div class="product-info">
 
-                    <h2>2-Key Clicker</h2>
+                    <h2>
+                        2-Key Clicker
+                    </h2>
 
                     <p class="product-description">
-                        Two mechanical keys in a compact clicker for twice the clicking.
+                        Two mechanical keys in a compact clicker for twice
+                        the clicking.
                     </p>
 
                     <p class="product-price">
                         $3.99
                     </p>
 
-                    <a href="#" class="product-button">
+                    <a
+                        href="2-key-clicker.html"
+                        class="product-button"
+                    >
                         View Product
                     </a>
 
@@ -523,19 +561,26 @@
 
                 </div>
 
+
                 <div class="product-info">
 
-                    <h2>3-Key Clicker</h2>
+                    <h2>
+                        3-Key Clicker
+                    </h2>
 
                     <p class="product-description">
-                        Three mechanical keys in one compact clicker for even more variety.
+                        Three mechanical keys in one compact clicker
+                        for even more variety.
                     </p>
 
                     <p class="product-price">
                         $4.99
                     </p>
 
-                    <a href="#" class="product-button">
+                    <a
+                        href="#"
+                        class="product-button"
+                    >
                         View Product
                     </a>
 
@@ -559,19 +604,26 @@
 
                 </div>
 
+
                 <div class="product-info">
 
-                    <h2>4-Key Clicker</h2>
+                    <h2>
+                        4-Key Clicker
+                    </h2>
 
                     <p class="product-description">
-                        Four mechanical keys for a larger, more satisfying clicking experience.
+                        Four mechanical keys for a larger,
+                        more satisfying clicking experience.
                     </p>
 
                     <p class="product-price">
                         $7.49
                     </p>
 
-                    <a href="#" class="product-button">
+                    <a
+                        href="#"
+                        class="product-button"
+                    >
                         View Product
                     </a>
 
@@ -590,19 +642,26 @@
                     Product Photo
                 </div>
 
+
                 <div class="product-info">
 
-                    <h2>1-Key Light Up Clicker</h2>
+                    <h2>
+                        1-Key Light Up Clicker
+                    </h2>
 
                     <p class="product-description">
-                        A single-key clicker with a light-up design for extra style while you click.
+                        A single-key clicker with a light-up design
+                        for extra style while you click.
                     </p>
 
                     <p class="product-price">
                         $3.49
                     </p>
 
-                    <a href="#" class="product-button">
+                    <a
+                        href="#"
+                        class="product-button"
+                    >
                         View Product
                     </a>
 
@@ -621,19 +680,26 @@
                     Product Photo
                 </div>
 
+
                 <div class="product-info">
 
-                    <h2>2-Key Light Up Clicker</h2>
+                    <h2>
+                        2-Key Light Up Clicker
+                    </h2>
 
                     <p class="product-description">
-                        Two satisfying mechanical keys with a light-up design.
+                        Two satisfying mechanical keys
+                        with a light-up design.
                     </p>
 
                     <p class="product-price">
                         $4.49
                     </p>
 
-                    <a href="#" class="product-button">
+                    <a
+                        href="#"
+                        class="product-button"
+                    >
                         View Product
                     </a>
 
@@ -652,19 +718,26 @@
                     Product Photo
                 </div>
 
+
                 <div class="product-info">
 
-                    <h2>3-Key Light Up Clicker</h2>
+                    <h2>
+                        3-Key Light Up Clicker
+                    </h2>
 
                     <p class="product-description">
-                        Three satisfying mechanical keys with a light-up design.
+                        Three satisfying mechanical keys
+                        with a light-up design.
                     </p>
 
                     <p class="product-price">
                         $6.99
                     </p>
 
-                    <a href="#" class="product-button">
+                    <a
+                        href="#"
+                        class="product-button"
+                    >
                         View Product
                     </a>
 
@@ -683,19 +756,26 @@
                     Product Photo
                 </div>
 
+
                 <div class="product-info">
 
-                    <h2>4-Key Light Up Clicker</h2>
+                    <h2>
+                        4-Key Light Up Clicker
+                    </h2>
 
                     <p class="product-description">
-                        Four mechanical keys with a light-up design for the biggest ClickerLab experience.
+                        Four mechanical keys with a light-up design
+                        for the biggest ClickerLab experience.
                     </p>
 
                     <p class="product-price">
                         $8.49
                     </p>
 
-                    <a href="#" class="product-button">
+                    <a
+                        href="#"
+                        class="product-button"
+                    >
                         View Product
                     </a>
 
