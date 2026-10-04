@@ -200,7 +200,7 @@
 
 
         /* =========================
-           PRODUCT PHOTO
+           MAIN PRODUCT PHOTO
         ========================== */
 
         .product-photo {
@@ -248,11 +248,6 @@
             margin-bottom: 30px;
         }
 
-
-        /* =========================
-           SWITCH OPTIONS
-        ========================== */
-
         .option-title {
             display: block;
             font-size: 15px;
@@ -260,11 +255,16 @@
             margin-bottom: 10px;
         }
 
+
+        /* =========================
+           SWITCH OPTIONS
+        ========================== */
+
         .switch-options {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin-bottom: 28px;
+            margin-bottom: 30px;
         }
 
         .switch-option {
@@ -305,6 +305,174 @@
             color: #667085;
             font-size: 13px;
             line-height: 1.4;
+        }
+
+
+        /* =========================
+           KEYCAP OPTIONS
+        ========================== */
+
+        .keycap-section {
+            margin-bottom: 30px;
+        }
+
+        .keycap-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .keycap-option {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+
+            padding: 0;
+
+            border: 2px solid #d8dde5;
+            border-radius: 12px;
+
+            background: #fafafa;
+
+            overflow: hidden;
+
+            cursor: pointer;
+
+            transition:
+                border-color 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .keycap-option:hover {
+            border-color: #9ba6b5;
+            transform: translateY(-2px);
+        }
+
+        .keycap-option.selected {
+            border-color: #17243c;
+            box-shadow: 0 0 0 1px #17243c;
+        }
+
+        .keycap-image-wrapper {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .keycap-option img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+
+            transition: transform 0.2s ease;
+        }
+
+
+        /* =========================
+           INDIVIDUAL KEYCAP ZOOM
+
+           These make the keycaps look
+           closer to the same physical size.
+        ========================== */
+
+        .keycap-1 img {
+            transform: scale(1.00);
+        }
+
+        .keycap-2 img {
+            transform: scale(1.16);
+        }
+
+        .keycap-3 img {
+            transform: scale(1.02);
+        }
+
+        .keycap-4 img {
+            transform: scale(1.18);
+        }
+
+        .keycap-5 img {
+            transform: scale(1.13);
+        }
+
+        .keycap-6 img {
+            transform: scale(1.03);
+        }
+
+        .keycap-7 img {
+            transform: scale(1.10);
+        }
+
+        .keycap-8 img {
+            transform: scale(1.13);
+        }
+
+        .keycap-9 img {
+            transform: scale(1.14);
+        }
+
+        .keycap-10 img {
+            transform: scale(1.08);
+        }
+
+        .keycap-11 img {
+            transform: scale(1.08);
+        }
+
+
+        /* =========================
+           SELECTED KEYCAP CHECKMARK
+        ========================== */
+
+        .keycap-check {
+            position: absolute;
+            top: 7px;
+            right: 7px;
+
+            width: 24px;
+            height: 24px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #17243c;
+            color: white;
+
+            font-size: 14px;
+            font-weight: 800;
+
+            opacity: 0;
+            transform: scale(0.7);
+
+            transition:
+                opacity 0.2s ease,
+                transform 0.2s ease;
+
+            z-index: 3;
+        }
+
+        .keycap-option.selected .keycap-check {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+
+        /* =========================
+           SELECTED KEYCAP TEXT
+        ========================== */
+
+        .selected-keycap-text {
+            margin-top: 10px;
+            color: #667085;
+            font-size: 13px;
+            font-weight: 600;
+            min-height: 19px;
         }
 
 
@@ -365,13 +533,17 @@
         .add-to-cart {
             width: 100%;
             padding: 16px 20px;
+
             border: none;
             border-radius: 12px;
+
             background: #17243c;
             color: white;
+
             font-family: inherit;
             font-size: 17px;
             font-weight: 800;
+
             cursor: pointer;
 
             transition:
@@ -411,6 +583,19 @@
 
 
         /* =========================
+           TABLET
+        ========================== */
+
+        @media (max-width: 950px) {
+
+            .keycap-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+        }
+
+
+        /* =========================
            MOBILE
         ========================== */
 
@@ -433,12 +618,21 @@
                 font-size: 36px;
             }
 
+            .keycap-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
         }
 
-        @media (max-width: 450px) {
+
+        @media (max-width: 500px) {
 
             .switch-options {
                 grid-template-columns: 1fr;
+            }
+
+            .keycap-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
 
         }
@@ -525,7 +719,9 @@
         <div class="product-layout">
 
 
-            <!-- PRODUCT PHOTO -->
+            <!-- =========================
+                 PRODUCT PHOTO
+            ========================== -->
 
             <div class="product-photo">
 
@@ -537,7 +733,9 @@
             </div>
 
 
-            <!-- PRODUCT INFORMATION -->
+            <!-- =========================
+                 PRODUCT INFORMATION
+            ========================== -->
 
             <section class="product-details">
 
@@ -559,7 +757,9 @@
                 </p>
 
 
-                <!-- SWITCH CHOICE -->
+                <!-- =========================
+                     SWITCH CHOICE
+                ========================== -->
 
                 <span class="option-title">
                     Choose Your Switch
@@ -605,7 +805,311 @@
                 </div>
 
 
-                <!-- QUANTITY -->
+                <!-- =========================
+                     KEYCAP CHOICE
+                ========================== -->
+
+                <div class="keycap-section">
+
+                    <span class="option-title">
+                        Choose Your Keycap
+                    </span>
+
+
+                    <div class="keycap-grid">
+
+
+                        <!-- KEYCAP 1 -->
+
+                        <button
+                            type="button"
+                            class="keycap-option keycap-1"
+                            onclick="selectKeycap(1)"
+                            aria-label="Select Keycap 1"
+                        >
+
+                            <div class="keycap-image-wrapper">
+
+                                <img
+                                    src="/keycap-1.png"
+                                    alt="Keycap 1"
+                                >
+
+                            </div>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
+                        </button>
+
+
+                        <!-- KEYCAP 2 -->
+
+                        <button
+                            type="button"
+                            class="keycap-option keycap-2"
+                            onclick="selectKeycap(2)"
+                            aria-label="Select Keycap 2"
+                        >
+
+                            <div class="keycap-image-wrapper">
+
+                                <img
+                                    src="/keycap-2.png"
+                                    alt="Keycap 2"
+                                >
+
+                            </div>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
+                        </button>
+
+
+                        <!-- KEYCAP 3 -->
+
+                        <button
+                            type="button"
+                            class="keycap-option keycap-3"
+                            onclick="selectKeycap(3)"
+                            aria-label="Select Keycap 3"
+                        >
+
+                            <div class="keycap-image-wrapper">
+
+                                <img
+                                    src="/keycap-3.png"
+                                    alt="Keycap 3"
+                                >
+
+                            </div>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
+                        </button>
+
+
+                        <!-- KEYCAP 4 -->
+
+                        <button
+                            type="button"
+                            class="keycap-option keycap-4"
+                            onclick="selectKeycap(4)"
+                            aria-label="Select Keycap 4"
+                        >
+
+                            <div class="keycap-image-wrapper">
+
+                                <img
+                                    src="/keycap-4.png"
+                                    alt="Keycap 4"
+                                >
+
+                            </div>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
+                        </button>
+
+
+                        <!-- KEYCAP 5 -->
+
+                        <button
+                            type="button"
+                            class="keycap-option keycap-5"
+                            onclick="selectKeycap(5)"
+                            aria-label="Select Keycap 5"
+                        >
+
+                            <div class="keycap-image-wrapper">
+
+                                <img
+                                    src="/keycap-5.png"
+                                    alt="Keycap 5"
+                                >
+
+                            </div>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
+                        </button>
+
+
+                        <!-- KEYCAP 6 -->
+
+                        <button
+                            type="button"
+                            class="keycap-option keycap-6"
+                            onclick="selectKeycap(6)"
+                            aria-label="Select Keycap 6"
+                        >
+
+                            <div class="keycap-image-wrapper">
+
+                                <img
+                                    src="/keycap-6.png"
+                                    alt="Keycap 6"
+                                >
+
+                            </div>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
+                        </button>
+
+
+                        <!-- KEYCAP 7 -->
+
+                        <button
+                            type="button"
+                            class="keycap-option keycap-7"
+                            onclick="selectKeycap(7)"
+                            aria-label="Select Keycap 7"
+                        >
+
+                            <div class="keycap-image-wrapper">
+
+                                <img
+                                    src="/keycap-7.png"
+                                    alt="Keycap 7"
+                                >
+
+                            </div>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
+                        </button>
+
+
+                        <!-- KEYCAP 8 -->
+
+                        <button
+                            type="button"
+                            class="keycap-option keycap-8"
+                            onclick="selectKeycap(8)"
+                            aria-label="Select Keycap 8"
+                        >
+
+                            <div class="keycap-image-wrapper">
+
+                                <img
+                                    src="/keycap-8.png"
+                                    alt="Keycap 8"
+                                >
+
+                            </div>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
+                        </button>
+
+
+                        <!-- KEYCAP 9 -->
+
+                        <button
+                            type="button"
+                            class="keycap-option keycap-9"
+                            onclick="selectKeycap(9)"
+                            aria-label="Select Keycap 9"
+                        >
+
+                            <div class="keycap-image-wrapper">
+
+                                <img
+                                    src="/keycap-9.png"
+                                    alt="Keycap 9"
+                                >
+
+                            </div>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
+                        </button>
+
+
+                        <!-- KEYCAP 10 -->
+
+                        <button
+                            type="button"
+                            class="keycap-option keycap-10"
+                            onclick="selectKeycap(10)"
+                            aria-label="Select Keycap 10"
+                        >
+
+                            <div class="keycap-image-wrapper">
+
+                                <img
+                                    src="/keycap-10.png"
+                                    alt="Keycap 10"
+                                >
+
+                            </div>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
+                        </button>
+
+
+                        <!-- KEYCAP 11 -->
+
+                        <button
+                            type="button"
+                            class="keycap-option keycap-11"
+                            onclick="selectKeycap(11)"
+                            aria-label="Select Keycap 11"
+                        >
+
+                            <div class="keycap-image-wrapper">
+
+                                <img
+                                    src="/keycap-11.png"
+                                    alt="Keycap 11"
+                                >
+
+                            </div>
+
+                            <span class="keycap-check">
+                                ✓
+                            </span>
+
+                        </button>
+
+
+                    </div>
+
+
+                    <p
+                        class="selected-keycap-text"
+                        id="selected-keycap-text"
+                    >
+                        Select a keycap
+                    </p>
+
+                </div>
+
+
+                <!-- =========================
+                     QUANTITY
+                ========================== -->
 
                 <span class="quantity-label">
                     Quantity
@@ -641,7 +1145,9 @@
                 </div>
 
 
-                <!-- ADD TO CART -->
+                <!-- =========================
+                     ADD TO CART
+                ========================== -->
 
                 <button
                     type="button"
@@ -652,18 +1158,25 @@
                 </button>
 
 
-                <!-- EXTRA DETAILS -->
+                <!-- =========================
+                     EXTRA DETAILS
+                ========================== -->
 
                 <div class="product-notes">
 
                     <div class="product-note">
                         <span class="check">✓</span>
-                        <span>Compact keychain design</span>
+                        <span>Choose from 11 keycap designs</span>
                     </div>
 
                     <div class="product-note">
                         <span class="check">✓</span>
                         <span>Your choice of Clicky or Creamy switch</span>
+                    </div>
+
+                    <div class="product-note">
+                        <span class="check">✓</span>
+                        <span>Compact keychain design</span>
                     </div>
 
                     <div class="product-note">
@@ -674,7 +1187,6 @@
                 </div>
 
             </section>
-
 
         </div>
 
@@ -687,6 +1199,10 @@
 
     <script>
 
+        /* =========================
+           PRODUCT SETTINGS
+        ========================== */
+
         const unitPrice = 2.49;
 
         const minimumQuantity = 1;
@@ -695,7 +1211,12 @@
         let quantity = 1;
 
         let selectedSwitch = null;
+        let selectedKeycap = null;
 
+
+        /* =========================
+           PAGE ELEMENTS
+        ========================== */
 
         const quantityDisplay =
             document.getElementById("quantity");
@@ -717,6 +1238,9 @@
 
         const creamyOption =
             document.getElementById("creamy-option");
+
+        const selectedKeycapText =
+            document.getElementById("selected-keycap-text");
 
 
         /* =========================
@@ -743,6 +1267,41 @@
                 creamyOption.classList.add("selected");
 
             }
+
+        }
+
+
+        /* =========================
+           KEYCAP SELECTION
+        ========================== */
+
+        function selectKeycap(keycapNumber) {
+
+            selectedKeycap = keycapNumber;
+
+
+            const allKeycaps =
+                document.querySelectorAll(".keycap-option");
+
+
+            allKeycaps.forEach(function(keycap) {
+
+                keycap.classList.remove("selected");
+
+            });
+
+
+            const selectedOption =
+                document.querySelector(
+                    ".keycap-" + keycapNumber
+                );
+
+
+            selectedOption.classList.add("selected");
+
+
+            selectedKeycapText.textContent =
+                "Selected: Keycap " + keycapNumber;
 
         }
 
@@ -779,6 +1338,10 @@
         }
 
 
+        /* =========================
+           INCREASE QUANTITY
+        ========================== */
+
         function increaseQuantity() {
 
             if (quantity < maximumQuantity) {
@@ -792,6 +1355,10 @@
         }
 
 
+        /* =========================
+           DECREASE QUANTITY
+        ========================== */
+
         function decreaseQuantity() {
 
             if (quantity > minimumQuantity) {
@@ -804,6 +1371,10 @@
 
         }
 
+
+        /* =========================
+           START PAGE
+        ========================== */
 
         updateProduct();
 
