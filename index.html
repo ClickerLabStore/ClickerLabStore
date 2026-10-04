@@ -11,22 +11,14 @@
 
     <title>ClickerLabStore</title>
 
-
-    <!-- =========================
-         FAVICON
-    ========================== -->
-
+    <!-- FAVICON -->
     <link
         rel="icon"
         type="image/png"
         href="/favicon.png?v=2"
     >
 
-
-    <!-- =========================
-         NUNITO SANS
-    ========================== -->
-
+    <!-- NUNITO SANS -->
     <link
         rel="preconnect"
         href="https://fonts.googleapis.com"
@@ -43,7 +35,6 @@
         rel="stylesheet"
     >
 
-
     <style>
 
         /* =========================
@@ -56,57 +47,36 @@
             box-sizing: border-box;
         }
 
-
         body {
-            font-family:
-                "Nunito Sans",
-                sans-serif;
-
+            font-family: "Nunito Sans", sans-serif;
             background: white;
-
             color: #17243c;
-
             overflow-x: hidden;
         }
 
 
         /* =========================
-           NEW NAVBAR
+           NAVBAR
         ========================== */
 
         .navbar {
             width: 100%;
+            height: 110px;
 
-            height: 112px;
-
-            position: relative;
-
-            background-image:
-                url("blank navbar.png");
-
-            background-size:
-                100% 100%;
-
-            background-position:
-                center;
-
-            background-repeat:
-                no-repeat;
+            background-image: url("blank navbar.png");
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
         }
-
 
         .navbar-inner {
             width: 100%;
             height: 100%;
 
             display: flex;
-
             align-items: center;
 
-            padding:
-                0 2.2%;
-
-            gap: 20px;
+            padding: 0 2.3%;
         }
 
 
@@ -116,29 +86,20 @@
 
         .navbar-logo {
             display: flex;
-
             align-items: center;
 
-            width: clamp(
-                250px,
-                28vw,
-                380px
-            );
+            width: 310px;
 
             flex-shrink: 0;
 
             text-decoration: none;
 
-            transition:
-                transform 0.2s ease;
+            transition: transform 0.2s ease;
         }
-
 
         .navbar-logo:hover {
-            transform:
-                scale(1.02);
+            transform: scale(1.02);
         }
-
 
         .navbar-logo img {
             display: block;
@@ -149,25 +110,21 @@
 
 
         /* =========================
-           NAVIGATION TEXT
+           NAV LINKS
         ========================== */
 
         .nav-links {
             display: flex;
-
             align-items: center;
 
-            justify-content: center;
+            /*
+               This controls how far the
+               words are from the logo.
+            */
+            margin-left: 75px;
 
-            gap: clamp(
-                18px,
-                2.6vw,
-                45px
-            );
-
-            margin-left: auto;
+            gap: 45px;
         }
-
 
         .nav-links a {
             position: relative;
@@ -176,22 +133,18 @@
 
             text-decoration: none;
 
-            font-size: clamp(
-                14px,
-                1.15vw,
-                18px
-            );
-
+            font-size: 18px;
             font-weight: 800;
 
             white-space: nowrap;
 
-            padding:
-                10px 0;
+            padding: 10px 0;
         }
 
 
-        /* UNDERLINE */
+        /* =========================
+           NAV LINK UNDERLINE
+        ========================== */
 
         .nav-links a::after {
             content: "";
@@ -210,13 +163,10 @@
                 translateX(-50%)
                 scaleX(0);
 
-            transform-origin:
-                center;
+            transform-origin: center;
 
-            transition:
-                transform 0.2s ease;
+            transition: transform 0.2s ease;
         }
-
 
         .nav-links a:hover::after {
             transform:
@@ -226,30 +176,32 @@
 
 
         /* =========================
-           SEARCH + CART
+           SEARCH + CART AREA
         ========================== */
 
         .nav-actions {
             display: flex;
-
             align-items: center;
 
-            gap: 10px;
+            gap: 13px;
 
-            margin-left:
-                clamp(
-                    10px,
-                    1.4vw,
-                    24px
-                );
+            /*
+               Push only the icons
+               to the right side.
+            */
+            margin-left: auto;
 
             flex-shrink: 0;
         }
 
 
+        /* =========================
+           SEARCH + CART BUTTONS
+        ========================== */
+
         .nav-icon-button {
-            width: 48px;
-            height: 48px;
+            width: 64px;
+            height: 64px;
 
             padding: 0;
 
@@ -257,31 +209,24 @@
 
             background: transparent;
 
-            border-radius: 12px;
-
             cursor: pointer;
 
             display: flex;
-
             align-items: center;
             justify-content: center;
 
-            transition:
-                transform 0.2s ease;
+            transition: transform 0.2s ease;
         }
-
 
         .nav-icon-button:hover {
-            transform:
-                scale(1.07);
+            transform: scale(1.08);
         }
 
-
         .nav-icon-button img {
+            display: block;
+
             width: 100%;
             height: 100%;
-
-            display: block;
 
             object-fit: contain;
         }
@@ -294,23 +239,18 @@
         .home-title {
             text-align: center;
 
-            padding:
-                65px 20px 45px;
+            padding: 65px 20px 45px;
         }
-
 
         .home-title h1 {
             font-size: 42px;
-
             font-weight: 800;
 
             margin-bottom: 12px;
         }
 
-
         .home-title p {
             font-size: 18px;
-
             font-weight: 400;
 
             color: #667085;
@@ -326,10 +266,8 @@
 
             overflow: hidden;
 
-            padding:
-                20px 0 80px;
+            padding: 20px 0 80px;
         }
-
 
         .gallery-track {
             display: flex;
@@ -345,13 +283,9 @@
                 infinite;
         }
 
-
-        .gallery:hover
-        .gallery-track {
-            animation-play-state:
-                paused;
+        .gallery:hover .gallery-track {
+            animation-play-state: paused;
         }
-
 
         .gallery img {
             width: 280px;
@@ -372,10 +306,8 @@
             flex-shrink: 0;
         }
 
-
         .gallery img:hover {
-            transform:
-                scale(1.03);
+            transform: scale(1.03);
 
             box-shadow:
                 0 10px 24px
@@ -384,19 +316,17 @@
 
 
         /* =========================
-           GALLERY MOVEMENT
+           GALLERY ANIMATION
         ========================== */
 
         @keyframes gallerySlide {
 
             from {
-                transform:
-                    translateX(-50%);
+                transform: translateX(-50%);
             }
 
             to {
-                transform:
-                    translateX(0);
+                transform: translateX(0);
             }
 
         }
@@ -406,31 +336,24 @@
            SMALLER LAPTOPS
         ========================== */
 
-        @media (max-width: 1100px) {
-
-            .navbar {
-                height: 100px;
-            }
-
+        @media (max-width: 1200px) {
 
             .navbar-logo {
-                width: 245px;
+                width: 260px;
             }
-
 
             .nav-links {
-                gap: 17px;
+                margin-left: 35px;
+                gap: 25px;
             }
-
 
             .nav-links a {
-                font-size: 14px;
+                font-size: 15px;
             }
 
-
             .nav-icon-button {
-                width: 43px;
-                height: 43px;
+                width: 55px;
+                height: 55px;
             }
 
         }
@@ -440,56 +363,46 @@
            TABLETS
         ========================== */
 
-        @media (max-width: 850px) {
+        @media (max-width: 900px) {
 
             .navbar {
                 height: auto;
-
                 min-height: 150px;
 
-                background-size:
-                    cover;
+                background-size: cover;
             }
-
 
             .navbar-inner {
                 flex-wrap: wrap;
 
-                justify-content:
-                    center;
-
-                padding:
-                    12px 16px 16px;
-
-                gap: 8px;
+                padding: 10px 18px 15px;
             }
-
 
             .navbar-logo {
-                width: 260px;
-
-                margin-right: auto;
+                width: 225px;
             }
-
 
             .nav-actions {
                 margin-left: auto;
             }
 
+            .nav-icon-button {
+                width: 50px;
+                height: 50px;
+            }
 
             .nav-links {
                 width: 100%;
 
                 order: 3;
 
-                justify-content:
-                    center;
-
-                gap: 22px;
-
                 margin-left: 0;
-            }
+                margin-top: 5px;
 
+                justify-content: center;
+
+                gap: 25px;
+            }
 
             .nav-links a {
                 font-size: 14px;
@@ -504,59 +417,45 @@
 
         @media (max-width: 600px) {
 
-            .navbar {
-                min-height: 145px;
-            }
-
-
             .navbar-logo {
-                width: 205px;
+                width: 185px;
             }
-
 
             .nav-icon-button {
-                width: 39px;
-                height: 39px;
+                width: 44px;
+                height: 44px;
             }
-
 
             .nav-actions {
                 gap: 5px;
             }
 
-
             .nav-links {
-                gap: 13px;
+                gap: 14px;
 
                 flex-wrap: wrap;
             }
-
 
             .nav-links a {
                 font-size: 12px;
             }
 
-
             .home-title {
                 padding-top: 45px;
             }
-
 
             .home-title h1 {
                 font-size: 34px;
             }
 
-
             .home-title p {
                 font-size: 16px;
             }
-
 
             .gallery img {
                 width: 220px;
                 height: 300px;
             }
-
 
             .gallery-track {
                 gap: 16px;
@@ -573,7 +472,7 @@
 
 
     <!-- =========================
-         NEW NAVBAR
+         NAVBAR
     ========================== -->
 
     <header class="navbar">
@@ -581,9 +480,7 @@
         <div class="navbar-inner">
 
 
-            <!-- =========================
-                 LOGO
-            ========================== -->
+            <!-- LOGO -->
 
             <a
                 href="index.html"
@@ -599,9 +496,7 @@
             </a>
 
 
-            <!-- =========================
-                 CLICKABLE TEXT LINKS
-            ========================== -->
+            <!-- CLICKABLE TEXT LINKS -->
 
             <nav class="nav-links">
 
@@ -628,14 +523,10 @@
             </nav>
 
 
-            <!-- =========================
-                 SEARCH + CART
-            ========================== -->
+            <!-- SEARCH + CART -->
 
             <div class="nav-actions">
 
-
-                <!-- SEARCH -->
 
                 <button
                     type="button"
@@ -651,8 +542,6 @@
 
                 </button>
 
-
-                <!-- CART -->
 
                 <button
                     type="button"
@@ -678,15 +567,13 @@
 
 
     <!-- =========================
-         HOME PAGE
+         HOMEPAGE
     ========================== -->
 
     <main>
 
 
-        <!-- =========================
-             TITLE
-        ========================== -->
+        <!-- TITLE -->
 
         <section class="home-title">
 
@@ -702,7 +589,7 @@
 
 
         <!-- =========================
-             MOVING PHOTO GALLERY
+             MOVING GALLERY
         ========================== -->
 
         <section class="gallery">
@@ -712,88 +599,40 @@
 
                 <!-- FIRST SET -->
 
-                <img
-                    src="gallery1.png"
-                    alt="ClickerLabStore product"
-                >
+                <img src="gallery1.png" alt="ClickerLabStore product">
 
-                <img
-                    src="gallery2.png"
-                    alt="ClickerLabStore product"
-                >
+                <img src="gallery2.png" alt="ClickerLabStore product">
 
-                <img
-                    src="gallery3.png"
-                    alt="ClickerLabStore product"
-                >
+                <img src="gallery3.png" alt="ClickerLabStore product">
 
-                <img
-                    src="gallery4.png"
-                    alt="ClickerLabStore product"
-                >
+                <img src="gallery4.png" alt="ClickerLabStore product">
 
-                <img
-                    src="gallery5.png"
-                    alt="ClickerLabStore product"
-                >
+                <img src="gallery5.png" alt="ClickerLabStore product">
 
-                <img
-                    src="gallery6.png"
-                    alt="ClickerLabStore product"
-                >
+                <img src="gallery6.png" alt="ClickerLabStore product">
 
-                <img
-                    src="gallery7.png"
-                    alt="ClickerLabStore product"
-                >
+                <img src="gallery7.png" alt="ClickerLabStore product">
 
-                <img
-                    src="gallery8.png"
-                    alt="ClickerLabStore product"
-                >
+                <img src="gallery8.png" alt="ClickerLabStore product">
 
 
-                <!-- SECOND SET -->
+                <!-- DUPLICATE SET -->
 
-                <img
-                    src="gallery1.png"
-                    alt="ClickerLabStore product"
-                >
+                <img src="gallery1.png" alt="ClickerLabStore product">
 
-                <img
-                    src="gallery2.png"
-                    alt="ClickerLabStore product"
-                >
+                <img src="gallery2.png" alt="ClickerLabStore product">
 
-                <img
-                    src="gallery3.png"
-                    alt="ClickerLabStore product"
-                >
+                <img src="gallery3.png" alt="ClickerLabStore product">
 
-                <img
-                    src="gallery4.png"
-                    alt="ClickerLabStore product"
-                >
+                <img src="gallery4.png" alt="ClickerLabStore product">
 
-                <img
-                    src="gallery5.png"
-                    alt="ClickerLabStore product"
-                >
+                <img src="gallery5.png" alt="ClickerLabStore product">
 
-                <img
-                    src="gallery6.png"
-                    alt="ClickerLabStore product"
-                >
+                <img src="gallery6.png" alt="ClickerLabStore product">
 
-                <img
-                    src="gallery7.png"
-                    alt="ClickerLabStore product"
-                >
+                <img src="gallery7.png" alt="ClickerLabStore product">
 
-                <img
-                    src="gallery8.png"
-                    alt="ClickerLabStore product"
-                >
+                <img src="gallery8.png" alt="ClickerLabStore product">
 
 
             </div>
