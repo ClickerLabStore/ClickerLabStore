@@ -3,19 +3,52 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>2-Key Clicker | ClickerLabStore</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- =========================
+         FAVICON
+    ========================== -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="/favicon.png?v=2"
+    >
+
+
+    <!-- =========================
+         NUNITO SANS
+    ========================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
     <link
         href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap"
         rel="stylesheet"
     >
 
+
     <style>
+
+        /* =========================
+           RESET
+        ========================== */
 
         * {
             margin: 0;
@@ -37,23 +70,22 @@
 
         .navbar {
             width: 100%;
+            height: 110px;
+
+            background-image: url("blank navbar.png");
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        .navbar-image {
-            position: relative;
+        .navbar-inner {
             width: 100%;
-        }
+            height: 100%;
 
-        .navbar-main-image {
-            display: block;
-            width: 100%;
-            height: auto;
-        }
+            display: flex;
+            align-items: center;
 
-        .nav-click {
-            position: absolute;
-            display: block;
-            cursor: pointer;
+            padding: 0 2.3%;
         }
 
 
@@ -61,93 +93,76 @@
            LOGO
         ========================== */
 
-        .logo {
-            position: absolute;
-            left: 1.5%;
-            top: 5%;
-            width: 23.5%;
-            height: 90%;
+        .navbar-logo {
+            display: flex;
+            align-items: center;
 
-            overflow: hidden;
+            width: 310px;
 
-            z-index: 10;
+            flex-shrink: 0;
 
-            cursor: pointer;
+            text-decoration: none;
 
             transition: transform 0.2s ease;
-            transform-origin: center;
         }
 
-        .logo img {
-            position: absolute;
-
-            width: 425.53%;
-            max-width: none;
-
-            left: -6.38%;
-            top: -5.56%;
-        }
-
-        .logo:hover {
+        .navbar-logo:hover {
             transform: scale(1.02);
         }
 
+        .navbar-logo img {
+            display: block;
 
-        /* =========================
-           NAV BUTTONS
-        ========================== */
-
-        .shop {
-            left: 26.5%;
-            top: 28%;
-            width: 5.5%;
-            height: 45%;
-        }
-
-        .bundles {
-            left: 34.2%;
-            top: 28%;
-            width: 7.8%;
-            height: 45%;
-        }
-
-        .build {
-            left: 44.1%;
-            top: 28%;
-            width: 13.1%;
-            height: 45%;
-        }
-
-        .about {
-            left: 59.4%;
-            top: 28%;
-            width: 5.9%;
-            height: 45%;
-        }
-
-        .faq {
-            left: 67.5%;
-            top: 28%;
-            width: 4.3%;
-            height: 45%;
+            width: 100%;
+            height: auto;
         }
 
 
         /* =========================
-           NAV UNDERLINES
+           NAV LINKS
         ========================== */
 
-        .nav-click::after {
+        .nav-links {
+            display: flex;
+            align-items: center;
+
+            margin-left: 150px;
+
+            gap: 50px;
+        }
+
+        .nav-links a {
+            position: relative;
+
+            color: #4b2247;
+
+            text-decoration: none;
+
+            font-size: 23px;
+            font-weight: 600;
+
+            white-space: nowrap;
+
+            padding: 10px 0;
+        }
+
+
+        /* =========================
+           NAV UNDERLINE
+        ========================== */
+
+        .nav-links a::after {
             content: "";
 
             position: absolute;
 
             left: 50%;
-            bottom: 16%;
+            bottom: 3px;
 
+            width: 100%;
             height: 2px;
 
-            background: black;
+            background: #4b2247;
 
             transform:
                 translateX(-50%)
@@ -158,29 +173,59 @@
             transition: transform 0.2s ease;
         }
 
-        .shop::after,
-        .bundles::after,
-        .about::after,
-        .faq::after {
-            width: 90%;
-        }
-
-        .build::after {
-            width: 96%;
-        }
-
-        .about::after {
-            left: 46%;
-        }
-
-        .faq::after {
-            left: 61%;
-        }
-
-        .nav-click:hover::after {
+        .nav-links a:hover::after {
             transform:
                 translateX(-50%)
                 scaleX(1);
+        }
+
+
+        /* =========================
+           SEARCH + CART
+        ========================== */
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+
+            gap: 14px;
+
+            margin-left: auto;
+            margin-right: 20px;
+
+            flex-shrink: 0;
+        }
+
+        .nav-icon-button {
+            width: 72px;
+            height: 72px;
+
+            padding: 0;
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            transition: transform 0.2s ease;
+        }
+
+        .nav-icon-button:hover {
+            transform: scale(1.08);
+        }
+
+        .nav-icon-button img {
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
         }
 
 
@@ -193,8 +238,7 @@
 
             margin: 0 auto;
 
-            padding:
-                70px 40px 100px;
+            padding: 70px 40px 100px;
         }
 
         .back-to-shop {
@@ -499,7 +543,7 @@
 
 
         /* =========================
-           KEYCAP ZOOM SETTINGS
+           KEYCAP ZOOM
         ========================== */
 
         .keycap-1 img {
@@ -661,7 +705,7 @@
 
 
         /* =========================
-           EXTRA DETAILS
+           PRODUCT NOTES
         ========================== */
 
         .product-notes {
@@ -694,7 +738,7 @@
 
 
         /* =========================
-           MODAL BACKGROUND
+           POPUP BACKGROUND
         ========================== */
 
         .keycap-modal-overlay {
@@ -721,7 +765,7 @@
 
 
         /* =========================
-           MODAL
+           POPUP
         ========================== */
 
         .keycap-modal {
@@ -768,7 +812,7 @@
 
 
         /* =========================
-           MODAL HEADER
+           POPUP HEADER
         ========================== */
 
         .modal-header {
@@ -829,7 +873,7 @@
 
 
         /* =========================
-           MODAL KEYCAP GRID
+           POPUP KEYCAP GRID
         ========================== */
 
         .modal-keycap-grid {
@@ -920,8 +964,7 @@
             left: 7px;
             bottom: 7px;
 
-            padding:
-                4px 7px;
+            padding: 4px 7px;
 
             border-radius: 7px;
 
@@ -942,7 +985,7 @@
 
 
         /* =========================
-           SELECTED CHECKMARK
+           SELECTED CHECK
         ========================== */
 
         .keycap-check {
@@ -978,7 +1021,8 @@
             z-index: 6;
         }
 
-        .keycap-option.selected .keycap-check {
+        .keycap-option.selected
+        .keycap-check {
             opacity: 1;
 
             transform:
@@ -1010,8 +1054,7 @@
         }
 
         .unavailable-text {
-            padding:
-                7px 9px;
+            padding: 7px 9px;
 
             border-radius: 8px;
 
@@ -1028,7 +1071,41 @@
 
 
         /* =========================
-           TABLET
+           SMALLER LAPTOPS
+        ========================== */
+
+        @media (max-width: 1200px) {
+
+            .navbar-logo {
+                width: 260px;
+            }
+
+            .nav-links {
+                margin-left: 50px;
+
+                gap: 28px;
+            }
+
+            .nav-links a {
+                font-size: 19px;
+
+                font-weight: 600;
+            }
+
+            .nav-icon-button {
+                width: 60px;
+                height: 60px;
+            }
+
+            .nav-actions {
+                margin-right: 12px;
+            }
+
+        }
+
+
+        /* =========================
+           TABLETS
         ========================== */
 
         @media (max-width: 950px) {
@@ -1036,6 +1113,59 @@
             .modal-keycap-grid {
                 grid-template-columns:
                     repeat(3, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 900px) {
+
+            .navbar {
+                height: auto;
+
+                min-height: 150px;
+
+                background-size: cover;
+            }
+
+            .navbar-inner {
+                flex-wrap: wrap;
+
+                padding:
+                    10px 18px 15px;
+            }
+
+            .navbar-logo {
+                width: 225px;
+            }
+
+            .nav-actions {
+                margin-left: auto;
+                margin-right: 0;
+            }
+
+            .nav-icon-button {
+                width: 52px;
+                height: 52px;
+            }
+
+            .nav-links {
+                width: 100%;
+
+                order: 3;
+
+                margin-left: 0;
+                margin-top: 5px;
+
+                justify-content: center;
+
+                gap: 25px;
+            }
+
+            .nav-links a {
+                font-size: 16px;
+
+                font-weight: 600;
             }
 
         }
@@ -1064,6 +1194,36 @@
 
             .product-details h1 {
                 font-size: 36px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .navbar-logo {
+                width: 185px;
+            }
+
+            .nav-icon-button {
+                width: 46px;
+                height: 46px;
+            }
+
+            .nav-actions {
+                gap: 5px;
+            }
+
+            .nav-links {
+                gap: 14px;
+
+                flex-wrap: wrap;
+            }
+
+            .nav-links a {
+                font-size: 14px;
+
+                font-weight: 600;
             }
 
         }
@@ -1107,59 +1267,94 @@
 
 
     <!-- =========================
-         NAVBAR
+         NEW NAVBAR
     ========================== -->
 
     <header class="navbar">
 
-        <div class="navbar-image">
+        <div class="navbar-inner">
 
-            <img
-                src="navbar.png"
-                alt="ClickerLabStore navigation bar"
-                class="navbar-main-image"
-            >
+
+            <!-- LOGO -->
 
             <a
                 href="index.html"
-                class="logo"
+                class="navbar-logo"
                 aria-label="ClickerLabStore Home"
             >
+
                 <img
-                    src="navbar.png"
-                    alt=""
+                    src="ClickerLabLogo.png"
+                    alt="ClickerLabStore"
                 >
+
             </a>
 
-            <a
-                href="shop.html"
-                class="nav-click shop"
-                aria-label="Shop"
-            ></a>
 
-            <a
-                href="bundles.html"
-                class="nav-click bundles"
-                aria-label="Bundles"
-            ></a>
+            <!-- CLICKABLE NAV LINKS -->
 
-            <a
-                href="build.html"
-                class="nav-click build"
-                aria-label="Build Your Own"
-            ></a>
+            <nav class="nav-links">
 
-            <a
-                href="about.html"
-                class="nav-click about"
-                aria-label="About"
-            ></a>
+                <a href="shop.html">
+                    Shop
+                </a>
 
-            <a
-                href="faq.html"
-                class="nav-click faq"
-                aria-label="FAQ"
-            ></a>
+                <a href="bundles.html">
+                    Bundles
+                </a>
+
+                <a href="build.html">
+                    Build Your Own
+                </a>
+
+                <a href="about.html">
+                    About
+                </a>
+
+                <a href="faq.html">
+                    FAQ
+                </a>
+
+            </nav>
+
+
+            <!-- SEARCH + CART -->
+
+            <div class="nav-actions">
+
+
+                <button
+                    type="button"
+                    class="nav-icon-button"
+                    id="search-button"
+                    aria-label="Search"
+                >
+
+                    <img
+                        src="search_button_cropped_580x580.png"
+                        alt=""
+                    >
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="nav-icon-button"
+                    id="cart-button"
+                    aria-label="Cart"
+                >
+
+                    <img
+                        src="cart_button_cropped_580x580.png"
+                        alt=""
+                    >
+
+                </button>
+
+
+            </div>
+
 
         </div>
 
@@ -1172,6 +1367,7 @@
 
     <main class="product-page">
 
+
         <a
             href="shop.html"
             class="back-to-shop"
@@ -1183,7 +1379,9 @@
         <div class="product-layout">
 
 
-            <!-- PRODUCT PHOTO -->
+            <!-- =========================
+                 PRODUCT PHOTO
+            ========================== -->
 
             <div class="product-photo">
 
@@ -1195,7 +1393,9 @@
             </div>
 
 
-            <!-- PRODUCT DETAILS -->
+            <!-- =========================
+                 PRODUCT DETAILS
+            ========================== -->
 
             <section class="product-details">
 
@@ -1407,7 +1607,7 @@
 
 
                 <!-- =========================
-                     NOTES
+                     PRODUCT NOTES
                 ========================== -->
 
                 <div class="product-notes">
@@ -1473,6 +1673,7 @@
 
         </div>
 
+
     </main>
 
 
@@ -1490,7 +1691,9 @@
             id="keycap-modal"
         >
 
+
             <div class="modal-header">
+
 
                 <h2 id="modal-title">
                     Choose a Keycap
@@ -1505,6 +1708,7 @@
                 >
                     ×
                 </button>
+
 
             </div>
 
@@ -1522,6 +1726,7 @@
 
         </div>
 
+
     </div>
 
 
@@ -1532,11 +1737,15 @@
     <script>
 
         /* =========================
-           PRODUCT SETTINGS
+           PRICE
         ========================== */
 
         const unitPrice = 3.99;
 
+
+        /* =========================
+           STOCK
+        ========================== */
 
         const keycapStock = {
 
@@ -1579,31 +1788,45 @@
         ========================== */
 
         const quantityDisplay =
-            document.getElementById("quantity");
+            document.getElementById(
+                "quantity"
+            );
 
 
         const productPriceDisplay =
-            document.getElementById("product-price");
+            document.getElementById(
+                "product-price"
+            );
 
 
         const addToCartButton =
-            document.getElementById("add-to-cart");
+            document.getElementById(
+                "add-to-cart"
+            );
 
 
         const minusButton =
-            document.getElementById("minus-button");
+            document.getElementById(
+                "minus-button"
+            );
 
 
         const plusButton =
-            document.getElementById("plus-button");
+            document.getElementById(
+                "plus-button"
+            );
 
 
         const clickyOption =
-            document.getElementById("clicky-option");
+            document.getElementById(
+                "clicky-option"
+            );
 
 
         const creamyOption =
-            document.getElementById("creamy-option");
+            document.getElementById(
+                "creamy-option"
+            );
 
 
         const quantityStockMessage =
@@ -1631,10 +1854,12 @@
 
 
         /* =========================
-           SWITCH SELECTION
+           SWITCH
         ========================== */
 
-        function selectSwitch(switchType) {
+        function selectSwitch(
+            switchType
+        ) {
 
             selectedSwitch =
                 switchType;
@@ -1650,7 +1875,9 @@
             );
 
 
-            if (switchType === "Clicky") {
+            if (
+                switchType === "Clicky"
+            ) {
 
                 clickyOption.classList.add(
                     "selected"
@@ -1659,7 +1886,9 @@
             }
 
 
-            if (switchType === "Creamy") {
+            if (
+                switchType === "Creamy"
+            ) {
 
                 creamyOption.classList.add(
                     "selected"
@@ -1674,7 +1903,9 @@
            OPEN POPUP
         ========================== */
 
-        function openKeycapModal(slotNumber) {
+        function openKeycapModal(
+            slotNumber
+        ) {
 
             activeSlot =
                 slotNumber;
@@ -1721,8 +1952,7 @@
 
 
         /* =========================
-           COUNT HOW MANY ARE USED
-           IN THE OTHER SLOT
+           USED IN OTHER SLOT
         ========================== */
 
         function getUsedInOtherSlots(
@@ -1743,8 +1973,9 @@
 
                     if (
                         slotNumber !== activeSlot &&
-                        selectedKeycaps[slotNumber] ===
-                        keycapNumber
+                        selectedKeycaps[
+                            slotNumber
+                        ] === keycapNumber
                     ) {
 
                         used++;
@@ -1761,12 +1992,13 @@
 
 
         /* =========================
-           BUILD POPUP GRID
+           BUILD POPUP KEYCAPS
         ========================== */
 
         function buildModalKeycaps() {
 
-            modalGrid.innerHTML = "";
+            modalGrid.innerHTML =
+                "";
 
 
             for (
@@ -1776,7 +2008,9 @@
             ) {
 
                 const totalStock =
-                    keycapStock[keycapNumber];
+                    keycapStock[
+                        keycapNumber
+                    ];
 
 
                 const usedElsewhere =
@@ -1811,7 +2045,9 @@
                     keycapNumber;
 
 
-                if (isSelected) {
+                if (
+                    isSelected
+                ) {
 
                     button.classList.add(
                         "selected"
@@ -1822,7 +2058,9 @@
 
                 /* SOLD OUT */
 
-                if (totalStock <= 0) {
+                if (
+                    totalStock <= 0
+                ) {
 
                     button.disabled =
                         true;
@@ -1858,9 +2096,11 @@
                 }
 
 
-                /* ALL STOCK ALREADY USED */
+                /* NO MORE AVAILABLE */
 
-                else if (available <= 0) {
+                else if (
+                    available <= 0
+                ) {
 
                     button.disabled =
                         true;
@@ -1979,7 +2219,8 @@
 
 
             if (
-                quantity > maximum
+                quantity >
+                maximum
             ) {
 
                 quantity =
@@ -2010,15 +2251,16 @@
 
                 const slotButton =
                     document.getElementById(
-                        "key-slot-" + slot
+                        "key-slot-" +
+                        slot
                     );
 
 
                 const keycapNumber =
-                    selectedKeycaps[slot];
+                    selectedKeycaps[
+                        slot
+                    ];
 
-
-                /* EMPTY */
 
                 if (
                     keycapNumber === null
@@ -2047,9 +2289,6 @@
                     `;
 
                 }
-
-
-                /* FILLED */
 
                 else {
 
@@ -2100,7 +2339,9 @@
             Object.values(
                 selectedKeycaps
             ).forEach(
-                function(keycapNumber) {
+                function(
+                    keycapNumber
+                ) {
 
                     if (
                         keycapNumber !== null
@@ -2164,7 +2405,9 @@
 
 
             keycapNumbers.forEach(
-                function(keycapNumber) {
+                function(
+                    keycapNumber
+                ) {
 
                     const availableStock =
                         keycapStock[
@@ -2309,7 +2552,8 @@
 
 
             if (
-                quantity < maximum
+                quantity <
+                maximum
             ) {
 
                 quantity++;
