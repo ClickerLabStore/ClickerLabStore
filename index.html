@@ -7,7 +7,10 @@
 
     <title>ClickerLabStore</title>
 
-    <!-- NUNITO SANS FONT -->
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <!-- NUNITO SANS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -18,10 +21,6 @@
 
     <style>
 
-        /* =========================
-           GENERAL
-        ========================== */
-
         * {
             margin: 0;
             padding: 0;
@@ -29,9 +28,9 @@
         }
 
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: white;
+            font-family: "Nunito Sans", sans-serif;
+            background: white;
+            color: #17243c;
             overflow-x: hidden;
         }
 
@@ -55,11 +54,6 @@
             height: auto;
         }
 
-
-        /* =========================
-           NAVBAR BUTTONS
-        ========================== */
-
         .nav-click {
             position: absolute;
             display: block;
@@ -73,38 +67,30 @@
 
         .logo {
             position: absolute;
-
             left: 1.5%;
-            width: 23.5%;
-
             top: 5%;
+            width: 23.5%;
             height: 90%;
+
+            overflow: hidden;
 
             z-index: 10;
 
             cursor: pointer;
 
-            overflow: hidden;
-
             transition: transform 0.2s ease;
-
             transform-origin: center;
         }
-
 
         .logo img {
             position: absolute;
 
             width: 425.53%;
-
             max-width: none;
 
             left: -6.38%;
             top: -5.56%;
-
-            display: block;
         }
-
 
         .logo:hover {
             transform: scale(1.02);
@@ -112,7 +98,7 @@
 
 
         /* =========================
-           SHOP
+           NAV BUTTONS
         ========================== */
 
         .shop {
@@ -122,22 +108,12 @@
             height: 45%;
         }
 
-
-        /* =========================
-           BUNDLES
-        ========================== */
-
         .bundles {
             left: 34.2%;
             top: 28%;
             width: 7.8%;
             height: 45%;
         }
-
-
-        /* =========================
-           BUILD YOUR OWN
-        ========================== */
 
         .build {
             left: 44.1%;
@@ -146,22 +122,12 @@
             height: 45%;
         }
 
-
-        /* =========================
-           ABOUT
-        ========================== */
-
         .about {
             left: 59.4%;
             top: 28%;
             width: 5.9%;
             height: 45%;
         }
-
-
-        /* =========================
-           FAQ
-        ========================== */
 
         .faq {
             left: 67.5%;
@@ -172,11 +138,12 @@
 
 
         /* =========================
-           UNDERLINES
+           NAV UNDERLINES
         ========================== */
 
         .nav-click::after {
             content: "";
+
             position: absolute;
 
             left: 50%;
@@ -184,85 +151,91 @@
 
             height: 2px;
 
-            background-color: black;
+            background: black;
 
-            transform: translateX(-50%) scaleX(0);
+            transform:
+                translateX(-50%)
+                scaleX(0);
 
             transform-origin: center;
 
             transition: transform 0.2s ease;
         }
 
-
         .shop::after,
-        .bundles::after {
+        .bundles::after,
+        .about::after,
+        .faq::after {
             width: 90%;
         }
-
 
         .build::after {
             width: 96%;
         }
 
-
         .about::after {
-            width: 90%;
             left: 46%;
         }
 
-
         .faq::after {
-            width: 90%;
             left: 61%;
         }
 
-
         .nav-click:hover::after {
-            transform: translateX(-50%) scaleX(1);
+            transform:
+                translateX(-50%)
+                scaleX(1);
         }
 
 
         /* =========================
-           HOMEPAGE
+           HOME TITLE
         ========================== */
-
-        .home {
-            padding: 55px 0 80px 0;
-        }
-
 
         .home-title {
             text-align: center;
-            padding: 0 20px 35px 20px;
+
+            padding:
+                65px 20px 45px;
         }
 
-
         .home-title h1 {
-            font-family: "Nunito Sans", sans-serif;
+            font-family:
+                "Nunito Sans",
+                sans-serif;
+
             font-size: 42px;
+
             font-weight: 800;
+
             margin-bottom: 12px;
         }
 
-
         .home-title p {
-            font-family: "Nunito Sans", sans-serif;
+            font-family:
+                "Nunito Sans",
+                sans-serif;
+
             font-size: 18px;
+
             font-weight: 400;
+
+            color: #667085;
         }
 
 
         /* =========================
-           MOVING PHOTO GALLERY
+           GALLERY
         ========================== */
 
         .gallery {
             width: 100%;
+
             overflow: hidden;
 
-            padding: 20px 0 30px 0;
+            padding:
+                20px 0 80px;
         }
-
 
         .gallery-track {
             display: flex;
@@ -271,14 +244,16 @@
 
             gap: 22px;
 
-            animation: gallerySlide 35s linear infinite;
+            animation:
+                gallerySlide
+                35s
+                linear
+                infinite;
         }
-
 
         .gallery:hover .gallery-track {
             animation-play-state: paused;
         }
-
 
         .gallery img {
             width: 280px;
@@ -289,7 +264,8 @@
             border-radius: 18px;
 
             box-shadow:
-                0 6px 18px rgba(0, 0, 0, 0.15);
+                0 6px 18px
+                rgba(0, 0, 0, 0.15);
 
             transition:
                 transform 0.25s ease,
@@ -298,50 +274,59 @@
             flex-shrink: 0;
         }
 
-
         .gallery img:hover {
             transform: scale(1.03);
 
             box-shadow:
-                0 10px 25px rgba(0, 0, 0, 0.22);
+                0 10px 24px
+                rgba(0, 0, 0, 0.18);
         }
 
 
         /* =========================
-           GALLERY ANIMATION
+           GALLERY MOVEMENT
         ========================== */
 
         @keyframes gallerySlide {
 
             from {
-                transform: translateX(-50%);
+                transform:
+                    translateX(-50%);
             }
 
             to {
-                transform: translateX(0);
+                transform:
+                    translateX(0);
             }
 
         }
 
 
         /* =========================
-           SMALLER SCREENS
+           MOBILE
         ========================== */
 
         @media (max-width: 700px) {
 
+            .home-title {
+                padding-top: 45px;
+            }
+
             .home-title h1 {
-                font-size: 32px;
+                font-size: 34px;
+            }
+
+            .home-title p {
+                font-size: 16px;
             }
 
             .gallery img {
-                width: 210px;
-                height: 290px;
+                width: 220px;
+                height: 300px;
             }
 
             .gallery-track {
-                gap: 15px;
-                animation-duration: 30s;
+                gap: 16px;
             }
 
         }
@@ -361,9 +346,6 @@
     <header class="navbar">
 
         <div class="navbar-image">
-
-
-            <!-- MAIN NAVBAR -->
 
             <img
                 src="navbar.png"
@@ -388,7 +370,7 @@
             </a>
 
 
-            <!-- SHOP -->
+            <!-- NAVIGATION LINKS -->
 
             <a
                 href="shop.html"
@@ -397,16 +379,12 @@
             ></a>
 
 
-            <!-- BUNDLES -->
-
             <a
                 href="bundles.html"
                 class="nav-click bundles"
                 aria-label="Bundles"
             ></a>
 
-
-            <!-- BUILD YOUR OWN -->
 
             <a
                 href="build.html"
@@ -415,8 +393,6 @@
             ></a>
 
 
-            <!-- ABOUT -->
-
             <a
                 href="about.html"
                 class="nav-click about"
@@ -424,14 +400,11 @@
             ></a>
 
 
-            <!-- FAQ -->
-
             <a
                 href="faq.html"
                 class="nav-click faq"
                 aria-label="FAQ"
             ></a>
-
 
         </div>
 
@@ -439,17 +412,16 @@
 
 
     <!-- =========================
-         HOMEPAGE
+         HOME TITLE
     ========================== -->
 
-    <main class="home">
-
-
-        <!-- TITLE -->
+    <main>
 
         <section class="home-title">
 
-            <h1>Welcome to ClickerLabStore!</h1>
+            <h1>
+                Welcome to ClickerLabStore!
+            </h1>
 
             <p>
                 Mechanical keyboard fidgets made to click anywhere.
@@ -459,7 +431,7 @@
 
 
         <!-- =========================
-             MOVING GALLERY
+             MOVING PHOTO GALLERY
         ========================== -->
 
         <section class="gallery">
@@ -469,46 +441,93 @@
 
                 <!-- FIRST SET -->
 
-                <img src="gallery1.png" alt="ClickerLab keyboard fidget">
+                <img
+                    src="gallery1.png"
+                    alt="ClickerLabStore product"
+                >
 
-                <img src="gallery2.png" alt="ClickerLab keyboard fidgets">
+                <img
+                    src="gallery2.png"
+                    alt="ClickerLabStore product"
+                >
 
-                <img src="gallery3.png" alt="ClickerLab keychain fidgets">
+                <img
+                    src="gallery3.png"
+                    alt="ClickerLabStore product"
+                >
 
-                <img src="gallery4.png" alt="ClickerLab keycaps and fidgets">
+                <img
+                    src="gallery4.png"
+                    alt="ClickerLabStore product"
+                >
 
-                <img src="gallery5.png" alt="Single ClickerLab keychain">
+                <img
+                    src="gallery5.png"
+                    alt="ClickerLabStore product"
+                >
 
-                <img src="gallery6.png" alt="Three key ClickerLab keychain">
+                <img
+                    src="gallery6.png"
+                    alt="ClickerLabStore product"
+                >
 
-                <img src="gallery7.png" alt="ClickerLab three key fidget">
+                <img
+                    src="gallery7.png"
+                    alt="ClickerLabStore product"
+                >
 
-                <img src="gallery8.png" alt="ClickerLab single key fidget">
+                <img
+                    src="gallery8.png"
+                    alt="ClickerLabStore product"
+                >
 
 
-                <!-- SECOND SET FOR LOOP -->
+                <!-- DUPLICATE SET FOR SMOOTH LOOP -->
 
-                <img src="gallery1.png" alt="">
+                <img
+                    src="gallery1.png"
+                    alt="ClickerLabStore product"
+                >
 
-                <img src="gallery2.png" alt="">
+                <img
+                    src="gallery2.png"
+                    alt="ClickerLabStore product"
+                >
 
-                <img src="gallery3.png" alt="">
+                <img
+                    src="gallery3.png"
+                    alt="ClickerLabStore product"
+                >
 
-                <img src="gallery4.png" alt="">
+                <img
+                    src="gallery4.png"
+                    alt="ClickerLabStore product"
+                >
 
-                <img src="gallery5.png" alt="">
+                <img
+                    src="gallery5.png"
+                    alt="ClickerLabStore product"
+                >
 
-                <img src="gallery6.png" alt="">
+                <img
+                    src="gallery6.png"
+                    alt="ClickerLabStore product"
+                >
 
-                <img src="gallery7.png" alt="">
+                <img
+                    src="gallery7.png"
+                    alt="ClickerLabStore product"
+                >
 
-                <img src="gallery8.png" alt="">
+                <img
+                    src="gallery8.png"
+                    alt="ClickerLabStore product"
+                >
 
 
             </div>
 
         </section>
-
 
     </main>
 
