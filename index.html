@@ -3,23 +3,52 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>ClickerLabStore</title>
 
-    <!-- FAVICON -->
-    <link rel="icon" type="image/png" href="/favicon.png?v=2">
 
-    <!-- NUNITO SANS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- =========================
+         FAVICON
+    ========================== -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="/favicon.png?v=2"
+    >
+
+
+    <!-- =========================
+         NUNITO SANS
+    ========================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
     <link
         href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap"
         rel="stylesheet"
     >
 
+
     <style>
+
+        /* =========================
+           RESET
+        ========================== */
 
         * {
             margin: 0;
@@ -27,37 +56,57 @@
             box-sizing: border-box;
         }
 
+
         body {
-            font-family: "Nunito Sans", sans-serif;
+            font-family:
+                "Nunito Sans",
+                sans-serif;
+
             background: white;
+
             color: #17243c;
+
             overflow-x: hidden;
         }
 
 
         /* =========================
-           NAVBAR
+           NEW NAVBAR
         ========================== */
 
         .navbar {
             width: 100%;
-        }
 
-        .navbar-image {
+            height: 112px;
+
             position: relative;
-            width: 100%;
+
+            background-image:
+                url("blank navbar.png");
+
+            background-size:
+                100% 100%;
+
+            background-position:
+                center;
+
+            background-repeat:
+                no-repeat;
         }
 
-        .navbar-main-image {
-            display: block;
-            width: 100%;
-            height: auto;
-        }
 
-        .nav-click {
-            position: absolute;
-            display: block;
-            cursor: pointer;
+        .navbar-inner {
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+            padding:
+                0 2.2%;
+
+            gap: 20px;
         }
 
 
@@ -65,126 +114,176 @@
            LOGO
         ========================== */
 
-        .logo {
-            position: absolute;
-            left: 1.5%;
-            top: 5%;
-            width: 23.5%;
-            height: 90%;
+        .navbar-logo {
+            display: flex;
 
-            overflow: hidden;
+            align-items: center;
 
-            z-index: 10;
+            width: clamp(
+                250px,
+                28vw,
+                380px
+            );
 
-            cursor: pointer;
+            flex-shrink: 0;
 
-            transition: transform 0.2s ease;
-            transform-origin: center;
-        }
+            text-decoration: none;
 
-        .logo img {
-            position: absolute;
-
-            width: 425.53%;
-            max-width: none;
-
-            left: -6.38%;
-            top: -5.56%;
-        }
-
-        .logo:hover {
-            transform: scale(1.02);
+            transition:
+                transform 0.2s ease;
         }
 
 
-        /* =========================
-           NAV BUTTONS
-        ========================== */
-
-        .shop {
-            left: 26.5%;
-            top: 28%;
-            width: 5.5%;
-            height: 45%;
+        .navbar-logo:hover {
+            transform:
+                scale(1.02);
         }
 
-        .bundles {
-            left: 34.2%;
-            top: 28%;
-            width: 7.8%;
-            height: 45%;
-        }
 
-        .build {
-            left: 44.1%;
-            top: 28%;
-            width: 13.1%;
-            height: 45%;
-        }
+        .navbar-logo img {
+            display: block;
 
-        .about {
-            left: 59.4%;
-            top: 28%;
-            width: 5.9%;
-            height: 45%;
-        }
-
-        .faq {
-            left: 67.5%;
-            top: 28%;
-            width: 4.3%;
-            height: 45%;
+            width: 100%;
+            height: auto;
         }
 
 
         /* =========================
-           NAV UNDERLINES
+           NAVIGATION TEXT
         ========================== */
 
-        .nav-click::after {
+        .nav-links {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: clamp(
+                18px,
+                2.6vw,
+                45px
+            );
+
+            margin-left: auto;
+        }
+
+
+        .nav-links a {
+            position: relative;
+
+            color: #4b2247;
+
+            text-decoration: none;
+
+            font-size: clamp(
+                14px,
+                1.15vw,
+                18px
+            );
+
+            font-weight: 800;
+
+            white-space: nowrap;
+
+            padding:
+                10px 0;
+        }
+
+
+        /* UNDERLINE */
+
+        .nav-links a::after {
             content: "";
 
             position: absolute;
 
             left: 50%;
-            bottom: 16%;
+            bottom: 3px;
 
+            width: 100%;
             height: 2px;
 
-            background: black;
+            background: #4b2247;
 
             transform:
                 translateX(-50%)
                 scaleX(0);
 
-            transform-origin: center;
+            transform-origin:
+                center;
 
-            transition: transform 0.2s ease;
+            transition:
+                transform 0.2s ease;
         }
 
-        .shop::after,
-        .bundles::after,
-        .about::after,
-        .faq::after {
-            width: 90%;
-        }
 
-        .build::after {
-            width: 96%;
-        }
-
-        .about::after {
-            left: 46%;
-        }
-
-        .faq::after {
-            left: 61%;
-        }
-
-        .nav-click:hover::after {
+        .nav-links a:hover::after {
             transform:
                 translateX(-50%)
                 scaleX(1);
+        }
+
+
+        /* =========================
+           SEARCH + CART
+        ========================== */
+
+        .nav-actions {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-left:
+                clamp(
+                    10px,
+                    1.4vw,
+                    24px
+                );
+
+            flex-shrink: 0;
+        }
+
+
+        .nav-icon-button {
+            width: 48px;
+            height: 48px;
+
+            padding: 0;
+
+            border: none;
+
+            background: transparent;
+
+            border-radius: 12px;
+
+            cursor: pointer;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            transition:
+                transform 0.2s ease;
+        }
+
+
+        .nav-icon-button:hover {
+            transform:
+                scale(1.07);
+        }
+
+
+        .nav-icon-button img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: contain;
         }
 
 
@@ -199,11 +298,8 @@
                 65px 20px 45px;
         }
 
-        .home-title h1 {
-            font-family:
-                "Nunito Sans",
-                sans-serif;
 
+        .home-title h1 {
             font-size: 42px;
 
             font-weight: 800;
@@ -211,11 +307,8 @@
             margin-bottom: 12px;
         }
 
-        .home-title p {
-            font-family:
-                "Nunito Sans",
-                sans-serif;
 
+        .home-title p {
             font-size: 18px;
 
             font-weight: 400;
@@ -237,6 +330,7 @@
                 20px 0 80px;
         }
 
+
         .gallery-track {
             display: flex;
 
@@ -251,9 +345,13 @@
                 infinite;
         }
 
-        .gallery:hover .gallery-track {
-            animation-play-state: paused;
+
+        .gallery:hover
+        .gallery-track {
+            animation-play-state:
+                paused;
         }
+
 
         .gallery img {
             width: 280px;
@@ -274,8 +372,10 @@
             flex-shrink: 0;
         }
 
+
         .gallery img:hover {
-            transform: scale(1.03);
+            transform:
+                scale(1.03);
 
             box-shadow:
                 0 10px 24px
@@ -303,27 +403,160 @@
 
 
         /* =========================
+           SMALLER LAPTOPS
+        ========================== */
+
+        @media (max-width: 1100px) {
+
+            .navbar {
+                height: 100px;
+            }
+
+
+            .navbar-logo {
+                width: 245px;
+            }
+
+
+            .nav-links {
+                gap: 17px;
+            }
+
+
+            .nav-links a {
+                font-size: 14px;
+            }
+
+
+            .nav-icon-button {
+                width: 43px;
+                height: 43px;
+            }
+
+        }
+
+
+        /* =========================
+           TABLETS
+        ========================== */
+
+        @media (max-width: 850px) {
+
+            .navbar {
+                height: auto;
+
+                min-height: 150px;
+
+                background-size:
+                    cover;
+            }
+
+
+            .navbar-inner {
+                flex-wrap: wrap;
+
+                justify-content:
+                    center;
+
+                padding:
+                    12px 16px 16px;
+
+                gap: 8px;
+            }
+
+
+            .navbar-logo {
+                width: 260px;
+
+                margin-right: auto;
+            }
+
+
+            .nav-actions {
+                margin-left: auto;
+            }
+
+
+            .nav-links {
+                width: 100%;
+
+                order: 3;
+
+                justify-content:
+                    center;
+
+                gap: 22px;
+
+                margin-left: 0;
+            }
+
+
+            .nav-links a {
+                font-size: 14px;
+            }
+
+        }
+
+
+        /* =========================
            MOBILE
         ========================== */
 
-        @media (max-width: 700px) {
+        @media (max-width: 600px) {
+
+            .navbar {
+                min-height: 145px;
+            }
+
+
+            .navbar-logo {
+                width: 205px;
+            }
+
+
+            .nav-icon-button {
+                width: 39px;
+                height: 39px;
+            }
+
+
+            .nav-actions {
+                gap: 5px;
+            }
+
+
+            .nav-links {
+                gap: 13px;
+
+                flex-wrap: wrap;
+            }
+
+
+            .nav-links a {
+                font-size: 12px;
+            }
+
 
             .home-title {
                 padding-top: 45px;
             }
 
+
             .home-title h1 {
                 font-size: 34px;
             }
+
 
             .home-title p {
                 font-size: 16px;
             }
 
+
             .gallery img {
                 width: 220px;
                 height: 300px;
             }
+
 
             .gallery-track {
                 gap: 16px;
@@ -340,71 +573,104 @@
 
 
     <!-- =========================
-         NAVBAR
+         NEW NAVBAR
     ========================== -->
 
     <header class="navbar">
 
-        <div class="navbar-image">
-
-            <img
-                src="navbar.png"
-                alt="ClickerLabStore navigation bar"
-                class="navbar-main-image"
-            >
+        <div class="navbar-inner">
 
 
-            <!-- LOGO -->
+            <!-- =========================
+                 LOGO
+            ========================== -->
 
             <a
                 href="index.html"
-                class="logo"
+                class="navbar-logo"
                 aria-label="ClickerLabStore Home"
             >
 
                 <img
-                    src="navbar.png"
-                    alt=""
+                    src="ClickerLabLogo.png"
+                    alt="ClickerLabStore"
                 >
 
             </a>
 
 
-            <!-- NAVIGATION LINKS -->
+            <!-- =========================
+                 CLICKABLE TEXT LINKS
+            ========================== -->
 
-            <a
-                href="shop.html"
-                class="nav-click shop"
-                aria-label="Shop"
-            ></a>
+            <nav class="nav-links">
+
+                <a href="shop.html">
+                    Shop
+                </a>
+
+                <a href="bundles.html">
+                    Bundles
+                </a>
+
+                <a href="build.html">
+                    Build Your Own
+                </a>
+
+                <a href="about.html">
+                    About
+                </a>
+
+                <a href="faq.html">
+                    FAQ
+                </a>
+
+            </nav>
 
 
-            <a
-                href="bundles.html"
-                class="nav-click bundles"
-                aria-label="Bundles"
-            ></a>
+            <!-- =========================
+                 SEARCH + CART
+            ========================== -->
+
+            <div class="nav-actions">
 
 
-            <a
-                href="build.html"
-                class="nav-click build"
-                aria-label="Build Your Own"
-            ></a>
+                <!-- SEARCH -->
+
+                <button
+                    type="button"
+                    class="nav-icon-button"
+                    id="search-button"
+                    aria-label="Search"
+                >
+
+                    <img
+                        src="search_button_cropped_580x580.png"
+                        alt=""
+                    >
+
+                </button>
 
 
-            <a
-                href="about.html"
-                class="nav-click about"
-                aria-label="About"
-            ></a>
+                <!-- CART -->
+
+                <button
+                    type="button"
+                    class="nav-icon-button"
+                    id="cart-button"
+                    aria-label="Cart"
+                >
+
+                    <img
+                        src="cart_button_cropped_580x580.png"
+                        alt=""
+                    >
+
+                </button>
 
 
-            <a
-                href="faq.html"
-                class="nav-click faq"
-                aria-label="FAQ"
-            ></a>
+            </div>
+
 
         </div>
 
@@ -412,10 +678,15 @@
 
 
     <!-- =========================
-         HOME TITLE
+         HOME PAGE
     ========================== -->
 
     <main>
+
+
+        <!-- =========================
+             TITLE
+        ========================== -->
 
         <section class="home-title">
 
@@ -482,7 +753,7 @@
                 >
 
 
-                <!-- DUPLICATE SET FOR SMOOTH LOOP -->
+                <!-- SECOND SET -->
 
                 <img
                     src="gallery1.png"
@@ -528,6 +799,7 @@
             </div>
 
         </section>
+
 
     </main>
 
