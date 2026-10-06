@@ -3,18 +3,44 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>ClickerLabStore</title>
 
     <!-- FAVICON -->
-    <link rel="icon" type="image/png" href="/favicon.png?v=2">
+    <link
+        rel="icon"
+        type="image/png"
+        href="/favicon.png?v=2"
+    >
 
     <!-- NUNITO SANS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
 
     <style>
+
+        /* =========================
+           RESET
+        ========================== */
+
         * {
             margin: 0;
             padding: 0;
@@ -23,387 +49,615 @@
 
         body {
             font-family: "Nunito Sans", sans-serif;
+
             background: white;
+
             color: #17243c;
+
             overflow-x: hidden;
         }
 
+
         /* =========================
            NAVBAR
+           LOCKED VERSION
         ========================== */
 
         .navbar {
             width: 100%;
             height: 110px;
-            background-image: url("blank navbar.png");
-            background-size: 100% 100%;
-            background-position: center;
-            background-repeat: no-repeat;
+
+            background-image:
+                url("blank navbar.png");
+
+            background-size:
+                100% 100%;
+
+            background-position:
+                center;
+
+            background-repeat:
+                no-repeat;
         }
 
         .navbar-inner {
             width: 100%;
             height: 100%;
+
             display: flex;
             align-items: center;
+
             padding: 0 2.3%;
         }
+
+
+        /* =========================
+           LOGO
+        ========================== */
 
         .navbar-logo {
             display: flex;
             align-items: center;
+
             width: 310px;
+
             flex-shrink: 0;
+
             text-decoration: none;
-            transition: transform 0.2s ease;
+
+            transition:
+                transform 0.2s ease;
         }
 
         .navbar-logo:hover {
-            transform: scale(1.02);
+            transform:
+                scale(1.02);
         }
 
         .navbar-logo img {
             display: block;
+
             width: 100%;
             height: auto;
         }
 
+
+        /* =========================
+           NAV LINKS
+        ========================== */
+
         .nav-links {
             display: flex;
             align-items: center;
-            margin-left: 190px;
-            gap: 54px;
+
+            margin-left: 150px;
+
+            gap: 50px;
         }
 
         .nav-links a {
             position: relative;
+
             color: #4b2247;
+
             text-decoration: none;
-            font-size: 27px;
+
+            font-size: 23px;
             font-weight: 600;
+
             white-space: nowrap;
+
             padding: 10px 0;
         }
 
         .nav-links a::after {
             content: "";
+
             position: absolute;
+
             left: 50%;
             bottom: 3px;
+
             width: 100%;
             height: 2px;
+
             background: #4b2247;
-            transform: translateX(-50%) scaleX(0);
+
+            transform:
+                translateX(-50%)
+                scaleX(0);
+
             transform-origin: center;
-            transition: transform 0.2s ease;
+
+            transition:
+                transform 0.2s ease;
         }
 
         .nav-links a:hover::after {
-            transform: translateX(-50%) scaleX(1);
+            transform:
+                translateX(-50%)
+                scaleX(1);
         }
+
+
+        /* =========================
+           SEARCH + CART
+        ========================== */
 
         .nav-actions {
             display: flex;
             align-items: center;
-            gap: 12px;
+
+            gap: 14px;
+
             margin-left: auto;
-            margin-right: 18px;
+            margin-right: 20px;
+
             flex-shrink: 0;
         }
 
         .nav-icon-button {
-            width: 76px;
-            height: 76px;
+            width: 72px;
+            height: 72px;
+
             padding: 0;
+
             border: none;
+
             background: transparent;
+
             cursor: pointer;
+
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.2s ease;
+
+            transition:
+                transform 0.2s ease;
         }
 
         .nav-icon-button:hover {
-            transform: scale(1.07);
+            transform:
+                scale(1.08);
         }
 
         .nav-icon-button img {
             display: block;
+
             width: 100%;
             height: 100%;
+
             object-fit: contain;
         }
 
+
         /* =========================
-           HERO SECTION
+           HERO
         ========================== */
 
         .hero {
-            position: relative;
+            width: 100%;
+
+            min-height:
+                calc(100vh - 110px);
+
+            background: #ffffff;
+
             overflow: hidden;
-            min-height: calc(100vh - 110px);
-            background:
-                radial-gradient(circle at 22% 30%, rgba(255, 219, 108, 0.35), transparent 28%),
-                radial-gradient(circle at 82% 32%, rgba(182, 174, 255, 0.22), transparent 24%),
-                linear-gradient(90deg, #f7edd2 0%, #fbf6ea 42%, #f7f6fd 100%);
         }
 
         .hero-inner {
-            max-width: 1450px;
+            max-width: 1500px;
+
             margin: 0 auto;
-            padding: 55px 60px 70px;
+
+            padding:
+                60px 60px 75px;
+
             display: grid;
-            grid-template-columns: 1.02fr 0.98fr;
-            gap: 40px;
+
+            grid-template-columns:
+                1.02fr 0.98fr;
+
+            gap: 55px;
+
             align-items: center;
         }
 
-        /* Left side */
+
+        /* =========================
+           HERO LEFT
+        ========================== */
 
         .hero-left {
             max-width: 760px;
-            position: relative;
-            z-index: 2;
         }
+
+
+        /* =========================
+           SMALL LABEL
+        ========================== */
 
         .hero-pill {
             display: inline-flex;
+
             align-items: center;
-            gap: 10px;
-            background: white;
-            color: #17243c;
-            border-radius: 999px;
-            padding: 12px 22px;
-            font-size: 18px;
-            font-weight: 800;
-            box-shadow: 0 8px 25px rgba(23, 36, 60, 0.08);
+
+            gap: 9px;
+
+            padding:
+                11px 20px;
+
             margin-bottom: 30px;
+
+            border-radius: 999px;
+
+            background: #f7e7d1;
+
+            color: #17243c;
+
+            font-size: 17px;
+            font-weight: 800;
+
+            box-shadow:
+                0 5px 16px
+                rgba(23, 36, 60, 0.07);
         }
 
-        .hero-pill span:first-child {
-            color: #ff7a5d;
-            font-size: 18px;
+        .hero-pill-icon {
+            color: #ff8067;
         }
+
+
+        /* =========================
+           HERO TITLE
+        ========================== */
 
         .hero-title {
-            font-size: 108px;
-            line-height: 0.92;
-            font-weight: 900;
-            letter-spacing: -3px;
+            margin-bottom: 26px;
+
             color: #17243c;
-            margin-bottom: 24px;
+
+            font-size: 100px;
+
+            font-weight: 900;
+
+            line-height: 0.95;
+
+            letter-spacing: -3px;
         }
 
-        .hero-title .accent {
+        .hero-title-accent {
             display: block;
-            color: #ff7c61;
+
+            color: #ff8067;
         }
 
-        .hero-text {
-            font-size: 25px;
-            line-height: 1.45;
-            color: #5a7195;
-            max-width: 760px;
-            margin-bottom: 34px;
+
+        /* =========================
+           HERO TEXT
+        ========================== */
+
+        .hero-description {
+            max-width: 720px;
+
+            margin-bottom: 36px;
+
+            color: #637698;
+
+            font-size: 23px;
+
+            line-height: 1.55;
+
+            font-weight: 400;
         }
+
+
+        /* =========================
+           HERO BUTTONS
+        ========================== */
 
         .hero-buttons {
             display: flex;
+
             align-items: center;
+
             gap: 16px;
+
             flex-wrap: wrap;
         }
 
-        .hero-btn {
+        .hero-button {
             display: inline-flex;
+
             align-items: center;
             justify-content: center;
-            text-decoration: none;
+
+            min-height: 58px;
+
+            padding:
+                0 28px;
+
+            border:
+                2px solid #f7e7d1;
+
             border-radius: 999px;
-            padding: 18px 28px;
-            font-size: 22px;
+
+            background: #f7e7d1;
+
+            color: #4b2247;
+
+            text-decoration: none;
+
+            font-size: 19px;
+
             font-weight: 800;
-            transition: transform 0.2s ease, opacity 0.2s ease;
+
+            box-shadow:
+                0 7px 20px
+                rgba(75, 34, 71, 0.08);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                border-color 0.2s ease;
         }
 
-        .hero-btn:hover {
-            transform: translateY(-2px);
-            opacity: 0.95;
+        .hero-button:hover {
+            transform:
+                translateY(-3px);
+
+            border-color:
+                #e2c8a6;
+
+            box-shadow:
+                0 11px 24px
+                rgba(75, 34, 71, 0.12);
         }
 
-        .hero-btn-primary {
-            background: #ff7c61;
-            color: white;
-        }
 
-        .hero-btn-secondary {
-            background: white;
-            color: #17243c;
-            box-shadow: 0 8px 25px rgba(23, 36, 60, 0.08);
-        }
-
-        /* Right side */
+        /* =========================
+           HERO RIGHT
+        ========================== */
 
         .hero-right {
             position: relative;
+
+            min-height: 620px;
+
             display: flex;
-            justify-content: center;
+
             align-items: center;
-            min-height: 650px;
+            justify-content: center;
         }
 
-        .hero-yellow-circle {
+
+        /* =========================
+           BEIGE CIRCLE
+        ========================== */
+
+        .hero-circle {
             position: absolute;
+
             width: 300px;
             height: 300px;
-            background: #f7d76d;
+
+            right: 35px;
+            top: 150px;
+
             border-radius: 50%;
-            right: 70px;
-            top: 160px;
+
+            background: #f7e7d1;
+
             z-index: 1;
         }
 
-        .hero-card {
+
+        /* =========================
+           PRODUCT FRAME
+        ========================== */
+
+        .hero-product-card {
             position: relative;
-            width: 560px;
-            height: 560px;
-            background: rgba(255, 255, 255, 0.55);
-            border: 18px solid rgba(255, 255, 255, 0.75);
-            border-radius: 38px;
-            box-shadow: 0 22px 50px rgba(23, 36, 60, 0.08);
-            transform: rotate(4deg);
+
+            width: 550px;
+            height: 550px;
+
+            z-index: 2;
+
             display: flex;
+
             align-items: center;
             justify-content: center;
-            z-index: 2;
-            backdrop-filter: blur(2px);
+
+            border:
+                18px solid #ffffff;
+
+            border-radius: 38px;
+
+            background: #f7f7f5;
+
+            box-shadow:
+                0 22px 50px
+                rgba(23, 36, 60, 0.12);
+
+            transform:
+                rotate(3deg);
         }
 
-        .hero-card-inner {
+        .hero-product-inner {
             width: 92%;
             height: 92%;
-            border-radius: 28px;
-            background: rgba(255, 255, 255, 0.34);
+
             display: flex;
+
             align-items: center;
             justify-content: center;
+
             overflow: hidden;
+
+            border-radius: 26px;
+
+            background: #f7f7f5;
         }
 
+
+        /* =========================
+           PRODUCT IMAGE
+        ========================== */
+
         .hero-product-image {
-            width: 70%;
-            max-width: 390px;
+            width: 78%;
             height: auto;
+
             display: block;
-            transform: rotate(-4deg);
+
+            object-fit: contain;
+
+            transform:
+                rotate(-3deg);
+
+            transition:
+                transform 0.25s ease;
         }
+
+        .hero-product-card:hover
+        .hero-product-image {
+            transform:
+                rotate(-3deg)
+                scale(1.04);
+        }
+
+
+        /* =========================
+           FLOATING TAG
+        ========================== */
 
         .hero-tag {
             position: absolute;
-            right: 20px;
-            bottom: 48px;
+
+            right: 0;
+            bottom: 45px;
+
             z-index: 3;
-            background: #bfe8d5;
+
+            padding:
+                16px 24px;
+
+            border:
+                7px solid white;
+
+            border-radius: 20px;
+
+            background: #f7e7d1;
+
             color: #17243c;
-            border: 7px solid rgba(255, 255, 255, 0.9);
-            border-radius: 22px;
-            padding: 18px 28px;
-            font-size: 22px;
+
+            font-size: 20px;
+
             font-weight: 900;
-            transform: rotate(6deg);
-            box-shadow: 0 14px 26px rgba(23, 36, 60, 0.10);
+
+            transform:
+                rotate(5deg);
+
+            box-shadow:
+                0 12px 28px
+                rgba(23, 36, 60, 0.1);
         }
+
 
         /* =========================
-           RESPONSIVE
+           SMALLER LAPTOPS
         ========================== */
 
-        @media (max-width: 1400px) {
-            .hero-title {
-                font-size: 92px;
-            }
-
-            .hero-text {
-                font-size: 22px;
-            }
-
-            .hero-card {
-                width: 500px;
-                height: 500px;
-            }
-        }
-
         @media (max-width: 1200px) {
+
             .navbar-logo {
                 width: 260px;
             }
 
             .nav-links {
-                margin-left: 70px;
+                margin-left: 50px;
+
                 gap: 28px;
             }
 
             .nav-links a {
-                font-size: 21px;
+                font-size: 19px;
+
                 font-weight: 600;
             }
 
             .nav-icon-button {
-                width: 62px;
-                height: 62px;
+                width: 60px;
+                height: 60px;
             }
 
             .nav-actions {
                 margin-right: 12px;
             }
 
+
             .hero-inner {
-                padding: 50px 35px 70px;
-                gap: 20px;
+                padding:
+                    50px 35px 65px;
+
+                gap: 25px;
             }
 
             .hero-title {
                 font-size: 78px;
             }
 
-            .hero-text {
+            .hero-description {
                 font-size: 20px;
             }
 
-            .hero-btn {
-                font-size: 19px;
-                padding: 16px 24px;
+            .hero-product-card {
+                width: 450px;
+                height: 450px;
             }
 
-            .hero-card {
-                width: 440px;
-                height: 440px;
+            .hero-right {
+                min-height: 520px;
+            }
+
+            .hero-circle {
+                width: 240px;
+                height: 240px;
+
+                top: 140px;
             }
 
             .hero-tag {
-                font-size: 18px;
-                padding: 14px 20px;
+                font-size: 17px;
+
+                padding:
+                    13px 18px;
             }
 
-            .hero-yellow-circle {
-                width: 240px;
-                height: 240px;
-                right: 55px;
-                top: 165px;
-            }
         }
 
+
+        /* =========================
+           TABLET
+        ========================== */
+
         @media (max-width: 900px) {
+
             .navbar {
                 height: auto;
+
                 min-height: 150px;
+
                 background-size: cover;
             }
 
             .navbar-inner {
                 flex-wrap: wrap;
-                padding: 10px 18px 15px;
+
+                padding:
+                    10px 18px 15px;
             }
 
             .navbar-logo {
@@ -422,17 +676,25 @@
 
             .nav-links {
                 width: 100%;
+
                 order: 3;
+
                 margin-left: 0;
                 margin-top: 5px;
+
                 justify-content: center;
-                gap: 24px;
+
+                gap: 25px;
             }
 
             .nav-links a {
                 font-size: 16px;
+
                 font-weight: 600;
             }
+
+
+            /* HERO */
 
             .hero {
                 min-height: auto;
@@ -440,7 +702,9 @@
 
             .hero-inner {
                 grid-template-columns: 1fr;
-                padding: 40px 24px 60px;
+
+                padding:
+                    45px 25px 70px;
             }
 
             .hero-left {
@@ -448,30 +712,34 @@
             }
 
             .hero-title {
-                font-size: 68px;
-            }
-
-            .hero-text {
-                font-size: 19px;
+                font-size: 70px;
             }
 
             .hero-right {
                 min-height: 520px;
             }
 
-            .hero-card {
-                width: min(92vw, 470px);
-                height: min(92vw, 470px);
+            .hero-product-card {
+                width:
+                    min(82vw, 470px);
+
+                height:
+                    min(82vw, 470px);
             }
 
             .hero-tag {
-                right: 10px;
-                bottom: 20px;
-                font-size: 16px;
+                right: 10%;
             }
+
         }
 
+
+        /* =========================
+           MOBILE
+        ========================== */
+
         @media (max-width: 600px) {
+
             .navbar-logo {
                 width: 185px;
             }
@@ -487,156 +755,308 @@
 
             .nav-links {
                 gap: 14px;
+
                 flex-wrap: wrap;
             }
 
             .nav-links a {
                 font-size: 14px;
+
                 font-weight: 600;
             }
 
+
+            /* HERO */
+
             .hero-inner {
-                padding: 30px 18px 45px;
+                padding:
+                    32px 18px 50px;
             }
 
             .hero-pill {
+                margin-bottom: 22px;
+
+                padding:
+                    9px 15px;
+
                 font-size: 14px;
-                padding: 10px 16px;
-                margin-bottom: 20px;
             }
 
             .hero-title {
-                font-size: 52px;
+                font-size: 53px;
+
+                line-height: 0.98;
+
                 letter-spacing: -2px;
             }
 
-            .hero-text {
+            .hero-description {
+                margin-bottom: 27px;
+
                 font-size: 17px;
-                margin-bottom: 26px;
             }
 
             .hero-buttons {
                 flex-direction: column;
+
                 align-items: stretch;
             }
 
-            .hero-btn {
+            .hero-button {
                 width: 100%;
-                font-size: 18px;
-                padding: 16px 20px;
+
+                font-size: 17px;
             }
 
             .hero-right {
                 min-height: 410px;
             }
 
-            .hero-card {
+            .hero-product-card {
                 border-width: 12px;
-                border-radius: 26px;
+
+                border-radius: 27px;
             }
 
-            .hero-card-inner {
+            .hero-product-inner {
                 border-radius: 18px;
             }
 
-            .hero-yellow-circle {
+            .hero-circle {
                 width: 180px;
                 height: 180px;
-                right: 20px;
-                top: 115px;
+
+                right: 15px;
+                top: 110px;
             }
 
             .hero-tag {
-                font-size: 14px;
-                padding: 12px 16px;
+                right: 2%;
+
+                bottom: 15px;
+
+                padding:
+                    11px 14px;
+
                 border-width: 5px;
+
+                font-size: 13px;
             }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
-    <!-- NAVBAR -->
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
     <header class="navbar">
+
         <div class="navbar-inner">
 
-            <a href="index.html" class="navbar-logo" aria-label="ClickerLabStore Home">
-                <img src="ClickerLabLogo.png" alt="ClickerLabStore">
+
+            <!-- LOGO -->
+
+            <a
+                href="index.html"
+                class="navbar-logo"
+                aria-label="ClickerLabStore Home"
+            >
+
+                <img
+                    src="ClickerLabLogo.png"
+                    alt="ClickerLabStore"
+                >
+
             </a>
 
+
+            <!-- NAVIGATION -->
+
             <nav class="nav-links">
-                <a href="shop.html">Shop</a>
-                <a href="bundles.html">Bundles</a>
-                <a href="build.html">Build Your Own</a>
-                <a href="about.html">About</a>
-                <a href="faq.html">FAQ</a>
+
+                <a href="shop.html">
+                    Shop
+                </a>
+
+                <a href="bundles.html">
+                    Bundles
+                </a>
+
+                <a href="build.html">
+                    Build Your Own
+                </a>
+
+                <a href="about.html">
+                    About
+                </a>
+
+                <a href="faq.html">
+                    FAQ
+                </a>
+
             </nav>
 
+
+            <!-- SEARCH + CART -->
+
             <div class="nav-actions">
-                <button type="button" class="nav-icon-button" id="search-button" aria-label="Search">
-                    <img src="search_button_cropped_580x580.png" alt="">
+
+                <button
+                    type="button"
+                    class="nav-icon-button"
+                    id="search-button"
+                    aria-label="Search"
+                >
+
+                    <img
+                        src="search_button_cropped_580x580.png"
+                        alt=""
+                    >
+
                 </button>
 
-                <button type="button" class="nav-icon-button" id="cart-button" aria-label="Cart">
-                    <img src="cart_button_cropped_580x580.png" alt="">
+
+                <button
+                    type="button"
+                    class="nav-icon-button"
+                    id="cart-button"
+                    aria-label="Cart"
+                >
+
+                    <img
+                        src="cart_button_cropped_580x580.png"
+                        alt=""
+                    >
+
                 </button>
+
             </div>
+
+
         </div>
+
     </header>
 
-    <!-- HERO -->
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
     <main class="hero">
+
         <div class="hero-inner">
 
+
+            <!-- =========================
+                 LEFT SIDE
+            ========================== -->
+
             <section class="hero-left">
+
+
                 <div class="hero-pill">
-                    <span>⚡</span>
-                    <span>Pocket-sized tactile fun</span>
+
+                    <span class="hero-pill-icon">
+                        ⚡
+                    </span>
+
+                    <span>
+                        Pocket-sized tactile fun
+                    </span>
+
                 </div>
 
+
                 <h1 class="hero-title">
+
                     Click. Fidget.
-                    <span class="accent">Repeat.</span>
+
+                    <span class="hero-title-accent">
+                        Repeat.
+                    </span>
+
                 </h1>
 
-                <p class="hero-text">
-                    Mechanical-key clickers made for satisfying little breaks.
-                    Pick one key for maximum portability or go bigger with a
-                    multi-key setup.
+
+                <p class="hero-description">
+
+                    Mechanical-key clickers made for satisfying little
+                    breaks. Pick one key for maximum portability or go
+                    bigger with a multi-key setup.
+
                 </p>
 
+
                 <div class="hero-buttons">
-                    <a href="shop.html" class="hero-btn hero-btn-primary">
+
+
+                    <a
+                        href="shop.html"
+                        class="hero-button"
+                    >
                         Shop clickers →
                     </a>
 
-                    <a href="build.html" class="hero-btn hero-btn-secondary">
+
+                    <a
+                        href="build.html"
+                        class="hero-button"
+                    >
                         Build your own
                     </a>
+
+
                 </div>
+
+
             </section>
 
-            <section class="hero-right">
-                <div class="hero-yellow-circle"></div>
 
-                <div class="hero-card">
-                    <div class="hero-card-inner">
+            <!-- =========================
+                 RIGHT SIDE
+            ========================== -->
+
+            <section class="hero-right">
+
+
+                <div class="hero-circle"></div>
+
+
+                <div class="hero-product-card">
+
+                    <div class="hero-product-inner">
+
                         <img
                             src="4-key-clicker.png"
                             alt="4-Key Clicker"
                             class="hero-product-image"
                         >
+
                     </div>
+
                 </div>
+
 
                 <div class="hero-tag">
                     4 keys = 4× the fun
                 </div>
+
+
             </section>
 
+
         </div>
+
     </main>
+
 
 </body>
 
