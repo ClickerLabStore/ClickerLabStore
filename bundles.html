@@ -379,7 +379,7 @@
 
 
         /* =========================
-           BADGE
+           BADGES
         ========================== */
 
         .bundle-badge {
@@ -408,6 +408,21 @@
             background: #111111;
 
             color: #ffffff;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+        .badge-divider {
+            width: 4px;
+            height: 4px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.65);
         }
 
 
@@ -911,7 +926,6 @@
 
                     <div class="bundle-image">
 
-
                         <span class="bundle-badge">
                             Save 10%
                         </span>
@@ -929,12 +943,10 @@
 
                         </div>
 
-
                     </div>
 
 
                     <div class="bundle-info">
-
 
                         <h2>
                             Starter Pack
@@ -980,7 +992,6 @@
                             Coming Soon
                         </button>
 
-
                     </div>
 
 
@@ -995,7 +1006,6 @@
 
 
                     <div class="bundle-image">
-
 
                         <span class="bundle-badge">
                             Save 9%
@@ -1014,12 +1024,10 @@
 
                         </div>
 
-
                     </div>
 
 
                     <div class="bundle-info">
-
 
                         <h2>
                             Starter Lab
@@ -1065,7 +1073,6 @@
                             Coming Soon
                         </button>
 
-
                     </div>
 
 
@@ -1080,7 +1087,6 @@
 
 
                     <div class="bundle-image">
-
 
                         <span class="bundle-badge">
                             Save 15%
@@ -1099,12 +1105,10 @@
 
                         </div>
 
-
                     </div>
 
 
                     <div class="bundle-info">
-
 
                         <h2>
                             Clicker Trio
@@ -1154,7 +1158,6 @@
                             Coming Soon
                         </button>
 
-
                     </div>
 
 
@@ -1169,7 +1172,6 @@
 
 
                     <div class="bundle-image">
-
 
                         <span class="bundle-badge">
                             Save 17%
@@ -1188,12 +1190,10 @@
 
                         </div>
 
-
                     </div>
 
 
                     <div class="bundle-info">
-
 
                         <h2>
                             Trio Lab
@@ -1243,7 +1243,6 @@
                             Coming Soon
                         </button>
 
-
                     </div>
 
 
@@ -1265,7 +1264,15 @@
                         <span
                             class="bundle-badge best-value-badge"
                         >
-                            Best Value
+                            <span>
+                                Best Value
+                            </span>
+
+                            <span class="badge-divider"></span>
+
+                            <span>
+                                Save 20%
+                            </span>
                         </span>
 
 
@@ -1325,6 +1332,10 @@
 
 
                         <div class="bundle-price-row">
+
+                            <span class="old-price">
+                                $33.74
+                            </span>
 
                             <span class="bundle-price">
                                 $26.99
