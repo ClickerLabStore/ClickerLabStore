@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -110,11 +109,6 @@
             height: auto;
         }
 
-
-        /* =========================
-           NAV LINKS
-        ========================== */
-
         .nav-links {
             display: flex;
             align-items: center;
@@ -167,11 +161,6 @@
                 translateX(-50%)
                 scaleX(1);
         }
-
-
-        /* =========================
-           SEARCH + CART
-        ========================== */
 
         .nav-actions {
             display: flex;
@@ -252,11 +241,6 @@
             align-items: center;
         }
 
-
-        /* =========================
-           HERO LEFT
-        ========================== */
-
         .hero-left {
             max-width: 760px;
         }
@@ -284,14 +268,7 @@
             font-size: 22px;
 
             line-height: 1.55;
-
-            font-weight: 400;
         }
-
-
-        /* =========================
-           HERO BUTTONS
-        ========================== */
 
         .hero-buttons {
             display: flex;
@@ -338,8 +315,7 @@
         }
 
         .hero-button:hover {
-            transform:
-                translateY(-3px);
+            transform: translateY(-3px);
 
             box-shadow:
                 0 11px 24px
@@ -362,19 +338,14 @@
             justify-content: center;
         }
 
-
-        /* =========================
-           BEIGE CIRCLE
-        ========================== */
-
         .hero-circle {
             position: absolute;
 
-            width: 330px;
-            height: 330px;
+            width: 300px;
+            height: 300px;
 
-            right: 25px;
-            top: 140px;
+            right: 35px;
+            top: 150px;
 
             border-radius: 50%;
 
@@ -383,17 +354,11 @@
             z-index: 1;
         }
 
-
-        /* =========================
-           PRODUCT AREA
-           NO BLOCKY FRAME
-        ========================== */
-
         .hero-product-card {
             position: relative;
 
-            width: 570px;
-            height: 540px;
+            width: 550px;
+            height: 550px;
 
             z-index: 2;
 
@@ -402,74 +367,45 @@
             align-items: center;
             justify-content: center;
 
-            border: none;
+            border:
+                18px solid #ffffff;
 
-            background: transparent;
+            border-radius: 38px;
 
-            box-shadow: none;
+            background: #f7f7f5;
 
-            transform: rotate(2deg);
+            box-shadow:
+                0 22px 50px
+                rgba(0, 0, 0, 0.12);
+
+            transform: rotate(3deg);
         }
 
         .hero-product-inner {
-            width: 100%;
-            height: 100%;
+            width: 92%;
+            height: 92%;
 
             display: flex;
 
             align-items: center;
             justify-content: center;
 
-            overflow: visible;
+            overflow: hidden;
 
-            background: transparent;
+            border-radius: 26px;
+
+            background: #f7f7f5;
         }
 
-
-        /* =========================
-           PRODUCT IMAGE
-        ========================== */
-
         .hero-product-image {
-            width: 88%;
+            width: 78%;
             height: auto;
 
             display: block;
 
             object-fit: contain;
 
-            transform:
-                rotate(-2deg);
-
-            filter:
-                drop-shadow(
-                    0 18px 22px
-                    rgba(0, 0, 0, 0.10)
-                );
-
-            /*
-               Softens the outer edges of the photo
-               so the rectangular photo background
-               is less noticeable.
-            */
-
-            -webkit-mask-image:
-                radial-gradient(
-                    ellipse at center,
-                    black 58%,
-                    rgba(0, 0, 0, 0.95) 68%,
-                    rgba(0, 0, 0, 0.45) 84%,
-                    transparent 100%
-                );
-
-            mask-image:
-                radial-gradient(
-                    ellipse at center,
-                    black 58%,
-                    rgba(0, 0, 0, 0.95) 68%,
-                    rgba(0, 0, 0, 0.45) 84%,
-                    transparent 100%
-                );
+            transform: rotate(-3deg);
 
             transition:
                 transform 0.25s ease;
@@ -478,14 +414,9 @@
         .hero-product-card:hover
         .hero-product-image {
             transform:
-                rotate(-2deg)
+                rotate(-3deg)
                 scale(1.04);
         }
-
-
-        /* =========================
-           FLOATING TAG
-        ========================== */
 
         .hero-tag {
             position: absolute;
@@ -673,11 +604,6 @@
             gap: 28px;
         }
 
-
-        /* =========================
-           FEATURE CARDS
-        ========================== */
-
         .feature-card {
             display: flex;
 
@@ -706,8 +632,7 @@
         }
 
         .feature-card:hover {
-            transform:
-                translateY(-7px);
+            transform: translateY(-7px);
 
             box-shadow:
                 0 18px 38px
@@ -835,11 +760,6 @@
             gap: 24px;
         }
 
-
-        /* =========================
-           TIKTOK ICON
-        ========================== */
-
         .tiktok-icon {
             width: 78px;
             height: 78px;
@@ -865,21 +785,16 @@
             fill: currentColor;
         }
 
-
-        /* =========================
-           TIKTOK TEXT
-        ========================== */
-
         .tiktok-text h2 {
             color: #111111;
 
-            font-size: 32px;
+            font-size: 34px;
 
             line-height: 1.1;
 
             font-weight: 900;
 
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .tiktok-channel-name {
@@ -889,19 +804,17 @@
 
             font-weight: 900;
 
-            line-height: 1.2;
-
-            margin-bottom: 2px;
+            margin-bottom: 1px;
         }
 
         .tiktok-username {
-            color: #555555;
+            color: #444444;
 
-            font-size: 16px;
+            font-size: 17px;
 
             font-weight: 700;
 
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .tiktok-description {
@@ -911,11 +824,6 @@
 
             line-height: 1.5;
         }
-
-
-        /* =========================
-           TIKTOK BUTTON
-        ========================== */
 
         .tiktok-button {
             display: inline-flex;
@@ -929,15 +837,18 @@
             padding:
                 0 25px;
 
-            border-radius: 999px;
+            border-radius:
+                999px;
 
-            background: #111111;
+            background:
+                #111111;
 
             color: white;
 
             text-decoration: none;
 
             font-size: 16px;
+
             font-weight: 800;
 
             flex-shrink: 0;
@@ -961,21 +872,17 @@
 
         @media (max-width: 1200px) {
 
-            /* NAVBAR UNCHANGED */
-
             .navbar-logo {
                 width: 260px;
             }
 
             .nav-links {
                 margin-left: 50px;
-
                 gap: 28px;
             }
 
             .nav-links a {
                 font-size: 19px;
-
                 font-weight: 600;
             }
 
@@ -987,9 +894,6 @@
             .nav-actions {
                 margin-right: 12px;
             }
-
-
-            /* HERO */
 
             .hero-inner {
                 padding:
@@ -1007,7 +911,7 @@
             }
 
             .hero-product-card {
-                width: 460px;
+                width: 450px;
                 height: 450px;
             }
 
@@ -1016,19 +920,16 @@
             }
 
             .hero-circle {
-                width: 250px;
-                height: 250px;
+                width: 240px;
+                height: 240px;
 
-                top: 135px;
+                top: 140px;
             }
 
             .hero-tag {
                 font-size: 16px;
 
                 max-width: 285px;
-
-                padding:
-                    13px 18px;
             }
 
         }
@@ -1039,8 +940,6 @@
         ========================== */
 
         @media (max-width: 900px) {
-
-            /* NAVBAR UNCHANGED */
 
             .navbar {
                 height: auto;
@@ -1086,12 +985,8 @@
 
             .nav-links a {
                 font-size: 16px;
-
                 font-weight: 600;
             }
-
-
-            /* HERO */
 
             .hero {
                 min-height: auto;
@@ -1104,32 +999,21 @@
                     50px 25px 70px;
             }
 
-            .hero-left {
-                max-width: 100%;
-            }
-
             .hero-title {
                 font-size: 64px;
             }
 
             .hero-right {
-                min-height: 500px;
+                min-height: 520px;
             }
 
             .hero-product-card {
                 width:
-                    min(86vw, 500px);
+                    min(82vw, 470px);
 
                 height:
-                    min(78vw, 460px);
+                    min(82vw, 470px);
             }
-
-            .hero-tag {
-                right: 5%;
-            }
-
-
-            /* FEATURE STRIP */
 
             .feature-strip-inner {
                 grid-template-columns:
@@ -1142,25 +1026,10 @@
                 display: none;
             }
 
-
-            /* FEATURED */
-
-            .featured-section {
-                padding:
-                    75px 30px 90px;
-            }
-
-            .featured-title {
-                font-size: 46px;
-            }
-
             .featured-grid {
                 grid-template-columns:
                     repeat(2, 1fr);
             }
-
-
-            /* TIKTOK */
 
             .tiktok-card {
                 padding:
@@ -1175,8 +1044,6 @@
         ========================== */
 
         @media (max-width: 600px) {
-
-            /* NAVBAR UNCHANGED */
 
             .navbar-logo {
                 width: 185px;
@@ -1199,12 +1066,8 @@
 
             .nav-links a {
                 font-size: 14px;
-
                 font-weight: 600;
             }
-
-
-            /* HERO */
 
             .hero-inner {
                 padding:
@@ -1220,8 +1083,6 @@
             }
 
             .hero-description {
-                margin-bottom: 28px;
-
                 font-size: 17px;
             }
 
@@ -1233,48 +1094,35 @@
 
             .hero-button {
                 width: 100%;
-
-                font-size: 17px;
             }
 
             .hero-right {
-                min-height: 390px;
+                min-height: 410px;
             }
 
             .hero-product-card {
-                width: 100%;
-                height: 360px;
-            }
+                border-width: 12px;
 
-            .hero-product-image {
-                width: 95%;
+                border-radius: 27px;
             }
 
             .hero-circle {
-                width: 190px;
-                height: 190px;
+                width: 180px;
+                height: 180px;
 
-                right: 5px;
-                top: 90px;
+                right: 15px;
+                top: 110px;
             }
 
             .hero-tag {
                 right: 0;
 
-                bottom: 5px;
+                bottom: 10px;
 
                 max-width: 240px;
 
-                padding:
-                    11px 14px;
-
-                border-width: 5px;
-
                 font-size: 13px;
             }
-
-
-            /* FEATURE STRIP */
 
             .feature-strip-inner {
                 grid-template-columns: 1fr;
@@ -1298,9 +1146,6 @@
                     rgba(0, 0, 0, 0.12);
             }
 
-
-            /* FEATURED */
-
             .featured-section {
                 padding:
                     60px 18px 70px;
@@ -1308,18 +1153,11 @@
 
             .featured-title {
                 font-size: 38px;
-
-                margin-bottom: 38px;
             }
 
             .featured-grid {
                 grid-template-columns: 1fr;
-
-                gap: 22px;
             }
-
-
-            /* TIKTOK */
 
             .tiktok-section {
                 padding:
@@ -1342,11 +1180,7 @@
             }
 
             .tiktok-text h2 {
-                font-size: 29px;
-            }
-
-            .tiktok-channel-name {
-                font-size: 22px;
+                font-size: 30px;
             }
 
             .tiktok-button {
@@ -1363,14 +1197,11 @@
 <body>
 
 
-    <!-- =========================
-         NAVBAR
-    ========================== -->
+    <!-- NAVBAR -->
 
     <header class="navbar">
 
         <div class="navbar-inner">
-
 
             <a
                 href="index.html"
@@ -1444,22 +1275,17 @@
 
             </div>
 
-
         </div>
 
     </header>
 
 
-    <!-- =========================
-         HERO
-    ========================== -->
+    <!-- HERO -->
 
     <main class="hero">
 
         <div class="hero-inner">
 
-
-            <!-- LEFT -->
 
             <section class="hero-left">
 
@@ -1497,8 +1323,6 @@
             </section>
 
 
-            <!-- RIGHT -->
-
             <section class="hero-right">
 
                 <div class="hero-circle"></div>
@@ -1531,69 +1355,31 @@
     </main>
 
 
-    <!-- =========================
-         FEATURE STRIP
-    ========================== -->
+    <!-- FEATURE STRIP -->
 
     <section class="feature-strip">
 
         <div class="feature-strip-inner">
 
 
-            <!-- CUSTOMIZE -->
-
             <div class="strip-item">
 
                 <div class="strip-icon">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
+                    <svg viewBox="0 0 24 24">
 
-                        <line
-                            x1="4"
-                            y1="6"
-                            x2="20"
-                            y2="6"
-                        ></line>
+                        <line x1="4" y1="6" x2="20" y2="6"></line>
+                        <circle cx="9" cy="6" r="2"></circle>
 
-                        <circle
-                            cx="9"
-                            cy="6"
-                            r="2"
-                        ></circle>
+                        <line x1="4" y1="12" x2="20" y2="12"></line>
+                        <circle cx="15" cy="12" r="2"></circle>
 
-                        <line
-                            x1="4"
-                            y1="12"
-                            x2="20"
-                            y2="12"
-                        ></line>
-
-                        <circle
-                            cx="15"
-                            cy="12"
-                            r="2"
-                        ></circle>
-
-                        <line
-                            x1="4"
-                            y1="18"
-                            x2="20"
-                            y2="18"
-                        ></line>
-
-                        <circle
-                            cx="11"
-                            cy="18"
-                            r="2"
-                        ></circle>
+                        <line x1="4" y1="18" x2="20" y2="18"></line>
+                        <circle cx="11" cy="18" r="2"></circle>
 
                     </svg>
 
                 </div>
-
 
                 <h3>
                     Customize Your Clicker
@@ -1606,16 +1392,11 @@
             </div>
 
 
-            <!-- PORTABLE -->
-
             <div class="strip-item">
 
                 <div class="strip-icon">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
+                    <svg viewBox="0 0 24 24">
 
                         <rect
                             x="5"
@@ -1635,7 +1416,6 @@
 
                 </div>
 
-
                 <h3>
                     Small &amp; Portable
                 </h3>
@@ -1647,19 +1427,13 @@
             </div>
 
 
-            <!-- LIGHT UP -->
-
             <div class="strip-item">
 
                 <div class="strip-icon">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
+                    <svg viewBox="0 0 24 24">
 
                         <path d="M9 18h6"></path>
-
                         <path d="M10 21h4"></path>
 
                         <path
@@ -1672,7 +1446,6 @@
 
                 </div>
 
-
                 <h3>
                     Light-Up Colors
                 </h3>
@@ -1684,53 +1457,20 @@
             </div>
 
 
-            <!-- MANY DESIGNS -->
-
             <div class="strip-item">
 
                 <div class="strip-icon">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
+                    <svg viewBox="0 0 24 24">
 
-                        <rect
-                            x="4"
-                            y="4"
-                            width="6"
-                            height="6"
-                            rx="1"
-                        ></rect>
-
-                        <rect
-                            x="14"
-                            y="4"
-                            width="6"
-                            height="6"
-                            rx="1"
-                        ></rect>
-
-                        <rect
-                            x="4"
-                            y="14"
-                            width="6"
-                            height="6"
-                            rx="1"
-                        ></rect>
-
-                        <rect
-                            x="14"
-                            y="14"
-                            width="6"
-                            height="6"
-                            rx="1"
-                        ></rect>
+                        <rect x="4" y="4" width="6" height="6" rx="1"></rect>
+                        <rect x="14" y="4" width="6" height="6" rx="1"></rect>
+                        <rect x="4" y="14" width="6" height="6" rx="1"></rect>
+                        <rect x="14" y="14" width="6" height="6" rx="1"></rect>
 
                     </svg>
 
                 </div>
-
 
                 <h3>
                     Many Designs
@@ -1748,9 +1488,7 @@
     </section>
 
 
-    <!-- =========================
-         TOP PICKS
-    ========================== -->
+    <!-- TOP PICKS -->
 
     <section class="featured-section">
 
@@ -1765,8 +1503,6 @@
 
             <div class="featured-grid">
 
-
-                <!-- 4-KEY -->
 
                 <a
                     href="4-key-clicker.html"
@@ -1798,8 +1534,6 @@
                 </a>
 
 
-                <!-- BUNDLE -->
-
                 <a
                     href="bundles.html"
                     class="feature-card"
@@ -1828,8 +1562,6 @@
 
                 </a>
 
-
-                <!-- 1-KEY -->
 
                 <a
                     href="1-key-clicker.html"
@@ -1902,16 +1634,13 @@
                         Follow us on TikTok
                     </h2>
 
-
                     <div class="tiktok-channel-name">
                         ClickerLab
                     </div>
 
-
                     <div class="tiktok-username">
                         @micropathmd
                     </div>
-
 
                     <p class="tiktok-description">
                         See new clicker designs, builds, and updates.
