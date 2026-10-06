@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Bundles | ClickerLabStore</title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="/favicon.png?v=2"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        /* =========================
+           RESET
+        ========================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Nunito Sans", sans-serif;
+            background: #ffffff;
+            color: #111111;
+            overflow-x: hidden;
+        }
+
+
+        /* =========================
+           NAVBAR
+           UNCHANGED
+        ========================== */
+
+        .navbar {
+            width: 100%;
+            height: 110px;
+
+            background-image:
+                url("blank navbar.png");
+
+            background-size:
+                100% 100%;
+
+            background-position:
+                center;
+
+            background-repeat:
+                no-repeat;
+        }
+
+        .navbar-inner {
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 2.3%;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+
+            width: 310px;
+
+            flex-shrink: 0;
+
+            text-decoration: none;
+
+            transition:
+                transform 0.2s ease;
+        }
+
+        .navbar-logo:hover {
+            transform: scale(1.02);
+        }
+
+        .navbar-logo img {
+            display: block;
+
+            width: 100%;
+            height: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+
+            margin-left: 150px;
+
+            gap: 50px;
+        }
+
+        .nav-links a {
+            position: relative;
+
+            color: #4b2247;
+
+            text-decoration: none;
+
+            font-size: 23px;
+            font-weight: 600;
+
+            white-space: nowrap;
+
+            padding: 10px 0;
+        }
+
+        .nav-links a::after {
+            content: "";
+
+            position: absolute;
+
+            left: 50%;
+            bottom: 3px;
+
+            width: 100%;
+            height: 2px;
+
+            background: #4b2247;
+
+            transform:
+                translateX(-50%)
+                scaleX(0);
+
+            transform-origin: center;
+
+            transition:
+                transform 0.2s ease;
+        }
+
+        .nav-links a:hover::after {
+            transform:
+                translateX(-50%)
+                scaleX(1);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+
+            gap: 14px;
+
+            margin-left: auto;
+            margin-right: 20px;
+
+            flex-shrink: 0;
+        }
+
+        .nav-icon-button {
+            width: 72px;
+            height: 72px;
+
+            padding: 0;
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            transition:
+                transform 0.2s ease;
+        }
+
+        .nav-icon-button:hover {
+            transform: scale(1.08);
+        }
+
+        .nav-icon-button img {
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+        }
+
+
+        /* =========================
+           BUNDLE PAGE
+        ========================== */
+
+        .bundle-page {
+            width: 100%;
+
+            padding:
+                70px 40px 110px;
+
+            background: #ffffff;
+        }
+
+        .bundle-inner {
+            max-width: 1250px;
+
+            margin: 0 auto;
+        }
+
+
+        /* =========================
+           PAGE HEADING
+        ========================== */
+
+        .bundle-header {
+            max-width: 800px;
+
+            margin:
+                0 auto 55px;
+
+            text-align: center;
+        }
+
+        .bundle-header h1 {
+            margin-bottom: 14px;
+
+            color: #111111;
+
+            font-size: 56px;
+
+            line-height: 1.05;
+
+            font-weight: 900;
+
+            letter-spacing: -1.5px;
+        }
+
+        .bundle-header p {
+            color: #555555;
+
+            font-size: 19px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           BUNDLE GRID
+        ========================== */
+
+        .bundle-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 30px;
+        }
+
+
+        /* =========================
+           BUNDLE CARD
+        ========================== */
+
+        .bundle-card {
+            position: relative;
+
+            display: flex;
+            flex-direction: column;
+
+            overflow: hidden;
+
+            border:
+                2px solid #eee7dc;
+
+            border-radius: 24px;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 10px 30px
+                rgba(0, 0, 0, 0.06);
+
+            transition:
+                transform 0.22s ease,
+                box-shadow 0.22s ease;
+        }
+
+        .bundle-card:hover {
+            transform:
+                translateY(-6px);
+
+            box-shadow:
+                0 18px 38px
+                rgba(0, 0, 0, 0.10);
+        }
+
+
+        /* =========================
+           BEST VALUE CARD
+        ========================== */
+
+        .bundle-card.best-value {
+            border-color: #dbc4a7;
+        }
+
+
+        /* =========================
+           IMAGE PLACEHOLDER
+        ========================== */
+
+        .bundle-image {
+            position: relative;
+
+            width: 100%;
+
+            aspect-ratio:
+                1 / 0.78;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 25px;
+
+            background: #faf7f2;
+
+            border-bottom:
+                1px solid #eee7dc;
+        }
+
+        .placeholder-box {
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 8px;
+
+            border:
+                2px dashed #d8c8b4;
+
+            border-radius: 18px;
+
+            color: #555555;
+
+            text-align: center;
+        }
+
+        .placeholder-title {
+            color: #111111;
+
+            font-size: 21px;
+
+            font-weight: 800;
+        }
+
+        .placeholder-subtitle {
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================
+           SALE BADGE
+        ========================== */
+
+        .bundle-badge {
+            position: absolute;
+
+            top: 16px;
+            left: 16px;
+
+            z-index: 2;
+
+            padding:
+                8px 12px;
+
+            border-radius: 999px;
+
+            background: #f7e7d1;
+
+            color: #111111;
+
+            font-size: 13px;
+
+            font-weight: 900;
+        }
+
+        .best-value-badge {
+            background: #111111;
+
+            color: #ffffff;
+        }
+
+
+        /* =========================
+           BUNDLE INFO
+        ========================== */
+
+        .bundle-info {
+            flex: 1;
+
+            display: flex;
+            flex-direction: column;
+
+            padding:
+                24px;
+        }
+
+        .bundle-info h2 {
+            margin-bottom: 8px;
+
+            color: #111111;
+
+            font-size: 25px;
+
+            font-weight: 900;
+        }
+
+        .bundle-items {
+            margin-bottom: 18px;
+
+            color: #555555;
+
+            font-size: 15px;
+
+            line-height: 1.6;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================
+           INCLUDED PRODUCTS
+        ========================== */
+
+        .included-list {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-bottom: 20px;
+        }
+
+        .included-item {
+            padding:
+                7px 10px;
+
+            border-radius: 9px;
+
+            background: #faf7f2;
+
+            color: #111111;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            border:
+                1px solid #eee7dc;
+        }
+
+
+        /* =========================
+           PRICE
+        ========================== */
+
+        .bundle-price-row {
+            display: flex;
+
+            align-items: baseline;
+
+            gap: 10px;
+
+            margin-top: auto;
+
+            margin-bottom: 18px;
+        }
+
+        .old-price {
+            color: #777777;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            text-decoration: line-through;
+        }
+
+        .bundle-price {
+            color: #111111;
+
+            font-size: 28px;
+
+            font-weight: 900;
+        }
+
+
+        /* =========================
+           BUTTON
+        ========================== */
+
+        .bundle-button {
+            width: 100%;
+
+            min-height: 50px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: #f7e7d1;
+
+            color: #111111;
+
+            font-family: inherit;
+
+            font-size: 16px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .bundle-button:hover {
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 8px 18px
+                rgba(0, 0, 0, 0.08);
+        }
+
+
+        /* =========================
+           CLICKERLAB PACK
+        ========================== */
+
+        .clickerlab-pack {
+            grid-column:
+                span 2;
+        }
+
+        .clickerlab-pack .bundle-image {
+            aspect-ratio:
+                2 / 0.78;
+        }
+
+        .clickerlab-pack .placeholder-box {
+            min-height: 270px;
+        }
+
+
+        /* =========================
+           NOTE
+        ========================== */
+
+        .bundle-note {
+            max-width: 800px;
+
+            margin:
+                45px auto 0;
+
+            padding:
+                20px 24px;
+
+            border-radius: 16px;
+
+            background: #faf7f2;
+
+            color: #555555;
+
+            text-align: center;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           SMALLER LAPTOPS
+        ========================== */
+
+        @media (max-width: 1200px) {
+
+            .navbar-logo {
+                width: 260px;
+            }
+
+            .nav-links {
+                margin-left: 50px;
+
+                gap: 28px;
+            }
+
+            .nav-links a {
+                font-size: 19px;
+
+                font-weight: 600;
+            }
+
+            .nav-icon-button {
+                width: 60px;
+                height: 60px;
+            }
+
+            .nav-actions {
+                margin-right: 12px;
+            }
+
+        }
+
+
+        /* =========================
+           TABLET
+        ========================== */
+
+        @media (max-width: 900px) {
+
+            .navbar {
+                height: auto;
+
+                min-height: 150px;
+
+                background-size: cover;
+            }
+
+            .navbar-inner {
+                flex-wrap: wrap;
+
+                padding:
+                    10px 18px 15px;
+            }
+
+            .navbar-logo {
+                width: 225px;
+            }
+
+            .nav-actions {
+                margin-left: auto;
+                margin-right: 0;
+            }
+
+            .nav-icon-button {
+                width: 52px;
+                height: 52px;
+            }
+
+            .nav-links {
+                width: 100%;
+
+                order: 3;
+
+                margin-left: 0;
+                margin-top: 5px;
+
+                justify-content: center;
+
+                gap: 25px;
+            }
+
+            .nav-links a {
+                font-size: 16px;
+
+                font-weight: 600;
+            }
+
+
+            .bundle-page {
+                padding:
+                    55px 25px 90px;
+            }
+
+            .bundle-header h1 {
+                font-size: 48px;
+            }
+
+            .bundle-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .clickerlab-pack {
+                grid-column:
+                    span 2;
+            }
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================== */
+
+        @media (max-width: 600px) {
+
+            .navbar-logo {
+                width: 185px;
+            }
+
+            .nav-icon-button {
+                width: 46px;
+                height: 46px;
+            }
+
+            .nav-actions {
+                gap: 5px;
+            }
+
+            .nav-links {
+                gap: 14px;
+
+                flex-wrap: wrap;
+            }
+
+            .nav-links a {
+                font-size: 14px;
+
+                font-weight: 600;
+            }
+
+
+            .bundle-page {
+                padding:
+                    45px 18px 70px;
+            }
+
+            .bundle-header {
+                margin-bottom: 38px;
+            }
+
+            .bundle-header h1 {
+                font-size: 39px;
+            }
+
+            .bundle-header p {
+                font-size: 16px;
+            }
+
+            .bundle-grid {
+                grid-template-columns: 1fr;
+
+                gap: 22px;
+            }
+
+            .clickerlab-pack {
+                grid-column:
+                    span 1;
+            }
+
+            .clickerlab-pack .bundle-image {
+                aspect-ratio:
+                    1 / 0.78;
+            }
+
+            .clickerlab-pack
+            .placeholder-box {
+                min-height: 0;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <header class="navbar">
+
+        <div class="navbar-inner">
+
+
+            <a
+                href="index.html"
+                class="navbar-logo"
+                aria-label="ClickerLabStore Home"
+            >
+
+                <img
+                    src="ClickerLabLogo.png"
+                    alt="ClickerLabStore"
+                >
+
+            </a>
+
+
+            <nav class="nav-links">
+
+                <a href="shop.html">
+                    Shop
+                </a>
+
+                <a href="bundles.html">
+                    Bundles
+                </a>
+
+                <a href="build.html">
+                    Build Your Own
+                </a>
+
+                <a href="about.html">
+                    About
+                </a>
+
+                <a href="faq.html">
+                    FAQ
+                </a>
+
+            </nav>
+
+
+            <div class="nav-actions">
+
+                <button
+                    type="button"
+                    class="nav-icon-button"
+                    id="search-button"
+                    aria-label="Search"
+                >
+
+                    <img
+                        src="search_button_cropped_580x580.png"
+                        alt=""
+                    >
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="nav-icon-button"
+                    id="cart-button"
+                    aria-label="Cart"
+                >
+
+                    <img
+                        src="cart_button_cropped_580x580.png"
+                        alt=""
+                    >
+
+                </button>
+
+            </div>
+
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         BUNDLES
+    ========================== -->
+
+    <main class="bundle-page">
+
+        <div class="bundle-inner">
+
+
+            <!-- HEADING -->
+
+            <section class="bundle-header">
+
+                <h1>
+                    Clicker Bundles
+                </h1>
+
+                <p>
+                    Get more clickers together and save.
+                    Pick from starter sets, trios, or the full
+                    ClickerLab collection.
+                </p>
+
+            </section>
+
+
+            <!-- =========================
+                 BUNDLE GRID
+            ========================== -->
+
+            <section class="bundle-grid">
+
+
+                <!-- =========================
+                     STARTER PACK
+                ========================== -->
+
+                <article class="bundle-card">
+
+
+                    <div class="bundle-image">
+
+
+                        <span class="bundle-badge">
+                            Save 15%
+                        </span>
+
+
+                        <div class="placeholder-box">
+
+                            <div class="placeholder-title">
+                                Starter Pack
+                            </div>
+
+                            <div class="placeholder-subtitle">
+                                Bundle image coming soon
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="bundle-info">
+
+
+                        <h2>
+                            Starter Pack
+                        </h2>
+
+
+                        <p class="bundle-items">
+                            A simple two-clicker bundle with
+                            our smallest and largest standard designs.
+                        </p>
+
+
+                        <div class="included-list">
+
+                            <span class="included-item">
+                                1-Key Clicker
+                            </span>
+
+                            <span class="included-item">
+                                4-Key Clicker
+                            </span>
+
+                        </div>
+
+
+                        <div class="bundle-price-row">
+
+                            <span class="old-price">
+                                $9.98
+                            </span>
+
+                            <span class="bundle-price">
+                                $8.49
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="bundle-button"
+                        >
+                            Coming Soon
+                        </button>
+
+
+                    </div>
+
+
+                </article>
+
+
+                <!-- =========================
+                     STARTER LAB
+                ========================== -->
+
+                <article class="bundle-card">
+
+
+                    <div class="bundle-image">
+
+
+                        <span class="bundle-badge">
+                            Save 13%
+                        </span>
+
+
+                        <div class="placeholder-box">
+
+                            <div class="placeholder-title">
+                                Starter Lab
+                            </div>
+
+                            <div class="placeholder-subtitle">
+                                Bundle image coming soon
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="bundle-info">
+
+
+                        <h2>
+                            Starter Lab
+                        </h2>
+
+
+                        <p class="bundle-items">
+                            Two different sizes for switching
+                            between compact and larger clickers.
+                        </p>
+
+
+                        <div class="included-list">
+
+                            <span class="included-item">
+                                2-Key Clicker
+                            </span>
+
+                            <span class="included-item">
+                                4-Key Clicker
+                            </span>
+
+                        </div>
+
+
+                        <div class="bundle-price-row">
+
+                            <span class="old-price">
+                                $11.48
+                            </span>
+
+                            <span class="bundle-price">
+                                $9.99
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="bundle-button"
+                        >
+                            Coming Soon
+                        </button>
+
+
+                    </div>
+
+
+                </article>
+
+
+                <!-- =========================
+                     CLICKER TRIO
+                ========================== -->
+
+                <article class="bundle-card">
+
+
+                    <div class="bundle-image">
+
+
+                        <span class="bundle-badge">
+                            Save 18%
+                        </span>
+
+
+                        <div class="placeholder-box">
+
+                            <div class="placeholder-title">
+                                Clicker Trio
+                            </div>
+
+                            <div class="placeholder-subtitle">
+                                Bundle image coming soon
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="bundle-info">
+
+
+                        <h2>
+                            Clicker Trio
+                        </h2>
+
+
+                        <p class="bundle-items">
+                            Three clicker sizes together for
+                            more variety.
+                        </p>
+
+
+                        <div class="included-list">
+
+                            <span class="included-item">
+                                1-Key Clicker
+                            </span>
+
+                            <span class="included-item">
+                                2-Key Clicker
+                            </span>
+
+                            <span class="included-item">
+                                4-Key Clicker
+                            </span>
+
+                        </div>
+
+
+                        <div class="bundle-price-row">
+
+                            <span class="old-price">
+                                $13.97
+                            </span>
+
+                            <span class="bundle-price">
+                                $11.49
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="bundle-button"
+                        >
+                            Coming Soon
+                        </button>
+
+
+                    </div>
+
+
+                </article>
+
+
+                <!-- =========================
+                     TRIO LAB
+                ========================== -->
+
+                <article class="bundle-card">
+
+
+                    <div class="bundle-image">
+
+
+                        <span class="bundle-badge">
+                            Save 20%
+                        </span>
+
+
+                        <div class="placeholder-box">
+
+                            <div class="placeholder-title">
+                                Trio Lab
+                            </div>
+
+                            <div class="placeholder-subtitle">
+                                Bundle image coming soon
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="bundle-info">
+
+
+                        <h2>
+                            Trio Lab
+                        </h2>
+
+
+                        <p class="bundle-items">
+                            A three-clicker set with compact,
+                            medium, and full-size options.
+                        </p>
+
+
+                        <div class="included-list">
+
+                            <span class="included-item">
+                                1-Key Clicker
+                            </span>
+
+                            <span class="included-item">
+                                3-Key Clicker
+                            </span>
+
+                            <span class="included-item">
+                                4-Key Clicker
+                            </span>
+
+                        </div>
+
+
+                        <div class="bundle-price-row">
+
+                            <span class="old-price">
+                                $14.97
+                            </span>
+
+                            <span class="bundle-price">
+                                $11.99
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="bundle-button"
+                        >
+                            Coming Soon
+                        </button>
+
+
+                    </div>
+
+
+                </article>
+
+
+                <!-- =========================
+                     CLICKERLAB PACK
+                ========================== -->
+
+                <article
+                    class="bundle-card best-value clickerlab-pack"
+                >
+
+
+                    <div class="bundle-image">
+
+
+                        <span
+                            class="bundle-badge best-value-badge"
+                        >
+                            Best Value
+                        </span>
+
+
+                        <div class="placeholder-box">
+
+                            <div class="placeholder-title">
+                                ClickerLab Pack
+                            </div>
+
+                            <div class="placeholder-subtitle">
+                                Full bundle image coming soon
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="bundle-info">
+
+
+                        <h2>
+                            ClickerLab Pack
+                        </h2>
+
+
+                        <p class="bundle-items">
+                            The biggest ClickerLab bundle with
+                            five different clicker sizes.
+                        </p>
+
+
+                        <div class="included-list">
+
+                            <span class="included-item">
+                                1-Key Clicker
+                            </span>
+
+                            <span class="included-item">
+                                2-Key Clicker
+                            </span>
+
+                            <span class="included-item">
+                                3-Key Clicker
+                            </span>
+
+                            <span class="included-item">
+                                4-Key Clicker
+                            </span>
+
+                            <span class="included-item">
+                                9-Key Clicker
+                            </span>
+
+                        </div>
+
+
+                        <div class="bundle-price-row">
+
+                            <span class="bundle-price">
+                                $26.99
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="bundle-button"
+                        >
+                            Coming Soon
+                        </button>
+
+
+                    </div>
+
+
+                </article>
+
+
+            </section>
+
+
+            <!-- =========================
+                 NOTE
+            ========================== -->
+
+            <div class="bundle-note">
+
+                Bundle images and customization pages are coming soon.
+                Each bundle will eventually let you choose the available
+                switches and keycap designs for each included clicker.
+
+            </div>
+
+
+        </div>
+
+    </main>
+
+
+</body>
+
+</html>
