@@ -49,18 +49,15 @@
 
         body {
             font-family: "Nunito Sans", sans-serif;
-
             background: white;
-
             color: #17243c;
-
             overflow-x: hidden;
         }
 
 
         /* =========================
            NAVBAR
-           LOCKED VERSION
+           UNCHANGED
         ========================== */
 
         .navbar {
@@ -252,7 +249,7 @@
             margin: 0 auto;
 
             padding:
-                60px 60px 75px;
+                75px 60px 75px;
 
             display: grid;
 
@@ -275,56 +272,21 @@
 
 
         /* =========================
-           SMALL LABEL
-        ========================== */
-
-        .hero-pill {
-            display: inline-flex;
-
-            align-items: center;
-
-            gap: 9px;
-
-            padding:
-                11px 20px;
-
-            margin-bottom: 30px;
-
-            border-radius: 999px;
-
-            background: #f7e7d1;
-
-            color: #17243c;
-
-            font-size: 17px;
-            font-weight: 800;
-
-            box-shadow:
-                0 5px 16px
-                rgba(23, 36, 60, 0.07);
-        }
-
-        .hero-pill-icon {
-            color: #ff8067;
-        }
-
-
-        /* =========================
            HERO TITLE
         ========================== */
 
         .hero-title {
-            margin-bottom: 26px;
+            margin-bottom: 28px;
 
             color: #17243c;
 
-            font-size: 100px;
+            font-size: 80px;
 
             font-weight: 900;
 
-            line-height: 0.95;
+            line-height: 1;
 
-            letter-spacing: -3px;
+            letter-spacing: -2.5px;
         }
 
         .hero-title-accent {
@@ -335,17 +297,17 @@
 
 
         /* =========================
-           HERO TEXT
+           HERO DESCRIPTION
         ========================== */
 
         .hero-description {
-            max-width: 720px;
+            max-width: 700px;
 
-            margin-bottom: 36px;
+            margin-bottom: 38px;
 
             color: #637698;
 
-            font-size: 23px;
+            font-size: 22px;
 
             line-height: 1.55;
 
@@ -381,17 +343,23 @@
             border:
                 2px solid #f7e7d1;
 
-            border-radius: 999px;
+            border-radius:
+                999px;
 
-            background: #f7e7d1;
+            background:
+                #f7e7d1;
 
-            color: #4b2247;
+            color:
+                #4b2247;
 
-            text-decoration: none;
+            text-decoration:
+                none;
 
-            font-size: 19px;
+            font-size:
+                19px;
 
-            font-weight: 800;
+            font-weight:
+                800;
 
             box-shadow:
                 0 7px 20px
@@ -473,9 +441,11 @@
             border:
                 18px solid #ffffff;
 
-            border-radius: 38px;
+            border-radius:
+                38px;
 
-            background: #f7f7f5;
+            background:
+                #f7f7f5;
 
             box-shadow:
                 0 22px 50px
@@ -496,9 +466,11 @@
 
             overflow: hidden;
 
-            border-radius: 26px;
+            border-radius:
+                26px;
 
-            background: #f7f7f5;
+            background:
+                #f7f7f5;
         }
 
 
@@ -536,29 +508,41 @@
         .hero-tag {
             position: absolute;
 
-            right: 0;
-            bottom: 45px;
+            right: -15px;
+            bottom: 40px;
 
             z-index: 3;
 
+            max-width: 310px;
+
             padding:
-                16px 24px;
+                16px 23px;
 
             border:
                 7px solid white;
 
-            border-radius: 20px;
+            border-radius:
+                20px;
 
-            background: #f7e7d1;
+            background:
+                #f7e7d1;
 
-            color: #17243c;
+            color:
+                #4b2247;
 
-            font-size: 20px;
+            font-size:
+                18px;
 
-            font-weight: 900;
+            line-height:
+                1.25;
+
+            font-weight:
+                800;
+
+            text-align: center;
 
             transform:
-                rotate(5deg);
+                rotate(4deg);
 
             box-shadow:
                 0 12px 28px
@@ -571,6 +555,8 @@
         ========================== */
 
         @media (max-width: 1200px) {
+
+            /* NAVBAR UNCHANGED */
 
             .navbar-logo {
                 width: 260px;
@@ -598,15 +584,17 @@
             }
 
 
+            /* HERO */
+
             .hero-inner {
                 padding:
-                    50px 35px 65px;
+                    60px 35px 65px;
 
                 gap: 25px;
             }
 
             .hero-title {
-                font-size: 78px;
+                font-size: 65px;
             }
 
             .hero-description {
@@ -630,7 +618,9 @@
             }
 
             .hero-tag {
-                font-size: 17px;
+                font-size: 16px;
+
+                max-width: 270px;
 
                 padding:
                     13px 18px;
@@ -644,6 +634,8 @@
         ========================== */
 
         @media (max-width: 900px) {
+
+            /* NAVBAR UNCHANGED */
 
             .navbar {
                 height: auto;
@@ -704,7 +696,7 @@
                 grid-template-columns: 1fr;
 
                 padding:
-                    45px 25px 70px;
+                    50px 25px 70px;
             }
 
             .hero-left {
@@ -712,7 +704,7 @@
             }
 
             .hero-title {
-                font-size: 70px;
+                font-size: 64px;
             }
 
             .hero-right {
@@ -728,7 +720,7 @@
             }
 
             .hero-tag {
-                right: 10%;
+                right: 5%;
             }
 
         }
@@ -739,6 +731,8 @@
         ========================== */
 
         @media (max-width: 600px) {
+
+            /* NAVBAR UNCHANGED */
 
             .navbar-logo {
                 width: 185px;
@@ -770,28 +764,19 @@
 
             .hero-inner {
                 padding:
-                    32px 18px 50px;
-            }
-
-            .hero-pill {
-                margin-bottom: 22px;
-
-                padding:
-                    9px 15px;
-
-                font-size: 14px;
+                    42px 18px 50px;
             }
 
             .hero-title {
-                font-size: 53px;
+                font-size: 48px;
 
-                line-height: 0.98;
+                line-height: 1.02;
 
-                letter-spacing: -2px;
+                letter-spacing: -1.8px;
             }
 
             .hero-description {
-                margin-bottom: 27px;
+                margin-bottom: 28px;
 
                 font-size: 17px;
             }
@@ -831,9 +816,11 @@
             }
 
             .hero-tag {
-                right: 2%;
+                right: 0;
 
-                bottom: 15px;
+                bottom: 10px;
+
+                max-width: 220px;
 
                 padding:
                     11px 14px;
@@ -962,25 +949,12 @@
             <section class="hero-left">
 
 
-                <div class="hero-pill">
-
-                    <span class="hero-pill-icon">
-                        ⚡
-                    </span>
-
-                    <span>
-                        Pocket-sized tactile fun
-                    </span>
-
-                </div>
-
-
                 <h1 class="hero-title">
 
-                    Click. Fidget.
+                    For fidgety hands
 
                     <span class="hero-title-accent">
-                        Repeat.
+                        and busy brains.
                     </span>
 
                 </h1>
@@ -988,9 +962,9 @@
 
                 <p class="hero-description">
 
-                    Mechanical-key clickers made for satisfying little
-                    breaks. Pick one key for maximum portability or go
-                    bigger with a multi-key setup.
+                    Shop compact mechanical-key fidgets in 1–4 key
+                    designs. Choose your switch and keycaps, or build
+                    a setup that fits you.
 
                 </p>
 
@@ -1046,7 +1020,7 @@
 
 
                 <div class="hero-tag">
-                    4 keys = 4× the fun
+                    Choose a quick pick or customize your own!
                 </div>
 
 
