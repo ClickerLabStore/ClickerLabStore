@@ -11,14 +11,12 @@
 
     <title>ClickerLabStore</title>
 
-    <!-- FAVICON -->
     <link
         rel="icon"
         type="image/png"
         href="/favicon.png?v=2"
     >
 
-    <!-- NUNITO SANS -->
     <link
         rel="preconnect"
         href="https://fonts.googleapis.com"
@@ -87,11 +85,6 @@
             padding: 0 2.3%;
         }
 
-
-        /* =========================
-           LOGO
-        ========================== */
-
         .navbar-logo {
             display: flex;
             align-items: center;
@@ -112,14 +105,10 @@
 
         .navbar-logo img {
             display: block;
+
             width: 100%;
             height: auto;
         }
-
-
-        /* =========================
-           NAV LINKS
-        ========================== */
 
         .nav-links {
             display: flex;
@@ -164,7 +153,8 @@
 
             transform-origin: center;
 
-            transition: transform 0.2s ease;
+            transition:
+                transform 0.2s ease;
         }
 
         .nav-links a:hover::after {
@@ -172,11 +162,6 @@
                 translateX(-50%)
                 scaleX(1);
         }
-
-
-        /* =========================
-           SEARCH + CART
-        ========================== */
 
         .nav-actions {
             display: flex;
@@ -206,7 +191,8 @@
             align-items: center;
             justify-content: center;
 
-            transition: transform 0.2s ease;
+            transition:
+                transform 0.2s ease;
         }
 
         .nav-icon-button:hover {
@@ -244,7 +230,7 @@
             margin: 0 auto;
 
             padding:
-                75px 60px 75px;
+                75px 60px;
 
             display: grid;
 
@@ -256,19 +242,9 @@
             align-items: center;
         }
 
-
-        /* =========================
-           HERO LEFT
-        ========================== */
-
         .hero-left {
             max-width: 760px;
         }
-
-
-        /* =========================
-           HERO TITLE
-        ========================== */
 
         .hero-title {
             margin-bottom: 28px;
@@ -276,18 +252,12 @@
             color: #111111;
 
             font-size: 80px;
-
             font-weight: 900;
 
             line-height: 1;
 
             letter-spacing: -2.5px;
         }
-
-
-        /* =========================
-           HERO DESCRIPTION
-        ========================== */
 
         .hero-description {
             max-width: 700px;
@@ -299,14 +269,7 @@
             font-size: 22px;
 
             line-height: 1.55;
-
-            font-weight: 400;
         }
-
-
-        /* =========================
-           HERO BUTTONS
-        ========================== */
 
         .hero-buttons {
             display: flex;
@@ -341,7 +304,6 @@
             text-decoration: none;
 
             font-size: 19px;
-
             font-weight: 800;
 
             box-shadow:
@@ -350,14 +312,11 @@
 
             transition:
                 transform 0.2s ease,
-                box-shadow 0.2s ease,
-                border-color 0.2s ease;
+                box-shadow 0.2s ease;
         }
 
         .hero-button:hover {
             transform: translateY(-3px);
-
-            border-color: #e2c8a6;
 
             box-shadow:
                 0 11px 24px
@@ -380,11 +339,6 @@
             justify-content: center;
         }
 
-
-        /* =========================
-           BEIGE CIRCLE
-        ========================== */
-
         .hero-circle {
             position: absolute;
 
@@ -400,11 +354,6 @@
 
             z-index: 1;
         }
-
-
-        /* =========================
-           PRODUCT FRAME
-        ========================== */
 
         .hero-product-card {
             position: relative;
@@ -449,11 +398,6 @@
             background: #f7f7f5;
         }
 
-
-        /* =========================
-           PRODUCT IMAGE
-        ========================== */
-
         .hero-product-image {
             width: 78%;
             height: auto;
@@ -464,7 +408,8 @@
 
             transform: rotate(-3deg);
 
-            transition: transform 0.25s ease;
+            transition:
+                transform 0.25s ease;
         }
 
         .hero-product-card:hover
@@ -473,11 +418,6 @@
                 rotate(-3deg)
                 scale(1.04);
         }
-
-
-        /* =========================
-           FLOATING TAG
-        ========================== */
 
         .hero-tag {
             position: absolute;
@@ -545,14 +485,7 @@
 
             grid-template-columns:
                 repeat(4, 1fr);
-
-            align-items: stretch;
         }
-
-
-        /* =========================
-           FEATURE STRIP ITEM
-        ========================== */
 
         .strip-item {
             position: relative;
@@ -562,7 +495,6 @@
             flex-direction: column;
 
             align-items: center;
-            justify-content: flex-start;
 
             text-align: center;
 
@@ -584,11 +516,6 @@
             background:
                 rgba(0, 0, 0, 0.12);
         }
-
-
-        /* =========================
-           STRIP ICONS
-        ========================== */
 
         .strip-icon {
             width: 43px;
@@ -615,28 +542,19 @@
             stroke-linejoin: round;
         }
 
-
-        /* =========================
-           STRIP TEXT
-        ========================== */
-
         .strip-item h3 {
             margin-bottom: 5px;
 
             color: #111111;
 
             font-size: 17px;
-
             font-weight: 900;
-
-            line-height: 1.2;
         }
 
         .strip-item p {
             color: #333333;
 
             font-size: 14px;
-
             font-weight: 600;
 
             line-height: 1.4;
@@ -678,11 +596,6 @@
             margin-bottom: 55px;
         }
 
-
-        /* =========================
-           FEATURED GRID
-        ========================== */
-
         .featured-grid {
             display: grid;
 
@@ -691,11 +604,6 @@
 
             gap: 28px;
         }
-
-
-        /* =========================
-           FEATURE CARD
-        ========================== */
 
         .feature-card {
             display: flex;
@@ -732,11 +640,6 @@
                 rgba(0, 0, 0, 0.1);
         }
 
-
-        /* =========================
-           FEATURE IMAGE
-        ========================== */
-
         .feature-image {
             width: 100%;
 
@@ -767,13 +670,9 @@
 
         .feature-card:hover
         .feature-image img {
-            transform: scale(1.04);
+            transform:
+                scale(1.04);
         }
-
-
-        /* =========================
-           PLACEHOLDER
-        ========================== */
 
         .feature-placeholder {
             width: 100%;
@@ -792,14 +691,7 @@
             font-weight: 700;
 
             text-align: center;
-
-            background: #f7f7f5;
         }
-
-
-        /* =========================
-           FEATURE CARD TEXT
-        ========================== */
 
         .feature-info {
             padding:
@@ -812,7 +704,6 @@
             color: #111111;
 
             font-size: 23px;
-
             font-weight: 800;
 
             margin-bottom: 7px;
@@ -822,8 +713,147 @@
             color: #555555;
 
             font-size: 14px;
+            font-weight: 700;
+        }
+
+
+        /* =========================
+           TIKTOK SECTION
+        ========================== */
+
+        .tiktok-section {
+            width: 100%;
+
+            padding:
+                95px 30px;
+
+            background: #ffffff;
+        }
+
+        .tiktok-card {
+            max-width: 1050px;
+
+            margin: 0 auto;
+
+            padding:
+                55px 60px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 40px;
+
+            border-radius: 28px;
+
+            background: #f7e7d1;
+
+            border:
+                1px solid #ead7bd;
+        }
+
+        .tiktok-left {
+            display: flex;
+
+            align-items: center;
+
+            gap: 24px;
+        }
+
+        .tiktok-icon {
+            width: 78px;
+            height: 78px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 22px;
+
+            background: #111111;
+
+            color: white;
+        }
+
+        .tiktok-icon svg {
+            width: 42px;
+            height: 42px;
+
+            fill: currentColor;
+        }
+
+        .tiktok-text h2 {
+            color: #111111;
+
+            font-size: 37px;
+
+            line-height: 1.1;
+
+            font-weight: 900;
+
+            margin-bottom: 7px;
+        }
+
+        .tiktok-username {
+            color: #111111;
+
+            font-size: 20px;
 
             font-weight: 700;
+
+            margin-bottom: 5px;
+        }
+
+        .tiktok-description {
+            color: #333333;
+
+            font-size: 16px;
+
+            line-height: 1.5;
+        }
+
+        .tiktok-button {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            min-width: 180px;
+            min-height: 56px;
+
+            padding:
+                0 25px;
+
+            border-radius:
+                999px;
+
+            background:
+                #111111;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 16px;
+
+            font-weight: 800;
+
+            flex-shrink: 0;
+
+            transition:
+                transform 0.2s ease,
+                opacity 0.2s ease;
+        }
+
+        .tiktok-button:hover {
+            transform:
+                translateY(-3px);
+
+            opacity: 0.88;
         }
 
 
@@ -833,15 +863,12 @@
 
         @media (max-width: 1200px) {
 
-            /* NAVBAR UNCHANGED */
-
             .navbar-logo {
                 width: 260px;
             }
 
             .nav-links {
                 margin-left: 50px;
-
                 gap: 28px;
             }
 
@@ -858,9 +885,6 @@
             .nav-actions {
                 margin-right: 12px;
             }
-
-
-            /* HERO */
 
             .hero-inner {
                 padding:
@@ -897,22 +921,6 @@
                 font-size: 16px;
 
                 max-width: 285px;
-
-                padding:
-                    13px 18px;
-            }
-
-
-            /* FEATURE STRIP */
-
-            .feature-strip-inner {
-                padding:
-                    34px 20px;
-            }
-
-            .strip-item {
-                padding:
-                    5px 18px;
             }
 
         }
@@ -923,8 +931,6 @@
         ========================== */
 
         @media (max-width: 900px) {
-
-            /* NAVBAR UNCHANGED */
 
             .navbar {
                 height: auto;
@@ -970,12 +976,8 @@
 
             .nav-links a {
                 font-size: 16px;
-
                 font-weight: 600;
             }
-
-
-            /* HERO */
 
             .hero {
                 min-height: auto;
@@ -986,10 +988,6 @@
 
                 padding:
                     50px 25px 70px;
-            }
-
-            .hero-left {
-                max-width: 100%;
             }
 
             .hero-title {
@@ -1008,13 +1006,6 @@
                     min(82vw, 470px);
             }
 
-            .hero-tag {
-                right: 5%;
-            }
-
-
-            /* FEATURE STRIP */
-
             .feature-strip-inner {
                 grid-template-columns:
                     repeat(2, 1fr);
@@ -1026,30 +1017,14 @@
                 display: none;
             }
 
-            .strip-item:nth-child(1),
-            .strip-item:nth-child(2) {
-                padding-bottom: 30px;
-
-                border-bottom:
-                    1px solid
-                    rgba(0, 0, 0, 0.12);
-            }
-
-
-            /* FEATURED */
-
-            .featured-section {
-                padding:
-                    75px 30px 90px;
-            }
-
-            .featured-title {
-                font-size: 46px;
-            }
-
             .featured-grid {
                 grid-template-columns:
                     repeat(2, 1fr);
+            }
+
+            .tiktok-card {
+                padding:
+                    42px 35px;
             }
 
         }
@@ -1060,8 +1035,6 @@
         ========================== */
 
         @media (max-width: 600px) {
-
-            /* NAVBAR UNCHANGED */
 
             .navbar-logo {
                 width: 185px;
@@ -1084,12 +1057,8 @@
 
             .nav-links a {
                 font-size: 14px;
-
                 font-weight: 600;
             }
-
-
-            /* HERO */
 
             .hero-inner {
                 padding:
@@ -1105,8 +1074,6 @@
             }
 
             .hero-description {
-                margin-bottom: 28px;
-
                 font-size: 17px;
             }
 
@@ -1118,8 +1085,6 @@
 
             .hero-button {
                 width: 100%;
-
-                font-size: 17px;
             }
 
             .hero-right {
@@ -1130,10 +1095,6 @@
                 border-width: 12px;
 
                 border-radius: 27px;
-            }
-
-            .hero-product-inner {
-                border-radius: 18px;
             }
 
             .hero-circle {
@@ -1151,16 +1112,8 @@
 
                 max-width: 240px;
 
-                padding:
-                    11px 14px;
-
-                border-width: 5px;
-
                 font-size: 13px;
             }
-
-
-            /* FEATURE STRIP */
 
             .feature-strip-inner {
                 grid-template-columns: 1fr;
@@ -1184,14 +1137,6 @@
                     rgba(0, 0, 0, 0.12);
             }
 
-            .strip-icon {
-                width: 40px;
-                height: 40px;
-            }
-
-
-            /* FEATURED */
-
             .featured-section {
                 padding:
                     60px 18px 70px;
@@ -1199,14 +1144,38 @@
 
             .featured-title {
                 font-size: 38px;
-
-                margin-bottom: 38px;
             }
 
             .featured-grid {
                 grid-template-columns: 1fr;
+            }
 
-                gap: 22px;
+            .tiktok-section {
+                padding:
+                    65px 18px;
+            }
+
+            .tiktok-card {
+                padding:
+                    35px 25px;
+
+                flex-direction: column;
+
+                align-items: stretch;
+
+                text-align: center;
+            }
+
+            .tiktok-left {
+                flex-direction: column;
+            }
+
+            .tiktok-text h2 {
+                font-size: 31px;
+            }
+
+            .tiktok-button {
+                width: 100%;
             }
 
         }
@@ -1219,14 +1188,11 @@
 <body>
 
 
-    <!-- =========================
-         NAVBAR
-    ========================== -->
+    <!-- NAVBAR -->
 
     <header class="navbar">
 
         <div class="navbar-inner">
-
 
             <a
                 href="index.html"
@@ -1300,22 +1266,17 @@
 
             </div>
 
-
         </div>
 
     </header>
 
 
-    <!-- =========================
-         HERO
-    ========================== -->
+    <!-- HERO -->
 
     <main class="hero">
 
         <div class="hero-inner">
 
-
-            <!-- LEFT -->
 
             <section class="hero-left">
 
@@ -1353,8 +1314,6 @@
             </section>
 
 
-            <!-- RIGHT -->
-
             <section class="hero-right">
 
                 <div class="hero-circle"></div>
@@ -1387,69 +1346,31 @@
     </main>
 
 
-    <!-- =========================
-         FEATURE STRIP
-    ========================== -->
+    <!-- FEATURE STRIP -->
 
     <section class="feature-strip">
 
         <div class="feature-strip-inner">
 
 
-            <!-- CUSTOMIZE -->
-
             <div class="strip-item">
 
                 <div class="strip-icon">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
+                    <svg viewBox="0 0 24 24">
 
-                        <line
-                            x1="4"
-                            y1="6"
-                            x2="20"
-                            y2="6"
-                        ></line>
+                        <line x1="4" y1="6" x2="20" y2="6"></line>
+                        <circle cx="9" cy="6" r="2"></circle>
 
-                        <circle
-                            cx="9"
-                            cy="6"
-                            r="2"
-                        ></circle>
+                        <line x1="4" y1="12" x2="20" y2="12"></line>
+                        <circle cx="15" cy="12" r="2"></circle>
 
-                        <line
-                            x1="4"
-                            y1="12"
-                            x2="20"
-                            y2="12"
-                        ></line>
-
-                        <circle
-                            cx="15"
-                            cy="12"
-                            r="2"
-                        ></circle>
-
-                        <line
-                            x1="4"
-                            y1="18"
-                            x2="20"
-                            y2="18"
-                        ></line>
-
-                        <circle
-                            cx="11"
-                            cy="18"
-                            r="2"
-                        ></circle>
+                        <line x1="4" y1="18" x2="20" y2="18"></line>
+                        <circle cx="11" cy="18" r="2"></circle>
 
                     </svg>
 
                 </div>
-
 
                 <h3>
                     Customize Your Clicker
@@ -1462,16 +1383,11 @@
             </div>
 
 
-            <!-- PORTABLE -->
-
             <div class="strip-item">
 
                 <div class="strip-icon">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
+                    <svg viewBox="0 0 24 24">
 
                         <rect
                             x="5"
@@ -1485,14 +1401,11 @@
                             d="M9 7V5.5C9 4.7 9.7 4 10.5 4h3C14.3 4 15 4.7 15 5.5V7"
                         ></path>
 
-                        <path
-                            d="M5 12h14"
-                        ></path>
+                        <path d="M5 12h14"></path>
 
                     </svg>
 
                 </div>
-
 
                 <h3>
                     Small &amp; Portable
@@ -1505,37 +1418,24 @@
             </div>
 
 
-            <!-- LIGHT-UP -->
-
             <div class="strip-item">
 
                 <div class="strip-icon">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
+                    <svg viewBox="0 0 24 24">
 
-                        <path
-                            d="M9 18h6"
-                        ></path>
-
-                        <path
-                            d="M10 21h4"
-                        ></path>
+                        <path d="M9 18h6"></path>
+                        <path d="M10 21h4"></path>
 
                         <path
                             d="M8.5 15.5C7 14.4 6 12.6 6 10.5a6 6 0 0 1 12 0c0 2.1-1 3.9-2.5 5"
                         ></path>
 
-                        <path
-                            d="M9 15.5h6"
-                        ></path>
+                        <path d="M9 15.5h6"></path>
 
                     </svg>
 
                 </div>
-
 
                 <h3>
                     Light-Up Colors
@@ -1548,53 +1448,20 @@
             </div>
 
 
-            <!-- MANY DESIGNS -->
-
             <div class="strip-item">
 
                 <div class="strip-icon">
 
-                    <svg
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
+                    <svg viewBox="0 0 24 24">
 
-                        <rect
-                            x="4"
-                            y="4"
-                            width="6"
-                            height="6"
-                            rx="1"
-                        ></rect>
-
-                        <rect
-                            x="14"
-                            y="4"
-                            width="6"
-                            height="6"
-                            rx="1"
-                        ></rect>
-
-                        <rect
-                            x="4"
-                            y="14"
-                            width="6"
-                            height="6"
-                            rx="1"
-                        ></rect>
-
-                        <rect
-                            x="14"
-                            y="14"
-                            width="6"
-                            height="6"
-                            rx="1"
-                        ></rect>
+                        <rect x="4" y="4" width="6" height="6" rx="1"></rect>
+                        <rect x="14" y="4" width="6" height="6" rx="1"></rect>
+                        <rect x="4" y="14" width="6" height="6" rx="1"></rect>
+                        <rect x="14" y="14" width="6" height="6" rx="1"></rect>
 
                     </svg>
 
                 </div>
-
 
                 <h3>
                     Many Designs
@@ -1612,10 +1479,7 @@
     </section>
 
 
-    <!-- =========================
-         FULL CUSTOMIZATION /
-         TOP PICKS & DEALS
-    ========================== -->
+    <!-- TOP PICKS -->
 
     <section class="featured-section">
 
@@ -1630,8 +1494,6 @@
 
             <div class="featured-grid">
 
-
-                <!-- 4-KEY CLICKER -->
 
                 <a
                     href="4-key-clicker.html"
@@ -1663,8 +1525,6 @@
                 </a>
 
 
-                <!-- BUNDLE -->
-
                 <a
                     href="bundles.html"
                     class="feature-card"
@@ -1693,8 +1553,6 @@
 
                 </a>
 
-
-                <!-- 1-KEY CLICKER -->
 
                 <a
                     href="1-key-clicker.html"
@@ -1727,6 +1585,68 @@
 
 
             </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         TIKTOK
+    ========================== -->
+
+    <section class="tiktok-section">
+
+        <div class="tiktok-card">
+
+
+            <div class="tiktok-left">
+
+
+                <div class="tiktok-icon">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+
+                        <path
+                            d="M14 3v10.2a4.8 4.8 0 1 1-4.1-4.75v2.9a2 2 0 1 0 1.3 1.85V3h2.8c.45 2.25 1.75 3.65 4 4.25V10c-1.55-.2-2.85-.8-4-1.75V3z"
+                        ></path>
+
+                    </svg>
+
+                </div>
+
+
+                <div class="tiktok-text">
+
+                    <h2>
+                        Follow us on TikTok
+                    </h2>
+
+                    <div class="tiktok-username">
+                        @micropathmd
+                    </div>
+
+                    <p class="tiktok-description">
+                        See new clicker designs, builds, and updates.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+            <a
+                href="https://www.tiktok.com/@micropathmd"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="tiktok-button"
+            >
+                View TikTok →
+            </a>
 
 
         </div>
