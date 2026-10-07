@@ -317,7 +317,7 @@
 
 
         /* =========================
-           IMAGE PLACEHOLDER
+           IMAGE
         ========================== */
 
         .bundle-image {
@@ -333,12 +333,42 @@
             align-items: center;
             justify-content: center;
 
-            padding: 25px;
+            overflow: hidden;
 
             background: #faf7f2;
 
             border-bottom:
                 1px solid #eee7dc;
+        }
+
+        .bundle-image img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: contain;
+            object-position: center;
+
+            transition:
+                transform 0.25s ease;
+        }
+
+        .bundle-card:hover
+        .bundle-image img {
+            transform: scale(1.035);
+        }
+
+
+        /* =========================
+           PLACEHOLDER
+        ========================== */
+
+        .placeholder-wrapper {
+            width: 100%;
+            height: 100%;
+
+            padding: 25px;
         }
 
         .placeholder-box {
@@ -388,7 +418,7 @@
             top: 16px;
             left: 16px;
 
-            z-index: 2;
+            z-index: 3;
 
             padding:
                 8px 12px;
@@ -402,6 +432,10 @@
             font-size: 13px;
 
             font-weight: 900;
+
+            box-shadow:
+                0 4px 12px
+                rgba(0, 0, 0, 0.08);
         }
 
         .best-value-badge {
@@ -422,7 +456,8 @@
 
             border-radius: 50%;
 
-            background: rgba(255, 255, 255, 0.65);
+            background:
+                rgba(255, 255, 255, 0.65);
         }
 
 
@@ -590,7 +625,7 @@
         }
 
         .clickerlab-pack
-        .placeholder-box {
+        .placeholder-wrapper {
             min-height: 270px;
         }
 
@@ -789,7 +824,7 @@
             }
 
             .clickerlab-pack
-            .placeholder-box {
+            .placeholder-wrapper {
                 min-height: 0;
             }
 
@@ -930,18 +965,10 @@
                             Save 10%
                         </span>
 
-
-                        <div class="placeholder-box">
-
-                            <div class="placeholder-title">
-                                Starter Pack
-                            </div>
-
-                            <div class="placeholder-subtitle">
-                                Bundle image coming soon
-                            </div>
-
-                        </div>
+                        <img
+                            src="starter-pack.png"
+                            alt="Starter Pack bundle with 1-Key and 4-Key Clickers"
+                        >
 
                     </div>
 
@@ -1011,18 +1038,10 @@
                             Save 9%
                         </span>
 
-
-                        <div class="placeholder-box">
-
-                            <div class="placeholder-title">
-                                Starter Lab
-                            </div>
-
-                            <div class="placeholder-subtitle">
-                                Bundle image coming soon
-                            </div>
-
-                        </div>
+                        <img
+                            src="starter-lab.png"
+                            alt="Starter Lab bundle with 2-Key and 4-Key Clickers"
+                        >
 
                     </div>
 
@@ -1092,18 +1111,10 @@
                             Save 15%
                         </span>
 
-
-                        <div class="placeholder-box">
-
-                            <div class="placeholder-title">
-                                Clicker Trio
-                            </div>
-
-                            <div class="placeholder-subtitle">
-                                Bundle image coming soon
-                            </div>
-
-                        </div>
+                        <img
+                            src="clicker-trio.png"
+                            alt="Clicker Trio bundle with 1-Key, 2-Key and 4-Key Clickers"
+                        >
 
                     </div>
 
@@ -1177,18 +1188,10 @@
                             Save 17%
                         </span>
 
-
-                        <div class="placeholder-box">
-
-                            <div class="placeholder-title">
-                                Trio Lab
-                            </div>
-
-                            <div class="placeholder-subtitle">
-                                Bundle image coming soon
-                            </div>
-
-                        </div>
+                        <img
+                            src="trio-lab.png"
+                            alt="Trio Lab bundle with 1-Key, 3-Key and 4-Key Clickers"
+                        >
 
                     </div>
 
@@ -1264,6 +1267,7 @@
                         <span
                             class="bundle-badge best-value-badge"
                         >
+
                             <span>
                                 Best Value
                             </span>
@@ -1273,17 +1277,22 @@
                             <span>
                                 Save 20%
                             </span>
+
                         </span>
 
 
-                        <div class="placeholder-box">
+                        <div class="placeholder-wrapper">
 
-                            <div class="placeholder-title">
-                                ClickerLab Pack
-                            </div>
+                            <div class="placeholder-box">
 
-                            <div class="placeholder-subtitle">
-                                Full bundle image coming soon
+                                <div class="placeholder-title">
+                                    ClickerLab Pack
+                                </div>
+
+                                <div class="placeholder-subtitle">
+                                    Full bundle image coming soon
+                                </div>
+
                             </div>
 
                         </div>
@@ -1363,7 +1372,6 @@
 
             <div class="bundle-note">
 
-                Bundle images and customization pages are coming soon.
                 Each bundle will eventually let you choose the available
                 switches and keycap designs for each included clicker.
 
