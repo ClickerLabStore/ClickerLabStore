@@ -1,2463 +1,571 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>4-Key Clicker | ClickerLabStore</title>
-
-    <!-- FAVICON -->
-    <link
-        rel="icon"
-        type="image/png"
-        href="/favicon.png?v=2"
-    >
-
-    <!-- NUNITO SANS -->
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
-
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-    <style>
-
-        /* =========================
-           RESET
-        ========================== */
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: "Nunito Sans", sans-serif;
-            background: white;
-            color: #17243c;
-            overflow-x: hidden;
-        }
-
-
-        /* =========================
-           NAVBAR
-        ========================== */
-
-        .navbar {
-            width: 100%;
-            height: 110px;
-
-            background-image:
-                url("blank navbar.png");
-
-            background-size:
-                100% 100%;
-
-            background-position:
-                center;
-
-            background-repeat:
-                no-repeat;
-        }
-
-        .navbar-inner {
-            width: 100%;
-            height: 100%;
-
-            display: flex;
-            align-items: center;
-
-            padding: 0 2.3%;
-        }
-
-        .navbar-logo {
-            display: flex;
-            align-items: center;
-
-            width: 310px;
-
-            flex-shrink: 0;
-
-            text-decoration: none;
-
-            transition:
-                transform 0.2s ease;
-        }
-
-        .navbar-logo:hover {
-            transform: scale(1.02);
-        }
-
-        .navbar-logo img {
-            display: block;
-
-            width: 100%;
-            height: auto;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-
-            margin-left: 150px;
-
-            gap: 50px;
-        }
-
-        .nav-links a {
-            position: relative;
-
-            color: #4b2247;
-
-            text-decoration: none;
-
-            font-size: 23px;
-            font-weight: 600;
-
-            white-space: nowrap;
-
-            padding: 10px 0;
-        }
-
-        .nav-links a::after {
-            content: "";
-
-            position: absolute;
-
-            left: 50%;
-            bottom: 3px;
-
-            width: 100%;
-            height: 2px;
-
-            background: #4b2247;
-
-            transform:
-                translateX(-50%)
-                scaleX(0);
-
-            transform-origin: center;
-
-            transition:
-                transform 0.2s ease;
-        }
-
-        .nav-links a:hover::after {
-            transform:
-                translateX(-50%)
-                scaleX(1);
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-
-            gap: 14px;
-
-            margin-left: auto;
-            margin-right: 20px;
-
-            flex-shrink: 0;
-        }
-
-        .nav-icon-button {
-            width: 72px;
-            height: 72px;
-
-            padding: 0;
-
-            border: none;
-
-            background: transparent;
-
-            cursor: pointer;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            transition:
-                transform 0.2s ease;
-        }
-
-        .nav-icon-button:hover {
-            transform: scale(1.08);
-        }
-
-        .nav-icon-button img {
-            display: block;
-
-            width: 100%;
-            height: 100%;
-
-            object-fit: contain;
-        }
-
-
-        /* =========================
-           PRODUCT PAGE
-        ========================== */
-
-        .product-page {
-            max-width: 1200px;
-
-            margin: 0 auto;
-
-            padding:
-                70px 40px 100px;
-        }
-
-        .back-to-shop {
-            display: inline-block;
-
-            margin-bottom: 30px;
-
-            color: #667085;
-
-            text-decoration: none;
-
-            font-size: 15px;
-            font-weight: 700;
-        }
-
-        .back-to-shop:hover {
-            color: #17243c;
-        }
-
-        .product-layout {
-            display: grid;
-
-            grid-template-columns:
-                1.1fr 0.9fr;
-
-            gap: 65px;
-
-            align-items: start;
-        }
-
-
-        /* =========================
-           PRODUCT IMAGE
-        ========================== */
-
-        .product-photo {
-            width: 100%;
-
-            aspect-ratio: 1 / 1;
-
-            overflow: hidden;
-
-            border-radius: 22px;
-
-            background: #f7f7f7;
-        }
-
-        .product-photo img {
-            width: 100%;
-            height: 100%;
-
-            display: block;
-
-            object-fit: cover;
-            object-position: center;
-        }
-
-
-        /* =========================
-           PRODUCT DETAILS
-        ========================== */
-
-        .product-details {
-            padding-top: 10px;
-        }
-
-        .product-details h1 {
-            margin-bottom: 14px;
-
-            font-size: 44px;
-
-            line-height: 1.1;
-
-            font-weight: 800;
-        }
-
-        .product-price {
-            margin-bottom: 24px;
-
-            font-size: 27px;
-
-            font-weight: 800;
-        }
-
-        .product-description {
-            margin-bottom: 30px;
-
-            color: #667085;
-
-            font-size: 17px;
-
-            line-height: 1.7;
-        }
-
-        .option-title {
-            display: block;
-
-            margin-bottom: 10px;
-
-            font-size: 15px;
-
-            font-weight: 800;
-        }
-
-
-        /* =========================
-           SWITCH OPTIONS
-        ========================== */
-
-        .switch-section {
-            margin-bottom: 28px;
-        }
-
-        .switch-options {
-            display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap: 12px;
-        }
-
-        .switch-option {
-            padding: 15px;
-
-            border:
-                2px solid #d8dde5;
-
-            border-radius: 12px;
-
-            background: white;
-
-            color: #17243c;
-
-            font-family: inherit;
-
-            text-align: left;
-
-            cursor: pointer;
-
-            transition:
-                border-color 0.2s ease,
-                background 0.2s ease,
-                transform 0.2s ease;
-        }
-
-        .switch-option:hover {
-            border-color: #9ba6b5;
-
-            transform: translateY(-2px);
-        }
-
-        .switch-option.selected {
-            border-color: #17243c;
-
-            background: #f5f7fa;
-        }
-
-        .switch-name {
-            display: block;
-
-            margin-bottom: 3px;
-
-            font-size: 16px;
-
-            font-weight: 800;
-        }
-
-        .switch-description {
-            display: block;
-
-            color: #667085;
-
-            font-size: 13px;
-
-            line-height: 1.4;
-        }
-
-
-        /* =========================
-           KEYCAP SECTION
-        ========================== */
-
-        .keycap-section {
-            margin-bottom: 28px;
-        }
-
-        .keycap-slots {
-            display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
-            gap: 10px;
-
-            margin-bottom: 9px;
-        }
-
-        .keycap-slot {
-            min-width: 0;
-
-            padding: 9px;
-
-            border:
-                2px solid #d8dde5;
-
-            border-radius: 12px;
-
-            background: white;
-
-            color: #17243c;
-
-            font-family: inherit;
-
-            cursor: pointer;
-
-            transition:
-                border-color 0.2s ease,
-                transform 0.2s ease,
-                background 0.2s ease;
-        }
-
-        .keycap-slot:hover {
-            border-color: #9ba6b5;
-
-            transform: translateY(-2px);
-        }
-
-        .keycap-slot.selected {
-            border-color: #17243c;
-
-            background: #f5f7fa;
-        }
-
-        .slot-preview {
-            width: 100%;
-
-            aspect-ratio: 1 / 1;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            overflow: hidden;
-
-            border-radius: 8px;
-
-            background: #f5f7fa;
-
-            color: #98a2b3;
-
-            font-size: 25px;
-            font-weight: 600;
-        }
-
-        .slot-preview img {
-            width: 100%;
-            height: 100%;
-
-            object-fit: cover;
-            object-position: center;
-
-            display: block;
-
-            transform-origin: center;
-        }
-
-        .slot-label {
-            display: block;
-
-            margin-top: 7px;
-
-            font-size: 12px;
-
-            font-weight: 800;
-
-            text-align: center;
-        }
-
-        .keycap-help {
-            color: #667085;
-
-            font-size: 12px;
-
-            font-weight: 600;
-        }
-
-
-        /* =========================
-           KEYCAP ZOOM
-        ========================== */
-
-        .keycap-1 img {
-            transform: scale(1.08);
-        }
-
-        .keycap-2 img {
-            transform: scale(1.29);
-        }
-
-        .keycap-3 img {
-            transform: scale(1.08);
-        }
-
-        .keycap-4 img {
-            transform: scale(1.24);
-        }
-
-        .keycap-5 img {
-            transform: scale(1.23);
-        }
-
-        .keycap-6 img {
-            transform: scale(1.20);
-        }
-
-        .keycap-7 img {
-            transform: scale(1.14);
-        }
-
-        .keycap-8 img {
-            transform: scale(1.13);
-        }
-
-        .keycap-9 img {
-            transform: scale(1.29);
-        }
-
-        .keycap-10 img {
-            transform: scale(1.11);
-        }
-
-        .keycap-11 img {
-            transform: scale(1.12);
-        }
-
-
-        /* =========================
-           QUANTITY
-        ========================== */
-
-        .quantity-label {
-            display: block;
-
-            margin-bottom: 10px;
-
-            font-size: 15px;
-
-            font-weight: 800;
-        }
-
-        .quantity-selector {
-            display: flex;
-            align-items: center;
-
-            width: fit-content;
-
-            margin-bottom: 8px;
-
-            overflow: hidden;
-
-            border:
-                1px solid #d8dde5;
-
-            border-radius: 10px;
-        }
-
-        .quantity-selector button {
-            width: 45px;
-            height: 45px;
-
-            border: none;
-
-            background: white;
-
-            color: #17243c;
-
-            font-family: inherit;
-
-            font-size: 21px;
-
-            cursor: pointer;
-        }
-
-        .quantity-selector button:hover:not(:disabled) {
-            background: #f5f7fa;
-        }
-
-        .quantity-selector button:disabled {
-            color: #c5cad3;
-
-            cursor: not-allowed;
-        }
-
-        .quantity-number {
-            width: 48px;
-
-            text-align: center;
-
-            font-size: 16px;
-
-            font-weight: 700;
-        }
-
-        .quantity-stock-message {
-            min-height: 18px;
-
-            margin-bottom: 18px;
-
-            color: #667085;
-
-            font-size: 12px;
-
-            font-weight: 600;
-        }
-
-
-        /* =========================
-           ADD TO CART
-        ========================== */
-
-        .add-to-cart {
-            width: 100%;
-
-            padding:
-                16px 20px;
-
-            border: none;
-
-            border-radius: 12px;
-
-            background: #17243c;
-
-            color: white;
-
-            font-family: inherit;
-
-            font-size: 17px;
-
-            font-weight: 800;
-
-            cursor: pointer;
-
-            transition:
-                transform 0.2s ease,
-                opacity 0.2s ease;
-        }
-
-        .add-to-cart:hover {
-            transform: translateY(-2px);
-
-            opacity: 0.92;
-        }
-
-
-        /* =========================
-           NOTES
-        ========================== */
-
-        .product-notes {
-            margin-top: 28px;
-
-            padding-top: 25px;
-
-            border-top:
-                1px solid #e8ebf0;
-        }
-
-        .product-note {
-            display: flex;
-
-            gap: 10px;
-
-            margin-bottom: 12px;
-
-            color: #667085;
-
-            font-size: 15px;
-
-            line-height: 1.5;
-        }
-
-        .check {
-            color: #17243c;
-
-            font-weight: 800;
-        }
-
-
-        /* =========================
-           MODAL
-        ========================== */
-
-        .modal-overlay {
-            position: fixed;
-
-            inset: 0;
-
-            display: none;
-
-            align-items: center;
-            justify-content: center;
-
-            padding: 20px;
-
-            background:
-                rgba(23, 36, 60, 0.55);
-
-            z-index: 9999;
-        }
-
-        .modal-overlay.open {
-            display: flex;
-        }
-
-        .modal {
-            width:
-                min(720px, 100%);
-
-            max-height: 88vh;
-
-            overflow-y: auto;
-
-            padding: 24px;
-
-            border-radius: 20px;
-
-            background: white;
-
-            box-shadow:
-                0 25px 70px
-                rgba(0, 0, 0, 0.22);
-        }
-
-        .modal-header {
-            display: flex;
-
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 20px;
-
-            margin-bottom: 8px;
-        }
-
-        .modal-header h2 {
-            font-size: 24px;
-
-            font-weight: 800;
-        }
-
-        .modal-close {
-            width: 38px;
-            height: 38px;
-
-            flex-shrink: 0;
-
-            border: none;
-
-            border-radius: 50%;
-
-            background: #f5f7fa;
-
-            color: #17243c;
-
-            font-family: inherit;
-
-            font-size: 22px;
-
-            cursor: pointer;
-        }
-
-        .modal-close:hover {
-            background: #e8ebf0;
-        }
-
-        .modal-subtitle {
-            margin-bottom: 20px;
-
-            color: #667085;
-
-            font-size: 14px;
-
-            line-height: 1.5;
-        }
-
-
-        /* =========================
-           KEYCAP POPUP GRID
-        ========================== */
-
-        .modal-keycap-grid {
-            display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
-            gap: 12px;
-        }
-
-        .keycap-option {
-            position: relative;
-
-            width: 100%;
-
-            aspect-ratio: 1 / 1;
-
-            padding: 0;
-
-            overflow: hidden;
-
-            border:
-                2px solid #d8dde5;
-
-            border-radius: 13px;
-
-            background: #f7f5f2;
-
-            cursor: pointer;
-
-            transition:
-                border-color 0.2s ease,
-                transform 0.2s ease;
-        }
-
-        .keycap-option:hover:not(:disabled) {
-            border-color: #9ba6b5;
-
-            transform: translateY(-2px);
-        }
-
-        .keycap-option.selected {
-            border-color: #17243c;
-        }
-
-        .keycap-option:disabled {
-            cursor: not-allowed;
-        }
-
-        .keycap-image-wrapper {
-            position: absolute;
-
-            inset: 0;
-
-            overflow: hidden;
-        }
-
-        .keycap-option img {
-            width: 100%;
-            height: 100%;
-
-            display: block;
-
-            object-fit: cover;
-            object-position: center;
-
-            transform-origin: center;
-        }
-
-
-        /* =========================
-           STOCK BADGE
-        ========================== */
-
-        .stock-badge {
-            position: absolute;
-
-            left: 7px;
-            bottom: 7px;
-
-            z-index: 5;
-
-            padding:
-                4px 7px;
-
-            border-radius: 7px;
-
-            background:
-                rgba(255,255,255,0.93);
-
-            color: #17243c;
-
-            font-size: 11px;
-
-            font-weight: 800;
-        }
-
-
-        /* =========================
-           CHECK
-        ========================== */
-
-        .keycap-check {
-            position: absolute;
-
-            top: 7px;
-            right: 7px;
-
-            z-index: 6;
-
-            width: 24px;
-            height: 24px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 50%;
-
-            background: #17243c;
-
-            color: white;
-
-            font-size: 14px;
-
-            font-weight: 800;
-
-            opacity: 0;
-        }
-
-        .keycap-option.selected
-        .keycap-check {
-            opacity: 1;
-        }
-
-
-        /* =========================
-           UNAVAILABLE
-        ========================== */
-
-        .keycap-option.unavailable img {
-            opacity: 0.38;
-        }
-
-        .unavailable-overlay {
-            position: absolute;
-
-            inset: 0;
-
-            z-index: 4;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            background:
-                rgba(255,255,255,0.15);
-        }
-
-        .unavailable-text {
-            padding:
-                7px 9px;
-
-            border-radius: 8px;
-
-            background:
-                rgba(23,36,60,0.9);
-
-            color: white;
-
-            font-size: 11px;
-
-            font-weight: 800;
-
-            text-align: center;
-        }
-
-
-        /* =========================
-           RESPONSIVE
-        ========================== */
-
-        @media (max-width: 1200px) {
-
-            .navbar-logo {
-                width: 260px;
-            }
-
-            .nav-links {
-                margin-left: 50px;
-
-                gap: 28px;
-            }
-
-            .nav-links a {
-                font-size: 19px;
-                font-weight: 600;
-            }
-
-            .nav-icon-button {
-                width: 60px;
-                height: 60px;
-            }
-
-            .nav-actions {
-                margin-right: 12px;
-            }
-
-        }
-
-
-        @media (max-width: 900px) {
-
-            .navbar {
-                height: auto;
-
-                min-height: 150px;
-
-                background-size: cover;
-            }
-
-            .navbar-inner {
-                flex-wrap: wrap;
-
-                padding:
-                    10px 18px 15px;
-            }
-
-            .navbar-logo {
-                width: 225px;
-            }
-
-            .nav-actions {
-                margin-left: auto;
-                margin-right: 0;
-            }
-
-            .nav-icon-button {
-                width: 52px;
-                height: 52px;
-            }
-
-            .nav-links {
-                width: 100%;
-
-                order: 3;
-
-                margin-left: 0;
-                margin-top: 5px;
-
-                justify-content: center;
-
-                gap: 25px;
-            }
-
-            .nav-links a {
-                font-size: 16px;
-
-                font-weight: 600;
-            }
-
-            .modal-keycap-grid {
-                grid-template-columns:
-                    repeat(3, 1fr);
-            }
-
-        }
-
-
-        @media (max-width: 800px) {
-
-            .product-page {
-                padding:
-                    40px 20px 70px;
-            }
-
-            .product-layout {
-                grid-template-columns: 1fr;
-
-                gap: 35px;
-            }
-
-            .product-details {
-                padding-top: 0;
-            }
-
-            .product-details h1 {
-                font-size: 36px;
-            }
-
-            .keycap-slots {
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
-
-        }
-
-
-        @media (max-width: 600px) {
-
-            .navbar-logo {
-                width: 185px;
-            }
-
-            .nav-icon-button {
-                width: 46px;
-                height: 46px;
-            }
-
-            .nav-actions {
-                gap: 5px;
-            }
-
-            .nav-links {
-                gap: 14px;
-
-                flex-wrap: wrap;
-            }
-
-            .nav-links a {
-                font-size: 14px;
-
-                font-weight: 600;
-            }
-
-        }
-
-
-        @media (max-width: 500px) {
-
-            .switch-options {
-                grid-template-columns: 1fr;
-            }
-
-            .modal-keycap-grid {
-                grid-template-columns:
-                    repeat(3, 1fr);
-
-                gap: 8px;
-            }
-
-            .modal {
-                padding: 17px;
-            }
-
-        }
-
-    </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4-Key Clicker | ClickerLabStore</title>
+<link rel="icon" type="image/png" href="/favicon.png?v=2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Nunito Sans",sans-serif;background:white;color:#17243c;overflow-x:hidden}
+
+.navbar{width:100%;height:110px;background-image:url("blank navbar.png");background-size:100% 100%;background-position:center;background-repeat:no-repeat}
+.navbar-inner{width:100%;height:100%;display:flex;align-items:center;padding:0 2.3%}
+.navbar-logo{display:flex;align-items:center;width:310px;flex-shrink:0;text-decoration:none;transition:transform .2s ease}
+.navbar-logo:hover{transform:scale(1.02)}
+.navbar-logo img{display:block;width:100%;height:auto}
+.nav-links{display:flex;align-items:center;margin-left:150px;gap:50px}
+.nav-links a{position:relative;color:#4b2247;text-decoration:none;font-size:23px;font-weight:600;white-space:nowrap;padding:10px 0}
+.nav-links a::after{content:"";position:absolute;left:50%;bottom:3px;width:100%;height:2px;background:#4b2247;transform:translateX(-50%) scaleX(0);transform-origin:center;transition:transform .2s ease}
+.nav-links a:hover::after{transform:translateX(-50%) scaleX(1)}
+.nav-actions{display:flex;align-items:center;gap:14px;margin-left:auto;margin-right:20px;flex-shrink:0}
+.nav-icon-button{width:72px;height:72px;padding:0;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s ease}
+.nav-icon-button:hover{transform:scale(1.08)}
+.nav-icon-button img{display:block;width:100%;height:100%;object-fit:contain}
+
+.product-page{max-width:1200px;margin:0 auto;padding:70px 40px 100px}
+.back-to-shop{display:inline-block;margin-bottom:30px;color:#667085;text-decoration:none;font-size:15px;font-weight:700}
+.product-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:65px;align-items:start}
+.product-photo{width:100%;aspect-ratio:1/1;overflow:hidden;border-radius:22px;background:#f7f7f7}
+.product-photo img{width:100%;height:100%;display:block;object-fit:cover}
+.product-details{padding-top:10px}
+.product-details h1{margin-bottom:14px;font-size:44px;font-weight:800}
+.product-price{margin-bottom:24px;font-size:27px;font-weight:800}
+.product-description{margin-bottom:30px;color:#667085;font-size:17px;line-height:1.7}
+.option-title{display:block;margin-bottom:10px;font-size:15px;font-weight:800}
+
+.switch-section{margin-bottom:28px}
+.switch-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.switch-option{padding:15px;border:2px solid #d8dde5;border-radius:12px;background:white;color:#17243c;font-family:inherit;text-align:left;cursor:pointer;transition:.2s}
+.switch-option:hover{border-color:#9ba6b5;transform:translateY(-2px)}
+.switch-option.selected{border-color:#17243c;background:#f5f7fa}
+.switch-name{display:block;margin-bottom:3px;font-size:16px;font-weight:800}
+.switch-description{display:block;color:#667085;font-size:13px}
+
+.keycap-section{margin-bottom:28px}
+.keycap-slots{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:9px}
+.keycap-slot{padding:9px;border:2px solid #d8dde5;border-radius:12px;background:white;cursor:pointer}
+.keycap-slot.selected{border-color:#17243c;background:#f5f7fa}
+.slot-preview{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:8px;background:#f5f7fa;color:#98a2b3;font-size:25px}
+.slot-preview img{width:100%;height:100%;object-fit:cover;display:block;transform-origin:center}
+.slot-label{display:block;margin-top:7px;font-size:12px;font-weight:800;text-align:center}
+.keycap-help{color:#667085;font-size:12px;font-weight:600}
+
+.keycap-1 img{transform:scale(1.08)}
+.keycap-2 img{transform:scale(1.29)}
+.keycap-3 img{transform:scale(1.08)}
+.keycap-4 img{transform:scale(1.24)}
+.keycap-5 img{transform:scale(1.23)}
+.keycap-6 img{transform:scale(1.20)}
+.keycap-7 img{transform:scale(1.14)}
+.keycap-8 img{transform:scale(1.13)}
+.keycap-9 img{transform:scale(1.29)}
+.keycap-10 img{transform:scale(1.11)}
+.keycap-11 img{transform:scale(1.12)}
+
+.quantity-label{display:block;margin-bottom:10px;font-size:15px;font-weight:800}
+.quantity-selector{display:flex;align-items:center;width:fit-content;margin-bottom:8px;overflow:hidden;border:1px solid #d8dde5;border-radius:10px}
+.quantity-selector button{width:45px;height:45px;border:none;background:white;font-size:21px;cursor:pointer}
+.quantity-selector button:disabled{color:#c5cad3}
+.quantity-number{width:48px;text-align:center;font-weight:700}
+.quantity-stock-message{min-height:18px;margin-bottom:18px;color:#667085;font-size:12px;font-weight:600}
+.add-to-cart{width:100%;padding:16px;border:none;border-radius:12px;background:#17243c;color:white;font-family:inherit;font-size:17px;font-weight:800;cursor:pointer}
+.product-notes{margin-top:28px;padding-top:25px;border-top:1px solid #e8ebf0}
+.product-note{display:flex;gap:10px;margin-bottom:12px;color:#667085;font-size:15px}
+
+.modal-overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(23,36,60,.55);z-index:9999}
+.modal-overlay.open{display:flex}
+.modal{width:min(720px,100%);max-height:88vh;overflow-y:auto;padding:24px;border-radius:20px;background:white}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.modal-close{width:38px;height:38px;border:none;border-radius:50%;background:#f5f7fa;font-size:22px;cursor:pointer}
+.modal-subtitle{margin-bottom:20px;color:#667085}
+.modal-keycap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.keycap-option{position:relative;width:100%;aspect-ratio:1/1;padding:0;overflow:hidden;border:2px solid #d8dde5;border-radius:13px;background:#f7f5f2;cursor:pointer}
+.keycap-option.selected{border-color:#17243c}
+.keycap-option:disabled{cursor:not-allowed}
+.keycap-image-wrapper{position:absolute;inset:0}
+.keycap-option img{width:100%;height:100%;object-fit:cover;transform-origin:center}
+.stock-badge{position:absolute;left:7px;bottom:7px;z-index:5;padding:4px 7px;border-radius:7px;background:rgba(255,255,255,.93);font-size:11px;font-weight:800}
+.keycap-check{position:absolute;top:7px;right:7px;z-index:6;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#17243c;color:white;opacity:0}
+.keycap-option.selected .keycap-check{opacity:1}
+.keycap-option.unavailable img{opacity:.38}
+.unavailable-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.unavailable-text{padding:7px 9px;border-radius:8px;background:rgba(23,36,60,.9);color:white;font-size:11px;font-weight:800}
+
+@media(max-width:1200px){
+.navbar-logo{width:260px}.nav-links{margin-left:50px;gap:28px}.nav-links a{font-size:19px}.nav-icon-button{width:60px;height:60px}
+}
+@media(max-width:900px){
+.navbar{height:auto;min-height:150px;background-size:cover}.navbar-inner{flex-wrap:wrap;padding:10px 18px 15px}.navbar-logo{width:225px}.nav-actions{margin-left:auto;margin-right:0}.nav-icon-button{width:52px;height:52px}.nav-links{width:100%;order:3;margin-left:0;justify-content:center;gap:25px}.nav-links a{font-size:16px}
+}
+@media(max-width:800px){
+.product-page{padding:40px 20px 70px}.product-layout{grid-template-columns:1fr;gap:35px}.keycap-slots{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+.navbar-logo{width:185px}.nav-icon-button{width:46px;height:46px}.nav-actions{gap:5px}.nav-links{gap:14px;flex-wrap:wrap}.nav-links a{font-size:14px}.switch-options{grid-template-columns:1fr}.modal-keycap-grid{grid-template-columns:repeat(3,1fr)}
+}
+</style>
 </head>
-
 
 <body>
 
+<header class="navbar">
+<div class="navbar-inner">
 
-    <!-- =========================
-         NAVBAR
-    ========================== -->
+<a href="index.html" class="navbar-logo">
+<img src="ClickerLabLogo.png" alt="ClickerLabStore">
+</a>
 
-    <header class="navbar">
+<nav class="nav-links">
+<a href="shop.html">Shop</a>
+<a href="bundles.html">Bundles</a>
+<a href="build.html">Build Your Own</a>
+<a href="about.html">About</a>
+<a href="faq.html">FAQ</a>
+</nav>
 
-        <div class="navbar-inner">
+<div class="nav-actions">
+<button type="button" class="nav-icon-button" id="search-button"><img src="search_button_cropped_580x580.png" alt=""></button>
+<button type="button" class="nav-icon-button" id="cart-button"><img src="cart_button_cropped_580x580.png" alt=""></button>
+</div>
 
+</div>
+</header>
 
-            <a
-                href="index.html"
-                class="navbar-logo"
-                aria-label="ClickerLabStore Home"
-            >
+<main class="product-page">
 
-                <img
-                    src="ClickerLabLogo.png"
-                    alt="ClickerLabStore"
-                >
+<a href="shop.html" class="back-to-shop">← Back to Shop</a>
 
-            </a>
+<div class="product-layout">
 
+<div class="product-photo">
+<img src="/4-key-clicker.png" alt="4-Key Clicker">
+</div>
 
-            <nav class="nav-links">
+<section class="product-details">
 
-                <a href="shop.html">
-                    Shop
-                </a>
+<h1>4-Key Clicker</h1>
 
-                <a href="bundles.html">
-                    Bundles
-                </a>
+<p class="product-price" id="product-price">$6.99</p>
 
-                <a href="build.html">
-                    Build Your Own
-                </a>
+<p class="product-description">
+Four mechanical keys for a larger, more satisfying clicking experience.
+Choose your switch style and customize each key with your favorite keycap.
+</p>
 
-                <a href="about.html">
-                    About
-                </a>
+<div class="switch-section">
 
-                <a href="faq.html">
-                    FAQ
-                </a>
+<span class="option-title">Choose Your Switch</span>
 
-            </nav>
+<div class="switch-options">
 
+<button type="button" class="switch-option" id="clicky-option" onclick="selectSwitch('Clicky')">
+<span class="switch-name">Clicky</span>
+<span class="switch-description">Crisp, tactile click</span>
+</button>
 
-            <div class="nav-actions">
+<button type="button" class="switch-option" id="creamy-option" onclick="selectSwitch('Creamy')">
+<span class="switch-name">Creamy</span>
+<span class="switch-description">Smooth, softer sound</span>
+</button>
 
-                <button
-                    type="button"
-                    class="nav-icon-button"
-                    id="search-button"
-                    aria-label="Search"
-                >
+</div>
+</div>
 
-                    <img
-                        src="search_button_cropped_580x580.png"
-                        alt=""
-                    >
+<div class="keycap-section">
 
-                </button>
+<span class="option-title">Choose Your Keycaps</span>
 
+<div class="keycap-slots">
 
-                <button
-                    type="button"
-                    class="nav-icon-button"
-                    id="cart-button"
-                    aria-label="Cart"
-                >
+<button type="button" class="keycap-slot" id="slot-1" onclick="openKeycapModal(0)">
+<span class="slot-preview" id="slot-preview-1">+</span>
+<span class="slot-label" id="slot-label-1">Key 1</span>
+</button>
 
-                    <img
-                        src="cart_button_cropped_580x580.png"
-                        alt=""
-                    >
+<button type="button" class="keycap-slot" id="slot-2" onclick="openKeycapModal(1)">
+<span class="slot-preview" id="slot-preview-2">+</span>
+<span class="slot-label" id="slot-label-2">Key 2</span>
+</button>
 
-                </button>
+<button type="button" class="keycap-slot" id="slot-3" onclick="openKeycapModal(2)">
+<span class="slot-preview" id="slot-preview-3">+</span>
+<span class="slot-label" id="slot-label-3">Key 3</span>
+</button>
 
-            </div>
+<button type="button" class="keycap-slot" id="slot-4" onclick="openKeycapModal(3)">
+<span class="slot-preview" id="slot-preview-4">+</span>
+<span class="slot-label" id="slot-label-4">Key 4</span>
+</button>
 
+</div>
 
-        </div>
+<p class="keycap-help">Click a key above to choose or change its keycap.</p>
 
-    </header>
+</div>
 
+<span class="quantity-label">Quantity</span>
 
-    <!-- =========================
-         PRODUCT PAGE
-    ========================== -->
+<div class="quantity-selector">
 
-    <main class="product-page">
+<button type="button" id="minus-button" onclick="decreaseQuantity()">−</button>
 
+<span class="quantity-number" id="quantity">1</span>
 
-        <a
-            href="shop.html"
-            class="back-to-shop"
-        >
-            ← Back to Shop
-        </a>
+<button type="button" id="plus-button" onclick="increaseQuantity()">+</button>
 
+</div>
 
-        <div class="product-layout">
+<p class="quantity-stock-message" id="quantity-stock-message">
+Choose all four keycaps to see available quantity.
+</p>
 
+<button type="button" class="add-to-cart" id="add-to-cart" onclick="addCurrentProductToCart()">
+Add to Cart — $6.99
+</button>
 
-            <!-- PRODUCT IMAGE -->
+<div class="product-notes">
+<div class="product-note"><span>✓</span><span>Customize all four keycaps</span></div>
+<div class="product-note"><span>✓</span><span>Clicky or Creamy switch</span></div>
+<div class="product-note"><span>✓</span><span>Choose from 11 keycap designs</span></div>
+</div>
 
-            <div class="product-photo">
+</section>
+</div>
+</main>
 
-                <img
-                    src="/4-key-clicker.png"
-                    alt="4-Key Clicker"
-                >
+<div class="modal-overlay" id="keycap-modal-overlay">
 
-            </div>
+<div class="modal">
 
+<div class="modal-header">
+<h2 id="modal-title">Choose a Keycap</h2>
+<button type="button" class="modal-close" onclick="closeKeycapModal()">×</button>
+</div>
 
-            <!-- PRODUCT DETAILS -->
+<p class="modal-subtitle">Pick one of the available keycaps below.</p>
 
-            <section class="product-details">
+<div class="modal-keycap-grid" id="modal-keycap-grid"></div>
 
+</div>
+</div>
 
-                <h1>
-                    4-Key Clicker
-                </h1>
+<script src="app.js"></script>
 
+<script>
+const unitPrice = 6.99;
 
-                <p
-                    class="product-price"
-                    id="product-price"
-                >
-                    $6.99
-                </p>
+const keycapStock = {
+1:4,2:2,3:0,4:0,5:2,6:0,7:3,8:4,9:5,10:3,11:3
+};
 
+let selectedSwitch = null;
+let selectedKeycaps = [null,null,null,null];
+let activeSlot = null;
+let quantity = 1;
 
-                <p class="product-description">
-                    Four mechanical keys for a larger, more satisfying
-                    clicking experience. Choose your switch style and
-                    customize each key with your favorite keycap.
-                </p>
+const modalOverlay = document.getElementById("keycap-modal-overlay");
+const modalGrid = document.getElementById("modal-keycap-grid");
+const modalTitle = document.getElementById("modal-title");
+const quantityDisplay = document.getElementById("quantity");
+const stockMessage = document.getElementById("quantity-stock-message");
+const productPriceDisplay = document.getElementById("product-price");
+const addButton = document.getElementById("add-to-cart");
+const minusButton = document.getElementById("minus-button");
+const plusButton = document.getElementById("plus-button");
 
+function selectSwitch(type){
 
-                <!-- =========================
-                     SWITCH
-                ========================== -->
+selectedSwitch = type;
 
-                <div class="switch-section">
+document.getElementById("clicky-option").classList.remove("selected");
+document.getElementById("creamy-option").classList.remove("selected");
 
-                    <span class="option-title">
-                        Choose Your Switch
-                    </span>
+document.getElementById(
+type === "Clicky"
+? "clicky-option"
+: "creamy-option"
+).classList.add("selected");
+}
 
+function openKeycapModal(index){
 
-                    <div class="switch-options">
+activeSlot = index;
 
+modalTitle.textContent =
+"Choose a Keycap for Key " + (index + 1);
 
-                        <button
-                            type="button"
-                            class="switch-option"
-                            id="clicky-option"
-                            onclick="selectSwitch('Clicky')"
-                        >
+buildModal();
 
-                            <span class="switch-name">
-                                Clicky
-                            </span>
+modalOverlay.classList.add("open");
 
-                            <span class="switch-description">
-                                Crisp, tactile click
-                            </span>
+document.body.style.overflow = "hidden";
+}
 
-                        </button>
+function closeKeycapModal(){
 
+modalOverlay.classList.remove("open");
 
-                        <button
-                            type="button"
-                            class="switch-option"
-                            id="creamy-option"
-                            onclick="selectSwitch('Creamy')"
-                        >
+document.body.style.overflow = "";
+}
 
-                            <span class="switch-name">
-                                Creamy
-                            </span>
+function getUsage(number,ignoreSlot){
 
-                            <span class="switch-description">
-                                Smooth, softer sound
-                            </span>
+let count = 0;
 
-                        </button>
+selectedKeycaps.forEach(function(selected,index){
 
+if(index !== ignoreSlot && selected === number){
+count++;
+}
 
-                    </div>
+});
 
-                </div>
+return count;
+}
 
+function buildModal(){
 
-                <!-- =========================
-                     KEYCAPS
-                ========================== -->
+modalGrid.innerHTML = "";
 
-                <div class="keycap-section">
+for(let number = 1; number <= 11; number++){
 
-                    <span class="option-title">
-                        Choose Your Keycaps
-                    </span>
+const available =
+keycapStock[number] -
+getUsage(number,activeSlot);
 
+const current =
+selectedKeycaps[activeSlot] === number;
 
-                    <div class="keycap-slots">
+const button =
+document.createElement("button");
 
+button.type = "button";
+button.className =
+"keycap-option keycap-" + number;
 
-                        <button
-                            type="button"
-                            class="keycap-slot"
-                            id="slot-1"
-                            onclick="openKeycapModal(0)"
-                        >
+if(current){
+button.classList.add("selected");
+}
 
-                            <span
-                                class="slot-preview"
-                                id="slot-preview-1"
-                            >
-                                +
-                            </span>
+if(available <= 0 && !current){
 
-                            <span
-                                class="slot-label"
-                                id="slot-label-1"
-                            >
-                                Key 1
-                            </span>
+button.disabled = true;
+button.classList.add("unavailable");
 
-                        </button>
+button.innerHTML = `
+<div class="keycap-image-wrapper">
+<img src="/keycap-${number}.png" alt="Keycap ${number}">
+</div>
+<div class="unavailable-overlay">
+<span class="unavailable-text">Unavailable</span>
+</div>
+`;
 
+}else{
 
-                        <button
-                            type="button"
-                            class="keycap-slot"
-                            id="slot-2"
-                            onclick="openKeycapModal(1)"
-                        >
+const displayAvailable =
+current
+? available + 1
+: available;
 
-                            <span
-                                class="slot-preview"
-                                id="slot-preview-2"
-                            >
-                                +
-                            </span>
+button.innerHTML = `
+<div class="keycap-image-wrapper">
+<img src="/keycap-${number}.png" alt="Keycap ${number}">
+</div>
+<span class="stock-badge">${displayAvailable} available</span>
+<span class="keycap-check">✓</span>
+`;
 
-                            <span
-                                class="slot-label"
-                                id="slot-label-2"
-                            >
-                                Key 2
-                            </span>
+button.addEventListener("click",function(){
+selectKeycap(number);
+});
 
-                        </button>
+}
 
+modalGrid.appendChild(button);
+}
+}
 
-                        <button
-                            type="button"
-                            class="keycap-slot"
-                            id="slot-3"
-                            onclick="openKeycapModal(2)"
-                        >
+function selectKeycap(number){
 
-                            <span
-                                class="slot-preview"
-                                id="slot-preview-3"
-                            >
-                                +
-                            </span>
+selectedKeycaps[activeSlot] = number;
 
-                            <span
-                                class="slot-label"
-                                id="slot-label-3"
-                            >
-                                Key 3
-                            </span>
+const slotNumber = activeSlot + 1;
 
-                        </button>
+document
+.getElementById("slot-" + slotNumber)
+.classList.add("selected");
 
+const preview =
+document.getElementById(
+"slot-preview-" + slotNumber
+);
 
-                        <button
-                            type="button"
-                            class="keycap-slot"
-                            id="slot-4"
-                            onclick="openKeycapModal(3)"
-                        >
+preview.className =
+"slot-preview keycap-" + number;
 
-                            <span
-                                class="slot-preview"
-                                id="slot-preview-4"
-                            >
-                                +
-                            </span>
+preview.innerHTML =
+`<img src="/keycap-${number}.png" alt="Keycap ${number}">`;
 
-                            <span
-                                class="slot-label"
-                                id="slot-label-4"
-                            >
-                                Key 4
-                            </span>
+document.getElementById(
+"slot-label-" + slotNumber
+).textContent =
+"Keycap " + number;
 
-                        </button>
+if(quantity > getMaximumQuantity()){
+quantity = getMaximumQuantity();
+}
 
+closeKeycapModal();
+updateProduct();
+}
 
-                    </div>
+function allSelected(){
 
+return selectedKeycaps.every(function(item){
+return item !== null;
+});
+}
 
-                    <p class="keycap-help">
-                        Click a key above to choose or change its keycap.
-                    </p>
+function getMaximumQuantity(){
 
-                </div>
+if(!allSelected()){
+return 99;
+}
 
+const requirements = {};
 
-                <!-- =========================
-                     QUANTITY
-                ========================== -->
+selectedKeycaps.forEach(function(number){
 
-                <span class="quantity-label">
-                    Quantity
-                </span>
+requirements[number] =
+(requirements[number] || 0) + 1;
 
+});
 
-                <div class="quantity-selector">
+let maximum = Infinity;
 
+Object.keys(requirements).forEach(function(number){
 
-                    <button
-                        type="button"
-                        id="minus-button"
-                        onclick="decreaseQuantity()"
-                        aria-label="Decrease quantity"
-                    >
-                        −
-                    </button>
+maximum = Math.min(
+maximum,
+Math.floor(
+keycapStock[number] /
+requirements[number]
+)
+);
 
+});
 
-                    <span
-                        class="quantity-number"
-                        id="quantity"
-                    >
-                        1
-                    </span>
+return maximum;
+}
 
+function increaseQuantity(){
 
-                    <button
-                        type="button"
-                        id="plus-button"
-                        onclick="increaseQuantity()"
-                        aria-label="Increase quantity"
-                    >
-                        +
-                    </button>
+if(quantity < getMaximumQuantity()){
 
+quantity++;
+updateProduct();
 
-                </div>
+}
+}
 
+function decreaseQuantity(){
 
-                <p
-                    class="quantity-stock-message"
-                    id="quantity-stock-message"
-                >
-                    Choose all four keycaps to see available quantity.
-                </p>
+if(quantity > 1){
 
+quantity--;
+updateProduct();
 
-                <!-- =========================
-                     ADD TO CART
-                ========================== -->
+}
+}
 
-                <button
-                    type="button"
-                    class="add-to-cart"
-                    id="add-to-cart"
-                >
-                    Add to Cart — $6.99
-                </button>
+function updateProduct(){
 
+const total =
+unitPrice * quantity;
 
-                <!-- =========================
-                     NOTES
-                ========================== -->
+quantityDisplay.textContent =
+quantity;
 
-                <div class="product-notes">
+productPriceDisplay.textContent =
+"$" + total.toFixed(2);
 
+addButton.textContent =
+"Add to Cart — $" +
+total.toFixed(2);
 
-                    <div class="product-note">
+minusButton.disabled =
+quantity <= 1;
 
-                        <span class="check">
-                            ✓
-                        </span>
+plusButton.disabled =
+quantity >= getMaximumQuantity();
 
-                        <span>
-                            Customize all four keycaps
-                        </span>
+stockMessage.textContent =
+allSelected()
+? "Maximum quantity with this keycap combination: " + getMaximumQuantity()
+: "Choose all four keycaps to see available quantity.";
+}
 
-                    </div>
+function addCurrentProductToCart(){
 
+if(!selectedSwitch){
 
-                    <div class="product-note">
+alert("Please choose Clicky or Creamy first.");
+return;
 
-                        <span class="check">
-                            ✓
-                        </span>
+}
 
-                        <span>
-                            Your choice of Clicky or Creamy switch
-                        </span>
+if(!allSelected()){
 
-                    </div>
+alert("Please choose all four keycaps first.");
+return;
 
+}
 
-                    <div class="product-note">
+if(!window.ClickerCart){
 
-                        <span class="check">
-                            ✓
-                        </span>
+alert("The cart is still loading. Please try again.");
+return;
 
-                        <span>
-                            Choose from 11 keycap designs
-                        </span>
+}
 
-                    </div>
+window.ClickerCart.addItem({
+productId:"4-key-clicker",
+name:"4-Key Clicker",
+price:unitPrice,
+image:"/4-key-clicker.png",
+quantity:quantity,
+maxQuantity:getMaximumQuantity(),
+options:{
+switchType:selectedSwitch,
+keycaps:[...selectedKeycaps]
+}
+});
+}
 
+modalOverlay.addEventListener("click",function(event){
 
-                    <div class="product-note">
+if(event.target === modalOverlay){
+closeKeycapModal();
+}
 
-                        <span class="check">
-                            ✓
-                        </span>
+});
 
-                        <span>
-                            Compact mechanical-key fidget
-                        </span>
+document.addEventListener("keydown",function(event){
 
-                    </div>
+if(event.key === "Escape"){
+closeKeycapModal();
+}
 
+});
 
-                </div>
-
-
-            </section>
-
-
-        </div>
-
-
-    </main>
-
-
-    <!-- =========================
-         KEYCAP POPUP
-    ========================== -->
-
-    <div
-        class="modal-overlay"
-        id="keycap-modal-overlay"
-    >
-
-        <div class="modal">
-
-
-            <div class="modal-header">
-
-                <h2 id="modal-title">
-                    Choose a Keycap
-                </h2>
-
-
-                <button
-                    type="button"
-                    class="modal-close"
-                    onclick="closeKeycapModal()"
-                    aria-label="Close keycap selector"
-                >
-                    ×
-                </button>
-
-            </div>
-
-
-            <p class="modal-subtitle">
-                Pick one of the available keycaps below.
-            </p>
-
-
-            <div
-                class="modal-keycap-grid"
-                id="modal-keycap-grid"
-            ></div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         SCRIPT
-    ========================== -->
-
-    <script>
-
-        /* =========================
-           PRICE
-        ========================== */
-
-        const unitPrice = 6.99;
-
-
-        /* =========================
-           KEYCAP STOCK
-        ========================== */
-
-        const keycapStock = {
-
-            1: 4,
-            2: 2,
-            3: 0,
-            4: 0,
-            5: 2,
-            6: 0,
-            7: 3,
-            8: 4,
-            9: 5,
-            10: 3,
-            11: 3
-
-        };
-
-
-        /* =========================
-           CURRENT SELECTIONS
-        ========================== */
-
-        let selectedSwitch = null;
-
-        let selectedKeycaps = [
-            null,
-            null,
-            null,
-            null
-        ];
-
-        let activeSlot = null;
-
-        let quantity = 1;
-
-
-        /* =========================
-           ELEMENTS
-        ========================== */
-
-        const clickyOption =
-            document.getElementById(
-                "clicky-option"
-            );
-
-
-        const creamyOption =
-            document.getElementById(
-                "creamy-option"
-            );
-
-
-        const modalOverlay =
-            document.getElementById(
-                "keycap-modal-overlay"
-            );
-
-
-        const modalTitle =
-            document.getElementById(
-                "modal-title"
-            );
-
-
-        const modalKeycapGrid =
-            document.getElementById(
-                "modal-keycap-grid"
-            );
-
-
-        const quantityDisplay =
-            document.getElementById(
-                "quantity"
-            );
-
-
-        const minusButton =
-            document.getElementById(
-                "minus-button"
-            );
-
-
-        const plusButton =
-            document.getElementById(
-                "plus-button"
-            );
-
-
-        const quantityStockMessage =
-            document.getElementById(
-                "quantity-stock-message"
-            );
-
-
-        const productPriceDisplay =
-            document.getElementById(
-                "product-price"
-            );
-
-
-        const addToCartButton =
-            document.getElementById(
-                "add-to-cart"
-            );
-
-
-        /* =========================
-           SWITCH
-        ========================== */
-
-        function selectSwitch(
-            switchType
-        ) {
-
-            selectedSwitch =
-                switchType;
-
-
-            clickyOption.classList.remove(
-                "selected"
-            );
-
-
-            creamyOption.classList.remove(
-                "selected"
-            );
-
-
-            if (
-                switchType === "Clicky"
-            ) {
-
-                clickyOption.classList.add(
-                    "selected"
-                );
-
-            }
-
-
-            if (
-                switchType === "Creamy"
-            ) {
-
-                creamyOption.classList.add(
-                    "selected"
-                );
-
-            }
-
-        }
-
-
-        /* =========================
-           OPEN KEYCAP POPUP
-        ========================== */
-
-        function openKeycapModal(
-            slotIndex
-        ) {
-
-            activeSlot =
-                slotIndex;
-
-
-            modalTitle.textContent =
-                "Choose a Keycap for Key " +
-                (
-                    slotIndex + 1
-                );
-
-
-            buildKeycapModal();
-
-
-            modalOverlay.classList.add(
-                "open"
-            );
-
-
-            document.body.style.overflow =
-                "hidden";
-
-        }
-
-
-        /* =========================
-           CLOSE KEYCAP POPUP
-        ========================== */
-
-        function closeKeycapModal() {
-
-            modalOverlay.classList.remove(
-                "open"
-            );
-
-
-            document.body.style.overflow =
-                "";
-
-        }
-
-
-        /* =========================
-           COUNT KEYCAP USAGE
-        ========================== */
-
-        function getKeycapUsage(
-            keycapNumber,
-            ignoreSlot = null
-        ) {
-
-            let count = 0;
-
-
-            selectedKeycaps.forEach(
-                function(selected, index) {
-
-                    if (
-                        index !== ignoreSlot &&
-                        selected === keycapNumber
-                    ) {
-
-                        count++;
-
-                    }
-
-                }
-            );
-
-
-            return count;
-
-        }
-
-
-        /* =========================
-           AVAILABLE STOCK
-        ========================== */
-
-        function getAvailableForSlot(
-            keycapNumber
-        ) {
-
-            const usedElsewhere =
-                getKeycapUsage(
-                    keycapNumber,
-                    activeSlot
-                );
-
-
-            return (
-                keycapStock[keycapNumber] -
-                usedElsewhere
-            );
-
-        }
-
-
-        /* =========================
-           BUILD POPUP
-        ========================== */
-
-        function buildKeycapModal() {
-
-            modalKeycapGrid.innerHTML =
-                "";
-
-
-            for (
-                let keycapNumber = 1;
-                keycapNumber <= 11;
-                keycapNumber++
-            ) {
-
-                const available =
-                    getAvailableForSlot(
-                        keycapNumber
-                    );
-
-
-                const currentlySelected =
-                    selectedKeycaps[
-                        activeSlot
-                    ] === keycapNumber;
-
-
-                const button =
-                    document.createElement(
-                        "button"
-                    );
-
-
-                button.type =
-                    "button";
-
-
-                button.className =
-                    "keycap-option keycap-" +
-                    keycapNumber;
-
-
-                if (
-                    currentlySelected
-                ) {
-
-                    button.classList.add(
-                        "selected"
-                    );
-
-                }
-
-
-                /* SOLD OUT / UNAVAILABLE */
-
-                if (
-                    available <= 0 &&
-                    !currentlySelected
-                ) {
-
-                    button.disabled =
-                        true;
-
-
-                    button.classList.add(
-                        "unavailable"
-                    );
-
-
-                    button.innerHTML = `
-
-                        <div class="keycap-image-wrapper">
-
-                            <img
-                                src="/keycap-${keycapNumber}.png"
-                                alt="Keycap ${keycapNumber}"
-                            >
-
-                        </div>
-
-
-                        <div class="unavailable-overlay">
-
-                            <span class="unavailable-text">
-                                Unavailable
-                            </span>
-
-                        </div>
-
-                    `;
-
-                }
-
-
-                /* AVAILABLE */
-
-                else {
-
-                    const displayAvailable =
-                        currentlySelected
-                        ?
-                        available + 1
-                        :
-                        available;
-
-
-                    button.innerHTML = `
-
-                        <div class="keycap-image-wrapper">
-
-                            <img
-                                src="/keycap-${keycapNumber}.png"
-                                alt="Keycap ${keycapNumber}"
-                            >
-
-                        </div>
-
-
-                        <span class="stock-badge">
-
-                            ${displayAvailable} available
-
-                        </span>
-
-
-                        <span class="keycap-check">
-                            ✓
-                        </span>
-
-                    `;
-
-
-                    button.addEventListener(
-                        "click",
-                        function() {
-
-                            selectKeycap(
-                                keycapNumber
-                            );
-
-                        }
-                    );
-
-                }
-
-
-                modalKeycapGrid.appendChild(
-                    button
-                );
-
-            }
-
-        }
-
-
-        /* =========================
-           SELECT KEYCAP
-        ========================== */
-
-        function selectKeycap(
-            keycapNumber
-        ) {
-
-            selectedKeycaps[
-                activeSlot
-            ] = keycapNumber;
-
-
-            updateSlot(
-                activeSlot,
-                keycapNumber
-            );
-
-
-            const maximum =
-                getMaximumQuantity();
-
-
-            if (
-                quantity > maximum
-            ) {
-
-                quantity =
-                    maximum;
-
-            }
-
-
-            closeKeycapModal();
-
-
-            updateProduct();
-
-        }
-
-
-        /* =========================
-           UPDATE SLOT
-        ========================== */
-
-        function updateSlot(
-            slotIndex,
-            keycapNumber
-        ) {
-
-            const slot =
-                document.getElementById(
-                    "slot-" +
-                    (
-                        slotIndex + 1
-                    )
-                );
-
-
-            const preview =
-                document.getElementById(
-                    "slot-preview-" +
-                    (
-                        slotIndex + 1
-                    )
-                );
-
-
-            const label =
-                document.getElementById(
-                    "slot-label-" +
-                    (
-                        slotIndex + 1
-                    )
-                );
-
-
-            slot.classList.add(
-                "selected"
-            );
-
-
-            preview.className =
-                "slot-preview keycap-" +
-                keycapNumber;
-
-
-            preview.innerHTML = `
-
-                <img
-                    src="/keycap-${keycapNumber}.png"
-                    alt="Keycap ${keycapNumber}"
-                >
-
-            `;
-
-
-            label.textContent =
-                "Keycap " +
-                keycapNumber;
-
-        }
-
-
-        /* =========================
-           ALL SLOTS SELECTED
-        ========================== */
-
-        function allKeycapsSelected() {
-
-            return selectedKeycaps.every(
-                function(keycap) {
-
-                    return keycap !== null;
-
-                }
-            );
-
-        }
-
-
-        /* =========================
-           MAX QUANTITY
-        ========================== */
-
-        function getMaximumQuantity() {
-
-            if (
-                !allKeycapsSelected()
-            ) {
-
-                return 99;
-
-            }
-
-
-            const requirements = {};
-
-
-            selectedKeycaps.forEach(
-                function(keycapNumber) {
-
-                    if (
-                        !requirements[
-                            keycapNumber
-                        ]
-                    ) {
-
-                        requirements[
-                            keycapNumber
-                        ] = 0;
-
-                    }
-
-
-                    requirements[
-                        keycapNumber
-                    ]++;
-
-                }
-            );
-
-
-            let maximum =
-                Infinity;
-
-
-            Object.keys(
-                requirements
-            ).forEach(
-                function(keycapNumber) {
-
-                    const neededPerClicker =
-                        requirements[
-                            keycapNumber
-                        ];
-
-
-                    const stock =
-                        keycapStock[
-                            keycapNumber
-                        ];
-
-
-                    const possible =
-                        Math.floor(
-                            stock /
-                            neededPerClicker
-                        );
-
-
-                    maximum =
-                        Math.min(
-                            maximum,
-                            possible
-                        );
-
-                }
-            );
-
-
-            if (
-                maximum === Infinity
-            ) {
-
-                maximum = 99;
-
-            }
-
-
-            return maximum;
-
-        }
-
-
-        /* =========================
-           QUANTITY
-        ========================== */
-
-        function increaseQuantity() {
-
-            const maximum =
-                getMaximumQuantity();
-
-
-            if (
-                quantity < maximum
-            ) {
-
-                quantity++;
-
-                updateProduct();
-
-            }
-
-        }
-
-
-        function decreaseQuantity() {
-
-            if (
-                quantity > 1
-            ) {
-
-                quantity--;
-
-                updateProduct();
-
-            }
-
-        }
-
-
-        /* =========================
-           UPDATE PRODUCT
-        ========================== */
-
-        function updateProduct() {
-
-            const maximum =
-                getMaximumQuantity();
-
-
-            const totalPrice =
-                unitPrice *
-                quantity;
-
-
-            quantityDisplay.textContent =
-                quantity;
-
-
-            productPriceDisplay.textContent =
-                "$" +
-                totalPrice.toFixed(2);
-
-
-            addToCartButton.textContent =
-                "Add to Cart — $" +
-                totalPrice.toFixed(2);
-
-
-            minusButton.disabled =
-                quantity <= 1;
-
-
-            plusButton.disabled =
-                quantity >= maximum;
-
-
-            if (
-                !allKeycapsSelected()
-            ) {
-
-                quantityStockMessage.textContent =
-                    "Choose all four keycaps to see available quantity.";
-
-            }
-
-            else {
-
-                quantityStockMessage.textContent =
-                    "Maximum quantity with this keycap combination: " +
-                    maximum;
-
-            }
-
-        }
-
-
-        /* =========================
-           CLICK OUTSIDE TO CLOSE
-        ========================== */
-
-        modalOverlay.addEventListener(
-            "click",
-            function(event) {
-
-                if (
-                    event.target ===
-                    modalOverlay
-                ) {
-
-                    closeKeycapModal();
-
-                }
-
-            }
-        );
-
-
-        /* =========================
-           ESCAPE TO CLOSE
-        ========================== */
-
-        document.addEventListener(
-            "keydown",
-            function(event) {
-
-                if (
-                    event.key === "Escape" &&
-                    modalOverlay.classList.contains(
-                        "open"
-                    )
-                ) {
-
-                    closeKeycapModal();
-
-                }
-
-            }
-        );
-
-
-        /* =========================
-           START
-        ========================== */
-
-        updateProduct();
-
-    </script>
-
+updateProduct();
+</script>
 
 </body>
-
 </html>
