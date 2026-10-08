@@ -259,9 +259,9 @@ Add to Cart — $6.99
 <script>
 const unitPrice = 6.99;
 
-const keycapStock = {
-1:4,2:2,3:0,4:0,5:2,6:0,7:3,8:4,9:5,10:3,11:3
-};
+const keycapStock = new Proxy({}, {
+get: (_, id) => window.ClickerInventory.available(Number(id))
+});
 
 let selectedSwitch = null;
 let selectedKeycaps = [null,null,null,null];
@@ -293,6 +293,7 @@ type === "Clicky"
 }
 
 function openKeycapModal(index){
+window.ClickerInventory.refresh().catch(() => {});
 
 activeSlot = index;
 
@@ -486,6 +487,9 @@ updateProduct();
 
 function updateProduct(){
 
+quantity = Math.max(1, Math.min(quantity, getMaximumQuantity()));
+addButton.disabled = !window.ClickerInventory.ready() || getMaximumQuantity() < quantity;
+
 const total =
 unitPrice * quantity;
 
@@ -509,9 +513,12 @@ stockMessage.textContent =
 allSelected()
 ? "Maximum quantity with this keycap combination: " + getMaximumQuantity()
 : "Choose all four keycaps to see available quantity.";
+if(!window.ClickerInventory.ready()){
+stockMessage.textContent = "Inventory unavailable. Please try again.";
+}
 }
 
-function addCurrentProductToCart(){
+async function addCurrentProductToCart(){
 
 if(!selectedSwitch){
 
@@ -534,7 +541,7 @@ return;
 
 }
 
-window.ClickerCart.addItem({
+await window.ClickerCart.addItem({
 productId:"4-key-clicker",
 name:"4-Key Clicker",
 price:unitPrice,
@@ -564,6 +571,11 @@ closeKeycapModal();
 
 });
 
+window.addEventListener("clickerlab-inventory-change", function(){
+updateProduct();
+if(modalOverlay.classList.contains("open")){ buildModal(); }
+});
+window.ClickerInventory.refresh().catch(() => {});
 updateProduct();
 </script>
 

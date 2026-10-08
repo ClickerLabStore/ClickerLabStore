@@ -378,19 +378,9 @@ Choose a Keycap
 <script>
 const unitPrice = 3.49;
 
-const keycapStock = {
-1:4,
-2:2,
-3:0,
-4:0,
-5:2,
-6:0,
-7:3,
-8:4,
-9:5,
-10:3,
-11:3
-};
+const keycapStock = new Proxy({}, {
+get: (_, id) => window.ClickerInventory.available(Number(id))
+});
 
 let selectedColor = null;
 let selectedSwitch = null;
@@ -483,6 +473,7 @@ type === "Clicky"
 }
 
 function openKeycapModal(){
+window.ClickerInventory.refresh().catch(() => {});
 
 buildKeycapModal();
 
@@ -538,7 +529,7 @@ button.innerHTML = `
 <img src="/keycap-${number}.png" alt="Keycap ${number}">
 </div>
 <div class="unavailable-overlay">
-<span class="unavailable-text">Sold Out</span>
+<span class="unavailable-text">${window.ClickerInventory.ready() ? "Sold Out" : "Unavailable"}</span>
 </div>
 `;
 
@@ -645,6 +636,9 @@ updateProduct();
 
 function updateProduct(){
 
+quantity = Math.max(1, Math.min(quantity, getMaximumQuantity()));
+addButton.disabled = !window.ClickerInventory.ready() || getMaximumQuantity() < quantity;
+
 const total =
 unitPrice *
 quantity;
@@ -674,9 +668,12 @@ selectedKeycap === null
 :
 getMaximumQuantity() +
 " available with this keycap.";
+if(!window.ClickerInventory.ready()){
+stockMessage.textContent = "Inventory unavailable. Please try again.";
+}
 }
 
-function addCurrentProductToCart(){
+async function addCurrentProductToCart(){
 
 if(!selectedColor){
 
@@ -718,7 +715,7 @@ return;
 
 }
 
-window.ClickerCart.addItem({
+await window.ClickerCart.addItem({
 
 productId:
 "1-key-light-up-clicker",
@@ -797,6 +794,11 @@ closeKeycapModal();
 }
 );
 
+window.addEventListener("clickerlab-inventory-change", function(){
+updateProduct();
+if(keycapModal.classList.contains("open")){ buildKeycapModal(); }
+});
+window.ClickerInventory.refresh().catch(() => {});
 updateProduct();
 </script>
 

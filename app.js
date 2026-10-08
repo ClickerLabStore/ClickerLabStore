@@ -17,6 +17,98 @@ const CART_STORAGE_KEY = "clickerlab_cart";
 let cart = loadCart();
 
 
+// Inventory is advisory; stock is refreshed before every cart increase.
+let inventoryStock = null;
+let inventoryQueue = Promise.resolve();
+
+function notifyInventoryChange() {
+    window.dispatchEvent(new Event("clickerlab-inventory-change"));
+}
+
+async function refreshInventory() {
+    try {
+        const response = await fetch("/api/keycaps", {
+            cache: "no-store",
+            signal: AbortSignal.timeout(10000)
+        });
+        if (!response.ok) throw new Error("Inventory request failed");
+        const data = await response.json();
+        if (!Array.isArray(data.keycaps)) throw new Error("Invalid inventory");
+        const stock = {};
+        for (const row of data.keycaps) {
+            if (!Number.isInteger(row.id) || row.id < 1 || row.id > 11 ||
+                !Number.isInteger(row.stock) || row.stock < 0 || row.id in stock) {
+                throw new Error("Invalid inventory row");
+            }
+            stock[row.id] = row.stock;
+        }
+        if (Object.keys(stock).length !== 11) throw new Error("Incomplete inventory");
+        inventoryStock = stock;
+        notifyInventoryChange();
+        return stock;
+    } catch (error) {
+        inventoryStock = null;
+        notifyInventoryChange();
+        throw error;
+    }
+}
+
+function availableKeycapStock(id) {
+    if (!inventoryStock) return 0;
+    const used = cart.reduce((total, item) => total +
+        (item.options?.keycaps || []).filter(keycap => Number(keycap) === Number(id)).length *
+        Number(item.quantity), 0);
+    return Math.max(0, inventoryStock[id] - used);
+}
+
+function queueInventoryAddition(item, commit) {
+    const operation = inventoryQueue.then(async () => {
+        await refreshInventory();
+        // Include changes saved in another tab while the request was in flight.
+        cart = loadCart();
+        const requirements = {};
+        const keycaps = item.options?.keycaps;
+        if (!Array.isArray(keycaps) || !keycaps.length ||
+            !Number.isInteger(item.quantity) || item.quantity < 1) {
+            throw new Error("Choose keycaps and a valid quantity first.");
+        }
+        for (const id of keycaps) {
+            if (!Number.isInteger(id) || !(id in inventoryStock)) {
+                throw new Error("Please choose a valid keycap.");
+            }
+            requirements[id] = (requirements[id] || 0) + 1;
+        }
+        for (const [id, count] of Object.entries(requirements)) {
+            if (count * item.quantity > availableKeycapStock(id)) {
+                throw new Error("Not enough stock for Keycap " + id + ". Please reduce the quantity or change keycaps.");
+            }
+        }
+        commit();
+        notifyInventoryChange();
+        return true;
+    });
+    inventoryQueue = operation.catch(() => {});
+    return operation.catch(error => {
+        notifyInventoryChange();
+        alert(inventoryStock ? error.message : "Unable to check inventory. Please try again before adding items.");
+        return false;
+    });
+}
+
+window.ClickerInventory = {
+    refresh: refreshInventory,
+    available: availableKeycapStock,
+    ready: () => inventoryStock !== null
+};
+
+window.addEventListener("storage", event => {
+    if (event.key === CART_STORAGE_KEY || event.key === null) {
+        cart = loadCart();
+        renderCart();
+        notifyInventoryChange();
+    }
+});
+
 /* =========================
    LOAD CART
 ========================= */
@@ -71,6 +163,7 @@ function saveCart() {
     );
 
     renderCart();
+    notifyInventoryChange();
 
 }
 
@@ -955,6 +1048,10 @@ function createCartItemKey(item) {
 ========================= */
 
 function addItemToCart(item) {
+    return queueInventoryAddition(item, () => commitItemToCart(item));
+}
+
+function commitItemToCart(item) {
 
     if (!item) {
         return;
@@ -1058,14 +1155,7 @@ function addItemToCart(item) {
 
 
         existingItem.quantity =
-            Math.min(
-
-                existingItem.quantity +
-                safeItem.quantity,
-
-                safeItem.maxQuantity
-
-            );
+            existingItem.quantity + safeItem.quantity;
 
     }
 
@@ -1146,8 +1236,15 @@ function changeCartQuantity(
     }
 
 
-    const maxQuantity =
-        item.maxQuantity || 99;
+    if (change > 0) {
+        return queueInventoryAddition({ ...item, quantity: change }, () => {
+            const current = cart.find(cartItem => cartItem.cartId === cartId);
+            if (current) {
+                current.quantity += change;
+                saveCart();
+            }
+        });
+    }
 
 
     const newQuantity =
@@ -1169,10 +1266,7 @@ function changeCartQuantity(
 
 
     item.quantity =
-        Math.min(
-            newQuantity,
-            maxQuantity
-        );
+        newQuantity;
 
 
     saveCart();

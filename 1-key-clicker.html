@@ -307,19 +307,9 @@ Pick one of the available keycaps below.
 <script>
 const unitPrice = 2.49;
 
-const keycapStock = {
-1:4,
-2:2,
-3:0,
-4:0,
-5:2,
-6:0,
-7:3,
-8:4,
-9:5,
-10:3,
-11:3
-};
+const keycapStock = new Proxy({}, {
+get: (_, id) => window.ClickerInventory.available(Number(id))
+});
 
 let selectedSwitch = null;
 let selectedKeycap = null;
@@ -354,6 +344,7 @@ creamyOption.classList.add("selected");
 }
 
 function openKeycapModal(){
+window.ClickerInventory.refresh().catch(() => {});
 buildKeycapModal();
 modalOverlay.classList.add("open");
 document.body.style.overflow = "hidden";
@@ -388,7 +379,7 @@ button.innerHTML = `
 <img src="/keycap-${number}.png" alt="Keycap ${number}">
 </div>
 <div class="unavailable-overlay">
-<span class="unavailable-text">Sold Out</span>
+<span class="unavailable-text">${window.ClickerInventory.ready() ? "Sold Out" : "Unavailable"}</span>
 </div>
 `;
 
@@ -465,6 +456,9 @@ updateProduct();
 
 function updateProduct(){
 
+quantity = Math.max(1, Math.min(quantity, getMaximumQuantity()));
+addButton.disabled = !window.ClickerInventory.ready() || getMaximumQuantity() < quantity;
+
 const maximum = getMaximumQuantity();
 const total = unitPrice * quantity;
 
@@ -493,9 +487,12 @@ stockMessage.textContent =
 maximum + " available with this keycap.";
 
 }
+if(!window.ClickerInventory.ready()){
+stockMessage.textContent = "Inventory unavailable. Please try again.";
+}
 }
 
-function addCurrentProductToCart(){
+async function addCurrentProductToCart(){
 
 if(!selectedSwitch){
 alert("Please choose Clicky or Creamy first.");
@@ -512,7 +509,7 @@ alert("The cart is still loading. Please try again.");
 return;
 }
 
-window.ClickerCart.addItem({
+await window.ClickerCart.addItem({
 productId:"1-key-clicker",
 name:"1-Key Clicker",
 price:unitPrice,
@@ -538,6 +535,11 @@ closeKeycapModal();
 }
 });
 
+window.addEventListener("clickerlab-inventory-change", function(){
+updateProduct();
+if(modalOverlay.classList.contains("open")){ buildKeycapModal(); }
+});
+window.ClickerInventory.refresh().catch(() => {});
 updateProduct();
 </script>
 
