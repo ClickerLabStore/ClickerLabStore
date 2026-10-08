@@ -1,11 +1,12 @@
--- Existing keycaps inventory is preserved. Enter real base stock before enabling Checkout.
+-- Initial stock confirmed by the store owner: 100 of each base size.
+-- Existing base and keycap inventory is preserved on repeated application.
 CREATE TABLE IF NOT EXISTS bases (
   id INTEGER PRIMARY KEY CHECK(id BETWEEN 1 AND 4),
   name TEXT NOT NULL,
   stock INTEGER NOT NULL DEFAULT 0 CHECK(stock >= 0)
 );
 INSERT OR IGNORE INTO bases(id, name, stock) VALUES
- (1, '1-Key Base', 0), (2, '2-Key Base', 0), (3, '3-Key Base', 0), (4, '4-Key Base', 0);
+ (1, '1-Key Base', 100), (2, '2-Key Base', 100), (3, '3-Key Base', 100), (4, '4-Key Base', 100);
 CREATE TABLE IF NOT EXISTS orders (
   id TEXT PRIMARY KEY,
   status TEXT NOT NULL CHECK(status IN ('creating','open','paid','expired','failed')),

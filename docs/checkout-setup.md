@@ -8,7 +8,7 @@ Each clicker uses one base of its key count and that many selected keycaps. Stan
 
 `bases.stock` and `keycaps.stock` count physical units. Creating/open Checkout orders reserve components. `/api/keycaps` returns available (physical minus reserved) stock for both arrays. A paid order deducts all components in one SQLite statement/trigger transaction. Duplicate events cannot repeat the transition. Expired sessions release holds without reducing physical stock. A cancelled browser return is not proof that the Stripe session has expired.
 
-Do not manually reduce physical stock below open reservations. Preserve existing keycaps data. Real base counts and shipping charges still require confirmation.
+Do not manually reduce physical stock below open reservations. Preserve existing keycaps data. The owner confirmed 100 bases of each size. Shipping must be charged; its amount or calculation method remains pending.
 
 ## Required secure configuration
 
@@ -30,7 +30,7 @@ Shipping is one fixed charge per order. This version does not calculate sales ta
 
 ## Migration and deployment (require review/approval)
 
-Run from `/workspace/ClickerLabStore`, using the existing checkout. Back up the production D1 database first. Apply `migrations/0001_orders_and_bases.sql` through D1 migrations, then set the four base stocks to the user's confirmed counts. Migration defaults are deliberately zero and do not replace keycap inventory. Existing snapshots that lack the `keycaps` table need that original table provisioned separately; this migration assumes it exists.
+Run from `/workspace/ClickerLabStore`, using the existing checkout. Back up the production D1 database first. Apply `migrations/0001_orders_and_bases.sql` through D1 migrations, the migration initializes each new base row with the confirmed 100 units. `INSERT OR IGNORE` preserves existing base stock on repeated application and does not replace keycap inventory. Existing snapshots that lack the `keycaps` table need that original table provisioned separately; this migration assumes it exists.
 
 Local migration used:
 ```
