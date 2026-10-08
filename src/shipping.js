@@ -25,7 +25,7 @@ export async function shippoRequest(env,path,payload) {
     headers:{Authorization:`ShippoToken ${env.SHIPPO_API_TOKEN}`,'Content-Type':'application/json','SHIPPO-API-VERSION':'2018-02-08'},
     body:payload ? JSON.stringify(payload):undefined,signal:AbortSignal.timeout(20000)
   });
-  if(!response.ok) throw new Error('Unable to retrieve USPS rates. Please try again.');
+  if(!response.ok) throw new Error('Shippo API returned HTTP '+response.status);
   return response.json();
 }
 export async function shippingRates(request,env) {
@@ -54,6 +54,8 @@ export async function shippingRates(request,env) {
       .bind(id,JSON.stringify(address),JSON.stringify(rates),Math.floor(Date.now()/1000)).run();
     return Response.json({quoteId:id,rates},{headers:{'Cache-Control':'no-store'}});
   } catch(error) {
+    // Log only our own diagnostics, never tokens, addresses, or provider bodies.
+    console.warn('shipping-rate-check',error.message);
     return Response.json({error:error.message.startsWith('No USPS') ? error.message:'Unable to retrieve USPS rates. Please try again.'},{status:502});
   }
 }
