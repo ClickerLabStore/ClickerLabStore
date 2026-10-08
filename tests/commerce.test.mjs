@@ -1,0 +1,62 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {createHmac} from 'node:crypto';
+import {validateCart, verifySignature, webhook, checkout} from '../src/commerce.js';
+const item=(productId,keycaps,quantity=1)=>({productId,quantity,price:0.01,options:{switchType:'Clicky',keycaps}});
+test('server prices and components include shared bases and repeated keycaps',()=>{
+ const cart=validateCart([item('3-key-clicker',[1,1,2],2),{...item('1-key-light-up-clicker',[1],1),options:{switchType:'Creamy',lightColor:'Blue',keycaps:[1]}}]);
+ assert.equal(cart.amount,2*499+349);
+ assert.deepEqual(cart.components,[{kind:'base',id:3,quantity:2},{kind:'keycap',id:1,quantity:5},{kind:'keycap',id:2,quantity:2},{kind:'base',id:1,quantity:1}]);
+});
+test('tampered products, incomplete selections and invalid quantities rejected',()=>{
+ for(const items of [[],[item('unknown',[1])],[item('4-key-clicker',[1])],[item('1-key-clicker',[12])],[item('1-key-clicker',[1],0)],[item('1-key-clicker',[1],1.5)]]) assert.throws(()=>validateCart(items));
+});
+const sign=(raw,t=Math.floor(Date.now()/1000))=>`t=${t},v1=${createHmac('sha256','whsec_test').update(`${t}.${raw}`).digest('hex')}`;
+test('webhook HMAC rejects forgery, body changes and stale replay',async()=>{
+ const raw='{"test":true}';
+ assert.equal(await verifySignature(raw,sign(raw),'whsec_test'),true);
+ assert.equal(await verifySignature(raw+' ',sign(raw),'whsec_test'),false);
+ assert.equal(await verifySignature(raw,sign(raw,1),'whsec_test'),false);
+ assert.equal(await verifySignature(raw,sign(raw),'wrong'),false);
+});
+test('signed paid events deduct once; unsigned/unpaid/mismatched events do not',async()=>{
+ const order={id:'order',session_id:'cs_test_a',status:'open',amount:499,shipping_amount:0,currency:'usd'};
+ let deductions=0;
+ const env={STRIPE_WEBHOOK_SECRET:'whsec_test',DB:{prepare(sql){return {bind(){return this;},async first(){return order;},async run(){if(sql.includes("status='paid'") && order.status==='open'){order.status='paid';deductions++;}return {};}};}}};
+ const event={type:'checkout.session.completed',data:{object:{id:'cs_test_a',client_reference_id:'order',metadata:{order_id:'order'},payment_status:'paid',livemode:false,currency:'usd',amount_subtotal:499,amount_total:499}}};
+ const send=async(valid=true)=>{const raw=JSON.stringify(event);return webhook(new Request('https://store/api/stripe/webhook',{method:'POST',headers:{'Stripe-Signature':valid?sign(raw):'bad'},body:raw}),env);};
+ assert.equal((await send(false)).status,400);assert.equal(deductions,0);
+ event.data.object.payment_status='unpaid';assert.equal((await send()).status,200);assert.equal(deductions,0);
+ event.data.object.payment_status='paid'; event.data.object.amount_total=1;assert.equal((await send()).status,400);
+ event.data.object.amount_total=499;assert.equal((await send()).status,200);assert.equal((await send()).status,200);assert.equal(deductions,1);
+});
+test('unconfigured checkout is disabled',async()=>{
+ assert.equal((await checkout(new Request('https://store/api/checkout',{method:'POST'}),{})).status,503);
+});
+test('Checkout charges server prices, uses US shipping and reuses the attempt',async()=>{
+ let order=null, reservations=0, stripeCalls=0;
+ const env={STRIPE_SECRET_KEY:'test-fixture',STORE_URL:'https://store.test',SHIPPING_COUNTRIES:'US',SHIPPING_AMOUNT_CENTS:'0',DB:{
+  prepare(sql){let values; return {bind(...v){values=v;return this;},async first(){return order;},async run(){if(sql.startsWith('UPDATE orders SET status=\'open\'')){order.status='open';order.session_id=values[0];}return {};},sql,get values(){return values;}};},
+  async batch(statements){reservations++;const v=statements[0].values;order={id:v[0],status:'creating',amount:v[1],cart_json:v[2],created_at:v[3],shipping_amount:v[4],shipping_countries:v[5]};return [];}
+ }};
+ const previous=globalThis.fetch;
+ globalThis.fetch=async(url,options)=>{
+  stripeCalls++;
+  assert.match(url,/^https:\/\/api.stripe.com\/v1\/checkout\/sessions/);
+  if(options.method==='POST'){
+   const params=new URLSearchParams(options.body);
+   assert.equal(params.get('line_items[0][price_data][unit_amount]'),'499');
+   assert.equal(params.get('shipping_address_collection[allowed_countries][0]'),'US');
+   assert.equal(options.headers['Idempotency-Key'],`checkout-${order.id}`);
+  }
+  return Response.json({id:'cs_test_checkout',url:'https://checkout.stripe.com/c/pay/test',status:'open',livemode:false});
+ };
+ try {
+  const body={requestId:crypto.randomUUID(),items:[item('3-key-clicker',[1,1,2],2)]};
+  const request=()=>new Request('https://store.test/api/checkout',{method:'POST',headers:{Origin:'https://store.test'},body:JSON.stringify(body)});
+  assert.equal((await checkout(request(),env)).status,200);
+  assert.equal((await checkout(request(),env)).status,200);
+  assert.equal(reservations,1);assert.equal(stripeCalls,2);
+  body.items[0].quantity=3;assert.equal((await checkout(request(),env)).status,409);
+ } finally {globalThis.fetch=previous;}
+});

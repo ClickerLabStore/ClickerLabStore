@@ -1,3 +1,4 @@
+import { inventory, checkout, webhook } from "./commerce.js";
 
 export default {
   async fetch(request, env) {
@@ -13,12 +14,10 @@ export default {
       }
 
       try {
-        const result = await env.DB.prepare(
-          "SELECT id, name, stock FROM keycaps ORDER BY id"
-        ).all();
+        const result = await inventory(env.DB);
 
         return Response.json(
-          { keycaps: result.results },
+          result,
           { headers: { "Cache-Control": "no-store" } }
         );
       } catch (error) {
@@ -27,6 +26,23 @@ export default {
           { error: "Unable to load inventory" },
           { status: 500 }
         );
+      }
+    }
+
+    if (url.pathname === "/api/order-status") {
+      if (request.method !== "GET") return new Response("Method not allowed", {status:405});
+      const session = url.searchParams.get("session_id") || "";
+      if (!/^cs_test_[A-Za-z0-9]+$/.test(session)) return new Response("Invalid session",{status:400});
+      const order = await env.DB.prepare("SELECT id,status FROM orders WHERE session_id=?").bind(session).first();
+      return Response.json({status:order?.status || "pending",orderId:order?.id || null},{headers:{"Cache-Control":"no-store"}});
+    }
+
+    if (url.pathname === "/api/checkout" || url.pathname === "/api/stripe/webhook") {
+      if (request.method !== "POST") return new Response("Method not allowed", {status:405});
+      try {
+        return url.pathname === "/api/checkout" ? await checkout(request,env) : await webhook(request,env);
+      } catch {
+        return Response.json({error:"Unable to process this request. Please try again."},{status:500});
       }
     }
 

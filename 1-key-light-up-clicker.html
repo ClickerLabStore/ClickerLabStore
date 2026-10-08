@@ -603,13 +603,11 @@ function getMaximumQuantity(){
 
 if(selectedKeycap === null){
 
-return 99;
+return window.ClickerInventory.availableBase("1-key-light-up-clicker");
 
 }
 
-return keycapStock[
-selectedKeycap
-];
+return Math.min(keycapStock[selectedKeycap], window.ClickerInventory.availableBase("1-key-light-up-clicker"));
 }
 
 function increaseQuantity(){

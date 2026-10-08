@@ -15,10 +15,16 @@ const CART_STORAGE_KEY = "clickerlab_cart";
 ========================= */
 
 let cart = loadCart();
+let checkoutBusy = false;
 
 
 // Inventory is advisory; stock is refreshed before every cart increase.
 let inventoryStock = null;
+let baseStock = null;
+const PRODUCT_BASES = {
+    "1-key-clicker": 1, "1-key-light-up-clicker": 1,
+    "2-key-clicker": 2, "3-key-clicker": 3, "4-key-clicker": 4
+};
 let inventoryQueue = Promise.resolve();
 
 function notifyInventoryChange() {
@@ -43,11 +49,23 @@ async function refreshInventory() {
             stock[row.id] = row.stock;
         }
         if (Object.keys(stock).length !== 11) throw new Error("Incomplete inventory");
+        const bases = {};
+        if (!Array.isArray(data.bases)) throw new Error("Missing base inventory");
+        for (const row of data.bases) {
+            if (!Number.isInteger(row.id) || row.id < 1 || row.id > 4 ||
+                !Number.isInteger(row.stock) || row.stock < 0 || row.id in bases) {
+                throw new Error("Invalid base inventory");
+            }
+            bases[row.id] = row.stock;
+        }
+        if (Object.keys(bases).length !== 4) throw new Error("Incomplete base inventory");
+        baseStock = bases;
         inventoryStock = stock;
         notifyInventoryChange();
         return stock;
     } catch (error) {
         inventoryStock = null;
+        baseStock = null;
         notifyInventoryChange();
         throw error;
     }
@@ -61,6 +79,14 @@ function availableKeycapStock(id) {
     return Math.max(0, inventoryStock[id] - used);
 }
 
+function availableBaseStock(productId) {
+    const id = PRODUCT_BASES[productId];
+    if (!baseStock || !id) return 0;
+    const used = cart.reduce((total,item) => total +
+        (PRODUCT_BASES[item.productId] === id ? Number(item.quantity) : 0),0);
+    return Math.max(0,baseStock[id]-used);
+}
+
 function queueInventoryAddition(item, commit) {
     const operation = inventoryQueue.then(async () => {
         await refreshInventory();
@@ -71,6 +97,10 @@ function queueInventoryAddition(item, commit) {
         if (!Array.isArray(keycaps) || !keycaps.length ||
             !Number.isInteger(item.quantity) || item.quantity < 1) {
             throw new Error("Choose keycaps and a valid quantity first.");
+        }
+        const base = PRODUCT_BASES[item.productId];
+        if (!base || keycaps.length !== base || item.quantity > availableBaseStock(item.productId)) {
+            throw new Error("Not enough clicker bases for this product. Please reduce the quantity.");
         }
         for (const id of keycaps) {
             if (!Number.isInteger(id) || !(id in inventoryStock)) {
@@ -98,6 +128,7 @@ function queueInventoryAddition(item, commit) {
 window.ClickerInventory = {
     refresh: refreshInventory,
     available: availableKeycapStock,
+    availableBase: availableBaseStock,
     ready: () => inventoryStock !== null
 };
 
@@ -789,7 +820,7 @@ function createCartDrawer() {
                 id="clicker-cart-checkout"
                 disabled
             >
-                Checkout Coming Soon
+                Checkout
             </button>
 
         </div>
@@ -805,6 +836,8 @@ function createCartDrawer() {
         drawer
     );
 
+
+    document.getElementById("clicker-cart-checkout").addEventListener("click", startCheckout);
 
     /* CLOSE BUTTON */
 
@@ -1724,8 +1757,7 @@ function renderCart() {
         checkoutButton
     ) {
 
-        checkoutButton.disabled =
-            false;
+        checkoutButton.disabled = checkoutBusy;
 
     }
 
@@ -1796,6 +1828,40 @@ function renderCart() {
 }
 
 
+async function startCheckout() {
+    if (checkoutBusy || !cart.length) return;
+    checkoutBusy = true;
+    const button = document.getElementById("clicker-cart-checkout");
+    button.disabled = true;
+    button.textContent = "Starting Checkout…";
+    try {
+        const items = loadCart();
+        const fingerprint = JSON.stringify(items);
+        let attempt;
+        try { attempt = JSON.parse(localStorage.getItem("clickerlab_checkout_attempt")); } catch {}
+        if (!attempt || attempt.fingerprint !== fingerprint) {
+            attempt = { fingerprint, id:crypto.randomUUID() };
+            localStorage.setItem("clickerlab_checkout_attempt",JSON.stringify(attempt));
+        }
+        const response = await fetch("/api/checkout", {
+            method:"POST", headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({items,requestId:attempt.id}), signal:AbortSignal.timeout(30000)
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || "Unable to start Checkout.");
+        const target = new URL(result.url);
+        if (target.origin !== "https://checkout.stripe.com") throw new Error("Invalid Checkout address.");
+        window.location.assign(target.href);
+    } catch(error) {
+        alert(error.message);
+    } finally {
+        checkoutBusy = false;
+        button.textContent = "Checkout";
+        renderCart();
+        window.ClickerInventory.refresh().catch(() => {});
+    }
+}
+
 /* =========================
    PUBLIC CART API
 ========================= */
@@ -1853,3 +1919,31 @@ else {
     initializeClickerCart();
 
 }
+
+// A return URL alone never proves payment. Confirm the webhook-updated order.
+async function checkCheckoutReturn() {
+    const params = new URLSearchParams(window.location.search);
+    if(params.get("checkout") !== "success") return;
+    const session = params.get("session_id");
+    if(!/^cs_test_[A-Za-z0-9]+$/.test(session || "")) return;
+    try {
+        const response = await fetch("/api/order-status?session_id="+encodeURIComponent(session),{cache:"no-store"});
+        if(!response.ok) throw new Error();
+        const result = await response.json();
+        if(result.status === "paid") {
+            let attempt;
+            try { attempt = JSON.parse(localStorage.getItem("clickerlab_checkout_attempt")); } catch {}
+            if(attempt?.id === result.orderId && attempt?.fingerprint === JSON.stringify(loadCart())) {
+                cart = [];
+                saveCart();
+                localStorage.removeItem("clickerlab_checkout_attempt");
+            }
+            alert("Test payment confirmed. Thank you!");
+        } else {
+            alert("Your payment confirmation is still processing. Please keep your Stripe receipt.");
+        }
+    } catch {
+        alert("We could not check your payment confirmation. Please keep your Stripe receipt.");
+    }
+}
+if(typeof window.location !== "undefined") checkCheckoutReturn();

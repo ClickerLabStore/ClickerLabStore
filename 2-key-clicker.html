@@ -428,7 +428,7 @@ return item !== null;
 function getMaximumQuantity(){
 
 if(!allSelected()){
-return 99;
+return window.ClickerInventory.availableBase("2-key-clicker");
 }
 
 const requirements = {};
@@ -454,7 +454,7 @@ requirements[number]
 
 });
 
-return maximum;
+return Math.min(maximum, window.ClickerInventory.availableBase("2-key-clicker"));
 }
 
 function increaseQuantity(){
