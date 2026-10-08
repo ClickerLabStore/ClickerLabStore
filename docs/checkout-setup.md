@@ -8,7 +8,7 @@ Each clicker uses one base of its key count and that many selected keycaps. Stan
 
 `bases.stock` and `keycaps.stock` count physical units. Creating/open Checkout orders reserve components. `/api/keycaps` returns available (physical minus reserved) stock for both arrays. A paid order deducts all components in one SQLite statement/trigger transaction. Duplicate events cannot repeat the transition. Expired sessions release holds without reducing physical stock. A cancelled browser return is not proof that the Stripe session has expired.
 
-Do not manually reduce physical stock below open reservations. Preserve existing keycaps data. The owner confirmed 100 bases of each size. Shipping must be charged; its amount or calculation method remains pending.
+Do not manually reduce physical stock below open reservations. Preserve existing keycaps data. The owner confirmed 100 bases of each size. Shipping uses Shippo USPS Ground Advantage rates.
 
 ## Required secure configuration
 
@@ -17,8 +17,8 @@ On the **Cloudflare Worker clickerlabstore**, configure:
 - Secret `STRIPE_SECRET_KEY`: Stripe sandbox/test secret API key. Never commit it.
 - Secret `STRIPE_WEBHOOK_SECRET`: signing secret for the matching test webhook destination. This must be the actual secret in the Worker, since HMAC verification runs locally. A Codex proxy placeholder cannot be uploaded as this secret.
 - Variable `STORE_URL`: `https://clickerlabstore.com`.
-- Variable `SHIPPING_COUNTRIES`: `US`.
-- Variable `SHIPPING_AMOUNT_CENTS`: confirmed nonnegative integer shipping charge. `0` means free shipping. Do not set a guessed value.
+- Secret `SHIPPO_API_TOKEN`: Shippo test API token. Configure this on the Worker as well as in Codex if API testing from Codex is needed.
+- Variable `SHIP_FROM_ADDRESS`: JSON containing `name`, `street1`, `city`, `state`, `zip`, and `country`. Use the confirmed San Marino address; it is saved as a suggested environment setting. No flat shipping amount is used.
 
 A Codex `STRIPE_SECRET_KEY` binding for `api.stripe.com` was requested for API verification, but that does not install a Worker secret. Enter Worker secrets securely in Cloudflare settings or use authenticated `wrangler secret put` without logging values. Never paste credentials into chat. Configure the key and webhook secret for the same Stripe test environment.
 
@@ -26,11 +26,11 @@ In Stripe's test environment create a webhook destination for:
 `https://clickerlabstore.com/api/stripe/webhook`
 Subscribe to `checkout.session.completed` and `checkout.session.expired`. Copy its signing secret to the Worker secret above.
 
-Shipping is one fixed charge per order. This version does not calculate sales tax, use Stripe Tax, generate shipping labels, send custom order emails, or provide an order-management dashboard. Stripe stores the shipping address; D1 stores component selections and the Checkout session ID for fulfillment lookup.
+Shipping is quoted by Shippo for USPS Ground Advantage, charged at the carrier amount in USD with no markup. Every order uses the confirmed 0.2 lb, 6 × 4 × 2 inch parcel. The cart collects a US destination before Checkout. Server quotes expire after 15 minutes and the chosen rate is retrieved again before reservation. Only the server-saved quote determines the shipping price. The destination is attached to Stripe PaymentIntent shipping, rather than editable shipping-address collection in Checkout. This prevents changing the destination without obtaining a new price. Order destination and selected rate are saved in D1; destination is retained in browser session storage to restore Checkout after a page reload. Protect this customer data and establish retention policies before production use. This version does not calculate sales tax, use Stripe Tax, generate shipping labels, send custom order emails, or provide an order-management dashboard. Stripe PaymentIntent stores the shipping address; D1 stores component selections and the Checkout session ID for fulfillment lookup.
 
 ## Migration and deployment (require review/approval)
 
-Run from `/workspace/ClickerLabStore`, using the existing checkout. Back up the production D1 database first. Apply `migrations/0001_orders_and_bases.sql` through D1 migrations, the migration initializes each new base row with the confirmed 100 units. `INSERT OR IGNORE` preserves existing base stock on repeated application and does not replace keycap inventory. Existing snapshots that lack the `keycaps` table need that original table provisioned separately; this migration assumes it exists.
+Run from `/workspace/ClickerLabStore`, using the existing checkout. Back up the production D1 database first. Apply both `migrations/0001_orders_and_bases.sql` and `migrations/0002_shipping_quotes.sql` in order through D1 migrations, the migration initializes each new base row with the confirmed 100 units. `INSERT OR IGNORE` preserves existing base stock on repeated application and does not replace keycap inventory. Existing snapshots that lack the `keycaps` table need that original table provisioned separately; this migration assumes it exists.
 
 Local migration used:
 ```
@@ -54,3 +54,7 @@ The browser persists a Checkout attempt UUID with its exact cart, and the server
 Monitor `orders` with status `creating`. If automatic retry cannot attach a session, find the session in Stripe using its metadata `order_id` or `client_reference_id` and the creation time. Attach it to the order before replaying payment events, or confirm it has expired/was never created before marking the order failed and releasing stock. **Never release an uncertain reservation solely because time passed.** Production operation needs this reconciliation until a background reconciliation service is added.
 
 The return page checks webhook-updated order status; a success URL cannot deduct stock. It clears the cart only when the paid order's ID matches the saved attempt and the cart has not changed. If confirmation is delayed, the customer sees a pending message and can refresh the return page.
+
+## Shipping validation still required
+
+Shippo authentication was reported saved on the Cloudflare Worker, but the token is not available in the current Codex runtime. Cloudflare credential forwarding still returns error 6111, so Worker secret presence could not be independently verified. Stubbed tests verify API requests, rate selection, cents conversion, destination binding, expired quotes, tampering and provider failures. An actual Shippo test quote and Stripe test purchase have not yet run. Verify Shippo account has an active USPS carrier connection and provides Ground Advantage test rates. Do not substitute zero-cost or estimated shipping when rates fail. No shipping label is purchased by these endpoints.

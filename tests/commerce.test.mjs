@@ -35,24 +35,27 @@ test('unconfigured checkout is disabled',async()=>{
 });
 test('Checkout charges server prices, uses US shipping and reuses the attempt',async()=>{
  let order=null, reservations=0, stripeCalls=0;
- const env={STRIPE_SECRET_KEY:'test-fixture',STORE_URL:'https://store.test',SHIPPING_COUNTRIES:'US',SHIPPING_AMOUNT_CENTS:'0',DB:{
-  prepare(sql){let values; return {bind(...v){values=v;return this;},async first(){return order;},async run(){if(sql.startsWith('UPDATE orders SET status=\'open\'')){order.status='open';order.session_id=values[0];}return {};},sql,get values(){return values;}};},
-  async batch(statements){reservations++;const v=statements[0].values;order={id:v[0],status:'creating',amount:v[1],cart_json:v[2],created_at:v[3],shipping_amount:v[4],shipping_countries:v[5]};return [];}
+ const env={STRIPE_SECRET_KEY:'test-fixture',STORE_URL:'https://store.test',STRIPE_WEBHOOK_SECRET:'test-signing',SHIPPO_API_TOKEN:'test-fixture',SHIP_FROM_ADDRESS:'configured',DB:{
+  prepare(sql){let values; return {bind(...v){values=v;return this;},async first(){if(sql.includes('shipping_quotes')) return {id:'11111111-1111-4111-8111-111111111111',created_at:Math.floor(Date.now()/1000),address_json:JSON.stringify({name:'Test Buyer',street1:'123 Test St',city:'San Marino',state:'CA',zip:'91108',country:'US'}),rates_json:JSON.stringify([{id:'a'.repeat(32),amount:525,service:'USPS Ground Advantage'}])}; return order;},async run(){if(sql.startsWith('UPDATE orders SET status=\'open\'')){order.status='open';order.session_id=values[0];}return {};},sql,get values(){return values;}};},
+  async batch(statements){reservations++;const v=statements[0].values;order={id:v[0],status:'creating',amount:v[1],cart_json:v[2],created_at:v[3],shipping_amount:v[4],shipping_countries:v[5],shipping_quote_id:v[6],shipping_rate_id:v[7],shipping_address_json:v[8],shipping_service:v[9]};return [];}
  }};
  const previous=globalThis.fetch;
  globalThis.fetch=async(url,options)=>{
+  if(url.startsWith('https://api.goshippo.com')) return Response.json({object_id:'a'.repeat(32),provider:'USPS',currency:'USD',servicelevel:{token:'usps_ground_advantage'},test:true,amount:'5.25'});
   stripeCalls++;
   assert.match(url,/^https:\/\/api.stripe.com\/v1\/checkout\/sessions/);
   if(options.method==='POST'){
    const params=new URLSearchParams(options.body);
    assert.equal(params.get('line_items[0][price_data][unit_amount]'),'499');
-   assert.equal(params.get('shipping_address_collection[allowed_countries][0]'),'US');
+   assert.equal(params.get('payment_intent_data[shipping][address][postal_code]'),'91108');
+   assert.equal(params.get('shipping_address_collection[allowed_countries][0]'),null);
+   assert.equal(params.get('shipping_options[0][shipping_rate_data][fixed_amount][amount]'),'525');
    assert.equal(options.headers['Idempotency-Key'],`checkout-${order.id}`);
   }
   return Response.json({id:'cs_test_checkout',url:'https://checkout.stripe.com/c/pay/test',status:'open',livemode:false});
  };
  try {
-  const body={requestId:crypto.randomUUID(),items:[item('3-key-clicker',[1,1,2],2)]};
+  const body={requestId:crypto.randomUUID(),quoteId:'11111111-1111-4111-8111-111111111111',rateId:'a'.repeat(32),items:[item('3-key-clicker',[1,1,2],2)]};
   const request=()=>new Request('https://store.test/api/checkout',{method:'POST',headers:{Origin:'https://store.test'},body:JSON.stringify(body)});
   assert.equal((await checkout(request(),env)).status,200);
   assert.equal((await checkout(request(),env)).status,200);

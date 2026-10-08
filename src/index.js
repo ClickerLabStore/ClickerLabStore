@@ -1,3 +1,4 @@
+import { shippingRates } from "./shipping.js";
 import { inventory, checkout, webhook } from "./commerce.js";
 
 export default {
@@ -37,9 +38,10 @@ export default {
       return Response.json({status:order?.status || "pending",orderId:order?.id || null},{headers:{"Cache-Control":"no-store"}});
     }
 
-    if (url.pathname === "/api/checkout" || url.pathname === "/api/stripe/webhook") {
+    if (url.pathname === "/api/shipping-rates" || url.pathname === "/api/checkout" || url.pathname === "/api/stripe/webhook") {
       if (request.method !== "POST") return new Response("Method not allowed", {status:405});
       try {
+        if (url.pathname === "/api/shipping-rates") return await shippingRates(request,env);
         return url.pathname === "/api/checkout" ? await checkout(request,env) : await webhook(request,env);
       } catch {
         return Response.json({error:"Unable to process this request. Please try again."},{status:500});

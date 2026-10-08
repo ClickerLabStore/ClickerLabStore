@@ -7,6 +7,7 @@ class Orders(unittest.TestCase):
         self.db.execute('CREATE TABLE keycaps(id INTEGER PRIMARY KEY,name TEXT,stock INTEGER)')
         self.db.execute("INSERT INTO keycaps VALUES (1,'Keycap 1',6)")
         self.db.executescript(Path('migrations/0001_orders_and_bases.sql').read_text())
+        self.db.executescript(Path('migrations/0002_shipping_quotes.sql').read_text())
         self.db.execute('UPDATE bases SET stock=2 WHERE id=3')
         self.db.commit()
     def reserve(self,id,quantity=2):

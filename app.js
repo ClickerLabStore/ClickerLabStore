@@ -16,6 +16,8 @@ const CART_STORAGE_KEY = "clickerlab_cart";
 
 let cart = loadCart();
 let checkoutBusy = false;
+let shippingQuote = null;
+let shippingBusy = false;
 
 
 // Inventory is advisory; stock is refreshed before every cart increase.
@@ -668,6 +670,18 @@ function createCartDrawer() {
             line-height: 1.5;
         }
 
+        .clicker-shipping-form { margin-bottom: 14px; font-size: 12px; }
+        .clicker-shipping-form label { display: block; margin: 6px 0; }
+        .clicker-shipping-form [hidden] { display: none !important; }
+        .clicker-shipping-form input, .clicker-shipping-form select {
+            display: block; width: 100%; box-sizing: border-box; padding: 7px;
+            border: 1px solid #d8dde5; border-radius: 6px; font: inherit;
+        }
+        .clicker-shipping-row { display: flex; gap: 8px; }
+        .clicker-shipping-row label { flex: 1; }
+        .clicker-shipping-form button { padding: 8px; cursor: pointer; }
+        .clicker-cart-footer { max-height: 65vh; overflow-y: auto; }
+
         .clicker-cart-checkout {
             width: 100%;
 
@@ -814,6 +828,21 @@ function createCartDrawer() {
             </p>
 
 
+            <form id="clicker-shipping-form" class="clicker-shipping-form">
+                <strong>USPS shipping</strong>
+                <label>Full name<input name="name" autocomplete="shipping name" required maxlength="150"></label>
+                <label>Street address<input name="street1" autocomplete="shipping address-line1" required maxlength="150"></label>
+                <label>Apt / unit (optional)<input name="street2" autocomplete="shipping address-line2" maxlength="150"></label>
+                <label>City<input name="city" autocomplete="shipping address-level2" required maxlength="150"></label>
+                <div class="clicker-shipping-row">
+                    <label>State<input name="state" autocomplete="shipping address-level1" required minlength="2" maxlength="2" placeholder="CA"></label>
+                    <label>ZIP code<input name="zip" autocomplete="shipping postal-code" required pattern="[0-9]{5}(-[0-9]{4})?" maxlength="10"></label>
+                </div>
+                <button type="submit" id="clicker-get-shipping">Calculate shipping</button>
+                <p id="clicker-shipping-status" role="status" aria-live="polite">Enter your US delivery address to get a rate.</p>
+                <label id="clicker-shipping-choice" hidden>Shipping service<select id="clicker-shipping-rate"></select></label>
+            </form>
+
             <button
                 type="button"
                 class="clicker-cart-checkout"
@@ -838,6 +867,26 @@ function createCartDrawer() {
 
 
     document.getElementById("clicker-cart-checkout").addEventListener("click", startCheckout);
+    const shippingForm = document.getElementById("clicker-shipping-form");
+    shippingForm.addEventListener("submit", calculateShipping);
+    shippingForm.addEventListener("input", event => {
+        if(event.target.tagName === "INPUT") {
+            shippingQuote = null;
+            try { sessionStorage.removeItem("clickerlab_shipping_quote"); } catch {}
+            document.getElementById("clicker-shipping-choice").hidden = true;
+            document.getElementById("clicker-shipping-status").textContent = "Address changed. Calculate shipping again.";
+        }
+    });
+
+    try {
+        const saved = JSON.parse(sessionStorage.getItem("clickerlab_shipping_quote"));
+        if(saved) {
+            for(const [name,value] of Object.entries(saved.address)) {
+                if(shippingForm.elements[name]) shippingForm.elements[name].value = value;
+            }
+            showShippingQuote(saved.result,saved.expires);
+        }
+    } catch {}
 
     /* CLOSE BUTTON */
 
@@ -1828,8 +1877,65 @@ function renderCart() {
 }
 
 
+function shippingAddressInput() {
+    return Object.fromEntries(new FormData(document.getElementById("clicker-shipping-form")));
+}
+
+function showShippingQuote(result, expires) {
+    const select = document.getElementById("clicker-shipping-rate");
+    select.replaceChildren();
+    for(const rate of result.rates) {
+        const option = document.createElement("option");
+        option.value = rate.id;
+        option.textContent = rate.service + " — $" + (rate.amount/100).toFixed(2);
+        select.appendChild(option);
+    }
+    shippingQuote = {id:result.quoteId, expires};
+    document.getElementById("clicker-shipping-choice").hidden = false;
+    document.getElementById("clicker-shipping-status").textContent = "Shipping will be added at Checkout.";
+}
+
+async function calculateShipping(event) {
+    event.preventDefault();
+    if(shippingBusy) return;
+    shippingBusy = true;
+    shippingQuote = null;
+    const button = document.getElementById("clicker-get-shipping");
+    const status = document.getElementById("clicker-shipping-status");
+    const address = shippingAddressInput();
+    button.disabled = true;
+    document.getElementById("clicker-shipping-choice").hidden = true;
+    status.textContent = "Checking USPS rates…";
+    try {
+        const response = await fetch("/api/shipping-rates",{
+            method:"POST",headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({address:{...address,country:"US"}}),signal:AbortSignal.timeout(30000)
+        });
+        const result = await response.json();
+        if(!response.ok) throw new Error(result.error || "Unable to calculate shipping.");
+        if(JSON.stringify(address) !== JSON.stringify(shippingAddressInput())) {
+            throw new Error("Address changed. Calculate shipping again.");
+        }
+        const expires = Date.now()+15*60*1000;
+        showShippingQuote(result,expires);
+        try { sessionStorage.setItem("clickerlab_shipping_quote",JSON.stringify({address,result,expires})); } catch {}
+    } catch(error) { status.textContent = error.message; }
+    finally { shippingBusy = false; button.disabled = false; }
+}
+
 async function startCheckout() {
     if (checkoutBusy || !cart.length) return;
+    let previousAttempt;
+    try { previousAttempt = JSON.parse(localStorage.getItem("clickerlab_checkout_attempt")); } catch {}
+    const selectedRate = document.getElementById("clicker-shipping-rate").value;
+    const resuming = previousAttempt?.fingerprint === JSON.stringify(loadCart()) &&
+        previousAttempt?.quoteId === shippingQuote?.id && previousAttempt?.rateId === selectedRate;
+    if(!shippingQuote || (!resuming && shippingQuote.expires < Date.now())) {
+        alert("Please calculate shipping for your delivery address first.");
+        return;
+    }
+    const quoteId = shippingQuote.id;
+    const rateId = document.getElementById("clicker-shipping-rate").value;
     checkoutBusy = true;
     const button = document.getElementById("clicker-cart-checkout");
     button.disabled = true;
@@ -1839,13 +1945,13 @@ async function startCheckout() {
         const fingerprint = JSON.stringify(items);
         let attempt;
         try { attempt = JSON.parse(localStorage.getItem("clickerlab_checkout_attempt")); } catch {}
-        if (!attempt || attempt.fingerprint !== fingerprint) {
-            attempt = { fingerprint, id:crypto.randomUUID() };
+        if (!attempt || attempt.fingerprint !== fingerprint || attempt.quoteId !== quoteId || attempt.rateId !== rateId) {
+            attempt = { fingerprint, quoteId, rateId, id:crypto.randomUUID() };
             localStorage.setItem("clickerlab_checkout_attempt",JSON.stringify(attempt));
         }
         const response = await fetch("/api/checkout", {
             method:"POST", headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({items,requestId:attempt.id}), signal:AbortSignal.timeout(30000)
+            body:JSON.stringify({items,requestId:attempt.id,quoteId,rateId}), signal:AbortSignal.timeout(30000)
         });
         const result = await response.json();
         if (!response.ok) throw new Error(result.error || "Unable to start Checkout.");
@@ -1937,6 +2043,7 @@ async function checkCheckoutReturn() {
                 cart = [];
                 saveCart();
                 localStorage.removeItem("clickerlab_checkout_attempt");
+                try { sessionStorage.removeItem("clickerlab_shipping_quote"); } catch {}
             }
             alert("Test payment confirmed. Thank you!");
         } else {

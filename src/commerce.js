@@ -1,3 +1,4 @@
+import { checkoutShipping } from "./shipping.js";
 export const PRODUCTS = {
   '1-key-clicker': { name: '1-Key Clicker', price: 249, base: 1 },
   '1-key-light-up-clicker': { name: '1-Key Light Up Clicker', price: 349, base: 1, light: true },
@@ -69,8 +70,8 @@ export async function stripeRequest(env, path, params, idempotencyKey) {
   return data;
 }
 export async function checkout(request, env) {
-  if (!env.STRIPE_SECRET_KEY || !env.STORE_URL || !env.SHIPPING_COUNTRIES ||
-      !/^\d+$/.test(env.SHIPPING_AMOUNT_CENTS || '')) {
+  if (!env.STRIPE_SECRET_KEY || !env.STRIPE_WEBHOOK_SECRET || !env.STORE_URL ||
+      !env.SHIPPO_API_TOKEN || !env.SHIP_FROM_ADDRESS) {
     return Response.json({error:'Checkout is not configured yet.'},{status:503});
   }
   const origin = new URL(env.STORE_URL).origin;
@@ -83,19 +84,24 @@ export async function checkout(request, env) {
     return Response.json({error:'Invalid Checkout attempt.'},{status:400});
   }
   let order = await env.DB.prepare('SELECT * FROM orders WHERE id=?').bind(id).first();
-  if (order && order.cart_json !== JSON.stringify(cart.lines)) return Response.json({error:'Checkout attempt changed.'},{status:409});
+  if (order && (order.cart_json !== JSON.stringify(cart.lines) ||
+      order.shipping_quote_id !== body.quoteId || order.shipping_rate_id !== body.rateId)) return Response.json({error:'Checkout attempt changed.'},{status:409});
   if (order?.status === 'open') {
     const existing = await stripeRequest(env,`/checkout/sessions/${order.session_id}`);
     if(existing.status === 'open') return Response.json({url:existing.url});
-    return Response.json({error:'This Checkout has ended. Please refresh your cart.'},{status:409});
+    return Response.json({error:'This Checkout has ended. Please calculate shipping again.'},{status:409});
   }
-  if (order && order.status !== 'creating') return Response.json({error:'Checkout has already ended.'},{status:409});
+  if (order && order.status !== 'creating') return Response.json({error:'Checkout has already ended. Please calculate shipping again.'},{status:409});
   if (!order) {
+    let shipping;
+    try { shipping = await checkoutShipping(env,body); } catch(error) {
+      return Response.json({error:error.message},{status:409});
+    }
     const now = Math.floor(Date.now()/1000);
     try {
       await env.DB.batch([
-        env.DB.prepare("INSERT INTO orders(id,status,amount,cart_json,created_at,shipping_amount,shipping_countries) VALUES (?,'creating',?,?,?,?,?)")
-          .bind(id,cart.amount,JSON.stringify(cart.lines),now,Number(env.SHIPPING_AMOUNT_CENTS),env.SHIPPING_COUNTRIES),
+        env.DB.prepare("INSERT INTO orders(id,status,amount,cart_json,created_at,shipping_amount,shipping_countries,shipping_quote_id,shipping_rate_id,shipping_address_json,shipping_service) VALUES (?,'creating',?,?,?,?,?,?,?,?,?)")
+          .bind(id,cart.amount,JSON.stringify(cart.lines),now,shipping.amount,'US',shipping.quoteId,shipping.rateId,JSON.stringify(shipping.address),shipping.service),
         ...cart.components.map(c => env.DB.prepare('INSERT INTO order_components(order_id,kind,component_id,quantity) VALUES (?,?,?,?)')
           .bind(id,c.kind,c.id,c.quantity))
       ]);
@@ -111,12 +117,18 @@ export async function checkout(request, env) {
   const params = new URLSearchParams({mode:'payment',success_url:`${origin}/shop.html?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url:`${origin}/shop.html?checkout=cancelled`,client_reference_id:id,'metadata[order_id]':id,
     expires_at:String(order.created_at+3600),'payment_method_types[0]':'card'});
-  order.shipping_countries.split(',').map(c=>c.trim()).filter(Boolean).forEach((country,i)=>
-    params.set(`shipping_address_collection[allowed_countries][${i}]`,country));
+  // Use the quoted destination as the PaymentIntent's shipping address. Do not let
+  // Checkout collect a different destination while keeping the original price.
+  const shippingAddress = JSON.parse(order.shipping_address_json);
+  params.set('payment_intent_data[shipping][name]',shippingAddress.name);
+  for (const [field,value] of Object.entries({line1:shippingAddress.street1,line2:shippingAddress.street2,
+      city:shippingAddress.city,state:shippingAddress.state,postal_code:shippingAddress.zip,country:'US'})) {
+    if(value) params.set(`payment_intent_data[shipping][address][${field}]`,value);
+  }
   params.set('shipping_options[0][shipping_rate_data][type]','fixed_amount');
   params.set('shipping_options[0][shipping_rate_data][fixed_amount][amount]',String(order.shipping_amount));
   params.set('shipping_options[0][shipping_rate_data][fixed_amount][currency]','usd');
-  params.set('shipping_options[0][shipping_rate_data][display_name]','Shipping');
+  params.set('shipping_options[0][shipping_rate_data][display_name]',order.shipping_service);
   cart.lines.forEach((line,i)=>{
     const prefix=`line_items[${i}]`;
     params.set(`${prefix}[quantity]`,String(line.quantity));
