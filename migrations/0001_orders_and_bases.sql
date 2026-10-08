@@ -28,14 +28,16 @@ CREATE TABLE IF NOT EXISTS order_components (
 );
 CREATE INDEX IF NOT EXISTS orders_status ON orders(status);
 CREATE TRIGGER IF NOT EXISTS reserve_component BEFORE INSERT ON order_components BEGIN
-  SELECT CASE WHEN (SELECT status FROM orders WHERE id=NEW.order_id) IS NOT 'creating'
-    THEN RAISE(ABORT,'Invalid reservation') END;
-  SELECT CASE WHEN NEW.quantity > COALESCE(
-    CASE NEW.kind WHEN 'base' THEN (SELECT stock FROM bases WHERE id=NEW.component_id)
-    ELSE (SELECT stock FROM keycaps WHERE id=NEW.component_id) END, 0) -
-    COALESCE((SELECT SUM(c.quantity) FROM order_components c JOIN orders o ON o.id=c.order_id
-      WHERE c.kind=NEW.kind AND c.component_id=NEW.component_id AND o.status IN ('creating','open')),0)
-    THEN RAISE(ABORT,'Insufficient inventory') END;
+  SELECT RAISE(ABORT,'Invalid reservation')
+    WHERE (SELECT status FROM orders WHERE id=NEW.order_id) IS NOT 'creating';
+  SELECT RAISE(ABORT,'Insufficient inventory')
+    WHERE NEW.kind='base' AND NEW.quantity > COALESCE((SELECT stock FROM bases WHERE id=NEW.component_id),0) -
+      COALESCE((SELECT SUM(c.quantity) FROM order_components c JOIN orders o ON o.id=c.order_id
+        WHERE c.kind='base' AND c.component_id=NEW.component_id AND o.status IN ('creating','open')),0);
+  SELECT RAISE(ABORT,'Insufficient inventory')
+    WHERE NEW.kind='keycap' AND NEW.quantity > COALESCE((SELECT stock FROM keycaps WHERE id=NEW.component_id),0) -
+      COALESCE((SELECT SUM(c.quantity) FROM order_components c JOIN orders o ON o.id=c.order_id
+        WHERE c.kind='keycap' AND c.component_id=NEW.component_id AND o.status IN ('creating','open')),0);
 END;
 -- One status transition atomically deducts all physical components, once.
 CREATE TRIGGER IF NOT EXISTS fulfill_order AFTER UPDATE OF status ON orders

@@ -6,7 +6,9 @@
   "assets": {
     "directory": "./",
     "binding": "ASSETS",
-    "run_worker_first": ["/api/*"]
+    "run_worker_first": [
+      "/api/*"
+    ]
   },
   "d1_databases": [
     {
@@ -14,5 +16,9 @@
       "database_name": "clickerlab-store",
       "database_id": "f9b1db32-77ce-4743-9478-63f0da6d486d"
     }
-  ]
+  ],
+  "vars": {
+    "STORE_URL": "https://clickerlabstore.com",
+    "SHIP_FROM_ADDRESS": "{\"name\":\"ClickerLabStore\",\"street1\":\"2085 San Marino Ave\",\"city\":\"San Marino\",\"state\":\"CA\",\"zip\":\"91108\",\"country\":\"US\"}"
+  }
 }
