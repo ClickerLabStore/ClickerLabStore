@@ -153,7 +153,7 @@ body{font-family:"Nunito Sans",sans-serif;background:white;color:#17243c;overflo
 
 <h1>3-Key Clicker</h1>
 
-<p class="product-price" id="product-price">$4.99</p>
+<p class="product-price" id="product-price">$5.99</p>
 
 <p class="product-description">
 Three mechanical keys in one compact clicker for even more variety.
@@ -225,7 +225,7 @@ Choose all three keycaps to see available quantity.
 </p>
 
 <button type="button" class="add-to-cart" id="add-to-cart" onclick="addCurrentProductToCart()">
-Add to Cart — $4.99
+Add to Cart — $5.99
 </button>
 
 <div class="product-notes">
@@ -257,7 +257,7 @@ Add to Cart — $4.99
 <script src="app.js"></script>
 
 <script>
-const unitPrice = 4.99;
+const unitPrice = 5.99;
 
 const keycapStock = new Proxy({}, {
 get: (_, id) => window.ClickerInventory.available(Number(id))

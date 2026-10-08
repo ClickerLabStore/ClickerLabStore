@@ -3,7 +3,7 @@ export const PRODUCTS = {
   '1-key-clicker': { name: '1-Key Clicker', price: 249, base: 1 },
   '1-key-light-up-clicker': { name: '1-Key Light Up Clicker', price: 349, base: 1, light: true },
   '2-key-clicker': { name: '2-Key Clicker', price: 399, base: 2 },
-  '3-key-clicker': { name: '3-Key Clicker', price: 499, base: 3 },
+  '3-key-clicker': { name: '3-Key Clicker', price: 599, base: 3 },
   '4-key-clicker': { name: '4-Key Clicker', price: 699, base: 4 }
 };
 export function validateCart(items) {

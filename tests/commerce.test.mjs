@@ -5,7 +5,7 @@ import {validateCart, verifySignature, webhook, checkout} from '../src/commerce.
 const item=(productId,keycaps,quantity=1)=>({productId,quantity,price:0.01,options:{switchType:'Clicky',keycaps}});
 test('server prices and components include shared bases and repeated keycaps',()=>{
  const cart=validateCart([item('3-key-clicker',[1,1,2],2),{...item('1-key-light-up-clicker',[1],1),options:{switchType:'Creamy',lightColor:'Blue',keycaps:[1]}}]);
- assert.equal(cart.amount,2*499+349);
+ assert.equal(cart.amount,2*599+349);
  assert.deepEqual(cart.components,[{kind:'base',id:3,quantity:2},{kind:'keycap',id:1,quantity:5},{kind:'keycap',id:2,quantity:2},{kind:'base',id:1,quantity:1}]);
 });
 test('tampered products, incomplete selections and invalid quantities rejected',()=>{
@@ -46,7 +46,7 @@ test('Checkout charges server prices, uses US shipping and reuses the attempt',a
   assert.match(url,/^https:\/\/api.stripe.com\/v1\/checkout\/sessions/);
   if(options.method==='POST'){
    const params=new URLSearchParams(options.body);
-   assert.equal(params.get('line_items[0][price_data][unit_amount]'),'499');
+   assert.equal(params.get('line_items[0][price_data][unit_amount]'),'599');
    assert.equal(params.get('payment_intent_data[shipping][address][postal_code]'),'91108');
    assert.equal(params.get('shipping_address_collection[allowed_countries][0]'),null);
    assert.equal(params.get('shipping_options[0][shipping_rate_data][fixed_amount][amount]'),'525');
