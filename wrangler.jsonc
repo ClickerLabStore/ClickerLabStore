@@ -20,5 +20,12 @@
   "vars": {
     "STORE_URL": "https://clickerlabstore.com",
     "SHIP_FROM_ADDRESS": "{\"name\":\"ClickerLabStore\",\"street1\":\"2085 San Marino Ave\",\"city\":\"San Marino\",\"state\":\"CA\",\"zip\":\"91108\",\"country\":\"US\"}"
-  }
+  },
+  "routes": [
+    {
+      "pattern": "clickerlabstore.com",
+      "zone_name": "clickerlabstore.com",
+      "custom_domain": true
+    }
+  ]
 }
