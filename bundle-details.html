@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>View Bundle | ClickerLabStore</title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="/favicon.png?v=2"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Nunito Sans", sans-serif;
+            background: #ffffff;
+            color: #111111;
+            overflow-x: hidden;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================== */
+
+        .navbar {
+            width: 100%;
+            height: 110px;
+            background-image: url("blank navbar.png");
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .navbar-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 2.3%;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            width: 310px;
+            flex-shrink: 0;
+            text-decoration: none;
+            transition: transform 0.2s ease;
+        }
+
+        .navbar-logo:hover {
+            transform: scale(1.02);
+        }
+
+        .navbar-logo img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            margin-left: 150px;
+            gap: 50px;
+        }
+
+        .nav-links a {
+            position: relative;
+            color: #4b2247;
+            text-decoration: none;
+            font-size: 23px;
+            font-weight: 600;
+            white-space: nowrap;
+            padding: 10px 0;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 3px;
+            width: 100%;
+            height: 2px;
+            background: #4b2247;
+            transform: translateX(-50%) scaleX(0);
+            transform-origin: center;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-links a:hover::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-left: auto;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .nav-icon-button {
+            width: 72px;
+            height: 72px;
+            padding: 0;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-icon-button:hover {
+            transform: scale(1.08);
+        }
+
+        .nav-icon-button img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+
+        /* =========================
+           BUNDLE PAGE
+        ========================== */
+
+        .bundle-page {
+            width: 100%;
+            padding: 70px 40px 110px;
+            background: #ffffff;
+        }
+
+        .bundle-inner {
+            max-width: 1250px;
+            margin: 0 auto;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================== */
+
+        .bundle-header {
+            max-width: 800px;
+            margin: 0 auto 55px;
+            text-align: center;
+        }
+
+        .bundle-header h1 {
+            margin-bottom: 14px;
+            color: #111111;
+            font-size: 56px;
+            line-height: 1.05;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+        }
+
+        .bundle-header p {
+            color: #555555;
+            font-size: 19px;
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           GRID
+        ========================== */
+
+        .bundle-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+
+        /* =========================
+           CARD
+        ========================== */
+
+        .bundle-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 2px solid #eee7dc;
+            border-radius: 24px;
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+
+            transition:
+                transform 0.22s ease,
+                box-shadow 0.22s ease;
+        }
+
+        .bundle-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 38px rgba(0, 0, 0, 0.10);
+        }
+
+        .bundle-card.best-value {
+            border-color: #dbc4a7;
+        }
+
+
+        /* =========================
+           IMAGE AREA
+        ========================== */
+
+        .bundle-image {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 0.78;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+
+            border-bottom: 1px solid #eee7dc;
+        }
+
+
+        /* EXACT BACKGROUNDS MATCHED
+           TO YOUR FOUR IMAGES */
+
+        .starter-pack-image {
+            background: #fdf8ee;
+        }
+
+        .starter-lab-image {
+            background: #fbf2e5;
+        }
+
+        .clicker-trio-image {
+            background: #efe8df;
+        }
+
+        .trio-lab-image {
+            background: #f3f1ed;
+        }
+
+
+        .bundle-image img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: contain;
+            object-position: center;
+
+            transition: transform 0.25s ease;
+        }
+
+        .bundle-card:hover .bundle-image img {
+            transform: scale(1.03);
+        }
+
+
+        /* =========================
+           PLACEHOLDER
+        ========================== */
+
+        .placeholder-wrapper {
+            width: 100%;
+            height: 100%;
+            padding: 25px;
+            background: #faf7f2;
+        }
+
+        .placeholder-box {
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            gap: 8px;
+
+            border: 2px dashed #d8c8b4;
+            border-radius: 18px;
+
+            color: #555555;
+
+            text-align: center;
+
+            background: #faf7f2;
+        }
+
+        .placeholder-title {
+            color: #111111;
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .placeholder-subtitle {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+
+        /* =========================
+           BADGES
+        ========================== */
+
+        .bundle-badge {
+            position: absolute;
+
+            top: 16px;
+            left: 16px;
+
+            z-index: 3;
+
+            padding: 8px 12px;
+
+            border-radius: 999px;
+
+            background: #f7e7d1;
+
+            color: #111111;
+
+            font-size: 13px;
+            font-weight: 900;
+
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .best-value-badge {
+            background: #111111;
+            color: #ffffff;
+
+            display: flex;
+            align-items: center;
+
+            gap: 8px;
+        }
+
+        .badge-divider {
+            width: 4px;
+            height: 4px;
+
+            border-radius: 50%;
+
+            background: rgba(255, 255, 255, 0.65);
+        }
+
+
+        /* =========================
+           INFO
+        ========================== */
+
+        .bundle-info {
+            flex: 1;
+
+            display: flex;
+            flex-direction: column;
+
+            padding: 24px;
+        }
+
+        .bundle-info h2 {
+            margin-bottom: 8px;
+
+            color: #111111;
+
+            font-size: 25px;
+            font-weight: 900;
+        }
+
+        .bundle-items {
+            margin-bottom: 18px;
+
+            color: #555555;
+
+            font-size: 15px;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+
+        /* =========================
+           INCLUDED ITEMS
+        ========================== */
+
+        .included-list {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 8px;
+
+            margin-bottom: 20px;
+        }
+
+        .included-item {
+            padding: 7px 10px;
+
+            border-radius: 9px;
+
+            background: #faf7f2;
+
+            color: #111111;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            border: 1px solid #eee7dc;
+        }
+
+
+        /* =========================
+           PRICE
+        ========================== */
+
+        .bundle-price-row {
+            display: flex;
+
+            align-items: baseline;
+
+            gap: 10px;
+
+            margin-top: auto;
+            margin-bottom: 18px;
+        }
+
+        .old-price {
+            color: #777777;
+
+            font-size: 16px;
+            font-weight: 700;
+
+            text-decoration: line-through;
+        }
+
+        .bundle-price {
+            color: #111111;
+
+            font-size: 28px;
+            font-weight: 900;
+        }
+
+
+        /* =========================
+           BUTTON
+        ========================== */
+
+        .bundle-button {
+            width: 100%;
+            min-height: 50px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: none;
+            border-radius: 12px;
+
+            background: #f7e7d1;
+
+            color: #111111;
+
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .bundle-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 18px
+                rgba(0, 0, 0, 0.08);
+        }
+
+
+        /* =========================
+           CLICKERLAB PACK
+        ========================== */
+
+        .clickerlab-pack {
+            grid-column: span 2;
+        }
+
+        .clickerlab-pack .bundle-image {
+            aspect-ratio: 2 / 0.78;
+            background: #f7f3ed;
+        }
+
+        .clickerlab-pack .placeholder-wrapper {
+            min-height: 270px;
+        }
+
+
+        /* =========================
+           NOTE
+        ========================== */
+
+        .bundle-note {
+            max-width: 800px;
+
+            margin: 45px auto 0;
+
+            padding: 20px 24px;
+
+            border-radius: 16px;
+
+            background: #faf7f2;
+
+            color: #555555;
+
+            text-align: center;
+
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           SMALLER LAPTOPS
+        ========================== */
+
+        @media (max-width: 1200px) {
+
+            .navbar-logo {
+                width: 260px;
+            }
+
+            .nav-links {
+                margin-left: 50px;
+                gap: 28px;
+            }
+
+            .nav-links a {
+                font-size: 19px;
+                font-weight: 600;
+            }
+
+            .nav-icon-button {
+                width: 60px;
+                height: 60px;
+            }
+
+            .nav-actions {
+                margin-right: 12px;
+            }
+
+        }
+
+
+        /* =========================
+           TABLET
+        ========================== */
+
+        @media (max-width: 900px) {
+
+            .navbar {
+                height: auto;
+
+                min-height: 150px;
+
+                background-size: cover;
+            }
+
+            .navbar-inner {
+                flex-wrap: wrap;
+
+                padding: 10px 18px 15px;
+            }
+
+            .navbar-logo {
+                width: 225px;
+            }
+
+            .nav-actions {
+                margin-left: auto;
+                margin-right: 0;
+            }
+
+            .nav-icon-button {
+                width: 52px;
+                height: 52px;
+            }
+
+            .nav-links {
+                width: 100%;
+
+                order: 3;
+
+                margin-left: 0;
+                margin-top: 5px;
+
+                justify-content: center;
+
+                gap: 25px;
+            }
+
+            .nav-links a {
+                font-size: 16px;
+                font-weight: 600;
+            }
+
+            .bundle-page {
+                padding: 55px 25px 90px;
+            }
+
+            .bundle-header h1 {
+                font-size: 48px;
+            }
+
+            .bundle-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .clickerlab-pack {
+                grid-column: span 2;
+            }
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================== */
+
+        @media (max-width: 600px) {
+
+            .navbar-logo {
+                width: 185px;
+            }
+
+            .nav-icon-button {
+                width: 46px;
+                height: 46px;
+            }
+
+            .nav-actions {
+                gap: 5px;
+            }
+
+            .nav-links {
+                gap: 14px;
+                flex-wrap: wrap;
+            }
+
+            .nav-links a {
+                font-size: 14px;
+                font-weight: 600;
+            }
+
+            .bundle-page {
+                padding: 45px 18px 70px;
+            }
+
+            .bundle-header {
+                margin-bottom: 38px;
+            }
+
+            .bundle-header h1 {
+                font-size: 39px;
+            }
+
+            .bundle-header p {
+                font-size: 16px;
+            }
+
+            .bundle-grid {
+                grid-template-columns: 1fr;
+                gap: 22px;
+            }
+
+            .clickerlab-pack {
+                grid-column: span 1;
+            }
+
+            .clickerlab-pack .bundle-image {
+                aspect-ratio: 1 / 0.78;
+            }
+
+            .clickerlab-pack .placeholder-wrapper {
+                min-height: 0;
+            }
+
+        }
+
+
+/* Bundle detail view */
+.bundle-detail-shell{max-width:1250px;margin:0 auto;padding:40px 40px 88px}
+.detail-back{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#684c34;font-weight:800;margin-bottom:25px}
+.detail-back:hover{text-decoration:underline}
+.bundle-detail-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:42px;align-items:start}
+.bundle-detail-photo{border:2px solid #eee7dc;border-radius:23px;overflow:hidden;aspect-ratio:1/.89;display:flex;align-items:center;justify-content:center;position:relative}
+.bundle-detail-photo img{display:block;width:100%;height:100%;object-fit:contain}
+.detail-save{position:absolute;z-index:1;top:16px;left:16px;padding:9px 14px;border-radius:99px;background:#f7e7d1;font-weight:900;font-size:13px}
+.detail-save.best{background:#111;color:#fff}
+.bundle-detail-info{padding:12px 0}
+.detail-eyebrow{font-size:13px;letter-spacing:.08em;font-weight:900;text-transform:uppercase;color:#836b53;margin-bottom:10px}
+.bundle-detail-info h1{font-weight:900;color:#111;font-size:clamp(30px,4vw,46px);line-height:1.14;margin-bottom:16px}
+.detail-description{font-size:17px;line-height:1.65;color:#555;margin-bottom:25px}
+.detail-price-row{display:flex;gap:14px;align-items:baseline;margin-bottom:30px}
+.detail-price{font-size:32px;font-weight:900;color:#111}
+.detail-old-price{text-decoration:line-through;color:#8a8581;font-size:20px}
+.detail-section-title{font-size:19px;font-weight:900;margin-bottom:14px}
+.detail-includes{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.detail-includes a,.detail-includes span{padding:10px 13px;border:1px solid #e7dacc;border-radius:10px;background:#faf7f2;text-decoration:none;color:#333;font-weight:750;font-size:14px}
+.detail-includes a:hover{background:#f7e7d1}
+.detail-hint{border-left:3px solid #d8bd9d;padding:11px 14px;color:#555;font-size:14px;line-height:1.55;background:#fcfaf7;border-radius:0 8px 8px 0}
+.detail-other{margin-top:55px;border-top:1px solid #eee7dc;padding-top:28px}
+.detail-other h2{font-size:22px;font-weight:900;margin-bottom:17px}
+.detail-other-links{display:flex;flex-wrap:wrap;gap:12px}
+.detail-other-links a{padding:11px 16px;background:#f7e7d1;border-radius:11px;text-decoration:none;color:#111;font-weight:800}
+.detail-other-links a:hover{background:#ead2b3}
+@media(max-width:900px){.bundle-detail-shell{padding:32px 25px 65px}.bundle-detail-layout{grid-template-columns:1fr;gap:20px}.bundle-detail-photo{aspect-ratio:1/.78}}
+@media(max-width:600px){.bundle-detail-shell{padding:24px 18px 50px}.detail-price{font-size:29px}.detail-description{font-size:16px}}
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <div class="navbar-inner">
+
+            <a
+                href="index.html"
+                class="navbar-logo"
+                aria-label="ClickerLabStore Home"
+            >
+                <img
+                    src="ClickerLabLogo.png"
+                    alt="ClickerLabStore"
+                >
+            </a>
+
+
+            <nav class="nav-links">
+
+                <a href="shop.html">
+                    Shop
+                </a>
+
+                <a href="bundles.html">
+                    Bundles
+                </a>
+
+                <a href="build.html">
+                    Build Your Own
+                </a>
+
+                <a href="about.html">
+                    About
+                </a>
+
+                <a href="faq.html">
+                    FAQ
+                </a>
+
+            </nav>
+
+
+            <div class="nav-actions">
+
+                <button
+                    type="button"
+                    class="nav-icon-button"
+                    id="search-button"
+                    aria-label="Search"
+                >
+                    <img
+                        src="search_button_cropped_580x580.png"
+                        alt=""
+                    >
+                </button>
+
+
+                <button
+                    type="button"
+                    class="nav-icon-button"
+                    id="cart-button"
+                    aria-label="Cart"
+                >
+                    <img
+                        src="cart_button_cropped_580x580.png"
+                        alt=""
+                    >
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <main class="bundle-detail-shell">
+        <a class="detail-back" href="bundles.html">← Back to Bundles</a>
+        <div id="bundle-details"><p>Loading bundle details…</p></div>
+    </main>
+    <script>
+    (() => {
+        const bundles = {
+            "starter-pack": {
+                name: "Starter Pack",
+                description: "A simple two-clicker bundle with our smallest and largest standard designs.",
+                image: "starter-pack.png", price: "$8.49", oldPrice: "$9.48", savings: "Save 10%", bg: "#fdf8ee",
+                included: ["1-Key Clicker","4-Key Clicker"]
+            },
+            "starter-lab": {
+                name: "Starter Lab",
+                description: "Two different sizes for switching between compact and larger clickers.",
+                image: "starter-lab.png", price: "$9.99", oldPrice: "$10.98", savings: "Save 9%", bg: "#fbf2e5",
+                included: ["2-Key Clicker","4-Key Clicker"]
+            },
+            "clicker-trio": {
+                name: "Clicker Trio",
+                description: "Three clicker sizes together for more variety.",
+                image: "clicker-trio.png", price: "$11.49", oldPrice: "$13.47", savings: "Save 15%", bg: "#efe8df",
+                included: ["1-Key Clicker","2-Key Clicker","4-Key Clicker"]
+            },
+            "trio-lab": {
+                name: "Trio Lab",
+                description: "A three-clicker set with compact, medium, and full-size options.",
+                image: "trio-lab.png", price: "$11.99", oldPrice: "$14.47", savings: "Save 17%", bg: "#f3f1ed",
+                included: ["1-Key Clicker","3-Key Clicker","4-Key Clicker"]
+            },
+            "clickerlab-pack": {
+                name: "ClickerLab Pack",
+                description: "The biggest ClickerLab bundle with five different clicker sizes.",
+                image: "clicker-lab-pack.png", price: "$26.99", oldPrice: "$33.74", savings: "Save 20%", bg: "#f7f3ed", best: true,
+                included: ["1-Key Clicker","2-Key Clicker","3-Key Clicker","4-Key Clicker","9-Key Clicker"]
+            }
+        };
+        const productLinks = {
+            "1-Key Clicker":"1-key-clicker.html",
+            "2-Key Clicker":"2-key-clicker.html",
+            "3-Key Clicker":"3-key-clicker.html",
+            "4-Key Clicker":"4-key-clicker.html"
+        };
+        const selected = new URLSearchParams(location.search).get("bundle");
+        const item = bundles[selected];
+        const target = document.getElementById("bundle-details");
+        if (!item) {
+            document.title = "Bundles | ClickerLabStore";
+            target.innerHTML = '<h1>Bundle not found</h1><p>Please choose a bundle from the <a href="bundles.html">Bundles page</a>.</p>';
+            return;
+        }
+        document.title = item.name + " | ClickerLabStore";
+        const included = item.included.map(name => productLinks[name]
+            ? '<a href="' + productLinks[name] + '">' + name + '</a>'
+            : '<span>' + name + '</span>'
+        ).join("");
+        const others = Object.entries(bundles).filter(([slug]) => slug !== selected)
+            .map(([slug,b]) => '<a href="bundle-details.html?bundle=' + slug + '">' + b.name + '</a>').join("");
+        target.innerHTML = `
+            <article class="bundle-detail-layout">
+                <div class="bundle-detail-photo" style="background:${item.bg}">
+                    <span class="detail-save ${item.best ? 'best' : ''}">${item.best ? "Best Value · " : ""}${item.savings}</span>
+                    <img src="${item.image}" alt="${item.name} bundle" loading="eager">
+                </div>
+                <div class="bundle-detail-info">
+                    <p class="detail-eyebrow">ClickerLabStore Bundles</p>
+                    <h1>${item.name}</h1>
+                    <p class="detail-description">${item.description}</p>
+                    <div class="detail-price-row"><span class="detail-price">${item.price}</span><span class="detail-old-price">${item.oldPrice}</span></div>
+                    <h2 class="detail-section-title">What's included</h2>
+                    <div class="detail-includes">${included}</div>
+                    <p class="detail-hint">Explore the items in this bundle. Bundle customization and purchasing aren't enabled yet.</p>
+                </div>
+            </article>
+            <aside class="detail-other" aria-label="Other bundles">
+                <h2>Explore other bundles</h2>
+                <div class="detail-other-links">${others}</div>
+            </aside>
+        `;
+    })();
+    </script>
+</body>
+</html>
