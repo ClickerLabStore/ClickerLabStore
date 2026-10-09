@@ -71,7 +71,7 @@ test('9-key server price and repeated component quantities',()=>{
  assert.throws(()=>validateCart([item('9-key-clicker',[1,2,3])]));
 });
 test('all bundles use fixed prices and reserve every included base and keycap',()=>{
- for(const [id,price,sizes] of [['starter-pack',849,[1,4]],['starter-lab',999,[2,4]],['clicker-trio',1149,[1,2,4]],['trio-lab',1199,[1,3,4]],['clickerlab-pack',2699,[1,2,3,4,9]]]) {
+ for(const [id,price,sizes] of [['starter-pack',849,[1,4]],['starter-lab',999,[2,4]],['clicker-trio',1149,[1,2,4]],['trio-lab',1249,[1,3,4]],['clickerlab-pack',2699,[1,2,3,4,9]]]) {
   const line={productId:id,quantity:2,price:0.01,options:{clickers:sizes.map(n=>({productId:`${n}-key-clicker`,switchType:'Creamy',keycaps:Array(n).fill(1)}))}};
   const result=validateCart([line]);
   assert.equal(result.amount,price*2);

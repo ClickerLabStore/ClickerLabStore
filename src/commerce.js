@@ -11,7 +11,7 @@ export const BUNDLES = {
   'starter-pack': {name:'Starter Pack',price:849,bases:[1,4]},
   'starter-lab': {name:'Starter Lab',price:999,bases:[2,4]},
   'clicker-trio': {name:'Clicker Trio',price:1149,bases:[1,2,4]},
-  'trio-lab': {name:'Trio Lab',price:1199,bases:[1,3,4]},
+  'trio-lab': {name:'Trio Lab',price:1249,bases:[1,3,4]},
   'clickerlab-pack': {name:'ClickerLab Pack',price:2699,bases:[1,2,3,4,9]}
 };
 export function validateCart(items) {

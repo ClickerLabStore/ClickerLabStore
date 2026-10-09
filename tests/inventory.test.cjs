@@ -118,7 +118,7 @@ test('absent 9-key base fails closed without breaking existing base inventory',a
 });
 test('bundle additions are atomic and share stock with individual cart items',async()=>{
  const h=setup(); h.setStock(10);
- const bundle={productId:'trio-lab',name:'Trio Lab',price:11.99,quantity:1,options:{clickers:[1,3,4].map(n=>({productId:`${n}-key-clicker`,switchType:'Clicky',keycaps:Array(n).fill(1)}))}};
+ const bundle={productId:'trio-lab',name:'Trio Lab',price:12.49,quantity:1,options:{clickers:[1,3,4].map(n=>({productId:`${n}-key-clicker`,switchType:'Clicky',keycaps:Array(n).fill(1)}))}};
  assert.equal(await h.context.ClickerCart.addItem(bundle),true);
  assert.equal(h.context.ClickerInventory.available(1),2);
  assert.equal(h.context.ClickerInventory.availableBase('3-key-clicker'),99);
