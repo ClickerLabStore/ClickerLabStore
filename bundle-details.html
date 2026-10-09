@@ -755,7 +755,10 @@
 .detail-other-links a:hover{background:#ead2b3}
 @media(max-width:900px){.bundle-detail-shell{padding:32px 25px 65px}.bundle-detail-layout{grid-template-columns:1fr;gap:20px}.bundle-detail-photo{aspect-ratio:1/.78}}
 @media(max-width:600px){.bundle-detail-shell{padding:24px 18px 50px}.detail-price{font-size:29px}.detail-description{font-size:16px}}
-    </style>
+    .bundle-clicker{border:1px solid #eee7dc;border-radius:14px;padding:16px;margin:20px 0}
+.bundle-clicker legend{font-weight:800;padding:0 6px}.bundle-keycaps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+#bundle-customize label{display:block;font-size:14px;font-weight:700}#bundle-customize select,#bundle-quantity{display:block;width:100%;padding:10px;margin-top:6px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#111}#bundle-quantity{max-width:100px}.bundle-keycap-preview{width:65px;height:65px;object-fit:contain;margin-top:8px}#bundle-add{cursor:pointer;width:100%}#bundle-add:disabled{opacity:.55;cursor:not-allowed}
+</style>
 
 </head>
 
@@ -886,7 +889,7 @@
             "9-Key Clicker":"9-key-clicker.html"
         };
         const selected = new URLSearchParams(location.search).get("bundle");
-        const item = bundles[selected];
+        const item = Object.hasOwn(bundles, selected) ? bundles[selected] : null;
         const target = document.getElementById("bundle-details");
         if (!item) {
             document.title = "Bundles | ClickerLabStore";
@@ -913,7 +916,13 @@
                     <div class="detail-price-row"><span class="detail-price">${item.price}</span><span class="detail-old-price">${item.oldPrice}</span></div>
                     <h2 class="detail-section-title">What's included</h2>
                     <div class="detail-includes">${included}</div>
-                    <p class="detail-hint">Explore the items in this bundle. Bundle customization and purchasing aren't enabled yet.</p>
+                    <form id="bundle-customize" data-bundle="${selected}" data-name="${item.name}" data-price="${item.price.slice(1)}" data-image="${item.image}">
+                        <h2 class="detail-section-title">Choose your keycaps</h2>
+                        ${item.included.map(name => {const size=parseInt(name);return `<fieldset class="bundle-clicker" data-size="${size}"><legend>${name}</legend><label>Switches <select class="bundle-switch"><option>Clicky</option><option>Creamy</option></select></label><div class="bundle-keycaps">${Array.from({length:size},(_,i)=>`<label>Keycap ${i+1}<select class="bundle-keycap" required aria-label="${name}, keycap ${i+1}"><option value="">Choose keycap</option>${Array.from({length:11},(_,k)=>`<option value="${k+1}">Keycap ${k+1}</option>`).join('')}</select><img class="bundle-keycap-preview" alt="" hidden></label>`).join('')}</div></fieldset>`}).join('')}
+                        <label>Quantity <input id="bundle-quantity" type="number" min="1" max="99" value="1" required></label>
+                        <p id="bundle-stock-status" class="detail-hint" role="status">Checking inventory…</p>
+                        <button class="bundle-button" id="bundle-add" type="submit" disabled>Add to Cart</button>
+                    </form>
                 </div>
             </article>
             <aside class="detail-other" aria-label="Other bundles">
@@ -923,6 +932,7 @@
         `;
     })();
     </script>
-<script src="app.js?v=321385dc7aea"></script>
+<script src="app.js?v=b3236d6d2ea3"></script>
+<script src="bundle-customize.js"></script>
 </body>
 </html>

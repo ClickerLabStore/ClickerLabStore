@@ -70,3 +70,13 @@ test('9-key server price and repeated component quantities',()=>{
  assert.deepEqual(cart.components,[{kind:'base',id:9,quantity:2},{kind:'keycap',id:1,quantity:8},{kind:'keycap',id:2,quantity:8},{kind:'keycap',id:3,quantity:2}]);
  assert.throws(()=>validateCart([item('9-key-clicker',[1,2,3])]));
 });
+test('all bundles use fixed prices and reserve every included base and keycap',()=>{
+ for(const [id,price,sizes] of [['starter-pack',849,[1,4]],['starter-lab',999,[2,4]],['clicker-trio',1149,[1,2,4]],['trio-lab',1199,[1,3,4]],['clickerlab-pack',2699,[1,2,3,4,9]]]) {
+  const line={productId:id,quantity:2,price:0.01,options:{clickers:sizes.map(n=>({productId:`${n}-key-clicker`,switchType:'Creamy',keycaps:Array(n).fill(1)}))}};
+  const result=validateCart([line]);
+  assert.equal(result.amount,price*2);
+  assert.equal(result.components.find(c=>c.kind==='keycap').quantity,sizes.reduce((a,b)=>a+b,0)*2);
+  assert.deepEqual(result.components.filter(c=>c.kind==='base').map(c=>[c.id,c.quantity]),sizes.map(n=>[n,2]));
+  line.options.clickers[0].productId='9-key-clicker'; assert.throws(()=>validateCart([line]));
+ }
+});

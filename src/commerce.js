@@ -7,6 +7,13 @@ export const PRODUCTS = {
   '4-key-clicker': { name: '4-Key Clicker', price: 699, base: 4 },
   '9-key-clicker': { name: '9-Key Clicker', price: 1499, base: 9 }
 };
+export const BUNDLES = {
+  'starter-pack': {name:'Starter Pack',price:849,bases:[1,4]},
+  'starter-lab': {name:'Starter Lab',price:999,bases:[2,4]},
+  'clicker-trio': {name:'Clicker Trio',price:1149,bases:[1,2,4]},
+  'trio-lab': {name:'Trio Lab',price:1199,bases:[1,3,4]},
+  'clickerlab-pack': {name:'ClickerLab Pack',price:2699,bases:[1,2,3,4,9]}
+};
 export function validateCart(items) {
   if (!Array.isArray(items) || !items.length || items.length > 50) throw new Error('Invalid cart');
   const components = new Map();
@@ -17,6 +24,19 @@ export function validateCart(items) {
   };
   let amount = 0;
   const lines = items.map(item => {
+    const bundle = Object.hasOwn(BUNDLES,item.productId) && BUNDLES[item.productId];
+    if (bundle) {
+      const clickers = item.options?.clickers;
+      if (!Array.isArray(clickers) || clickers.length !== bundle.bases.length) throw new Error('Invalid bundle selection');
+      const validated = validateCart(clickers.map((clicker,i) => {
+        if (clicker.productId !== `${bundle.bases[i]}-key-clicker`) throw new Error('Invalid bundle clicker');
+        return {productId:clicker.productId,quantity:item.quantity,options:clicker};
+      }));
+      for (const component of validated.components) add(component.kind,component.id,component.quantity);
+      amount += bundle.price * item.quantity;
+      return {productId:item.productId,quantity:item.quantity,name:bundle.name,price:bundle.price,
+        options:{clickers:validated.lines.map(line=>({productId:line.productId,...line.options}))}};
+    }
     const product = Object.hasOwn(PRODUCTS, item.productId) && PRODUCTS[item.productId];
     const { keycaps, switchType, lightColor } = item.options || {};
     if (!product || !Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > 99 ||
@@ -142,7 +162,7 @@ export async function checkout(request, env) {
     params.set(`${prefix}[price_data][unit_amount]`,String(line.price));
     params.set(`${prefix}[price_data][product_data][name]`,line.name);
     params.set(`${prefix}[price_data][product_data][description]`,
-      `${line.options.switchType}; Keycaps: ${line.options.keycaps.join(', ')}${line.options.lightColor ? '; Light: '+line.options.lightColor:''}`);
+      line.options.clickers ? line.options.clickers.map(c => `${PRODUCTS[c.productId].name}: ${c.switchType}; Keycaps: ${c.keycaps.join(', ')}`).join(' | ') : `${line.options.switchType}; Keycaps: ${line.options.keycaps.join(', ')}${line.options.lightColor ? '; Light: '+line.options.lightColor:''}`);
   });
   let session;
   try {

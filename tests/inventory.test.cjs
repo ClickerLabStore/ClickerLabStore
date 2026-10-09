@@ -116,3 +116,26 @@ test('absent 9-key base fails closed without breaking existing base inventory',a
  assert.equal(h.context.ClickerInventory.availableBase('9-key-clicker'),0);
  assert.equal(await h.context.ClickerCart.addItem(item(Array(9).fill(1),1,'9-key-clicker')),false);
 });
+test('bundle additions are atomic and share stock with individual cart items',async()=>{
+ const h=setup(); h.setStock(10);
+ const bundle={productId:'trio-lab',name:'Trio Lab',price:11.99,quantity:1,options:{clickers:[1,3,4].map(n=>({productId:`${n}-key-clicker`,switchType:'Clicky',keycaps:Array(n).fill(1)}))}};
+ assert.equal(await h.context.ClickerCart.addItem(bundle),true);
+ assert.equal(h.context.ClickerInventory.available(1),2);
+ assert.equal(h.context.ClickerInventory.availableBase('3-key-clicker'),99);
+ assert.equal(await h.context.ClickerCart.addItem(bundle),false);
+ assert.equal(h.context.ClickerCart.getItems().length,1);
+ assert.equal(await h.context.ClickerCart.addItem(item([1],2)),true);
+ h.setFailure(true); assert.equal(await h.context.ClickerCart.addItem(bundle),false);
+ assert.equal(h.context.ClickerCart.getItems().length,2);
+});
+
+test('bundle cart keeps different clicker selections and checks quantity increases',async()=>{
+ const h=setup(); h.setStock(20);
+ const make=id=>({productId:'starter-pack',name:'Starter Pack',price:8.49,quantity:1,options:{clickers:[1,4].map(n=>({productId:`${n}-key-clicker`,switchType:'Creamy',keycaps:Array(n).fill(id)}))}});
+ await h.context.ClickerCart.addItem(make(1)); await h.context.ClickerCart.addItem(make(2));
+ assert.equal(h.context.ClickerCart.getItems().length,2);
+ const id=h.context.ClickerCart.getItems()[0].cartId;
+ await h.run(`changeCartQuantity(${JSON.stringify(id)},1)`);
+ assert.equal(h.context.ClickerInventory.available(1),10);
+ h.setStock(10); assert.equal(await h.run(`changeCartQuantity(${JSON.stringify(id)},1)`),false);
+});

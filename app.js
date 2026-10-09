@@ -27,6 +27,10 @@ const PRODUCT_BASES = {
     "1-key-clicker": 1, "1-key-light-up-clicker": 1,
     "2-key-clicker": 2, "3-key-clicker": 3, "4-key-clicker": 4, "9-key-clicker": 9
 };
+const BUNDLE_BASES = {'starter-pack':[1,4], 'starter-lab':[2,4], 'clicker-trio':[1,2,4], 'trio-lab':[1,3,4], 'clickerlab-pack':[1,2,3,4,9]};
+function itemClickers(item) {
+    return item.options?.clickers || [{productId:item.productId,...item.options}];
+}
 let inventoryQueue = Promise.resolve();
 
 function notifyInventoryChange() {
@@ -76,7 +80,7 @@ async function refreshInventory() {
 function availableKeycapStock(id) {
     if (!inventoryStock) return 0;
     const used = cart.reduce((total, item) => total +
-        (item.options?.keycaps || []).filter(keycap => Number(keycap) === Number(id)).length *
+        itemClickers(item).reduce((n,c)=>n+(c.keycaps || []).filter(keycap=>Number(keycap)===Number(id)).length,0) *
         Number(item.quantity), 0);
     return Math.max(0, inventoryStock[id] - used);
 }
@@ -85,7 +89,7 @@ function availableBaseStock(productId) {
     const id = PRODUCT_BASES[productId];
     if (!baseStock || !id) return 0;
     const used = cart.reduce((total,item) => total +
-        (PRODUCT_BASES[item.productId] === id ? Number(item.quantity) : 0),0);
+        itemClickers(item).filter(c=>PRODUCT_BASES[c.productId]===id).length * Number(item.quantity),0);
     return Math.max(0,(baseStock[id] || 0)-used);
 }
 
@@ -95,20 +99,24 @@ function queueInventoryAddition(item, commit) {
         // Include changes saved in another tab while the request was in flight.
         cart = loadCart();
         const requirements = {};
-        const keycaps = item.options?.keycaps;
-        if (!Array.isArray(keycaps) || !keycaps.length ||
-            !Number.isInteger(item.quantity) || item.quantity < 1) {
-            throw new Error("Choose keycaps and a valid quantity first.");
+        const clickers = itemClickers(item);
+        const expected = BUNDLE_BASES[item.productId];
+        if (!Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > 99 ||
+            (expected && (clickers.length !== expected.length || clickers.some((c,i)=>c.productId !== `${expected[i]}-key-clicker`)))) {
+            throw new Error("Please check your bundle selections and quantity.");
         }
-        const base = PRODUCT_BASES[item.productId];
-        if (!base || keycaps.length !== base || item.quantity > availableBaseStock(item.productId)) {
-            throw new Error("Not enough clicker bases for this product. Please reduce the quantity.");
-        }
-        for (const id of keycaps) {
-            if (!Number.isInteger(id) || !(id in inventoryStock)) {
-                throw new Error("Please choose a valid keycap.");
+        const bases = {};
+        for (const clicker of clickers) {
+            const base = PRODUCT_BASES[clicker.productId];
+            if (!base || !Array.isArray(clicker.keycaps) || clicker.keycaps.length !== base) throw new Error("Choose every keycap first.");
+            bases[base] = (bases[base] || 0)+1;
+            for (const id of clicker.keycaps) {
+                if (!Number.isInteger(id) || !(id in inventoryStock)) throw new Error("Please choose a valid keycap.");
+                requirements[id] = (requirements[id] || 0)+1;
             }
-            requirements[id] = (requirements[id] || 0) + 1;
+        }
+        for (const [base,count] of Object.entries(bases)) {
+            if (count*item.quantity > availableBaseStock(`${base}-key-clicker`)) throw new Error("Not enough clicker bases. Please reduce the quantity.");
         }
         for (const [id, count] of Object.entries(requirements)) {
             if (count * item.quantity > availableKeycapStock(id)) {
@@ -1117,6 +1125,8 @@ function createCartItemKey(item) {
         keycaps:
             options.keycaps || [],
 
+        clickers: options.clickers || null,
+
         lightColor:
             options.lightColor || ""
 
@@ -1530,6 +1540,10 @@ function getCartOptionsHTML(
 
     }
 
+
+    if (Array.isArray(options.clickers)) {
+        html += options.clickers.map(c => `<span class="clicker-cart-option-line">${escapeCartHTML(c.productId.replace('-key-clicker','-Key Clicker'))}: ${escapeCartHTML(c.switchType)}; Keycaps: ${(c.keycaps || []).map(id=>'#'+escapeCartHTML(id)).join(', ')}</span>`).join('');
+    }
 
     return html;
 
