@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta name="description" content="Meet ClickerLabStore: customizable mechanical clickers with your choice of switches, keycap designs, and bundles.">
+    <title>About | ClickerLabStore</title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="/favicon.png?v=2"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Nunito Sans", sans-serif;
+            background: #ffffff;
+            color: #111111;
+            overflow-x: hidden;
+        }
+
+
+        .navbar {
+            width: 100%;
+            height: 110px;
+            background-image: url("blank navbar.png");
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .navbar-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 2.3%;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            width: 310px;
+            flex-shrink: 0;
+            text-decoration: none;
+            transition: transform 0.2s ease;
+        }
+
+        .navbar-logo:hover {
+            transform: scale(1.02);
+        }
+
+        .navbar-logo img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            margin-left: 150px;
+            gap: 50px;
+        }
+
+        .nav-links a {
+            position: relative;
+            color: #4b2247;
+            text-decoration: none;
+            font-size: 23px;
+            font-weight: 600;
+            white-space: nowrap;
+            padding: 10px 0;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 3px;
+            width: 100%;
+            height: 2px;
+            background: #4b2247;
+            transform: translateX(-50%) scaleX(0);
+            transform-origin: center;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-links a:hover::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-left: auto;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .nav-icon-button {
+            width: 72px;
+            height: 72px;
+            padding: 0;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-icon-button:hover {
+            transform: scale(1.08);
+        }
+
+        .nav-icon-button img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+
+        .faq-page{background:#faf7f2;min-height:calc(100vh - 110px);padding:65px 24px 80px}
+        .faq-inner{max-width:900px;margin:auto}.faq-eyebrow{color:#836b53;font-size:13px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+        h1{font-size:clamp(34px,5vw,52px);line-height:1.15;font-weight:900;margin-bottom:18px}.faq-intro{color:#555;font-size:18px;line-height:1.6;max-width:650px;margin-bottom:28px}
+        .faq-topics{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px}.faq-topics a,.faq-shop-link{display:inline-block;background:#f7e7d1;border:1px solid #e7dacc;border-radius:999px;padding:10px 17px;color:#4b2247;text-decoration:none;font-weight:800}
+        .faq-group{margin-bottom:32px;scroll-margin-top:24px}.faq-group h2{font-size:23px;font-weight:900;margin-bottom:14px}.faq-group details{border:1px solid #eee7dc;border-radius:14px;background:white;margin-bottom:10px;overflow:hidden}
+        .faq-group summary{position:relative;cursor:pointer;list-style:none;padding:19px 52px 19px 20px;font-weight:800;font-size:17px;line-height:1.4}.faq-group summary::-webkit-details-marker{display:none}.faq-group summary::after{content:'+';position:absolute;right:20px;top:17px;color:#836b53;font-size:25px}.faq-group details[open] summary::after{content:'−'}
+        .faq-answer{padding:0 20px 21px;color:#555;font-size:16px;line-height:1.7}.faq-answer a{color:#684c34;font-weight:800}.faq-bottom{border-top:1px solid #e7dacc;padding-top:24px}.faq-bottom p{color:#555;margin-bottom:16px;line-height:1.6}a:focus-visible,summary:focus-visible,button:focus-visible{outline:3px solid #836b53;outline-offset:4px}
+        @media(max-width:1250px){.nav-links{margin-left:40px;gap:25px}.nav-links a{font-size:19px}.navbar-logo{width:260px}.nav-icon-button{width:58px;height:58px}}
+        @media(max-width:900px){.navbar{height:auto;min-height:150px;background-size:cover}.navbar-inner{flex-wrap:wrap;padding:10px 18px 15px}.navbar-logo{width:225px}.nav-actions{margin-left:auto;margin-right:0}.nav-icon-button{width:52px;height:52px}.nav-links{width:100%;order:3;margin-left:0;justify-content:center;gap:25px}.nav-links a{font-size:16px}}
+        @media(max-width:600px){.faq-page{padding:35px 18px 50px}.faq-intro{font-size:16px}.faq-group summary{font-size:16px;padding-left:16px}.faq-answer{padding-left:16px;padding-right:16px}.navbar-logo{width:185px}.nav-icon-button{width:46px;height:46px}.nav-actions{gap:5px}.nav-links{gap:14px;flex-wrap:wrap}.nav-links a{font-size:14px}}
+    
+.about-page{background:#faf7f2;min-height:calc(100vh - 110px);padding:65px 24px 80px}.about-inner{max-width:1100px;margin:auto}.about-hero{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;margin-bottom:45px}.about-copy p{color:#555;font-size:18px;line-height:1.75;margin-bottom:18px}.about-photo{background:#f3f1ed;border:1px solid #eee7dc;border-radius:24px;overflow:hidden;aspect-ratio:1}.about-photo img{display:block;width:100%;height:100%;object-fit:contain}.about-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}.about-actions a{display:inline-block;padding:12px 20px;background:#f7e7d1;border:1px solid #e7dacc;border-radius:999px;color:#4b2247;text-decoration:none;font-weight:800}.about-actions a:hover{background:#ead2b3}.about-features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:38px}.about-card{padding:24px;border:1px solid #eee7dc;border-radius:18px;background:#fff}.about-card h2{font-size:21px;font-weight:900;margin-bottom:12px}.about-card p,.about-ready p{font-size:16px;line-height:1.7;color:#555}.about-ready{padding-top:28px;border-top:1px solid #e7dacc}.about-ready h2{font-size:25px;margin-bottom:12px}.about-ready a{color:#684c34;font-weight:800}
+@media(max-width:900px){.about-hero{grid-template-columns:1fr;gap:25px}.about-photo{max-width:500px;width:100%;margin:auto}.about-features{grid-template-columns:1fr}.about-card{padding:20px}}
+@media(max-width:600px){.about-page{padding:35px 18px 50px}.about-copy p{font-size:16px}.about-hero{margin-bottom:28px}}
+</style>
+</head>
+<body>
+    <header class="navbar">
+
+        <div class="navbar-inner">
+
+            <a
+                href="index.html"
+                class="navbar-logo"
+                aria-label="ClickerLabStore Home"
+            >
+                <img
+                    src="ClickerLabLogo.png"
+                    alt="ClickerLabStore"
+                >
+            </a>
+
+
+            <nav class="nav-links">
+
+                <a href="shop.html">
+                    Shop
+                </a>
+
+                <a href="bundles.html">
+                    Bundles
+                </a>
+
+                <a href="build.html">
+                    Build Your Own
+                </a>
+
+                <a href="about.html" aria-current="page">
+                    About
+                </a>
+
+                <a href="faq.html">
+                    FAQ
+                </a>
+
+            </nav>
+
+
+            <div class="nav-actions">
+
+                <button
+                    type="button"
+                    class="nav-icon-button"
+                    id="search-button"
+                    aria-label="Search"
+                >
+                    <img
+                        src="search_button_cropped_580x580.png"
+                        alt=""
+                    >
+                </button>
+
+
+                <button
+                    type="button"
+                    class="nav-icon-button"
+                    id="cart-button"
+                    aria-label="Cart"
+                >
+                    <img
+                        src="cart_button_cropped_580x580.png"
+                        alt=""
+                    >
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+<main class="about-page"><div class="about-inner">
+<section class="about-hero" aria-labelledby="about-title">
+<div class="about-copy"><p class="faq-eyebrow">Meet ClickerLabStore</p><h1 id="about-title">Small clickers.<br>Your own style.</h1>
+<p>ClickerLabStore is all about making a simple click your own. Our mechanical-switch clickers combine the feel of a keyboard switch with playful keycap designs you can mix and match.</p>
+<p>Choose a compact single-key clicker or go bigger with a multi-key design. Pick your switches, choose a keycap for every key, and create a combination that feels like you.</p>
+<div class="about-actions"><a href="shop.html">Shop clickers →</a><a href="bundles.html">Explore bundles →</a></div></div>
+<div class="about-photo"><img src="trio-lab.png" alt="A set of 1-key, 3-key, and 4-key clickers with cat-design keycaps and keychains" width="1086" height="1448"></div>
+</section>
+<section class="about-features" aria-label="Make your clicker your own">
+<article class="about-card"><h2>Find your feel</h2><p>Choose Clicky for a crisp, tactile click or Creamy for a smooth feel and a softer sound. The 1-key light-up clicker also lets you choose from five light colors.</p></article>
+<article class="about-card"><h2>Make every key yours</h2><p>Explore keycap designs in the image picker and choose one for each key. Our standard clickers come in 1-, 2-, 3-, 4-, and 9-key sizes.</p></article>
+<article class="about-card"><h2>Build a little collection</h2><p>Bundles bring different clicker sizes together. Customize the switches and keycaps on every included clicker, all at the bundle’s listed price.</p></article>
+</section>
+<section class="about-ready" aria-labelledby="ready-title"><h2 id="ready-title">Ready to click, right out of the package</h2><p>Your clickers arrive prebuilt with the switches and keycaps you selected. Have a question about customization, stock, or shipping? Visit our <a href="faq.html">FAQ page</a>.</p></section>
+</div></main>
+<script src="app.js?v=b3236d6d2ea3"></script>
+</body>
+</html>
