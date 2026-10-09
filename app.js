@@ -25,7 +25,7 @@ let inventoryStock = null;
 let baseStock = null;
 const PRODUCT_BASES = {
     "1-key-clicker": 1, "1-key-light-up-clicker": 1,
-    "2-key-clicker": 2, "3-key-clicker": 3, "4-key-clicker": 4
+    "2-key-clicker": 2, "3-key-clicker": 3, "4-key-clicker": 4, "9-key-clicker": 9
 };
 let inventoryQueue = Promise.resolve();
 
@@ -54,13 +54,13 @@ async function refreshInventory() {
         const bases = {};
         if (!Array.isArray(data.bases)) throw new Error("Missing base inventory");
         for (const row of data.bases) {
-            if (!Number.isInteger(row.id) || row.id < 1 || row.id > 4 ||
+            if (!Number.isInteger(row.id) || ![1,2,3,4,9].includes(row.id) ||
                 !Number.isInteger(row.stock) || row.stock < 0 || row.id in bases) {
                 throw new Error("Invalid base inventory");
             }
             bases[row.id] = row.stock;
         }
-        if (Object.keys(bases).length !== 4) throw new Error("Incomplete base inventory");
+        if (![1,2,3,4].every(id => id in bases)) throw new Error("Incomplete base inventory");
         baseStock = bases;
         inventoryStock = stock;
         notifyInventoryChange();
@@ -86,7 +86,7 @@ function availableBaseStock(productId) {
     if (!baseStock || !id) return 0;
     const used = cart.reduce((total,item) => total +
         (PRODUCT_BASES[item.productId] === id ? Number(item.quantity) : 0),0);
-    return Math.max(0,baseStock[id]-used);
+    return Math.max(0,(baseStock[id] || 0)-used);
 }
 
 function queueInventoryAddition(item, commit) {

@@ -64,3 +64,9 @@ test('Checkout charges server prices, uses US shipping and reuses the attempt',a
   body.items[0].quantity=3;assert.equal((await checkout(request(),env)).status,409);
  } finally {globalThis.fetch=previous;}
 });
+test('9-key server price and repeated component quantities',()=>{
+ const cart=validateCart([item('9-key-clicker',[1,1,1,1,2,2,2,2,3],2)]);
+ assert.equal(cart.amount,2998);
+ assert.deepEqual(cart.components,[{kind:'base',id:9,quantity:2},{kind:'keycap',id:1,quantity:8},{kind:'keycap',id:2,quantity:8},{kind:'keycap',id:3,quantity:2}]);
+ assert.throws(()=>validateCart([item('9-key-clicker',[1,2,3])]));
+});

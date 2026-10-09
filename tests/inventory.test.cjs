@@ -99,3 +99,20 @@ test('standard and light-up 1-key products share scarce bases',async()=>{
  assert.equal(await h.context.ClickerCart.addItem(item([2],1,'1-key-light-up-clicker')),false);
  assert.equal(await h.context.ClickerCart.addItem(item([1,1],1,'2-key-clicker')),true);
 });
+test('9-key page counts repeats and cart usage against the new base',async()=>{
+ const h=setup('9-key-clicker.html');
+ h.context.fetch=async()=>({ok:true,json:async()=>({keycaps:Array.from({length:11},(_,i)=>({id:i+1,stock:20})),bases:[1,2,3,4,9].map(id=>({id,stock:100}))})});
+ await h.context.ClickerInventory.refresh();
+ h.run('selectSwitch("Clicky"); selectedKeycaps=Array(9).fill(1); updateProduct()');
+ assert.equal(h.run('getMaximumQuantity()'),2);
+ await h.run('addCurrentProductToCart()');
+ assert.equal(h.context.ClickerCart.getItems()[0].options.keycaps.length,9);
+ assert.equal(h.context.ClickerInventory.availableBase('9-key-clicker'),99);
+ assert.equal(h.run('getMaximumQuantity()'),1);
+});
+test('absent 9-key base fails closed without breaking existing base inventory',async()=>{
+ const h=setup();await h.context.ClickerInventory.refresh();
+ assert.equal(h.context.ClickerInventory.ready(),true);
+ assert.equal(h.context.ClickerInventory.availableBase('9-key-clicker'),0);
+ assert.equal(await h.context.ClickerCart.addItem(item(Array(9).fill(1),1,'9-key-clicker')),false);
+});

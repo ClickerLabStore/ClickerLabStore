@@ -58,3 +58,7 @@ The return page checks webhook-updated order status; a success URL cannot deduct
 ## Shipping validation still required
 
 Shippo authentication was reported saved on the Cloudflare Worker, but the token is not available in the current Codex runtime. Cloudflare credential forwarding still returns error 6111, so Worker secret presence could not be independently verified. Stubbed tests verify API requests, rate selection, cents conversion, destination binding, expired quotes, tampering and provider failures. An actual Shippo test quote and Stripe test purchase have not yet run. Verify Shippo account has an active USPS carrier connection and provides Ground Advantage test rates. Do not substitute zero-cost or estimated shipping when rates fail. No shipping label is purchased by these endpoints.
+
+## 9-key inventory migration
+
+`0003_nine_key_base.sql` expands the base ID constraint to include 9 while preserving existing base stock, orders, component reservations, and fulfillment triggers. It initializes 100 9-key bases, as confirmed by the owner. The 9-key product uses one base ID 9 and nine selected keycaps, with the existing $14.99 price. Deploy the new client first (it tolerates the missing 9-key row and blocks only that product), then apply the migration. Old already-open browser tabs may need refreshing to load the versioned client that recognizes base ID 9. Stripe remains in test mode.

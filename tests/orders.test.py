@@ -8,6 +8,7 @@ class Orders(unittest.TestCase):
         self.db.execute("INSERT INTO keycaps VALUES (1,'Keycap 1',6)")
         self.db.executescript(Path('migrations/0001_orders_and_bases.sql').read_text())
         self.db.executescript(Path('migrations/0002_shipping_quotes.sql').read_text())
+        self.db.executescript(Path('migrations/0003_nine_key_base.sql').read_text())
         self.db.execute('UPDATE bases SET stock=2 WHERE id=3')
         self.db.commit()
     def reserve(self,id,quantity=2):
@@ -38,5 +39,17 @@ class Orders(unittest.TestCase):
             with self.db: self.db.execute("UPDATE orders SET status='paid' WHERE id='a'")
         self.assertEqual(self.stocks(),(2,1))
         self.assertEqual(self.db.execute("SELECT status FROM orders WHERE id='a'").fetchone()[0],'open')
+
+    def test_nine_key_payment(self):
+        self.db.execute('UPDATE keycaps SET stock=10 WHERE id=1'); self.db.commit()
+        with self.db:
+            self.db.execute("INSERT INTO orders(id,status,amount,cart_json,created_at,shipping_amount,shipping_countries) VALUES ('nine','creating',1499,'[]',0,0,'US')")
+            self.db.execute("INSERT INTO order_components VALUES ('nine','base',9,1)")
+            self.db.execute("INSERT INTO order_components VALUES ('nine','keycap',1,9)")
+            self.db.execute("UPDATE orders SET status='open' WHERE id='nine'")
+            self.db.execute("UPDATE orders SET status='paid' WHERE id='nine'")
+        self.assertEqual(self.db.execute('SELECT stock FROM bases WHERE id=9').fetchone()[0],99)
+        self.assertEqual(self.db.execute('SELECT stock FROM keycaps WHERE id=1').fetchone()[0],1)
+        self.assertEqual(self.db.execute('SELECT stock FROM bases WHERE id=3').fetchone()[0],2)
 
 if __name__=='__main__': unittest.main()
