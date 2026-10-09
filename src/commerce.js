@@ -66,7 +66,12 @@ export async function stripeRequest(env, path, params, idempotencyKey) {
     method:params ? 'POST':'GET', headers, body:params?.toString(), signal:AbortSignal.timeout(20000)
   });
   const data = await response.json();
-  if(!response.ok) throw new Error('Stripe request failed');
+  if(!response.ok) {
+    const error = new Error('Stripe request failed');
+    const safe = value => typeof value === 'string' && /^[A-Za-z0-9_\[\].-]{1,100}$/.test(value) ? value : 'unknown';
+    error.stripeFailure = [response.status,safe(data.error?.type),safe(data.error?.code),safe(data.error?.param)].join(':');
+    throw error;
+  }
   return data;
 }
 export async function checkout(request, env) {
@@ -116,7 +121,7 @@ export async function checkout(request, env) {
   }
   const params = new URLSearchParams({mode:'payment',success_url:`${origin}/shop.html?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url:`${origin}/shop.html?checkout=cancelled`,client_reference_id:id,'metadata[order_id]':id,
-    expires_at:String(order.created_at+3600),'payment_method_types[0]':'card'});
+    expires_at:String(order.created_at+3600)});
   // Use the quoted destination as the PaymentIntent's shipping address. Do not let
   // Checkout collect a different destination while keeping the original price.
   const shippingAddress = JSON.parse(order.shipping_address_json);
@@ -140,7 +145,7 @@ export async function checkout(request, env) {
   });
   let session;
   try {
-    session = await stripeRequest(env,'/checkout/sessions',params,`checkout-${id}`);
+    session = await stripeRequest(env,'/checkout/sessions',params,`checkout-v2-${id}`);
     if (session.livemode !== false) {
       await stripeRequest(env,`/checkout/sessions/${session.id}/expire`,new URLSearchParams());
       await env.DB.prepare("UPDATE orders SET status='failed' WHERE id=? AND status='creating'").bind(id).run();
@@ -149,10 +154,10 @@ export async function checkout(request, env) {
     await env.DB.prepare("UPDATE orders SET status='open',session_id=? WHERE id=? AND status='creating'")
       .bind(session.id,id).run();
     return Response.json({url:session.url});
-  } catch {
+  } catch(error) {
     // Keep uncertain Stripe requests reserved: a session may exist even after a timeout.
     // Reconciliation must expire/retrieve that session before releasing its inventory.
-    return Response.json({error:'Checkout could not start. Please contact the store before retrying.'},{status:502});
+    return Response.json({error:'Checkout could not start. Please contact the store before retrying.'},{status:502,headers:{'X-Checkout-Failure':error.stripeFailure || 'unknown'}});
   }
 }
 export async function webhook(request,env) {

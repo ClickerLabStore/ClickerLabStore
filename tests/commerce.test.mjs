@@ -47,10 +47,11 @@ test('Checkout charges server prices, uses US shipping and reuses the attempt',a
   if(options.method==='POST'){
    const params=new URLSearchParams(options.body);
    assert.equal(params.get('line_items[0][price_data][unit_amount]'),'599');
+   assert.equal(params.has('payment_method_types[0]'),false);
    assert.equal(params.get('payment_intent_data[shipping][address][postal_code]'),'91108');
    assert.equal(params.get('shipping_address_collection[allowed_countries][0]'),null);
    assert.equal(params.get('shipping_options[0][shipping_rate_data][fixed_amount][amount]'),'525');
-   assert.equal(options.headers['Idempotency-Key'],`checkout-${order.id}`);
+   assert.equal(options.headers['Idempotency-Key'],`checkout-v2-${order.id}`);
   }
   return Response.json({id:'cs_test_checkout',url:'https://checkout.stripe.com/c/pay/test',status:'open',livemode:false});
  };
