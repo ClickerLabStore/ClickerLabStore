@@ -8,7 +8,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Bundles | ClickerLabStore</title>
+    <title>View Bundle | ClickerLabStore</title>
 
     <link
         rel="icon"
@@ -483,7 +483,6 @@
         ========================== */
 
         .bundle-button {
-            text-decoration: none;
             width: 100%;
             min-height: 50px;
 
@@ -727,6 +726,35 @@
 
         }
 
+
+/* Bundle detail view */
+.bundle-detail-shell{max-width:1250px;margin:0 auto;padding:40px 40px 88px}
+.detail-back{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#684c34;font-weight:800;margin-bottom:25px}
+.detail-back:hover{text-decoration:underline}
+.bundle-detail-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr);gap:42px;align-items:start}
+.bundle-detail-photo{border:2px solid #eee7dc;border-radius:23px;overflow:hidden;aspect-ratio:1/.89;display:flex;align-items:center;justify-content:center;position:relative}
+.bundle-detail-photo img{display:block;width:100%;height:100%;object-fit:contain}
+.detail-save{position:absolute;z-index:1;top:16px;left:16px;padding:9px 14px;border-radius:99px;background:#f7e7d1;font-weight:900;font-size:13px}
+.detail-save.best{background:#111;color:#fff}
+.bundle-detail-info{padding:12px 0}
+.detail-eyebrow{font-size:13px;letter-spacing:.08em;font-weight:900;text-transform:uppercase;color:#836b53;margin-bottom:10px}
+.bundle-detail-info h1{font-weight:900;color:#111;font-size:clamp(30px,4vw,46px);line-height:1.14;margin-bottom:16px}
+.detail-description{font-size:17px;line-height:1.65;color:#555;margin-bottom:25px}
+.detail-price-row{display:flex;gap:14px;align-items:baseline;margin-bottom:30px}
+.detail-price{font-size:32px;font-weight:900;color:#111}
+.detail-old-price{text-decoration:line-through;color:#8a8581;font-size:20px}
+.detail-section-title{font-size:19px;font-weight:900;margin-bottom:14px}
+.detail-includes{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.detail-includes a,.detail-includes span{padding:10px 13px;border:1px solid #e7dacc;border-radius:10px;background:#faf7f2;text-decoration:none;color:#333;font-weight:750;font-size:14px}
+.detail-includes a:hover{background:#f7e7d1}
+.detail-hint{border-left:3px solid #d8bd9d;padding:11px 14px;color:#555;font-size:14px;line-height:1.55;background:#fcfaf7;border-radius:0 8px 8px 0}
+.detail-other{margin-top:55px;border-top:1px solid #eee7dc;padding-top:28px}
+.detail-other h2{font-size:22px;font-weight:900;margin-bottom:17px}
+.detail-other-links{display:flex;flex-wrap:wrap;gap:12px}
+.detail-other-links a{padding:11px 16px;background:#f7e7d1;border-radius:11px;text-decoration:none;color:#111;font-weight:800}
+.detail-other-links a:hover{background:#ead2b3}
+@media(max-width:900px){.bundle-detail-shell{padding:32px 25px 65px}.bundle-detail-layout{grid-template-columns:1fr;gap:20px}.bundle-detail-photo{aspect-ratio:1/.78}}
+@media(max-width:600px){.bundle-detail-shell{padding:24px 18px 50px}.detail-price{font-size:29px}.detail-description{font-size:16px}}
     </style>
 
 </head>
@@ -812,394 +840,88 @@
     </header>
 
 
-    <!-- BUNDLES -->
-
-    <main class="bundle-page">
-
-        <div class="bundle-inner">
-
-
-            <section class="bundle-header">
-
-                <h1>
-                    Clicker Bundles
-                </h1>
-
-                <p>
-                    Get more clickers together and save.
-                    Pick from starter sets, trios, or the full
-                    ClickerLab collection.
-                </p>
-
-            </section>
-
-
-            <section class="bundle-grid">
-
-
-                <!-- STARTER PACK -->
-
-                <article class="bundle-card">
-
-                    <div class="bundle-image starter-pack-image">
-
-                        <span class="bundle-badge">
-                            Save 10%
-                        </span>
-
-                        <img
-                            src="starter-pack.png"
-                            alt="Starter Pack"
-                        >
-
-                    </div>
-
-
-                    <div class="bundle-info">
-
-                        <h2>
-                            Starter Pack
-                        </h2>
-
-                        <p class="bundle-items">
-                            A simple two-clicker bundle with
-                            our smallest and largest standard designs.
-                        </p>
-
-
-                        <div class="included-list">
-
-                            <span class="included-item">
-                                1-Key Clicker
-                            </span>
-
-                            <span class="included-item">
-                                4-Key Clicker
-                            </span>
-
-                        </div>
-
-
-                        <div class="bundle-price-row">
-
-                            <span class="old-price">
-                                $9.48
-                            </span>
-
-                            <span class="bundle-price">
-                                $8.49
-                            </span>
-
-                        </div>
-
-
-                        <a href="bundle-details.html?bundle=starter-pack" class="bundle-button">View Bundle</a>
-
-                    </div>
-
-                </article>
-
-
-                <!-- STARTER LAB -->
-
-                <article class="bundle-card">
-
-                    <div class="bundle-image starter-lab-image">
-
-                        <span class="bundle-badge">
-                            Save 9%
-                        </span>
-
-                        <img
-                            src="starter-lab.png"
-                            alt="Starter Lab"
-                        >
-
-                    </div>
-
-
-                    <div class="bundle-info">
-
-                        <h2>
-                            Starter Lab
-                        </h2>
-
-                        <p class="bundle-items">
-                            Two different sizes for switching
-                            between compact and larger clickers.
-                        </p>
-
-
-                        <div class="included-list">
-
-                            <span class="included-item">
-                                2-Key Clicker
-                            </span>
-
-                            <span class="included-item">
-                                4-Key Clicker
-                            </span>
-
-                        </div>
-
-
-                        <div class="bundle-price-row">
-
-                            <span class="old-price">
-                                $10.98
-                            </span>
-
-                            <span class="bundle-price">
-                                $9.99
-                            </span>
-
-                        </div>
-
-
-                        <a href="bundle-details.html?bundle=starter-lab" class="bundle-button">View Bundle</a>
-
-                    </div>
-
-                </article>
-
-
-                <!-- CLICKER TRIO -->
-
-                <article class="bundle-card">
-
-                    <div class="bundle-image clicker-trio-image">
-
-                        <span class="bundle-badge">
-                            Save 15%
-                        </span>
-
-                        <img
-                            src="clicker-trio.png"
-                            alt="Clicker Trio"
-                        >
-
-                    </div>
-
-
-                    <div class="bundle-info">
-
-                        <h2>
-                            Clicker Trio
-                        </h2>
-
-                        <p class="bundle-items">
-                            Three clicker sizes together for
-                            more variety.
-                        </p>
-
-
-                        <div class="included-list">
-
-                            <span class="included-item">
-                                1-Key Clicker
-                            </span>
-
-                            <span class="included-item">
-                                2-Key Clicker
-                            </span>
-
-                            <span class="included-item">
-                                4-Key Clicker
-                            </span>
-
-                        </div>
-
-
-                        <div class="bundle-price-row">
-
-                            <span class="old-price">
-                                $13.47
-                            </span>
-
-                            <span class="bundle-price">
-                                $11.49
-                            </span>
-
-                        </div>
-
-
-                        <a href="bundle-details.html?bundle=clicker-trio" class="bundle-button">View Bundle</a>
-
-                    </div>
-
-                </article>
-
-
-                <!-- TRIO LAB -->
-
-                <article class="bundle-card">
-
-                    <div class="bundle-image trio-lab-image">
-
-                        <span class="bundle-badge">
-                            Save 17%
-                        </span>
-
-                        <img
-                            src="trio-lab.png"
-                            alt="Trio Lab"
-                        >
-
-                    </div>
-
-
-                    <div class="bundle-info">
-
-                        <h2>
-                            Trio Lab
-                        </h2>
-
-                        <p class="bundle-items">
-                            A three-clicker set with compact,
-                            medium, and full-size options.
-                        </p>
-
-
-                        <div class="included-list">
-
-                            <span class="included-item">
-                                1-Key Clicker
-                            </span>
-
-                            <span class="included-item">
-                                3-Key Clicker
-                            </span>
-
-                            <span class="included-item">
-                                4-Key Clicker
-                            </span>
-
-                        </div>
-
-
-                        <div class="bundle-price-row">
-
-                            <span class="old-price">
-                                $14.47
-                            </span>
-
-                            <span class="bundle-price">
-                                $11.99
-                            </span>
-
-                        </div>
-
-
-                        <a href="bundle-details.html?bundle=trio-lab" class="bundle-button">View Bundle</a>
-
-                    </div>
-
-                </article>
-
-
-                <!-- CLICKERLAB PACK -->
-
-                <article
-                    class="bundle-card best-value clickerlab-pack"
-                >
-
-                    <div class="bundle-image">
-
-                        <span
-                            class="bundle-badge best-value-badge"
-                        >
-
-                            <span>
-                                Best Value
-                            </span>
-
-                            <span class="badge-divider"></span>
-
-                            <span>
-                                Save 20%
-                            </span>
-
-                        </span>
-
-
-                        <img src="clicker-lab-pack.png" alt="ClickerLab Pack: five cat-design keyboard clickers with keychains" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-                        <div class="placeholder-wrapper" style="display:none"><div class="placeholder-box"><div class="placeholder-title">ClickerLab Pack</div><div class="placeholder-subtitle">Product image coming soon</div></div></div>
-
-                    </div>
-
-
-                    <div class="bundle-info">
-
-                        <h2>
-                            ClickerLab Pack
-                        </h2>
-
-                        <p class="bundle-items">
-                            The biggest ClickerLab bundle with
-                            five different clicker sizes.
-                        </p>
-
-
-                        <div class="included-list">
-
-                            <span class="included-item">
-                                1-Key Clicker
-                            </span>
-
-                            <span class="included-item">
-                                2-Key Clicker
-                            </span>
-
-                            <span class="included-item">
-                                3-Key Clicker
-                            </span>
-
-                            <span class="included-item">
-                                4-Key Clicker
-                            </span>
-
-                            <span class="included-item">
-                                9-Key Clicker
-                            </span>
-
-                        </div>
-
-
-                        <div class="bundle-price-row">
-
-                            <span class="old-price">
-                                $33.74
-                            </span>
-
-                            <span class="bundle-price">
-                                $26.99
-                            </span>
-
-                        </div>
-
-
-                        <a href="bundle-details.html?bundle=clickerlab-pack" class="bundle-button">View Bundle</a>
-
-                    </div>
-
-                </article>
-
-
-            </section>
-
-
-            <div class="bundle-note">
-
-                Each bundle will eventually let you choose the available
-                switches and keycap designs for each included clicker.
-
-            </div>
-
-
-        </div>
-
+    <main class="bundle-detail-shell">
+        <a class="detail-back" href="bundles.html">← Back to Bundles</a>
+        <div id="bundle-details"><p>Loading bundle details…</p></div>
     </main>
-
+    <script>
+    (() => {
+        const bundles = {
+            "starter-pack": {
+                name: "Starter Pack",
+                description: "A simple two-clicker bundle with our smallest and largest standard designs.",
+                image: "starter-pack.png", price: "$8.49", oldPrice: "$9.48", savings: "Save 10%", bg: "#fdf8ee",
+                included: ["1-Key Clicker","4-Key Clicker"]
+            },
+            "starter-lab": {
+                name: "Starter Lab",
+                description: "Two different sizes for switching between compact and larger clickers.",
+                image: "starter-lab.png", price: "$9.99", oldPrice: "$10.98", savings: "Save 9%", bg: "#fbf2e5",
+                included: ["2-Key Clicker","4-Key Clicker"]
+            },
+            "clicker-trio": {
+                name: "Clicker Trio",
+                description: "Three clicker sizes together for more variety.",
+                image: "clicker-trio.png", price: "$11.49", oldPrice: "$13.47", savings: "Save 15%", bg: "#efe8df",
+                included: ["1-Key Clicker","2-Key Clicker","4-Key Clicker"]
+            },
+            "trio-lab": {
+                name: "Trio Lab",
+                description: "A three-clicker set with compact, medium, and full-size options.",
+                image: "trio-lab.png", price: "$11.99", oldPrice: "$14.47", savings: "Save 17%", bg: "#f3f1ed",
+                included: ["1-Key Clicker","3-Key Clicker","4-Key Clicker"]
+            },
+            "clickerlab-pack": {
+                name: "ClickerLab Pack",
+                description: "The biggest ClickerLab bundle with five different clicker sizes.",
+                image: "clicker-lab-pack.png", price: "$26.99", oldPrice: "$33.74", savings: "Save 20%", bg: "#f7f3ed", best: true,
+                included: ["1-Key Clicker","2-Key Clicker","3-Key Clicker","4-Key Clicker","9-Key Clicker"]
+            }
+        };
+        const productLinks = {
+            "1-Key Clicker":"1-key-clicker.html",
+            "2-Key Clicker":"2-key-clicker.html",
+            "3-Key Clicker":"3-key-clicker.html",
+            "4-Key Clicker":"4-key-clicker.html",
+            "9-Key Clicker":"9-key-clicker.html"
+        };
+        const selected = new URLSearchParams(location.search).get("bundle");
+        const item = bundles[selected];
+        const target = document.getElementById("bundle-details");
+        if (!item) {
+            document.title = "Bundles | ClickerLabStore";
+            target.innerHTML = '<h1>Bundle not found</h1><p>Please choose a bundle from the <a href="bundles.html">Bundles page</a>.</p>';
+            return;
+        }
+        document.title = item.name + " | ClickerLabStore";
+        const included = item.included.map(name => productLinks[name]
+            ? '<a href="' + productLinks[name] + '">' + name + '</a>'
+            : '<span>' + name + '</span>'
+        ).join("");
+        const others = Object.entries(bundles).filter(([slug]) => slug !== selected)
+            .map(([slug,b]) => '<a href="bundle-details.html?bundle=' + slug + '">' + b.name + '</a>').join("");
+        target.innerHTML = `
+            <article class="bundle-detail-layout">
+                <div class="bundle-detail-photo" style="background:${item.bg}">
+                    <span class="detail-save ${item.best ? 'best' : ''}">${item.best ? "Best Value · " : ""}${item.savings}</span>
+                    <img src="${item.image}" alt="${item.name} bundle" loading="eager">
+                </div>
+                <div class="bundle-detail-info">
+                    <p class="detail-eyebrow">ClickerLabStore Bundles</p>
+                    <h1>${item.name}</h1>
+                    <p class="detail-description">${item.description}</p>
+                    <div class="detail-price-row"><span class="detail-price">${item.price}</span><span class="detail-old-price">${item.oldPrice}</span></div>
+                    <h2 class="detail-section-title">What's included</h2>
+                    <div class="detail-includes">${included}</div>
+                    <p class="detail-hint">Explore the items in this bundle. Bundle customization and purchasing aren't enabled yet.</p>
+                </div>
+            </article>
+            <aside class="detail-other" aria-label="Other bundles">
+                <h2>Explore other bundles</h2>
+                <div class="detail-other-links">${others}</div>
+            </aside>
+        `;
+    })();
+    </script>
 </body>
-
 </html>
