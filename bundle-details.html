@@ -755,9 +755,11 @@
 .detail-other-links a:hover{background:#ead2b3}
 @media(max-width:900px){.bundle-detail-shell{padding:32px 25px 65px}.bundle-detail-layout{grid-template-columns:1fr;gap:20px}.bundle-detail-photo{aspect-ratio:1/.78}}
 @media(max-width:600px){.bundle-detail-shell{padding:24px 18px 50px}.detail-price{font-size:29px}.detail-description{font-size:16px}}
-    .bundle-clicker{border:1px solid #eee7dc;border-radius:14px;padding:16px;margin:20px 0}
-.bundle-clicker legend{font-weight:800;padding:0 6px}.bundle-keycaps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
-#bundle-customize label{display:block;font-size:14px;font-weight:700}#bundle-customize select,#bundle-quantity{display:block;width:100%;padding:10px;margin-top:6px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#111}#bundle-quantity{max-width:100px}.bundle-keycap-preview{width:65px;height:65px;object-fit:contain;margin-top:8px}#bundle-add{cursor:pointer;width:100%}#bundle-add:disabled{opacity:.55;cursor:not-allowed}
+    .bundle-clicker{border:1px solid #eee7dc;border-radius:14px;padding:14px;margin:16px 0}
+.bundle-clicker legend{font-weight:800;padding:0 6px}.bundle-switches{display:grid;grid-template-columns:1fr 1fr;gap:8px}.bundle-switch,.bundle-keycap{border:2px solid #d8dde5;border-radius:10px;background:white;color:#17243c;font-family:inherit;cursor:pointer}.bundle-switch{padding:10px;text-align:left}.bundle-switch strong{display:block;font-size:14px}.bundle-switch span{display:block;color:#667085;font-size:11px;margin-top:3px}.bundle-switch.selected,.bundle-keycap.selected{border-color:#17243c;background:#f5f7fa}.bundle-keycaps{display:grid;grid-template-columns:repeat(auto-fit,minmax(65px,1fr));gap:8px;margin-top:12px}.bundle-keycap{padding:6px;max-width:100px}.bundle-slot-preview{display:flex;align-items:center;justify-content:center;aspect-ratio:1;background:#f5f7fa;border-radius:6px;overflow:hidden;color:#98a2b3;font-size:24px}.bundle-slot-preview img{width:100%;height:100%;object-fit:cover}.bundle-slot-label{display:block;font-size:11px;font-weight:800;margin-top:5px}
+#bundle-customize label{display:block;font-size:14px;font-weight:700}#bundle-quantity{display:block;width:100px;padding:10px;margin-top:6px;border:1px solid #ddd;border-radius:8px;background:#fff;color:#111}#bundle-add{cursor:pointer;width:100%}#bundle-add:disabled{opacity:.55;cursor:not-allowed}
+.bundle-picker{width:min(560px,calc(100% - 28px));max-height:85vh;margin:auto;padding:18px;border:0;border-radius:18px;color:#17243c}.bundle-picker::backdrop{background:rgba(23,36,60,.55)}.bundle-picker-header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.bundle-picker-header h2{font-size:18px}.bundle-picker-close{border:0;border-radius:50%;width:34px;height:34px;background:#f5f7fa;font-size:22px;cursor:pointer}.bundle-picker-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.bundle-picker-option{position:relative;border:2px solid #d8dde5;border-radius:10px;overflow:hidden;background:#f7f5f2;padding:0;cursor:pointer;color:#17243c;font-family:inherit}.bundle-picker-option img{width:100%;aspect-ratio:1;object-fit:cover;display:block}.bundle-picker-option span{display:block;font-size:10px;padding:4px;background:white}.bundle-picker-option.selected{border-color:#17243c}.bundle-picker-option:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:600px){.bundle-picker-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
 
 </head>
@@ -918,7 +920,8 @@
                     <div class="detail-includes">${included}</div>
                     <form id="bundle-customize" data-bundle="${selected}" data-name="${item.name}" data-price="${item.price.slice(1)}" data-image="${item.image}">
                         <h2 class="detail-section-title">Choose your keycaps</h2>
-                        ${item.included.map(name => {const size=parseInt(name);return `<fieldset class="bundle-clicker" data-size="${size}"><legend>${name}</legend><label>Switches <select class="bundle-switch"><option>Clicky</option><option>Creamy</option></select></label><div class="bundle-keycaps">${Array.from({length:size},(_,i)=>`<label>Keycap ${i+1}<select class="bundle-keycap" required aria-label="${name}, keycap ${i+1}"><option value="">Choose keycap</option>${Array.from({length:11},(_,k)=>`<option value="${k+1}">Keycap ${k+1}</option>`).join('')}</select><img class="bundle-keycap-preview" alt="" hidden></label>`).join('')}</div></fieldset>`}).join('')}
+                        ${item.included.map(name => {const size=parseInt(name);return `<fieldset class="bundle-clicker" data-size="${size}"><legend>${name}</legend><div class="bundle-switches" role="group" aria-label="${name} switches">${['Clicky','Creamy'].map(type=>`<button type="button" class="bundle-switch ${type==='Clicky'?'selected':''}" data-switch="${type}" aria-pressed="${type==='Clicky'}"><strong>${type}</strong><span>${type==='Clicky'?'Crisp, tactile click':'Smooth, softer sound'}</span></button>`).join('')}</div><div class="bundle-keycaps">${Array.from({length:size},(_,i)=>`<button type="button" class="bundle-keycap" data-keycap="" aria-label="${name}, key ${i+1}: choose keycap"><span class="bundle-slot-preview">+</span><span class="bundle-slot-label">Key ${i+1}</span></button>`).join('')}</div></fieldset>`}).join('')}
+
                         <label>Quantity <input id="bundle-quantity" type="number" min="1" max="99" value="1" required></label>
                         <p id="bundle-stock-status" class="detail-hint" role="status">Checking inventory…</p>
                         <button class="bundle-button" id="bundle-add" type="submit" disabled>Add to Cart</button>
@@ -933,6 +936,6 @@
     })();
     </script>
 <script src="app.js?v=b3236d6d2ea3"></script>
-<script src="bundle-customize.js"></script>
+<script src="bundle-customize.js?v=74318613d8f1"></script>
 </body>
 </html>
