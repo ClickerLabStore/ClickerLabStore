@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta name="description" content="Build your clicker step by step: choose your key count, switches, and keycap designs.">
+    <title>Build Your Own | ClickerLabStore</title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="/favicon.png?v=2"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Nunito Sans", sans-serif;
+            background: #ffffff;
+            color: #111111;
+            overflow-x: hidden;
+        }
+
+
+        .navbar {
+            width: 100%;
+            height: 110px;
+            background-image: url("blank navbar.png");
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .navbar-inner {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 2.3%;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            width: 310px;
+            flex-shrink: 0;
+            text-decoration: none;
+            transition: transform 0.2s ease;
+        }
+
+        .navbar-logo:hover {
+            transform: scale(1.02);
+        }
+
+        .navbar-logo img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            margin-left: 150px;
+            gap: 50px;
+        }
+
+        .nav-links a {
+            position: relative;
+            color: #4b2247;
+            text-decoration: none;
+            font-size: 23px;
+            font-weight: 600;
+            white-space: nowrap;
+            padding: 10px 0;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 3px;
+            width: 100%;
+            height: 2px;
+            background: #4b2247;
+            transform: translateX(-50%) scaleX(0);
+            transform-origin: center;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-links a:hover::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-left: auto;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .nav-icon-button {
+            width: 72px;
+            height: 72px;
+            padding: 0;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-icon-button:hover {
+            transform: scale(1.08);
+        }
+
+        .nav-icon-button img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+
+        .faq-page{background:#faf7f2;min-height:calc(100vh - 110px);padding:65px 24px 80px}
+        .faq-inner{max-width:900px;margin:auto}.faq-eyebrow{color:#836b53;font-size:13px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+        h1{font-size:clamp(34px,5vw,52px);line-height:1.15;font-weight:900;margin-bottom:18px}.faq-intro{color:#555;font-size:18px;line-height:1.6;max-width:650px;margin-bottom:28px}
+        .faq-topics{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px}.faq-topics a,.faq-shop-link{display:inline-block;background:#f7e7d1;border:1px solid #e7dacc;border-radius:999px;padding:10px 17px;color:#4b2247;text-decoration:none;font-weight:800}
+        .faq-group{margin-bottom:32px;scroll-margin-top:24px}.faq-group h2{font-size:23px;font-weight:900;margin-bottom:14px}.faq-group details{border:1px solid #eee7dc;border-radius:14px;background:white;margin-bottom:10px;overflow:hidden}
+        .faq-group summary{position:relative;cursor:pointer;list-style:none;padding:19px 52px 19px 20px;font-weight:800;font-size:17px;line-height:1.4}.faq-group summary::-webkit-details-marker{display:none}.faq-group summary::after{content:'+';position:absolute;right:20px;top:17px;color:#836b53;font-size:25px}.faq-group details[open] summary::after{content:'−'}
+        .faq-answer{padding:0 20px 21px;color:#555;font-size:16px;line-height:1.7}.faq-answer a{color:#684c34;font-weight:800}.faq-bottom{border-top:1px solid #e7dacc;padding-top:24px}.faq-bottom p{color:#555;margin-bottom:16px;line-height:1.6}a:focus-visible,summary:focus-visible,button:focus-visible{outline:3px solid #836b53;outline-offset:4px}
+        @media(max-width:1250px){.nav-links{margin-left:40px;gap:25px}.nav-links a{font-size:19px}.navbar-logo{width:260px}.nav-icon-button{width:58px;height:58px}}
+        @media(max-width:900px){.navbar{height:auto;min-height:150px;background-size:cover}.navbar-inner{flex-wrap:wrap;padding:10px 18px 15px}.navbar-logo{width:225px}.nav-actions{margin-left:auto;margin-right:0}.nav-icon-button{width:52px;height:52px}.nav-links{width:100%;order:3;margin-left:0;justify-content:center;gap:25px}.nav-links a{font-size:16px}}
+        @media(max-width:600px){.faq-page{padding:35px 18px 50px}.faq-intro{font-size:16px}.faq-group summary{font-size:16px;padding-left:16px}.faq-answer{padding-left:16px;padding-right:16px}.navbar-logo{width:185px}.nav-icon-button{width:46px;height:46px}.nav-actions{gap:5px}.nav-links{gap:14px;flex-wrap:wrap}.nav-links a{font-size:14px}}
+    
+.about-page{background:#faf7f2;min-height:calc(100vh - 110px);padding:65px 24px 80px}.about-inner{max-width:1100px;margin:auto}.about-hero{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;margin-bottom:45px}.about-copy p{color:#555;font-size:18px;line-height:1.75;margin-bottom:18px}.about-photo{background:#f3f1ed;border:1px solid #eee7dc;border-radius:24px;overflow:hidden;aspect-ratio:1}.about-photo img{display:block;width:100%;height:100%;object-fit:contain}.about-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}.about-actions a{display:inline-block;padding:12px 20px;background:#f7e7d1;border:1px solid #e7dacc;border-radius:999px;color:#4b2247;text-decoration:none;font-weight:800}.about-actions a:hover{background:#ead2b3}.about-features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:38px}.about-card{padding:24px;border:1px solid #eee7dc;border-radius:18px;background:#fff}.about-card h2{font-size:21px;font-weight:900;margin-bottom:12px}.about-card p,.about-ready p{font-size:16px;line-height:1.7;color:#555}.about-ready{padding-top:28px;border-top:1px solid #e7dacc}.about-ready h2{font-size:25px;margin-bottom:12px}.about-ready a{color:#684c34;font-weight:800}
+@media(max-width:900px){.about-hero{grid-template-columns:1fr;gap:25px}.about-photo{max-width:500px;width:100%;margin:auto}.about-features{grid-template-columns:1fr}.about-card{padding:20px}}
+@media(max-width:600px){.about-page{padding:35px 18px 50px}.about-copy p{font-size:16px}.about-hero{margin-bottom:28px}}
+.bundle-picker{width:min(560px,calc(100% - 28px));max-height:85vh;margin:auto;padding:18px;border:0;border-radius:18px;color:#17243c}.bundle-picker::backdrop{background:rgba(23,36,60,.55)}.bundle-picker-header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.bundle-picker-header h2{font-size:18px}.bundle-picker-close{border:0;border-radius:50%;width:34px;height:34px;background:#f5f7fa;font-size:22px;cursor:pointer}.bundle-picker-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.bundle-picker-option{position:relative;border:2px solid #d8dde5;border-radius:10px;overflow:hidden;background:#f7f5f2;padding:0;cursor:pointer;color:#17243c;font-family:inherit}.bundle-picker-option img{width:100%;aspect-ratio:1;object-fit:cover;display:block}.bundle-picker-option span{display:block;font-size:10px;padding:4px;background:white}.bundle-picker-option.selected{border-color:#17243c}.bundle-picker-option:disabled{opacity:.4;cursor:not-allowed}
+@media(max-width:600px){.bundle-picker-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+.builder-page{padding:55px 20px 80px;background:#faf7f2;min-height:calc(100vh - 110px)}.builder-inner{max-width:850px;margin:auto}.builder-intro{color:#555;line-height:1.6;margin-bottom:25px}.builder-progress{display:flex;gap:10px;list-style:none;margin-bottom:25px}.builder-progress li{flex:1;padding:12px;border-radius:12px;border:1px solid #e7dacc;color:#836b53;font-size:14px;font-weight:800}.builder-progress li.active{background:#f7e7d1;color:#4b2247}.builder-panel{padding:26px;border:1px solid #eee7dc;border-radius:20px;background:#fff}.builder-panel h2{font-size:25px;margin-bottom:12px}.builder-help{color:#667085;line-height:1.6;margin-bottom:20px}.builder-sizes{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.builder-choice{border:2px solid #d8dde5;border-radius:12px;padding:14px 10px;background:#fff;color:#17243c;font-family:inherit;cursor:pointer}.builder-choice.selected{border-color:#17243c;background:#f5f7fa}.builder-choice strong{display:block;font-size:17px}.builder-choice span{display:block;margin-top:5px;font-size:13px;color:#667085}.builder-switches{display:grid;grid-template-columns:1fr 1fr;gap:12px}.builder-slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:10px;margin-bottom:20px}.builder-slot{padding:7px;border:2px solid #d8dde5;border-radius:12px;background:#fff;cursor:pointer;max-width:130px;font-family:inherit;color:#17243c}.builder-slot.selected{border-color:#17243c;background:#f5f7fa}.builder-preview{display:flex;justify-content:center;align-items:center;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#f5f7fa;font-size:26px;color:#98a2b3}.builder-preview img{width:100%;height:100%;object-fit:cover}.builder-slot-label{display:block;margin-top:6px;font-size:12px;font-weight:800}.builder-controls{display:flex;gap:12px;justify-content:space-between;margin-top:25px}.builder-controls button{border:1px solid #e7dacc;border-radius:999px;padding:12px 22px;font-family:inherit;font-weight:800;cursor:pointer;background:#f7e7d1;color:#4b2247}.builder-controls button:disabled{opacity:.5;cursor:not-allowed}.builder-summary{padding:14px;background:#faf7f2;border-radius:12px;margin-bottom:18px;line-height:1.6;font-weight:800}.builder-status{margin-top:14px;color:#667085;font-size:14px;line-height:1.5}#builder-quantity{display:block;width:100px;padding:10px;margin-top:7px;border:1px solid #ddd;border-radius:8px}.builder-choice:disabled{opacity:.5;cursor:not-allowed}[hidden]{display:none!important}
+@media(max-width:600px){.builder-page{padding:32px 18px 50px}.builder-panel{padding:18px}.builder-sizes{grid-template-columns:repeat(3,minmax(0,1fr))}.builder-progress li{padding:10px 6px;font-size:12px}.builder-panel h2{font-size:22px}}
+</style>
+</head>
+<body>
+    <header class="navbar">
+
+        <div class="navbar-inner">
+
+            <a
+                href="index.html"
+                class="navbar-logo"
+                aria-label="ClickerLabStore Home"
+            >
+                <img
+                    src="ClickerLabLogo.png"
+                    alt="ClickerLabStore"
+                >
+            </a>
+
+
+            <nav class="nav-links">
+
+                <a href="shop.html">
+                    Shop
+                </a>
+
+                <a href="bundles.html">
+                    Bundles
+                </a>
+
+                <a href="build.html" aria-current="page">
+                    Build Your Own
+                </a>
+
+                <a href="about.html">
+                    About
+                </a>
+
+                <a href="faq.html">
+                    FAQ
+                </a>
+
+            </nav>
+
+
+            <div class="nav-actions">
+
+                <button
+                    type="button"
+                    class="nav-icon-button"
+                    id="search-button"
+                    aria-label="Search"
+                >
+                    <img
+                        src="search_button_cropped_580x580.png"
+                        alt=""
+                    >
+                </button>
+
+
+                <button
+                    type="button"
+                    class="nav-icon-button"
+                    id="cart-button"
+                    aria-label="Cart"
+                >
+                    <img
+                        src="cart_button_cropped_580x580.png"
+                        alt=""
+                    >
+                </button>
+
+            </div>
+
+        </div>
+
+    </header>
+<main class="builder-page"><div class="builder-inner"><p class="faq-eyebrow">Build Your Own</p><h1>Your clicker, step by step.</h1><p class="builder-intro">Start with your size, choose your feel, then make every key your own.</p>
+<ol class="builder-progress" aria-label="Build progress"><li class="active" aria-current="step">1 · Keys</li><li>2 · Switches</li><li>3 · Keycaps</li></ol>
+<div class="builder-panel"><section data-step="1" aria-labelledby="size-title"><h2 id="size-title" tabindex="-1">Step 1: Pick your number of keys</h2><p class="builder-help">Choose the size of your clicker.</p><div class="builder-sizes"><button type="button" class="builder-choice" data-size="1" aria-pressed="false"><strong>1 key</strong><span>$2.49</span></button><button type="button" class="builder-choice" data-size="2" aria-pressed="false"><strong>2 keys</strong><span>$3.99</span></button><button type="button" class="builder-choice" data-size="3" aria-pressed="false"><strong>3 keys</strong><span>$5.99</span></button><button type="button" class="builder-choice" data-size="4" aria-pressed="false"><strong>4 keys</strong><span>$6.99</span></button><button type="button" class="builder-choice" data-size="9" aria-pressed="false"><strong>9 keys</strong><span>$14.99</span></button></div></section>
+<section data-step="2" hidden aria-labelledby="switch-title"><h2 id="switch-title" tabindex="-1">Step 2: Clicky or Creamy?</h2><p class="builder-help">Choose the switch feel for your clicker.</p><div class="builder-switches"><button type="button" class="builder-choice" data-switch="Clicky" aria-pressed="false"><strong>Clicky</strong><span>Crisp, tactile click</span></button><button type="button" class="builder-choice" data-switch="Creamy" aria-pressed="false"><strong>Creamy</strong><span>Smooth, softer sound</span></button></div></section>
+<section data-step="3" hidden aria-labelledby="keycap-title"><h2 id="keycap-title" tabindex="-1">Step 3: Customize your keycaps</h2><p class="builder-help">Click each key to choose a design from the image picker.</p><p class="builder-summary" id="builder-summary"></p><div class="builder-slots"></div><label for="builder-quantity">Quantity</label><input id="builder-quantity" type="number" min="1" max="99" value="1"></section>
+<p class="builder-status" id="builder-status" role="status">Checking inventory…</p><div class="builder-controls"><button type="button" id="builder-back" hidden>Back</button><button type="button" id="builder-next" disabled>Next: Switches →</button></div></div>
+</div></main><script src="app.js?v=b3236d6d2ea3"></script>
+<script src="build.js?v=78ddf96b59bc"></script>
+</body>
+</html>
