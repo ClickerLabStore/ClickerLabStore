@@ -95,7 +95,7 @@ export async function stripeRequest(env, path, params, idempotencyKey) {
   }
   return data;
 }
-export async function checkout(request, env) {
+export async function checkout(request, env, reservationOwner = null) {
   if (!env.STRIPE_SECRET_KEY || !env.STRIPE_WEBHOOK_SECRET || !env.STORE_URL ||
       !env.SHIPPO_API_TOKEN || !env.SHIP_FROM_ADDRESS) {
     return Response.json({error:'Checkout is not configured yet.'},{status:503});
@@ -105,6 +105,8 @@ export async function checkout(request, env) {
   let cart, body;
   try { body = await request.json(); cart = validateCart(body.items); }
   catch { return Response.json({error:'Please check your product selections.'},{status:400}); }
+  const clickerCount=cart.lines.reduce((sum,line)=>sum+line.quantity*(BUNDLES[line.productId]?.bases.length || 1),0);
+  if(clickerCount>10) return Response.json({error:'Please limit each checkout to 10 clickers.'},{status:400});
   const id = body?.requestId;
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id || '')) {
     return Response.json({error:'Invalid Checkout attempt.'},{status:400});
@@ -119,6 +121,10 @@ export async function checkout(request, env) {
   }
   if (order && order.status !== 'creating') return Response.json({error:'Checkout has already ended. Please calculate shipping again.'},{status:409});
   if (!order) {
+    if(reservationOwner) {
+      const holds=await env.DB.prepare("SELECT COUNT(*) AS count FROM orders WHERE reservation_owner=? AND status IN ('creating','open')").bind(reservationOwner).first();
+      if(holds.count>=2) return Response.json({error:'You already have two unpaid checkouts. Complete or wait for those to expire before starting another.'},{status:429,headers:{'Retry-After':'60'}});
+    }
     let shipping;
     try { shipping = await checkoutShipping(env,body); } catch(error) {
       return Response.json({error:error.message},{status:409});
@@ -126,8 +132,8 @@ export async function checkout(request, env) {
     const now = Math.floor(Date.now()/1000);
     try {
       await env.DB.batch([
-        env.DB.prepare("INSERT INTO orders(id,status,amount,cart_json,created_at,shipping_amount,shipping_countries,shipping_quote_id,shipping_rate_id,shipping_address_json,shipping_service) VALUES (?,'creating',?,?,?,?,?,?,?,?,?)")
-          .bind(id,cart.amount,JSON.stringify(cart.lines),now,shipping.amount,'US',shipping.quoteId,shipping.rateId,JSON.stringify(shipping.address),shipping.service),
+        env.DB.prepare("INSERT INTO orders(id,status,amount,cart_json,created_at,shipping_amount,shipping_countries,shipping_quote_id,shipping_rate_id,shipping_address_json,shipping_service,reservation_owner) VALUES (?,'creating',?,?,?,?,?,?,?,?,?,?)")
+          .bind(id,cart.amount,JSON.stringify(cart.lines),now,shipping.amount,'US',shipping.quoteId,shipping.rateId,JSON.stringify(shipping.address),shipping.service,reservationOwner),
         ...cart.components.map(c => env.DB.prepare('INSERT INTO order_components(order_id,kind,component_id,quantity) VALUES (?,?,?,?)')
           .bind(id,c.kind,c.id,c.quantity))
       ]);

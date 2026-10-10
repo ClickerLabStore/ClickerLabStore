@@ -9,8 +9,17 @@ class Orders(unittest.TestCase):
         self.db.executescript(Path('migrations/0001_orders_and_bases.sql').read_text())
         self.db.executescript(Path('migrations/0002_shipping_quotes.sql').read_text())
         self.db.executescript(Path('migrations/0003_nine_key_base.sql').read_text())
+        self.db.executescript(Path('migrations/0004_abuse_protection.sql').read_text())
         self.db.execute('UPDATE bases SET stock=2 WHERE id=3')
         self.db.commit()
+    def test_unpaid_reservation_limit(self):
+        for id in ['a','b']:
+            self.db.execute("INSERT INTO orders(id,status,amount,cart_json,created_at,shipping_amount,shipping_countries,reservation_owner) VALUES (?,'creating',1,'[]',0,0,'US','same-owner')",(id,))
+        with self.assertRaises(sqlite3.IntegrityError):
+            self.db.execute("INSERT INTO orders(id,status,amount,cart_json,created_at,shipping_amount,shipping_countries,reservation_owner) VALUES ('c','creating',1,'[]',0,0,'US','same-owner')")
+        self.db.execute("UPDATE orders SET status='expired' WHERE id='a'")
+        self.db.execute("INSERT INTO orders(id,status,amount,cart_json,created_at,shipping_amount,shipping_countries,reservation_owner) VALUES ('c','creating',1,'[]',0,0,'US','same-owner')")
+
     def reserve(self,id,quantity=2):
         with self.db:
             self.db.execute("INSERT INTO orders(id,status,amount,cart_json,created_at,shipping_amount,shipping_countries) VALUES (?,'creating',998,'[]',0,0,'US')",(id,))

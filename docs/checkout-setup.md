@@ -62,3 +62,15 @@ Shippo authentication was reported saved on the Cloudflare Worker, but the token
 ## 9-key inventory migration
 
 `0003_nine_key_base.sql` expands the base ID constraint to include 9 while preserving existing base stock, orders, component reservations, and fulfillment triggers. It initializes 100 9-key bases, as confirmed by the owner. The 9-key product uses one base ID 9 and nine selected keycaps, with the existing $14.99 price. Deploy the new client first (it tolerates the missing 9-key row and blocks only that product), then apply the migration. Old already-open browser tabs may need refreshing to load the versioned client that recognizes base ID 9. Stripe remains in test mode.
+
+## Abuse protection
+
+Apply `0004_abuse_protection.sql` before deploying the new Worker. It adds atomic request counters and an indexed reservation owner with a trigger allowing at most two creating/open orders per owner. Existing orders and inventory remain unchanged.
+
+Shipping requests are limited to 6/minute per network address; Checkout to 10/minute. Global caps are 120 shipping and 60 Checkout requests/minute. These are fixed windows in D1, so boundaries can allow consecutive bursts. Cloudflare's trusted CF-Connecting-IP is HMAC-hashed using the webhook secret; raw addresses are not saved. Customers sharing a network share limits. Rotating the webhook secret changes owner identities. IPv6 address rotation and distributed traffic can evade per-address controls; the global cap limits provider calls but can also temporarily block legitimate traffic. These controls are a baseline, not a replacement for Cloudflare WAF or Turnstile.
+
+Requests must be JSON and no more than 32 KiB. Cart checkout is limited to ten individual clickers, including clickers inside bundles. Retrying the same existing checkout does not create another reservation. The limit trigger also covers simultaneous requests. Provider requests occur only after rate checks, and new checkout rate revalidation only after the reservation-count precheck. Races rejected by the database return the generic inventory-changed message.
+
+Stripe webhook requests are exempt from customer rate limits and retain signature validation. A scheduled job runs every 15 minutes to remove counters older than two hours and unused shipping quotes older than one day. Referenced quotes and order history are preserved. There is no automatic reconciliation of uncertain creating orders; never release those holds without verifying Stripe. Open sessions still rely on the expiration webhook to release reservations.
+
+Local requests to protected routes must provide a fixture CF-Connecting-IP header, expected Origin and JSON Content-Type. Production Cloudflare supplies the address header. Missing identity/configuration/database protection fails closed. Verify migrations, normal quotes/Checkout, 429 handling, and scheduled cleanup after deployment; do not stress-test production providers.

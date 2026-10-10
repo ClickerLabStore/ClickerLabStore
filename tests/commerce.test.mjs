@@ -80,3 +80,7 @@ test('all bundles use fixed prices and reserve every included base and keycap',(
   line.options.clickers[0].productId='9-key-clicker'; assert.throws(()=>validateCart([line]));
  }
 });
+test('oversized checkout is rejected before provider or reservation calls',async()=>{
+ const env={STRIPE_SECRET_KEY:'fixture',STRIPE_WEBHOOK_SECRET:'fixture',STORE_URL:'https://store.test',SHIPPO_API_TOKEN:'fixture',SHIP_FROM_ADDRESS:'configured'};
+ const r=await checkout(new Request('https://store.test/api/checkout',{method:'POST',headers:{Origin:'https://store.test'},body:JSON.stringify({items:[item('1-key-clicker',[1],11)]})}),env,'owner');assert.equal(r.status,400);
+});

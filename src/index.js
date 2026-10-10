@@ -1,7 +1,9 @@
+import { protectRequest, cleanupAbuseData } from "./abuse.js";
 import { shippingRates } from "./shipping.js";
 import { inventory, checkout, webhook } from "./commerce.js";
 
 export default {
+  async scheduled(event,env,ctx) { ctx.waitUntil(cleanupAbuseData(env)); },
   async fetch(request, env) {
     const url = new URL(request.url);
 
@@ -41,8 +43,14 @@ export default {
     if (url.pathname === "/api/shipping-rates" || url.pathname === "/api/checkout" || url.pathname === "/api/stripe/webhook") {
       if (request.method !== "POST") return new Response("Method not allowed", {status:405});
       try {
+        let owner;
+        if (url.pathname !== "/api/stripe/webhook") {
+          const protection=await protectRequest(request,env,url.pathname);
+          if(protection instanceof Response) return protection;
+          request=protection.request; owner=protection.owner;
+        }
         if (url.pathname === "/api/shipping-rates") return await shippingRates(request,env);
-        return url.pathname === "/api/checkout" ? await checkout(request,env) : await webhook(request,env);
+        return url.pathname === "/api/checkout" ? await checkout(request,env,owner) : await webhook(request,env);
       } catch {
         return Response.json({error:"Unable to process this request. Please try again."},{status:500});
       }
