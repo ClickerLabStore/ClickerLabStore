@@ -30,6 +30,7 @@ body{font-family:"Nunito Sans",sans-serif;background:white;color:#17243c;overflo
 .back-to-shop{display:inline-block;margin-bottom:30px;color:#667085;text-decoration:none;font-size:15px;font-weight:700}
 .product-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:65px;align-items:start}
 
+.product-photo img{width:100%;height:100%;object-fit:contain;border-radius:22px}.product-photo img[hidden]{display:none}
 .product-photo{width:100%;aspect-ratio:1/1;border-radius:22px;background:#f7f7f7;display:flex;align-items:center;justify-content:center;color:#98a2b3;font-size:19px;font-weight:800;text-align:center}
 
 .product-details h1{margin-bottom:14px;font-size:44px;font-weight:800}
@@ -156,7 +157,8 @@ body{font-family:"Nunito Sans",sans-serif;background:white;color:#17243c;overflo
 <div class="product-layout">
 
 <div class="product-photo">
-Product Photo Coming Soon
+<img src="1-key-light-up-clicker.png" alt="1-Key Light Up Clicker" onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+<span hidden>Product Photo Coming Soon</span>
 </div>
 
 <section class="product-details">
@@ -725,7 +727,7 @@ price:
 unitPrice,
 
 image:
-"",
+"1-key-light-up-clicker.png",
 
 quantity:
 quantity,
