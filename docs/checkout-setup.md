@@ -74,3 +74,9 @@ Requests must be JSON and no more than 32 KiB. Cart checkout is limited to ten i
 Stripe webhook requests are exempt from customer rate limits and retain signature validation. A scheduled job runs every 15 minutes to remove counters older than two hours and unused shipping quotes older than one day. Referenced quotes and order history are preserved. There is no automatic reconciliation of uncertain creating orders; never release those holds without verifying Stripe. Open sessions still rely on the expiration webhook to release reservations.
 
 Local requests to protected routes must provide a fixture CF-Connecting-IP header, expected Origin and JSON Content-Type. Production Cloudflare supplies the address header. Missing identity/configuration/database protection fails closed. Verify migrations, normal quotes/Checkout, 429 handling, and scheduled cleanup after deployment; do not stress-test production providers.
+
+## Light-color inventory
+
+Apply `0005_light_inventory.sql` before deploying color-stock code. Owner confirmed 20 physical lights each: White (ID 1), Red (2), Blue (3), Yellow (4), Green (5). Each lit key consumes one unit; clicker quantity multiplies each selected color. Legacy single-color selections use that color on every key. Standard clickers and current bundles use no lights.
+
+The migration preserves existing base/keycap components and adds light components to unpaid light-up orders. It fails rather than silently overselling if those existing selections exceed the confirmed stock. Existing paid orders are not retroactively deducted from the newly confirmed physical counts. The paid status transition deducts lights exactly once; expiry releases reservations without changing physical stock. A missing light inventory response blocks light-up additions while standard clickers remain usable during rollout.

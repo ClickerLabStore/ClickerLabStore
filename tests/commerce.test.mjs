@@ -6,7 +6,7 @@ const item=(productId,keycaps,quantity=1)=>({productId,quantity,price:0.01,optio
 test('server prices and components include shared bases and repeated keycaps',()=>{
  const cart=validateCart([item('3-key-clicker',[1,1,2],2),{...item('1-key-light-up-clicker',[1],1),options:{switchType:'Creamy',lightColor:'Blue',keycaps:[1]}}]);
  assert.equal(cart.amount,2*599+349);
- assert.deepEqual(cart.components,[{kind:'base',id:3,quantity:2},{kind:'keycap',id:1,quantity:5},{kind:'keycap',id:2,quantity:2},{kind:'base',id:1,quantity:1}]);
+ assert.deepEqual(cart.components,[{kind:'base',id:3,quantity:2},{kind:'keycap',id:1,quantity:5},{kind:'keycap',id:2,quantity:2},{kind:'base',id:1,quantity:1},{kind:'light',id:3,quantity:1}]);
 });
 test('tampered products, incomplete selections and invalid quantities rejected',()=>{
  for(const items of [[],[item('unknown',[1])],[item('4-key-clicker',[1])],[item('1-key-clicker',[12])],[item('1-key-clicker',[1],0)],[item('1-key-clicker',[1],1.5)]]) assert.throws(()=>validateCart(items));
@@ -99,4 +99,9 @@ test('per-key light colors validated and preserved; legacy saved carts remain co
   line.options.lightColors=Array(n).fill('invalid');assert.throws(()=>validateCart([line]));
   delete line.options.lightColors;line.options.lightColor='Yellow';assert.equal(validateCart([line]).lines[0].options.lightColor,'Yellow');
  }
+});
+test('per-key and legacy colors reserve individual light units across products',()=>{
+ const a=item('4-key-light-up-clicker',[1,2,3,4],2);a.options.lightColors=['Red','Red','Blue','Green'];
+ const b=item('2-key-light-up-clicker',[1,2],3);b.options.lightColor='Red';
+ const result=validateCart([a,b]);assert.deepEqual(result.components.filter(c=>c.kind==='light'),[{kind:'light',id:2,quantity:10},{kind:'light',id:3,quantity:2},{kind:'light',id:5,quantity:2}]);
 });

@@ -10,6 +10,7 @@
  function stockFits(){
   if(!size||!window.ClickerInventory.ready()||!validQty())return false;
   if(window.ClickerInventory.availableBase(`${size}-key-clicker`)<qty())return false;
+  if(lights&&window.ClickerInventory.maximumLights(lightColors)<qty())return false;
   const counts={};for(const id of keycaps){if(!id)return false;counts[id]=(counts[id]||0)+1;}
   return Object.entries(counts).every(([id,n])=>window.ClickerInventory.available(Number(id))>=n*qty());
  }
@@ -18,6 +19,13 @@
   document.querySelectorAll('[data-size]').forEach(b=>{b.disabled=busy||!ready||window.ClickerInventory.availableBase(`${b.dataset.size}-key-clicker`)===0;});
   next.disabled=busy||!ready||(step===1?!size||window.ClickerInventory.availableBase(`${size}-key-clicker`)===0:step===2?!switchType:step===3?lights===null:!stockFits());
   status.textContent=!ready?'Unable to check inventory. Please refresh and try again.':step===4?(stockFits()?'Your clicker is ready. Stock is checked again before adding.':'Choose every keycap and a quantity that fits the available stock.'):'Select an option, then continue to the next step.';
+  document.querySelectorAll('#builder-light-colors select').forEach((select,i)=>{
+   [...select.options].forEach(option=>{
+    const used=lightColors.filter((c,j)=>j!==i&&c===option.value).length*(validQty()?qty():1);
+    const available=Math.max(0,window.ClickerInventory.availableLight(option.value)-used);
+    option.disabled=available<(validQty()?qty():1);option.textContent=option.value+' ('+available+' available)';
+   });
+  });
   if(picker.open)buildPicker();
  }
  function showStep(value){
@@ -46,7 +54,7 @@
  function renderLights(){
   document.querySelectorAll('[data-lights]').forEach(b=>{const selected=lights!==null&&(b.dataset.lights==='yes')===lights;b.classList.toggle('selected',selected);b.setAttribute('aria-pressed',String(selected));});
   const container=document.getElementById('builder-light-colors');container.hidden=lights!==true;container.replaceChildren();
-  lightColors.forEach((color,i)=>{const label=document.createElement('label');label.textContent=`Key ${i+1} light color`;const select=document.createElement('select');select.setAttribute('aria-label',`Key ${i+1} light color`);select.style.cssText='display:block;width:100%;padding:10px;border:2px solid #d8dde5;border-radius:10px;background:white;font:inherit';for(const c of ['White','Red','Blue','Yellow','Green']){const option=new Option(c,c);option.selected=color===c;select.add(option);}select.addEventListener('change',()=>lightColors[i]=select.value);label.appendChild(select);container.appendChild(label);});
+  lightColors.forEach((color,i)=>{const label=document.createElement('label');label.textContent=`Key ${i+1} light color`;const select=document.createElement('select');select.setAttribute('aria-label',`Key ${i+1} light color`);select.style.cssText='display:block;width:100%;padding:10px;border:2px solid #d8dde5;border-radius:10px;background:white;font:inherit';for(const c of ['White','Red','Blue','Yellow','Green']){const option=new Option(c,c);option.selected=color===c;select.add(option);}select.addEventListener('change',()=>{lightColors[i]=select.value;update();});label.appendChild(select);container.appendChild(label);});
  }
  document.querySelectorAll('[data-lights]').forEach(b=>b.addEventListener('click',()=>{lights=b.dataset.lights==='yes';document.querySelectorAll('[data-lights]').forEach(e=>{e.classList.toggle('selected',e===b);e.setAttribute('aria-pressed',String(e===b));});renderLights();update();if(!lights)showStep(4);}));
  document.querySelectorAll('[data-size]').forEach(b=>b.addEventListener('click',()=>{const chosen=Number(b.dataset.size);if(size!==chosen){size=chosen;keycaps=Array(size).fill(null);lights=size===9?false:null;lightColors=Array(size).fill("White");}document.querySelectorAll('[data-size]').forEach(e=>{e.classList.toggle('selected',e===b);e.setAttribute('aria-pressed',String(e===b));});update();}));

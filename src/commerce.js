@@ -1,4 +1,5 @@
 import { checkoutShipping } from "./shipping.js";
+export const LIGHT_IDS={White:1,Red:2,Blue:3,Yellow:4,Green:5};
 export const PRODUCTS = {
   '2-key-light-up-clicker': {name:'2-Key Light Up Clicker',price:449,base:2,light:true},
   '3-key-light-up-clicker': {name:'3-Key Light Up Clicker',price:699,base:3,light:true},
@@ -51,6 +52,7 @@ export function validateCart(items) {
     }
     add('base', product.base, item.quantity);
     for (const id of keycaps) add('keycap', id, item.quantity);
+    if(product.light) for(const color of lightColors || Array(product.base).fill(lightColor)) add('light',LIGHT_IDS[color],item.quantity);
     amount += product.price * item.quantity;
     return { productId: item.productId, quantity: item.quantity,
       name: product.name, price: product.price,
@@ -79,8 +81,8 @@ export async function inventory(DB) {
     MAX(0, i.stock - COALESCE((SELECT SUM(c.quantity) FROM order_components c
       JOIN orders o ON o.id=c.order_id WHERE c.kind=? AND c.component_id=i.id
       AND o.status IN ('creating','open')),0)) AS stock FROM ${table} i ORDER BY i.id`).bind(kind).all();
-  const [keycaps,bases] = await Promise.all([read('keycaps','keycap'),read('bases','base')]);
-  return { keycaps:keycaps.results, bases:bases.results };
+  const [keycaps,bases,lights] = await Promise.all([read('keycaps','keycap'),read('bases','base'),read('lights','light')]);
+  return { keycaps:keycaps.results, bases:bases.results,lights:lights.results };
 }
 export async function stripeRequest(env, path, params, idempotencyKey) {
   const headers = { Authorization: `Bearer ${env.STRIPE_SECRET_KEY}` };

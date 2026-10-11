@@ -156,7 +156,7 @@ Two mechanical keys in a compact clicker for twice the clicking.
 Choose your switch style and customize both keys.
 </p>
 
-<div class="switch-section"><span class="option-title">Choose a Light Color for Each Key</span><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px"><label for="light-color-0">Key 1<select id="light-color-0" class="per-key-light" style="display:block;width:100%;padding:10px;border:2px solid #d8dde5;border-radius:10px;font:inherit;background:white"><option>White</option><option>Red</option><option>Blue</option><option>Yellow</option><option>Green</option></select></label><label for="light-color-1">Key 2<select id="light-color-1" class="per-key-light" style="display:block;width:100%;padding:10px;border:2px solid #d8dde5;border-radius:10px;font:inherit;background:white"><option>White</option><option>Red</option><option>Blue</option><option>Yellow</option><option>Green</option></select></label></div></div>
+<div class="switch-section"><span class="option-title">Choose a Light Color for Each Key</span><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px"><label for="light-color-0">Key 1<select id="light-color-0" class="per-key-light" style="display:block;width:100%;padding:10px;border:2px solid #d8dde5;border-radius:10px;font:inherit;background:white"><option value="White">White</option><option value="Red">Red</option><option value="Blue">Blue</option><option value="Yellow">Yellow</option><option value="Green">Green</option></select></label><label for="light-color-1">Key 2<select id="light-color-1" class="per-key-light" style="display:block;width:100%;padding:10px;border:2px solid #d8dde5;border-radius:10px;font:inherit;background:white"><option value="White">White</option><option value="Red">Red</option><option value="Blue">Blue</option><option value="Yellow">Yellow</option><option value="Green">Green</option></select></label></div></div>
 
 <div class="switch-section">
 
@@ -249,7 +249,7 @@ Pick one of the available keycaps below.
 </div>
 </div>
 
-<script src="app.js?v=91ebd8d09e3f"></script>
+<script src="app.js?v=99c7b10f4a7d"></script>
 
 <script>
 const unitPrice = 4.49;
@@ -288,6 +288,18 @@ type === "Clicky"
 }
 
 function openKeycapModal(index){
+function updateLightStockChoices(){
+ document.querySelectorAll('.per-key-light').forEach(select=>{
+  const others=[...document.querySelectorAll('.per-key-light')].filter(s=>s!==select);
+  [...select.options].forEach(option=>{
+   const count=others.filter(s=>s.value===option.value).length;
+   const available=Math.max(0,window.ClickerInventory.availableLight(option.value)-count*quantity);
+   option.disabled=available<quantity;option.textContent=option.value+' ('+available+' available)';
+  });
+ });
+}
+document.querySelectorAll('.per-key-light').forEach(s=>s.addEventListener('change',()=>{updateLightStockChoices();updateProduct();}));
+window.addEventListener('clickerlab-inventory-change',updateLightStockChoices);
 window.ClickerInventory.refresh().catch(() => {});
 
 activeSlot = index;
@@ -428,6 +440,10 @@ return item !== null;
 }
 
 function getMaximumQuantity(){
+return Math.min(getKeycapMaximumQuantity(),window.ClickerInventory.maximumLights([...document.querySelectorAll(".per-key-light")].map(s=>s.value)));
+}
+
+function getKeycapMaximumQuantity(){
 
 if(!allSelected()){
 return window.ClickerInventory.availableBase("2-key-light-up-clicker");

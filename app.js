@@ -23,6 +23,8 @@ let shippingBusy = false;
 // Inventory is advisory; stock is refreshed before every cart increase.
 let inventoryStock = null;
 let baseStock = null;
+let lightStock = null;
+const LIGHT_NAMES=["White","Red","Blue","Yellow","Green"];
 const PRODUCT_BASES = {
     "2-key-light-up-clicker": 2, "3-key-light-up-clicker": 3, "4-key-light-up-clicker": 4,
     "1-key-clicker": 1, "1-key-light-up-clicker": 1,
@@ -66,6 +68,16 @@ async function refreshInventory() {
             bases[row.id] = row.stock;
         }
         if (![1,2,3,4].every(id => id in bases)) throw new Error("Incomplete base inventory");
+        const lights={};
+        if(data.lights !== undefined) {
+            if(!Array.isArray(data.lights)) throw new Error("Invalid light inventory");
+            for(const row of data.lights) {
+                if(!Number.isInteger(row.id) || row.id<1 || row.id>5 || row.name!==LIGHT_NAMES[row.id-1] || !Number.isInteger(row.stock) || row.stock<0 || row.name in lights) throw new Error("Invalid light inventory");
+                lights[row.name]=row.stock;
+            }
+            if(Object.keys(lights).length!==5) throw new Error("Incomplete light inventory");
+        }
+        lightStock=data.lights===undefined?null:lights;
         baseStock = bases;
         inventoryStock = stock;
         notifyInventoryChange();
@@ -73,6 +85,7 @@ async function refreshInventory() {
     } catch (error) {
         inventoryStock = null;
         baseStock = null;
+        lightStock = null;
         notifyInventoryChange();
         throw error;
     }
@@ -94,6 +107,19 @@ function availableBaseStock(productId) {
     return Math.max(0,(baseStock[id] || 0)-used);
 }
 
+function clickerLightColors(clicker) {
+    if(!clicker.productId?.includes('-light-up-clicker')) return [];
+    return clicker.lightColors || Array(PRODUCT_BASES[clicker.productId]).fill(clicker.lightColor);
+}
+function availableLightStock(color) {
+    if(!lightStock || !(color in lightStock)) return 0;
+    const used=cart.reduce((n,item)=>n+itemClickers(item).reduce((m,c)=>m+clickerLightColors(c).filter(v=>v===color).length,0)*Number(item.quantity),0);
+    return Math.max(0,lightStock[color]-used);
+}
+function maximumLightQuantity(colors) {
+    const counts={};for(const color of colors)counts[color]=(counts[color]||0)+1;
+    return Math.min(99,...Object.entries(counts).map(([color,n])=>Math.floor(availableLightStock(color)/n)));
+}
 function queueInventoryAddition(item, commit) {
     const operation = inventoryQueue.then(async () => {
         await refreshInventory();
@@ -107,10 +133,14 @@ function queueInventoryAddition(item, commit) {
             throw new Error("Please check your bundle selections and quantity.");
         }
         const bases = {};
+        const lights = {};
         for (const clicker of clickers) {
             const base = PRODUCT_BASES[clicker.productId];
             if (!base || !Array.isArray(clicker.keycaps) || clicker.keycaps.length !== base) throw new Error("Choose every keycap first.");
             bases[base] = (bases[base] || 0)+1;
+            const colors=clickerLightColors(clicker);
+            if(clicker.productId.includes('-light-up-clicker') && (colors.length!==base || colors.some(c=>!LIGHT_NAMES.includes(c)))) throw new Error("Choose a light color for each key.");
+            for(const color of colors)lights[color]=(lights[color]||0)+1;
             for (const id of clicker.keycaps) {
                 if (!Number.isInteger(id) || !(id in inventoryStock)) throw new Error("Please choose a valid keycap.");
                 requirements[id] = (requirements[id] || 0)+1;
@@ -123,6 +153,9 @@ function queueInventoryAddition(item, commit) {
             if (count * item.quantity > availableKeycapStock(id)) {
                 throw new Error("Not enough stock for Keycap " + id + ". Please reduce the quantity or change keycaps.");
             }
+        }
+        for(const [color,count] of Object.entries(lights)) {
+            if(count*item.quantity>availableLightStock(color)) throw new Error("Not enough "+color+" lights. Please change colors or reduce the quantity.");
         }
         commit();
         notifyInventoryChange();
@@ -140,6 +173,8 @@ window.ClickerInventory = {
     refresh: refreshInventory,
     available: availableKeycapStock,
     availableBase: availableBaseStock,
+    availableLight: availableLightStock,
+    maximumLights: maximumLightQuantity,
     ready: () => inventoryStock !== null
 };
 

@@ -375,7 +375,7 @@ Choose a Keycap
 </div>
 </div>
 
-<script src="app.js?v=91ebd8d09e3f"></script>
+<script src="app.js?v=99c7b10f4a7d"></script>
 
 <script>
 const unitPrice = 3.49;
@@ -475,6 +475,15 @@ type === "Clicky"
 }
 
 function openKeycapModal(){
+function updateLightStockChoices(){
+ document.querySelectorAll('.color-option').forEach(button=>{
+  const color=button.getAttribute('onclick').match(/selectColor\('([^']+)'/)[1];
+  const stock=window.ClickerInventory.availableLight(color);
+  button.disabled=stock===0;button.setAttribute('aria-label',color+': '+stock+' available');
+  let badge=button.querySelector('.light-stock-label');if(!badge){badge=document.createElement('span');badge.className='light-stock-label';badge.style.cssText='display:block;font-size:11px;margin-top:4px';button.appendChild(badge);}badge.textContent=stock+' available';
+ });
+}
+window.addEventListener('clickerlab-inventory-change',updateLightStockChoices);
 window.ClickerInventory.refresh().catch(() => {});
 
 buildKeycapModal();
@@ -602,6 +611,10 @@ updateProduct();
 }
 
 function getMaximumQuantity(){
+return Math.min(getKeycapMaximumQuantity(),window.ClickerInventory.maximumLights([selectedColor]));
+}
+
+function getKeycapMaximumQuantity(){
 
 if(selectedKeycap === null){
 

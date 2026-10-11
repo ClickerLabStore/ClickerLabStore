@@ -11,8 +11,8 @@ function setup(page, initial = []) {
     let stock = 8, failed = false, calls = 0, rows;
     const context = vm.createContext({ console, Event, AbortSignal, alert(message){context.alerts.push(message);}, alerts:[],
         localStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v)},
-        document:{readyState:'loading',body:element(),addEventListener(){},getElementById(id){if (!elements.has(id)) elements.set(id,element()); return elements.get(id);},createElement:element},
-        fetch:async (url, options)=>{assert.equal(url,'/api/keycaps'); assert.equal(options.cache,'no-store'); calls++; return {ok:!failed,json:async()=>({keycaps:rows || Array.from({length:11},(_,i)=>({id:i+1,name:`Keycap ${i+1}`,stock})),bases:Array.from({length:4},(_,i)=>({id:i+1,name:`Base ${i+1}`,stock:100}))})};}
+        document:{querySelectorAll(){return []},readyState:'loading',body:element(),addEventListener(){},getElementById(id){if (!elements.has(id)) elements.set(id,element()); return elements.get(id);},createElement:element},
+        fetch:async (url, options)=>{assert.equal(url,'/api/keycaps'); assert.equal(options.cache,'no-store'); calls++; return {ok:!failed,json:async()=>({lights:["White","Red","Blue","Yellow","Green"].map((name,i)=>({id:i+1,name,stock:20})),keycaps:rows || Array.from({length:11},(_,i)=>({id:i+1,name:`Keycap ${i+1}`,stock})),bases:Array.from({length:4},(_,i)=>({id:i+1,name:`Base ${i+1}`,stock:100}))})};}
     });
     context.window = context;
     context.addEventListener=(name,fn)=>(listeners[name] ||= []).push(fn);
@@ -24,7 +24,7 @@ function setup(page, initial = []) {
     }
     return {context, elements, storage, run:code=>vm.runInContext(code,context),setStock:n=>stock=n,setFailure:v=>failed=v,setRows:r=>rows=r,calls:()=>calls};
 }
-const item=(keycaps,quantity=1,productId=keycaps.length+'-key-clicker')=>({productId,name:'Test',price:2.49,quantity,options:{keycaps}});
+const item=(keycaps,quantity=1,productId=keycaps.length+'-key-clicker')=>({productId,name:'Test',price:2.49,quantity,options:{keycaps,...(productId.includes('-light-up-clicker')?{lightColor:'White'}:{})}});
 test('repeated keycaps and stock across cart lines, fresh stock on add',async()=>{
  const h=setup(); await h.context.ClickerCart.addItem(item([1,1],2));
  await h.context.ClickerCart.addItem(item([1],3,'1-key-light-up-clicker'));
@@ -93,7 +93,7 @@ test('saved cart from another page is included before adding',async()=>{
  assert.equal(h.context.ClickerInventory.available(1),0);
 });
 test('standard and light-up 1-key products share scarce bases',async()=>{
- const h=setup(); h.context.fetch=async()=>({ok:true,json:async()=>({keycaps:Array.from({length:11},(_,i)=>({id:i+1,stock:100})),bases:Array.from({length:4},(_,i)=>({id:i+1,stock:1}))})});
+ const h=setup(); h.context.fetch=async()=>({ok:true,json:async()=>({lights:["White","Red","Blue","Yellow","Green"].map((name,i)=>({id:i+1,name,stock:20})),keycaps:Array.from({length:11},(_,i)=>({id:i+1,stock:100})),bases:Array.from({length:4},(_,i)=>({id:i+1,stock:1}))})});
  assert.equal(await h.context.ClickerCart.addItem(item([1])),true);
  assert.equal(h.context.ClickerInventory.availableBase('1-key-light-up-clicker'),0);
  assert.equal(await h.context.ClickerCart.addItem(item([2],1,'1-key-light-up-clicker')),false);
@@ -101,7 +101,7 @@ test('standard and light-up 1-key products share scarce bases',async()=>{
 });
 test('9-key page counts repeats and cart usage against the new base',async()=>{
  const h=setup('9-key-clicker.html');
- h.context.fetch=async()=>({ok:true,json:async()=>({keycaps:Array.from({length:11},(_,i)=>({id:i+1,stock:20})),bases:[1,2,3,4,9].map(id=>({id,stock:100}))})});
+ h.context.fetch=async()=>({ok:true,json:async()=>({lights:["White","Red","Blue","Yellow","Green"].map((name,i)=>({id:i+1,name,stock:20})),keycaps:Array.from({length:11},(_,i)=>({id:i+1,stock:20})),bases:[1,2,3,4,9].map(id=>({id,stock:100}))})});
  await h.context.ClickerInventory.refresh();
  h.run('selectSwitch("Clicky"); selectedKeycaps=Array(9).fill(1); updateProduct()');
  assert.equal(h.run('getMaximumQuantity()'),2);
@@ -138,4 +138,16 @@ test('bundle cart keeps different clicker selections and checks quantity increas
  await h.run(`changeCartQuantity(${JSON.stringify(id)},1)`);
  assert.equal(h.context.ClickerInventory.available(1),10);
  h.setStock(10); assert.equal(await h.run(`changeCartQuantity(${JSON.stringify(id)},1)`),false);
+});
+test('repeated light colors share stock across cart lines and block excess additions',async()=>{
+ const h=setup();h.setStock(100);
+ const light={...item([1,2,3,4],4,'4-key-light-up-clicker'),options:{keycaps:[1,2,3,4],lightColors:['Red','Red','Red','Red']}};
+ assert.equal(await h.context.ClickerCart.addItem(light),true);assert.equal(h.context.ClickerInventory.availableLight('Red'),4);
+ assert.equal(await h.context.ClickerCart.addItem({...light,quantity:2}),false);
+ assert.equal(await h.context.ClickerCart.addItem({...light,quantity:1}),true);assert.equal(h.context.ClickerInventory.availableLight('Red'),0);
+});
+test('missing color inventory blocks lights while standard clickers continue working',async()=>{
+ const h=setup();const fetch=h.context.fetch;h.context.fetch=async(...args)=>{const response=await fetch(...args);const data=await response.json();delete data.lights;return {ok:true,json:async()=>data}};
+ assert.equal(await h.context.ClickerCart.addItem(item([1],1,'1-key-light-up-clicker')),false);
+ assert.equal(await h.context.ClickerCart.addItem(item([1])),true);
 });
