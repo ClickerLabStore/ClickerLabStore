@@ -35,7 +35,7 @@ export default {
     if (url.pathname === "/api/order-status") {
       if (request.method !== "GET") return new Response("Method not allowed", {status:405});
       const session = url.searchParams.get("session_id") || "";
-      if (!/^cs_test_[A-Za-z0-9]+$/.test(session)) return new Response("Invalid session",{status:400});
+      if (!/^cs_(?:test|live)_[A-Za-z0-9]+$/.test(session)) return new Response("Invalid session",{status:400});
       const order = await env.DB.prepare("SELECT id,status FROM orders WHERE session_id=?").bind(session).first();
       return Response.json({status:order?.status || "pending",orderId:order?.id || null},{headers:{"Cache-Control":"no-store"}});
     }

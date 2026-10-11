@@ -1,3 +1,4 @@
+import { paymentMode, isLive } from "./payment-mode.js";
 const STATES = new Set('AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY'.split(' '));
 export function normalizeAddress(address) {
   const result = {};
@@ -43,15 +44,15 @@ export async function shippingRates(request,env) {
       address_from:from,address_to:address,
       parcels:[{length:'6',width:'4',height:'2',distance_unit:'in',weight:'0.2',mass_unit:'lb'}],async:false
     });
-    if(shipment.test !== true) throw new Error('Shippo test mode is required.');
+    if(shipment.test !== !isLive(env)) throw new Error('Shippo mode does not match the store.');
     const rates = (shipment.rates || []).filter(rate=>
       rate.provider === 'USPS' && rate.currency === 'USD' && rate.servicelevel?.token === 'usps_ground_advantage'
     ).map(rate=>({id:rate.object_id,amount:rateAmount(rate.amount),service:'USPS Ground Advantage',days:rate.estimated_days || null}));
     if(!rates.length || rates.some(rate=>!/^[a-f0-9]{32}$/.test(rate.id))) throw new Error('No USPS Ground Advantage rate is available for this address.');
     rates.sort((a,b)=>a.amount-b.amount);
     const id = crypto.randomUUID();
-    await env.DB.prepare('INSERT INTO shipping_quotes(id,address_json,rates_json,created_at) VALUES (?,?,?,?)')
-      .bind(id,JSON.stringify(address),JSON.stringify(rates),Math.floor(Date.now()/1000)).run();
+    await env.DB.prepare('INSERT INTO shipping_quotes(id,address_json,rates_json,created_at,payment_mode) VALUES (?,?,?,?,?)')
+      .bind(id,JSON.stringify(address),JSON.stringify(rates),Math.floor(Date.now()/1000),paymentMode(env)).run();
     return Response.json({quoteId:id,rates},{headers:{'Cache-Control':'no-store'}});
   } catch(error) {
     // Log only our own diagnostics, never tokens, addresses, or provider bodies.
@@ -63,11 +64,12 @@ export async function checkoutShipping(env,body) {
   if(!/^[a-f0-9-]{36}$/.test(body.quoteId || '') || !/^[a-f0-9]{32}$/.test(body.rateId || '')) throw new Error('Choose a USPS shipping rate first.');
   const quote = await env.DB.prepare('SELECT * FROM shipping_quotes WHERE id=?').bind(body.quoteId).first();
   if(!quote || Date.now()/1000-quote.created_at>900) throw new Error('Your shipping quote expired. Please get a new rate.');
+  if((quote.payment_mode || 'test')!==paymentMode(env)) throw new Error('Store payment mode changed. Please get a new rate.');
   const selected = JSON.parse(quote.rates_json).find(rate=>rate.id===body.rateId);
   if(!selected) throw new Error('Invalid shipping rate.');
   const fresh = await shippoRequest(env,`/rates/${selected.id}/`);
   if(fresh.object_id!==selected.id || fresh.provider!=='USPS' || fresh.currency!=='USD' ||
-     fresh.servicelevel?.token!=='usps_ground_advantage' || fresh.test!==true || rateAmount(fresh.amount)!==selected.amount) {
+     fresh.servicelevel?.token!=='usps_ground_advantage' || fresh.test!==!isLive(env) || rateAmount(fresh.amount)!==selected.amount) {
     throw new Error('Shipping rates changed. Please get a new rate.');
   }
   return {quoteId:quote.id,rateId:selected.id,amount:selected.amount,service:selected.service,address:JSON.parse(quote.address_json)};

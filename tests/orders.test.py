@@ -11,6 +11,7 @@ class Orders(unittest.TestCase):
         self.db.executescript(Path('migrations/0003_nine_key_base.sql').read_text())
         self.db.executescript(Path('migrations/0004_abuse_protection.sql').read_text())
         self.db.executescript(Path('migrations/0005_light_inventory.sql').read_text())
+        self.db.executescript(Path('migrations/0006_payment_mode.sql').read_text())
         self.db.execute('UPDATE bases SET stock=2 WHERE id=3')
         self.db.commit()
     def test_unpaid_reservation_limit(self):

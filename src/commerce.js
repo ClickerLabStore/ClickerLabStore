@@ -1,3 +1,4 @@
+import { paymentMode, isLive } from "./payment-mode.js";
 import { checkoutShipping } from "./shipping.js";
 export const LIGHT_IDS={White:1,Red:2,Blue:3,Yellow:4,Green:5};
 export const PRODUCTS = {
@@ -105,6 +106,8 @@ export async function checkout(request, env, reservationOwner = null) {
       !env.SHIPPO_API_TOKEN || !env.SHIP_FROM_ADDRESS) {
     return Response.json({error:'Checkout is not configured yet.'},{status:503});
   }
+  const mode=paymentMode(env);
+  if(env.PAYMENT_MODE && !env.STRIPE_SECRET_KEY.startsWith(mode==='live'?'sk_live_':'sk_test_')) return Response.json({error:'Payment credentials do not match the store mode.'},{status:503});
   const origin = new URL(env.STORE_URL).origin;
   if (request.headers.get('Origin') !== origin) return Response.json({error:'Invalid origin'},{status:403});
   let cart, body;
@@ -117,6 +120,7 @@ export async function checkout(request, env, reservationOwner = null) {
     return Response.json({error:'Invalid Checkout attempt.'},{status:400});
   }
   let order = await env.DB.prepare('SELECT * FROM orders WHERE id=?').bind(id).first();
+  if(order && (order.payment_mode || 'test')!==mode) return Response.json({error:'Store payment mode changed. Please calculate shipping again.'},{status:409});
   if (order && (order.cart_json !== JSON.stringify(cart.lines) ||
       order.shipping_quote_id !== body.quoteId || order.shipping_rate_id !== body.rateId)) return Response.json({error:'Checkout attempt changed.'},{status:409});
   if (order?.status === 'open') {
@@ -137,8 +141,8 @@ export async function checkout(request, env, reservationOwner = null) {
     const now = Math.floor(Date.now()/1000);
     try {
       await env.DB.batch([
-        env.DB.prepare("INSERT INTO orders(id,status,amount,cart_json,created_at,shipping_amount,shipping_countries,shipping_quote_id,shipping_rate_id,shipping_address_json,shipping_service,reservation_owner) VALUES (?,'creating',?,?,?,?,?,?,?,?,?,?)")
-          .bind(id,cart.amount,JSON.stringify(cart.lines),now,shipping.amount,'US',shipping.quoteId,shipping.rateId,JSON.stringify(shipping.address),shipping.service,reservationOwner),
+        env.DB.prepare("INSERT INTO orders(id,status,amount,cart_json,created_at,shipping_amount,shipping_countries,shipping_quote_id,shipping_rate_id,shipping_address_json,shipping_service,reservation_owner,payment_mode) VALUES (?,'creating',?,?,?,?,?,?,?,?,?,?,?)")
+          .bind(id,cart.amount,JSON.stringify(cart.lines),now,shipping.amount,'US',shipping.quoteId,shipping.rateId,JSON.stringify(shipping.address),shipping.service,reservationOwner,mode),
         ...cart.components.map(c => env.DB.prepare('INSERT INTO order_components(order_id,kind,component_id,quantity) VALUES (?,?,?,?)')
           .bind(id,c.kind,c.id,c.quantity))
       ]);
@@ -178,10 +182,10 @@ export async function checkout(request, env, reservationOwner = null) {
   let session;
   try {
     session = await stripeRequest(env,'/checkout/sessions',params,`checkout-v2-${id}`);
-    if (session.livemode !== false) {
+    if (session.livemode !== isLive(env)) {
       await stripeRequest(env,`/checkout/sessions/${session.id}/expire`,new URLSearchParams());
       await env.DB.prepare("UPDATE orders SET status='failed' WHERE id=? AND status='creating'").bind(id).run();
-      return Response.json({error:'Only Stripe test mode is enabled.'},{status:503});
+      return Response.json({error:'Stripe payment mode does not match the store.'},{status:503});
     }
     await env.DB.prepare("UPDATE orders SET status='open',session_id=? WHERE id=? AND status='creating'")
       .bind(session.id,id).run();
@@ -202,9 +206,9 @@ export async function webhook(request,env) {
   try { event=JSON.parse(raw); } catch { return new Response('Invalid payload',{status:400}); }
   if(!['checkout.session.completed','checkout.session.expired'].includes(event.type)) return new Response('OK');
   const session=event.data.object;
-  if(session.livemode !== false) return new Response('Test mode only',{status:400});
   const order=await env.DB.prepare('SELECT * FROM orders WHERE id=?').bind(session.metadata?.order_id || '').first();
   if(!order) return new Response('Unknown order',{status:400});
+  if(session.livemode!==((order.payment_mode || 'test')==='live')) return new Response('Payment mode mismatch',{status:400});
   if(order.status==='creating') return new Response('Order not attached yet',{status:503});
   if(order.session_id!==session.id || session.client_reference_id!==order.id) return new Response('Order mismatch',{status:400});
   if(event.type==='checkout.session.completed') {

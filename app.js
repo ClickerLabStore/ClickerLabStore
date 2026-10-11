@@ -2087,7 +2087,7 @@ async function checkCheckoutReturn() {
     const params = new URLSearchParams(window.location.search);
     if(params.get("checkout") !== "success") return;
     const session = params.get("session_id");
-    if(!/^cs_test_[A-Za-z0-9]+$/.test(session || "")) return;
+    if(!/^cs_(?:test|live)_[A-Za-z0-9]+$/.test(session || "")) return;
     try {
         const response = await fetch("/api/order-status?session_id="+encodeURIComponent(session),{cache:"no-store"});
         if(!response.ok) throw new Error();
@@ -2101,7 +2101,7 @@ async function checkCheckoutReturn() {
                 localStorage.removeItem("clickerlab_checkout_attempt");
                 try { sessionStorage.removeItem("clickerlab_shipping_quote"); } catch {}
             }
-            alert("Test payment confirmed. Thank you!");
+            alert("Payment confirmed. Thank you!");
         } else {
             alert("Your payment confirmation is still processing. Please keep your Stripe receipt.");
         }
