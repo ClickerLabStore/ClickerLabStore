@@ -657,7 +657,14 @@
         }
 
         .feature-image-1-key {
-            background: #f5f3f0;
+            background: #f6f6f5;
+        }
+
+        .feature-image-1-key img {
+            mask-image:
+                linear-gradient(to right, transparent, black 6%, black 94%, transparent),
+                linear-gradient(to bottom, transparent, black 6%, black 94%, transparent);
+            mask-composite: intersect;
         }
 
         .feature-image img {
