@@ -42,7 +42,7 @@
  back.addEventListener('click',()=>{if(!busy)showStep(step-1);});
  next.addEventListener('click',async()=>{
   if(busy||next.disabled)return;if(step<3){showStep(step+1);return;}
-  const item={productId:`${size}-key-clicker`,name:`${size}-Key Clicker`,price:prices[size],image:size===9?'9-key clicker.png':`${size}-key-clicker.png`,quantity:qty(),options:{switchType,keycaps:[...keycaps]}};
+  const item={productId:`${size}-key-clicker`,name:`${size}-Key Clicker`,price:prices[size],image:size===9?'9-key-clicker.png':`${size}-key-clicker.png`,quantity:qty(),options:{switchType,keycaps:[...keycaps]}};
   busy=true;back.disabled=true;update();
   try{if(await window.ClickerCart.addItem(item))status.textContent='Your custom clicker was added to the cart.';}finally{busy=false;back.disabled=false;next.disabled=!stockFits();}
  });
