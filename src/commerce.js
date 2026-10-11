@@ -107,7 +107,7 @@ export async function checkout(request, env, reservationOwner = null) {
     return Response.json({error:'Checkout is not configured yet.'},{status:503});
   }
   const mode=paymentMode(env);
-  if(env.PAYMENT_MODE && !env.STRIPE_SECRET_KEY.startsWith(mode==='live'?'sk_live_':'sk_test_')) return Response.json({error:'Payment credentials do not match the store mode.'},{status:503});
+  if(env.PAYMENT_MODE && !new RegExp(`^(?:sk|rk)_${mode}_`).test(env.STRIPE_SECRET_KEY)) return Response.json({error:'Payment credentials do not match the store mode.'},{status:503});
   const origin = new URL(env.STORE_URL).origin;
   if (request.headers.get('Origin') !== origin) return Response.json({error:'Invalid origin'},{status:403});
   let cart, body;

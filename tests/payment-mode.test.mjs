@@ -24,3 +24,10 @@ test('live shipping accepts live rates and rejects old test quotes',async()=>{
  globalThis.fetch=async()=>Response.json({test:false,rates:[{object_id:'a'.repeat(32),provider:'USPS',currency:'USD',servicelevel:{token:'usps_ground_advantage'},amount:'5.00'}]});
  try{const response=await shippingRates(new Request('https://store/api/shipping-rates',{method:'POST',headers:{Origin:'https://store'},body:JSON.stringify({address:{name:'Buyer',street1:'2 Main St',city:'San Marino',state:'CA',zip:'91108',country:'US'}})}),env);assert.equal(response.status,200);assert.equal(stored[4],'live');await assert.rejects(()=>checkoutShipping(env,{quoteId:'11111111-1111-4111-8111-111111111111',rateId:'a'.repeat(32)}),/payment mode changed/);}finally{globalThis.fetch=previous;}
 });
+
+test('restricted live key passes configuration while publishable and test keys fail',async()=>{
+ for(const [key,status] of [['rk_live_fixture',400],['pk_live_fixture',503],['rk_test_fixture',503]]){
+ const env={PAYMENT_MODE:'live',STRIPE_SECRET_KEY:key,STRIPE_WEBHOOK_SECRET:'fixture',STORE_URL:'https://store',SHIPPO_API_TOKEN:'fixture',SHIP_FROM_ADDRESS:'configured'};
+ const r=await checkout(new Request('https://store/api/checkout',{method:'POST',headers:{Origin:'https://store'},body:'{}'}),env);assert.equal(r.status,status);
+ }
+});
