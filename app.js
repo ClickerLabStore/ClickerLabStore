@@ -1128,6 +1128,8 @@ function createCartItemKey(item) {
 
         clickers: options.clickers || null,
 
+        lightColors: options.lightColors || null,
+
         lightColor:
             options.lightColor || ""
 
@@ -1541,6 +1543,10 @@ function getCartOptionsHTML(
 
     }
 
+
+    if (Array.isArray(options.lightColors)) {
+        html += `<span class="clicker-cart-option-line">Lights: ${options.lightColors.map((color,i)=>`Key ${i+1}: ${escapeCartHTML(color)}`).join(', ')}</span>`;
+    }
 
     if (Array.isArray(options.clickers)) {
         html += options.clickers.map(c => `<span class="clicker-cart-option-line">${escapeCartHTML(c.productId.replace('-key-clicker','-Key Clicker'))}: ${escapeCartHTML(c.switchType)}; Keycaps: ${(c.keycaps || []).map(id=>'#'+escapeCartHTML(id)).join(', ')}</span>`).join('');

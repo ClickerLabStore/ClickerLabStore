@@ -91,3 +91,12 @@ test('multi-key light-up products use fixed prices, correct bases and valid ligh
   line.options.lightColor='invalid';assert.throws(()=>validateCart([line]));
  }
 });
+test('per-key light colors validated and preserved; legacy saved carts remain compatible',()=>{
+ for(const n of [1,2,3,4]){
+  const line=item(`${n}-key-light-up-clicker`,Array(n).fill(1));line.options.lightColors=Array.from({length:n},(_,i)=>['Red','Blue','Green','White'][i]);
+  assert.deepEqual(validateCart([line]).lines[0].options.lightColors,line.options.lightColors);
+  line.options.lightColors=[];assert.throws(()=>validateCart([line]));
+  line.options.lightColors=Array(n).fill('invalid');assert.throws(()=>validateCart([line]));
+  delete line.options.lightColors;line.options.lightColor='Yellow';assert.equal(validateCart([line]).lines[0].options.lightColor,'Yellow');
+ }
+});

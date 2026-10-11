@@ -160,7 +160,7 @@ Three mechanical keys in one compact clicker for even more variety.
 Choose your switch and customize all three keycaps.
 </p>
 
-<div class="switch-section"><label class="option-title" for="light-color">Choose Your Light Color</label><select id="light-color" style="padding:12px;width:100%;border:2px solid #d8dde5;border-radius:12px;font:inherit;background:white;color:#17243c"><option value="White">White</option><option value="Red">Red</option><option value="Blue">Blue</option><option value="Yellow">Yellow</option><option value="Green">Green</option></select></div>
+<div class="switch-section"><span class="option-title">Choose a Light Color for Each Key</span><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px"><label for="light-color-0">Key 1<select id="light-color-0" class="per-key-light" style="display:block;width:100%;padding:10px;border:2px solid #d8dde5;border-radius:10px;font:inherit;background:white"><option>White</option><option>Red</option><option>Blue</option><option>Yellow</option><option>Green</option></select></label><label for="light-color-1">Key 2<select id="light-color-1" class="per-key-light" style="display:block;width:100%;padding:10px;border:2px solid #d8dde5;border-radius:10px;font:inherit;background:white"><option>White</option><option>Red</option><option>Blue</option><option>Yellow</option><option>Green</option></select></label><label for="light-color-2">Key 3<select id="light-color-2" class="per-key-light" style="display:block;width:100%;padding:10px;border:2px solid #d8dde5;border-radius:10px;font:inherit;background:white"><option>White</option><option>Red</option><option>Blue</option><option>Yellow</option><option>Green</option></select></label></div></div>
 
 <div class="switch-section">
 
@@ -256,7 +256,7 @@ Add to Cart — $6.99
 </div>
 </div>
 
-<script src="app.js?v=9b51c288751b"></script>
+<script src="app.js?v=91ebd8d09e3f"></script>
 
 <script>
 const unitPrice = 6.99;
@@ -549,7 +549,7 @@ image:"/3-key-light-up-clicker.png",
 quantity:quantity,
 maxQuantity:getMaximumQuantity(),
 options:{
-lightColor:document.getElementById("light-color").value,
+lightColors:[...document.querySelectorAll(".per-key-light")].map(select=>select.value),
 switchType:selectedSwitch,
 keycaps:[...selectedKeycaps]
 }

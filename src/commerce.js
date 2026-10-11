@@ -41,12 +41,12 @@ export function validateCart(items) {
         options:{clickers:validated.lines.map(line=>({productId:line.productId,...line.options}))}};
     }
     const product = Object.hasOwn(PRODUCTS, item.productId) && PRODUCTS[item.productId];
-    const { keycaps, switchType, lightColor } = item.options || {};
+    const { keycaps, switchType, lightColor, lightColors } = item.options || {};
     if (!product || !Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > 99 ||
         !Array.isArray(keycaps) || keycaps.length !== product.base ||
         keycaps.some(id => !Number.isInteger(id) || id < 1 || id > 11) ||
         !['Clicky','Creamy'].includes(switchType) ||
-        (product.light && !['White','Red','Blue','Yellow','Green'].includes(lightColor))) {
+        (product.light && (lightColors !== undefined ? (!Array.isArray(lightColors) || lightColors.length !== product.base || lightColors.some(color=>!['White','Red','Blue','Yellow','Green'].includes(color))) : !['White','Red','Blue','Yellow','Green'].includes(lightColor)))) {
       throw new Error('Invalid product selection');
     }
     add('base', product.base, item.quantity);
@@ -54,7 +54,7 @@ export function validateCart(items) {
     amount += product.price * item.quantity;
     return { productId: item.productId, quantity: item.quantity,
       name: product.name, price: product.price,
-      options: { switchType, keycaps, ...(product.light ? { lightColor } : {}) } };
+      options: { switchType, keycaps, ...(product.light ? (lightColors !== undefined ? {lightColors:[...lightColors]} : {lightColor}) : {}) } };
   });
   return { lines, components: [...components.values()], amount };
 }
@@ -171,7 +171,7 @@ export async function checkout(request, env, reservationOwner = null) {
     params.set(`${prefix}[price_data][unit_amount]`,String(line.price));
     params.set(`${prefix}[price_data][product_data][name]`,line.name);
     params.set(`${prefix}[price_data][product_data][description]`,
-      line.options.clickers ? line.options.clickers.map(c => `${PRODUCTS[c.productId].name}: ${c.switchType}; Keycaps: ${c.keycaps.join(', ')}`).join(' | ') : `${line.options.switchType}; Keycaps: ${line.options.keycaps.join(', ')}${line.options.lightColor ? '; Light: '+line.options.lightColor:''}`);
+      line.options.clickers ? line.options.clickers.map(c => `${PRODUCTS[c.productId].name}: ${c.switchType}; Keycaps: ${c.keycaps.join(', ')}`).join(' | ') : `${line.options.switchType}; Keycaps: ${line.options.keycaps.join(', ')}${line.options.lightColors ? '; Lights by key: '+line.options.lightColors.map((c,i)=>`${i+1}: ${c}`).join(', ') : line.options.lightColor ? '; Light: '+line.options.lightColor:''}`);
   });
   let session;
   try {
