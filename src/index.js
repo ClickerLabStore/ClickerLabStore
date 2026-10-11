@@ -1,9 +1,12 @@
 import { protectRequest, cleanupAbuseData } from "./abuse.js";
 import { shippingRates } from "./shipping.js";
 import { inventory, checkout, webhook } from "./commerce.js";
+import { reconcileCheckouts } from "./reconciliation.js";
 
 export default {
-  async scheduled(event,env,ctx) { ctx.waitUntil(cleanupAbuseData(env)); },
+  async scheduled(event,env,ctx) {
+    ctx.waitUntil(Promise.all([cleanupAbuseData(env),reconcileCheckouts(env)]));
+  },
   async fetch(request, env) {
     const url = new URL(request.url);
 

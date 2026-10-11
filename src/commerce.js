@@ -85,12 +85,12 @@ export async function inventory(DB) {
   const [keycaps,bases,lights] = await Promise.all([read('keycaps','keycap'),read('bases','base'),read('lights','light')]);
   return { keycaps:keycaps.results, bases:bases.results,lights:lights.results };
 }
-export async function stripeRequest(env, path, params, idempotencyKey) {
+export async function stripeRequest(env, path, params, idempotencyKey, timeoutMs = 20000) {
   const headers = { Authorization: `Bearer ${env.STRIPE_SECRET_KEY}` };
   if(params) headers['Content-Type'] = 'application/x-www-form-urlencoded';
   if(idempotencyKey) headers['Idempotency-Key'] = idempotencyKey;
   const response = await fetch(`https://api.stripe.com/v1${path}`, {
-    method:params ? 'POST':'GET', headers, body:params?.toString(), signal:AbortSignal.timeout(20000)
+    method:params ? 'POST':'GET', headers, body:params?.toString(), signal:AbortSignal.timeout(timeoutMs)
   });
   const data = await response.json();
   if(!response.ok) {
