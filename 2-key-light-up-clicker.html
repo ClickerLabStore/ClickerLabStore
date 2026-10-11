@@ -288,18 +288,6 @@ type === "Clicky"
 }
 
 function openKeycapModal(index){
-function updateLightStockChoices(){
- document.querySelectorAll('.per-key-light').forEach(select=>{
-  const others=[...document.querySelectorAll('.per-key-light')].filter(s=>s!==select);
-  [...select.options].forEach(option=>{
-   const count=others.filter(s=>s.value===option.value).length;
-   const available=Math.max(0,window.ClickerInventory.availableLight(option.value)-count*quantity);
-   option.disabled=available<quantity;option.textContent=option.value+' ('+available+' available)';
-  });
- });
-}
-document.querySelectorAll('.per-key-light').forEach(s=>s.addEventListener('change',()=>{updateLightStockChoices();updateProduct();}));
-window.addEventListener('clickerlab-inventory-change',updateLightStockChoices);
 window.ClickerInventory.refresh().catch(() => {});
 
 activeSlot = index;
@@ -574,6 +562,18 @@ window.addEventListener("clickerlab-inventory-change", function(){
 updateProduct();
 if(modalOverlay.classList.contains("open")){ buildModal(); }
 });
+function updateLightStockChoices(){
+ document.querySelectorAll('.per-key-light').forEach(select=>{
+  const others=[...document.querySelectorAll('.per-key-light')].filter(s=>s!==select);
+  [...select.options].forEach(option=>{
+   const count=others.filter(s=>s.value===option.value).length;
+   const available=Math.max(0,window.ClickerInventory.availableLight(option.value)-count*quantity);
+   option.disabled=available<quantity;option.textContent=option.value+' ('+available+' available)';
+  });
+ });
+}
+document.querySelectorAll('.per-key-light').forEach(s=>s.addEventListener('change',()=>{updateLightStockChoices();updateProduct();}));
+window.addEventListener('clickerlab-inventory-change',updateLightStockChoices);
 window.ClickerInventory.refresh().catch(() => {});
 updateProduct();
 </script>
