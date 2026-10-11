@@ -84,3 +84,10 @@ test('oversized checkout is rejected before provider or reservation calls',async
  const env={STRIPE_SECRET_KEY:'fixture',STRIPE_WEBHOOK_SECRET:'fixture',STORE_URL:'https://store.test',SHIPPO_API_TOKEN:'fixture',SHIP_FROM_ADDRESS:'configured'};
  const r=await checkout(new Request('https://store.test/api/checkout',{method:'POST',headers:{Origin:'https://store.test'},body:JSON.stringify({items:[item('1-key-clicker',[1],11)]})}),env,'owner');assert.equal(r.status,400);
 });
+test('multi-key light-up products use fixed prices, correct bases and valid light colors',()=>{
+ for(const [n,price] of [[2,449],[3,699],[4,849]]){
+  const line=item(`${n}-key-light-up-clicker`,Array(n).fill(1));line.options.lightColor='Blue';
+  const result=validateCart([line]);assert.equal(result.amount,price);assert.equal(result.components.find(c=>c.kind==='base').id,n);assert.equal(result.lines[0].options.lightColor,'Blue');
+  line.options.lightColor='invalid';assert.throws(()=>validateCart([line]));
+ }
+});

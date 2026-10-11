@@ -24,6 +24,7 @@ let shippingBusy = false;
 let inventoryStock = null;
 let baseStock = null;
 const PRODUCT_BASES = {
+    "2-key-light-up-clicker": 2, "3-key-light-up-clicker": 3, "4-key-light-up-clicker": 4,
     "1-key-clicker": 1, "1-key-light-up-clicker": 1,
     "2-key-clicker": 2, "3-key-clicker": 3, "4-key-clicker": 4, "9-key-clicker": 9
 };
