@@ -69,5 +69,17 @@
  });
  quantity.addEventListener('input',update);picker.querySelector('.bundle-picker-close').addEventListener('click',()=>picker.close());picker.addEventListener('close',()=>document.querySelectorAll('.builder-slot')[active]?.focus());
  picker.addEventListener('click',e=>{if(e.target===picker){const r=picker.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)picker.close();}});
+ // Cat Beat only supplies selections; inventory, prices and cart checks stay here.
+ const preset=new URLSearchParams(window.location.search);
+ if(preset.get('from')==='cat-beat'){
+  const keys=(preset.get('keys')||'').split(',').map(Number);
+  const colors=(preset.get('lights')||'').split(','),style=preset.get('switch');
+  if(keys.length===4&&keys.every(id=>Number.isInteger(id)&&id>=1&&id<=11)&&
+    colors.length===4&&colors.every(color=>['White','Red','Blue','Yellow','Green'].includes(color))&&['Clicky','Creamy'].includes(style)){
+   size=4;keycaps=keys;switchType=style;lights=true;lightColors=colors;
+   document.querySelectorAll('[data-size],[data-switch]').forEach(b=>{const selected=b.hasAttribute('data-size')?Number(b.dataset.size)===size:b.dataset.switch===switchType;b.classList.toggle('selected',selected);b.setAttribute('aria-pressed',String(selected));});
+   showStep(4);
+  }
+ }
  window.addEventListener('clickerlab-inventory-change',update);window.ClickerInventory.refresh().catch(()=>{});
 })();
