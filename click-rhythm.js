@@ -1,4 +1,5 @@
 import {BeatRound,DIFFICULTIES,LEAD_IN} from './click-rhythm-core.js?v=2';
+import {SONGS} from './click-rhythm-songs.js?v=3';
 
 const $=id=>document.getElementById(id);
 const KEY_NAMES=['D','F','J','K'];
@@ -8,17 +9,23 @@ const STORAGE='clickerlab_click_rhythm_scores_v1';
 let switchStyle='Clicky',sound=true,round=null,state='ready',origin=0,pausedAt=0,frameId=0;
 let nextBeat=0,feedbackUntil=0,pickerLane=0,audio=null,master=null,starting=false,clickBuffer=null;
 let audioTransition=Promise.resolve();
+let previewTimer=0;
+let transportGeneration=0;
+const voices=new Set();
 const padTimers=[];
 function readBests(){
   const bests={};
   try{const saved=JSON.parse(localStorage.getItem(STORAGE));
-    for(const key of Object.keys(DIFFICULTIES)) if(Number.isInteger(saved?.[key]) && saved[key]>=0 && saved[key]<=1000000) bests[key]=saved[key];
+    for(const song of Object.keys(SONGS))for(const pace of Object.keys(DIFFICULTIES)){
+      const key=`${song}:${pace}`,value=saved?.[key] ?? (song==='pocket'?saved?.[pace]:undefined);
+      if(Number.isInteger(value) && value>=0 && value<=1000000)bests[key]=value;
+    }
   }catch{}
   return bests;
 }
 let bests=readBests();
 function setStatus(text){$('beat-status').textContent=text;}
-function updateBest(){$('beat-best').textContent=(bests[$('beat-difficulty').value] || 0).toLocaleString();}
+function updateBest(){$('beat-best').textContent=(bests[`${$('beat-song').value}:${$('beat-difficulty').value}`] || 0).toLocaleString();}
 function updateBuild(){
   const query=new URLSearchParams({from:'click-rhythm',keys:cats.join(','),switch:switchStyle});
   $('beat-build').href=`build.html?${query}`;
@@ -30,6 +37,7 @@ function updateCats(){
     const choice=document.querySelector(`[data-cat-choice="${i}"]`);
     if(choice) choice.querySelector('img').src=`keycap-${cats[i]}.png`;
   });
+  round?.notes.forEach(note=>{if(note.element)note.element.querySelector('img').src=`keycap-${cats[note.lane]}.png`;});
   updateBuild();
 }
 async function ensureAudio(){
@@ -53,8 +61,9 @@ function tone(at,frequency,length,type,gain,endFrequency){
   envelope.gain.setValueAtTime(.001,at);envelope.gain.exponentialRampToValueAtTime(gain,at+.004);
   envelope.gain.exponentialRampToValueAtTime(.001,at+length);
   oscillator.connect(envelope);envelope.connect(master);oscillator.start(at);oscillator.stop(at+length+.01);
-  oscillator.onended=()=>{oscillator.disconnect();envelope.disconnect();};
+  voices.add(oscillator);oscillator.onended=()=>{voices.delete(oscillator);oscillator.disconnect();envelope.disconnect();};
 }
+function stopVoices(){for(const voice of voices){try{voice.stop();}catch{}}voices.clear();}
 function clickSound(lane){
   if(!audio || audio.state!=='running' || !sound)return;
   const at=audio.currentTime;
@@ -63,29 +72,34 @@ function clickSound(lane){
     clickBuffer=audio.createBuffer(1,Math.ceil(audio.sampleRate*.09),audio.sampleRate);
     const samples=clickBuffer.getChannelData(0);for(let i=0;i<samples.length;i++)samples[i]=Math.random()*2-1;
   }
-  const source=audio.createBufferSource(),filter=audio.createBiquadFilter(),gain=audio.createGain();
-  const clicky=switchStyle==='Clicky',length=clicky?.045:.07;
-  source.buffer=clickBuffer;filter.type=clicky?'highpass':'lowpass';filter.frequency.value=clicky?1800:650;filter.Q.value=.7;
-  gain.gain.setValueAtTime(clicky?.36:.65,at);gain.gain.exponentialRampToValueAtTime(.001,at+length);
-  source.connect(filter);filter.connect(gain);gain.connect(master);source.start(at);source.stop(at+length);
-  source.onended=()=>{source.disconnect();filter.disconnect();gain.disconnect();};
-  tone(at,clicky?720:165,.022,'triangle',clicky?.1:.24,clicky?250:65);
+  const clicky=switchStyle==='Clicky';
+  function transient(offset,length,frequency,volume){
+    const source=audio.createBufferSource(),filter=audio.createBiquadFilter(),gain=audio.createGain(),start=at+offset;
+    source.buffer=clickBuffer;filter.type=clicky?'highpass':'lowpass';filter.frequency.value=frequency;filter.Q.value=.55;
+    gain.gain.setValueAtTime(.001,start);gain.gain.exponentialRampToValueAtTime(volume,start+.001);
+    gain.gain.exponentialRampToValueAtTime(.001,start+length);
+    source.connect(filter);filter.connect(gain);gain.connect(master);source.start(start);source.stop(start+length);
+    voices.add(source);source.onended=()=>{voices.delete(source);source.disconnect();filter.disconnect();gain.disconnect();};
+  }
+  if(clicky){transient(0,.018,2400,.24);transient(.028,.023,1500,.14);tone(at,450,.035,'triangle',.12,130);}
+  else {transient(0,.045,420,.55);transient(.032,.04,300,.2);tone(at,125,.065,'sine',.36,55);tone(at,245,.03,'triangle',.1,90);}
 }
-// Original eight-bar hook: a repeating call/response over Am–F–C–G.
-const HOOK=[659.25,0,659.25,783.99,880,0,783.99,659.25,523.25,0,587.33,659.25,0,587.33,523.25,0];
-const BASS=[110,110,87.31,87.31,130.81,130.81,98,98];
+async function previewClick(lane=0){
+  clearTimeout(previewTimer);await ensureAudio();clickSound(lane);
+  if(state!=='playing')previewTimer=setTimeout(()=>{if(state!=='playing' && !starting){stopVoices();if(audio?.state==='running')audioTransition=audio.suspend().catch(()=>{});}},120);
+}
 function music(elapsed){
   while(nextBeat<64 && LEAD_IN+nextBeat*round.beat/2<=elapsed+100){
     const index=nextBeat++,time=LEAD_IN+index*round.beat/2;
     if(!audio || !sound || time<elapsed-100)continue;
     const at=audio.currentTime+Math.max(0,(time-elapsed)/1000);
-    const beat=Math.floor(index/2),bar=Math.floor(beat/4),bass=BASS[bar];
+    const song=SONGS[round.song],beat=Math.floor(index/2),bar=Math.floor(beat/4),bass=song.bass[bar];
     if(index%2===0){
       tone(at,beat%2===0?115:220,.1,'triangle',.32,beat%2===0?42:90);
       tone(at,bass,.16,'triangle',.24);
     }else if(beat%4===3)tone(at,bass*2,.1,'triangle',.13);
     tone(at,3500,.022,'triangle',.025);
-    const pitch=HOOK[index%16];
+    const pitch=song.hook[index%song.hook.length];
     if(pitch){tone(at,pitch,.12,'triangle',.11);tone(at,pitch*2,.08,'sine',.035);}
   }
 }
@@ -124,14 +138,17 @@ function animate(){
 }
 async function start(){
   if(starting || state==='playing')return;
+  const generation=++transportGeneration;
   starting=true;$('beat-start').disabled=true;$('beat-again').disabled=true;$('beat-restart').disabled=true;
   try{
     await ensureAudio();
+    if(generation!==transportGeneration)return;
+    clearTimeout(previewTimer);stopVoices();
     const seed=window.crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967296);
-    round=new BeatRound($('beat-difficulty').value,seed);nextBeat=0;feedbackUntil=0;
+    round=new BeatRound($('beat-difficulty').value,seed);round.song=$('beat-song').value;nextBeat=0;feedbackUntil=0;
     lanes.forEach(lane=>lane.replaceChildren());
     round.notes.forEach(note=>{const element=document.createElement('span');element.className='beat-note';const image=document.createElement('img');image.src=`keycap-${cats[note.lane]}.png`;image.alt='';element.appendChild(image);element.hidden=true;lanes[note.lane].appendChild(element);note.element=element;});
-    $('beat-settings').disabled=true;$('beat-results').hidden=true;$('beat-start').hidden=true;
+    $('beat-results').hidden=true;$('beat-start').hidden=true;
     $('beat-pause').hidden=false;$('beat-restart').hidden=false;$('beat-pause').textContent='Pause';
     $('beat-feedback').textContent='';state='playing';origin=performance.now();updateHUD();
     $('game-title').scrollIntoView({block:'start',behavior:'auto'});
@@ -142,14 +159,16 @@ async function start(){
 function pause(){
   if(state!=='playing')return;
   pausedAt=performance.now()-origin;state='paused';cancelAnimationFrame(frameId);
+  clearTimeout(previewTimer);stopVoices();
   if(audio?.state==='running')audioTransition=audio.suspend().catch(()=>{});
   $('beat-pause').textContent='Resume';showOverlay('Take a breather','Your round is paused. Resume when you’re ready.','Ⅱ');
   $('beat-feedback').textContent='';setStatus('Paused. Your score and keycaps are saved until you resume.');
 }
 async function resume(){
   if(state!=='paused' || starting)return;
+  const generation=transportGeneration;
   starting=true;
-  try{await ensureAudio();origin=performance.now()-pausedAt;state='playing';$('beat-pause').textContent='Pause';setStatus('Round resumed.');animate();if(document.hidden)pause();}
+  try{await ensureAudio();if(generation!==transportGeneration)return;clearTimeout(previewTimer);stopVoices();nextBeat=Math.max(0,Math.ceil((pausedAt-LEAD_IN)/(round.beat/2)));origin=performance.now()-pausedAt;state='playing';$('beat-pause').textContent='Pause';setStatus('Round resumed.');animate();if(document.hidden)pause();}
   finally{starting=false;}
 }
 function finish(){
@@ -157,9 +176,9 @@ function finish(){
   if(audio?.state==='running')audioTransition=audio.suspend().catch(()=>{});
   $('beat-settings').disabled=false;$('beat-start').hidden=false;$('beat-start').textContent='Play again';
   $('beat-pause').hidden=true;$('beat-restart').hidden=true;$('beat-feedback').textContent='';
-  const result=round.results(),difficulty=round.difficulty;
-  bests=readBests();const personalBest=result.score>(bests[difficulty] || 0);
-  if(personalBest){bests[difficulty]=result.score;try{localStorage.setItem(STORAGE,JSON.stringify(bests));}catch{}}
+  const result=round.results(),key=`${round.song}:${round.difficulty}`;
+  bests=readBests();const personalBest=result.score>(bests[key] || 0);
+  if(personalBest){bests[key]=result.score;try{localStorage.setItem(STORAGE,JSON.stringify(bests));}catch{}}
   updateBest();showOverlay('That’s a wrap!',`${result.score.toLocaleString()} points · ${result.accuracy}% accuracy`,'✦');
   $('beat-result-badge').textContent=personalBest?'New personal best':'Round complete';
   $('beat-results-title').textContent=result.grade==='Keep grooving'?'Keep grooving!':`Grade ${result.grade} · Nice rhythm!`;
@@ -174,7 +193,7 @@ function tap(lane){
   if(state==='playing'){
     clickSound(lane);const result=round.hit(lane,performance.now()-origin);
     if(result){feedback({perfect:'Perfect!',great:'Great!',good:'Good!',stray:'Wait for the keycap'}[result.judgment],result.judgment);updateHUD();}
-  }else ensureAudio().then(()=>clickSound(lane));
+  }else previewClick(lane);
 }
 pads.forEach((pad,i)=>{
   pad.addEventListener('pointerdown',event=>{if(event.pointerType==='mouse' && event.button!==0)return;event.preventDefault();tap(i);});
@@ -197,16 +216,30 @@ $('beat-sound').addEventListener('click',async()=>{
   if(sound && state!=='paused')await ensureAudio();setVolume();
 });
 $('beat-volume').addEventListener('input',setVolume);
-$('beat-difficulty').addEventListener('change',updateBest);
+function resetForSettings(){
+  transportGeneration++;pause();clearTimeout(previewTimer);stopVoices();
+  if(audio?.state==='running')audioTransition=audio.suspend().catch(()=>{});
+  state='ready';round=null;cancelAnimationFrame(frameId);$('beat-feedback').textContent='';
+  $('beat-settings').disabled=false;lanes.forEach(lane=>lane.replaceChildren());
+  $('beat-score').textContent='0';$('beat-combo').textContent='0';$('beat-progress-fill').style.width='0';
+  document.querySelector('.beat-progress').setAttribute('aria-valuenow','0');
+  $('beat-results').hidden=true;$('beat-start').hidden=false;$('beat-start').textContent='Let’s play';
+  $('beat-pause').hidden=true;$('beat-restart').hidden=true;
+  $('game-title').textContent=SONGS[$('beat-song').value].name;$('beat-song-credit').textContent=SONGS[$('beat-song').value].credit;
+  updateBest();showOverlay('Ready to catch?', 'Click when a falling keycap overlaps its matching key.');
+  setStatus('Song or pace changed. Start a fresh round when you’re ready.');
+}
+$('beat-difficulty').addEventListener('change',resetForSettings);
+$('beat-song').addEventListener('change',resetForSettings);
 document.querySelectorAll('[data-switch-style]').forEach(button=>button.addEventListener('click',()=>{
   switchStyle=button.dataset.switchStyle;document.querySelectorAll('[data-switch-style]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
-  updateBuild();ensureAudio().then(()=>clickSound(0));
+  updateBuild();previewClick();setStatus(`${switchStyle} selected.${!sound?' Sound is off; turn it on to hear a sample.':Number($('beat-volume').value)===0?' Volume is zero; raise it to hear a sample.':' Tap a key to try it.'}`);
 }));
 for(let i=0;i<4;i++){
   const container=document.createElement('div');container.className='beat-custom-key';
   const button=document.createElement('button');button.type='button';button.className='beat-cat-choice';button.dataset.catChoice=i;button.setAttribute('aria-label',`Choose keycap for key ${KEY_NAMES[i]}`);
   const img=document.createElement('img');img.alt='';const name=document.createElement('span');name.textContent=KEY_NAMES[i];button.append(img,name);
-  button.addEventListener('click',()=>{pickerLane=i;$('beat-picker-title').textContent=`Choose a keycap for ${KEY_NAMES[i]}`;
+  button.addEventListener('click',()=>{pause();pickerLane=i;$('beat-picker-title').textContent=`Choose a keycap for ${KEY_NAMES[i]}`;
     document.querySelectorAll('[data-picker-cat]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.pickerCat)===cats[i])));$('beat-picker').showModal();});
   container.appendChild(button);$('beat-customize').appendChild(container);
 }
@@ -220,7 +253,7 @@ $('beat-picker').addEventListener('close',()=>document.querySelector(`[data-cat-
 $('beat-picker').addEventListener('click',event=>{if(event.target===$('beat-picker')){const r=$('beat-picker').getBoundingClientRect();if(event.clientX<r.left || event.clientX>r.right || event.clientY<r.top || event.clientY>r.bottom)$('beat-picker').close();}});
 $('beat-share').addEventListener('click',async()=>{
   const result=round?.results();if(!result)return;
-  const text=`I scored ${result.score.toLocaleString()} on Click Rhythm (${DIFFICULTIES[round.difficulty].name})! ${result.accuracy}% accuracy, ${result.bestCombo} combo. Play: https://clickerlabstore.com/click-rhythm.html`;
+  const text=`I scored ${result.score.toLocaleString()} on Click Rhythm (${SONGS[round.song].name}, ${DIFFICULTIES[round.difficulty].name})! ${result.accuracy}% accuracy, ${result.bestCombo} combo. Play: https://clickerlabstore.com/click-rhythm.html`;
   try{await navigator.clipboard.writeText(text);$('beat-share').textContent='Copied!';setStatus('Score copied. Share it with a friend!');}
   catch{setStatus(text);}
 });

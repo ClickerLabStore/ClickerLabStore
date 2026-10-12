@@ -19,3 +19,5 @@
 @media(prefers-reduced-motion:reduce){.beat-pad{transition:none}.beat-note{will-change:auto}}
 
 .beat-custom-options{margin:0 0 18px;border-top:1px solid #eee2d5;padding-top:13px}.beat-custom-options summary{cursor:pointer;font-size:13px;font-weight:800;color:#685361}.beat-custom-options .beat-customize{grid-template-columns:repeat(4,minmax(0,1fr));margin:12px 0 0;gap:6px}.beat-custom-options .beat-cat-choice{height:65px}.beat-custom-options .beat-cat-choice img{height:48px}.beat-custom-options .beat-cat-choice span{font-size:10px;right:4px}.beat-custom-key label,.beat-custom-key select{display:none}
+
+#beat-song-credit{margin:-8px 0 17px}

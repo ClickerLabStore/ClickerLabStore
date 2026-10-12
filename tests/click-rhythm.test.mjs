@@ -1,6 +1,18 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {BeatRound,createChart,DIFFICULTIES,HIT_WINDOW,LEAD_IN} from '../click-rhythm-core.js';
+import {SONGS} from '../click-rhythm-songs.js';
+
+test('song arrangements have usable pitches, distinct hooks, and a complete backing progression',()=>{
+  assert.equal(Object.keys(SONGS).length,3);
+  for(const song of Object.values(SONGS)){
+    assert.ok(song.name && song.credit);assert.equal(song.bass.length,8);
+    assert.ok(song.hook.length>=16 && song.hook.length<=64);
+    assert.ok(song.hook.every(pitch=>Number.isFinite(pitch) && pitch>=0));
+    assert.ok(song.bass.every(pitch=>Number.isFinite(pitch) && pitch>0));
+  }
+  assert.notDeepEqual(SONGS.joy.hook,SONGS.elise.hook);
+});
 
 test('charts are reproducible, fit four keys, and grow in difficulty',()=>{
   let previousCount=0;
