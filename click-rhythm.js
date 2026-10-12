@@ -12,6 +12,11 @@ let audioTransition=Promise.resolve();
 let previewTimer=0;
 let transportGeneration=0;
 const voices=new Set();
+let recordings={},recordingContext=null,recordingDecode=null;
+// Preload short clicks from the owner's videos; no third-party player.
+const recordingData=Object.fromEntries(['Clicky','Creamy'].map(style=>[style,
+  fetch(`${style.toLowerCase()}-click.wav?v=4`,{signal:AbortSignal.timeout(3000)})
+    .then(response=>response.ok?response.arrayBuffer():null).catch(()=>null)]));
 const padTimers=[];
 function readBests(){
   const bests={};
@@ -46,10 +51,21 @@ async function ensureAudio(){
     if(!audio){
       const Audio=window.AudioContext || window.webkitAudioContext;
       if(!Audio)return;
-      audio=new Audio();master=audio.createGain();master.connect(audio.destination);setVolume();
+      audio=new Audio();master=audio.createGain();
+      const limiter=audio.createDynamicsCompressor();limiter.threshold.value=-6;limiter.knee.value=3;
+      limiter.ratio.value=12;limiter.attack.value=.001;limiter.release.value=.08;
+      master.connect(limiter);limiter.connect(audio.destination);setVolume();
     }
     await audioTransition;
     if(audio.state==='suspended')await audio.resume();
+    if(recordingContext!==audio){
+      recordingContext=audio;const context=audio;
+      recordings={};
+      recordingDecode=Promise.all(Object.entries(recordingData).map(([style,dataPromise])=>
+        dataPromise.then(data=>data?context.decodeAudioData(data.slice(0)):null)
+          .then(buffer=>{if(audio===context && buffer)recordings[style]=buffer;}).catch(()=>{})));
+    }
+    await recordingDecode;
   }catch{const failed=audio;audio=null;master=null;clickBuffer=null;failed?.close().catch(()=>{});}
 }
 function setVolume(){if(master)master.gain.setValueAtTime(sound?Number($('beat-volume').value)/100:0,audio.currentTime);}
@@ -67,6 +83,13 @@ function stopVoices(){for(const voice of voices){try{voice.stop();}catch{}}voice
 function clickSound(lane){
   if(!audio || audio.state!=='running' || !sound)return;
   const at=audio.currentTime;
+  if(recordings[switchStyle]){
+    const source=audio.createBufferSource(),gain=audio.createGain();
+    source.buffer=recordings[switchStyle];gain.gain.value=.7;
+    source.connect(gain);gain.connect(master);voices.add(source);source.start(at);
+    source.onended=()=>{voices.delete(source);source.disconnect();gain.disconnect();};
+    return;
+  }
   // Short filtered noise transients resemble a switch click, rather than a beep.
   if(!clickBuffer){
     clickBuffer=audio.createBuffer(1,Math.ceil(audio.sampleRate*.09),audio.sampleRate);
@@ -86,7 +109,7 @@ function clickSound(lane){
 }
 async function previewClick(lane=0){
   clearTimeout(previewTimer);await ensureAudio();clickSound(lane);
-  if(state!=='playing')previewTimer=setTimeout(()=>{if(state!=='playing' && !starting){stopVoices();if(audio?.state==='running')audioTransition=audio.suspend().catch(()=>{});}},120);
+  if(state!=='playing')previewTimer=setTimeout(()=>{if(state!=='playing' && !starting){stopVoices();if(audio?.state==='running')audioTransition=audio.suspend().catch(()=>{});}},220);
 }
 function music(elapsed){
   while(nextBeat<64 && LEAD_IN+nextBeat*round.beat/2<=elapsed+100){
