@@ -4,7 +4,7 @@ All nine clicker detail pages and all five bundle detail variants use the shared
 
 Photo 2 shows a camera placeholder and “Photo 2 coming soon” until an actual second photo is available. Its filename is the existing main image filename with `-2.png` in place of the extension, for example `4-key-clicker-2.png`, `1-key-light-up-clicker-2.png`, or `trio-lab-2.png`. The ClickerLab Pack uses `clicker-lab-pack-2.png`, matching its main image filename. Uploading that image to the repository's root replaces the placeholder after publication and reload. A custom path can be supplied with `data-gallery-second` on the photo container.
 
-The second image is requested only when that thumbnail is selected. A missing or failed second photo keeps the placeholder visible and does not affect purchases. Main photo fallback behavior remains in place.
+Placeholder slots request the second image when that thumbnail is selected. A known uploaded photo with `data-gallery-second` preloads its thumbnail. The 1-key light-up clicker now uses the owner-uploaded `1-key-light-up-clicker-2.png`, preserved from the ZIP without changing its pixels. A missing or failed second photo keeps the placeholder visible and does not affect purchases. Main photo fallback behavior remains in place.
 
 Browser verification uses mocked inventory and second photos, with no payment/shipping calls. Serve the checkout locally, then run:
 

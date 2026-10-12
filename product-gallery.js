@@ -43,5 +43,7 @@
   });
   // Do not hide the existing image while it is still loading.
   firstButton.setAttribute('aria-pressed','true');secondButton.setAttribute('aria-pressed','false');count.textContent='1 / 2';
+  // Known uploaded photos get a real thumbnail immediately; empty slots stay lazy.
+  if(photo.dataset.gallerySecond){attempted=true;second.src=secondary;}
  });
 })();
