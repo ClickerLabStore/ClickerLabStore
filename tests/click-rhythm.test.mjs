@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {BeatRound,createChart,DIFFICULTIES,HIT_WINDOW,LEAD_IN} from '../cat-beat-core.js';
+import {BeatRound,createChart,DIFFICULTIES,HIT_WINDOW,LEAD_IN} from '../click-rhythm-core.js';
 
 test('charts are reproducible, fit four keys, and grow in difficulty',()=>{
   let previousCount=0;

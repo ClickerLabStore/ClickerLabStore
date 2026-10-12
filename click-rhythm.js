@@ -1,13 +1,12 @@
-import {BeatRound,DIFFICULTIES,LEAD_IN} from './cat-beat-core.js';
+import {BeatRound,DIFFICULTIES,LEAD_IN} from './click-rhythm-core.js?v=2';
 
 const $=id=>document.getElementById(id);
-const COLORS={White:'#eee4dd',Red:'#f2b2a5',Blue:'#bcd9ed',Yellow:'#f1dc9c',Green:'#bfdcc1'};
 const KEY_NAMES=['D','F','J','K'];
 const pads=[...document.querySelectorAll('[data-pad]')],lanes=[...document.querySelectorAll('.beat-lane')];
-const cats=[8,9,1,4],colors=['White','Red','Blue','Yellow'];
-const STORAGE='clickerlab_cat_beat_scores_v1';
+const cats=[8,9,1,4];
+const STORAGE='clickerlab_click_rhythm_scores_v1';
 let switchStyle='Clicky',sound=true,round=null,state='ready',origin=0,pausedAt=0,frameId=0;
-let nextBeat=0,feedbackUntil=0,pickerLane=0,audio=null,master=null,starting=false;
+let nextBeat=0,feedbackUntil=0,pickerLane=0,audio=null,master=null,starting=false,clickBuffer=null;
 let audioTransition=Promise.resolve();
 const padTimers=[];
 function readBests(){
@@ -21,14 +20,13 @@ let bests=readBests();
 function setStatus(text){$('beat-status').textContent=text;}
 function updateBest(){$('beat-best').textContent=(bests[$('beat-difficulty').value] || 0).toLocaleString();}
 function updateBuild(){
-  const query=new URLSearchParams({from:'cat-beat',keys:cats.join(','),switch:switchStyle,lights:colors.join(',')});
+  const query=new URLSearchParams({from:'click-rhythm',keys:cats.join(','),switch:switchStyle});
   $('beat-build').href=`build.html?${query}`;
   $('beat-result-build').href=`build.html?${query}`;
 }
 function updateCats(){
   pads.forEach((pad,i)=>{
     pad.querySelector('img').src=`keycap-${cats[i]}.png`;
-    pad.style.setProperty('--glow',COLORS[colors[i]]);lanes[i].style.setProperty('--glow',COLORS[colors[i]]);
     const choice=document.querySelector(`[data-cat-choice="${i}"]`);
     if(choice) choice.querySelector('img').src=`keycap-${cats[i]}.png`;
   });
@@ -44,7 +42,7 @@ async function ensureAudio(){
     }
     await audioTransition;
     if(audio.state==='suspended')await audio.resume();
-  }catch{const failed=audio;audio=null;master=null;failed?.close().catch(()=>{});}
+  }catch{const failed=audio;audio=null;master=null;clickBuffer=null;failed?.close().catch(()=>{});}
 }
 function setVolume(){if(master)master.gain.setValueAtTime(sound?Number($('beat-volume').value)/100:0,audio.currentTime);}
 function tone(at,frequency,length,type,gain,endFrequency){
@@ -58,20 +56,37 @@ function tone(at,frequency,length,type,gain,endFrequency){
   oscillator.onended=()=>{oscillator.disconnect();envelope.disconnect();};
 }
 function clickSound(lane){
-  if(!audio || audio.state!=='running')return;
+  if(!audio || audio.state!=='running' || !sound)return;
   const at=audio.currentTime;
-  if(switchStyle==='Clicky')tone(at,1500+lane*200,.045,'square',.07,550);
-  else tone(at,320+lane*45,.07,'triangle',.25,100);
+  // Short filtered noise transients resemble a switch click, rather than a beep.
+  if(!clickBuffer){
+    clickBuffer=audio.createBuffer(1,Math.ceil(audio.sampleRate*.09),audio.sampleRate);
+    const samples=clickBuffer.getChannelData(0);for(let i=0;i<samples.length;i++)samples[i]=Math.random()*2-1;
+  }
+  const source=audio.createBufferSource(),filter=audio.createBiquadFilter(),gain=audio.createGain();
+  const clicky=switchStyle==='Clicky',length=clicky?.045:.07;
+  source.buffer=clickBuffer;filter.type=clicky?'highpass':'lowpass';filter.frequency.value=clicky?1800:650;filter.Q.value=.7;
+  gain.gain.setValueAtTime(clicky?.36:.65,at);gain.gain.exponentialRampToValueAtTime(.001,at+length);
+  source.connect(filter);filter.connect(gain);gain.connect(master);source.start(at);source.stop(at+length);
+  source.onended=()=>{source.disconnect();filter.disconnect();gain.disconnect();};
+  tone(at,clicky?720:165,.022,'triangle',clicky?.1:.24,clicky?250:65);
 }
-const MELODY=[440,523.25,659.25,523.25,392,523.25,587.33,523.25,440,659.25,783.99,659.25,392,587.33,523.25,392];
+// Original eight-bar hook: a repeating call/response over Am–F–C–G.
+const HOOK=[659.25,0,659.25,783.99,880,0,783.99,659.25,523.25,0,587.33,659.25,0,587.33,523.25,0];
+const BASS=[110,110,87.31,87.31,130.81,130.81,98,98];
 function music(elapsed){
-  while(nextBeat<32 && LEAD_IN+nextBeat*round.beat<=elapsed+100){
-    const index=nextBeat++,time=LEAD_IN+index*round.beat;
+  while(nextBeat<64 && LEAD_IN+nextBeat*round.beat/2<=elapsed+100){
+    const index=nextBeat++,time=LEAD_IN+index*round.beat/2;
     if(!audio || !sound || time<elapsed-100)continue;
     const at=audio.currentTime+Math.max(0,(time-elapsed)/1000);
-    tone(at,index%2===0?110:185,.12,'triangle',.3,index%2===0?40:80);
-    tone(at,MELODY[index%16],.18,'sine',.12);
-    tone(at+round.beat/2000,2200,.025,'triangle',.035);
+    const beat=Math.floor(index/2),bar=Math.floor(beat/4),bass=BASS[bar];
+    if(index%2===0){
+      tone(at,beat%2===0?115:220,.1,'triangle',.32,beat%2===0?42:90);
+      tone(at,bass,.16,'triangle',.24);
+    }else if(beat%4===3)tone(at,bass*2,.1,'triangle',.13);
+    tone(at,3500,.022,'triangle',.025);
+    const pitch=HOOK[index%16];
+    if(pitch){tone(at,pitch,.12,'triangle',.11);tone(at,pitch*2,.08,'sine',.035);}
   }
 }
 function showOverlay(title,copy,icon='♫'){
@@ -85,11 +100,12 @@ function updateHUD(){
   $('beat-score').textContent=round.score.toLocaleString();$('beat-combo').textContent=round.combo;
 }
 function draw(elapsed){
-  const approach=1800,hitY=$('beat-stage').clientHeight-32;
+  const stage=$('beat-stage').getBoundingClientRect(),target=pads[0].querySelector('img').getBoundingClientRect();
+  const approach=1800,hitY=target.top-stage.top+target.height/2;
   round.notes.forEach(note=>{
     const until=note.time-elapsed;
     note.element.hidden=Boolean(note.judgment) || until>approach;
-    if(!note.element.hidden)note.element.style.transform=`translateY(${hitY-until/approach*hitY-14}px)`;
+    if(!note.element.hidden){const height=note.element.offsetHeight;note.element.style.transform=`translateY(${hitY-until/approach*(hitY+height)-height/2}px)`;}
   });
   const progress=Math.min(100,Math.max(0,(elapsed-LEAD_IN)/(round.duration-LEAD_IN)*100));
   $('beat-progress-fill').style.width=`${progress}%`;
@@ -114,12 +130,12 @@ async function start(){
     const seed=window.crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967296);
     round=new BeatRound($('beat-difficulty').value,seed);nextBeat=0;feedbackUntil=0;
     lanes.forEach(lane=>lane.replaceChildren());
-    round.notes.forEach(note=>{const element=document.createElement('span');element.className='beat-note';element.textContent='♪';element.hidden=true;lanes[note.lane].appendChild(element);note.element=element;});
+    round.notes.forEach(note=>{const element=document.createElement('span');element.className='beat-note';const image=document.createElement('img');image.src=`keycap-${cats[note.lane]}.png`;image.alt='';element.appendChild(image);element.hidden=true;lanes[note.lane].appendChild(element);note.element=element;});
     $('beat-settings').disabled=true;$('beat-results').hidden=true;$('beat-start').hidden=true;
     $('beat-pause').hidden=false;$('beat-restart').hidden=false;$('beat-pause').textContent='Pause';
     $('beat-feedback').textContent='';state='playing';origin=performance.now();updateHUD();
     $('game-title').scrollIntoView({block:'start',behavior:'auto'});
-    setStatus(sound && !audio?'Audio is unavailable. You can still play visually: tap as notes reach the line.':'Round started. Tap D, F, J, K or the cat pads when notes reach the line.');animate();
+    setStatus(sound && !audio?'Audio is unavailable. You can still play visually: catch the falling keycaps.':'Catch each falling keycap on its matching key. Use D, F, J, K or touch.');animate();
     if(document.hidden)pause();
   }finally{starting=false;$('beat-start').disabled=false;$('beat-again').disabled=false;$('beat-restart').disabled=false;}
 }
@@ -128,7 +144,7 @@ function pause(){
   pausedAt=performance.now()-origin;state='paused';cancelAnimationFrame(frameId);
   if(audio?.state==='running')audioTransition=audio.suspend().catch(()=>{});
   $('beat-pause').textContent='Resume';showOverlay('Take a breather','Your round is paused. Resume when you’re ready.','Ⅱ');
-  $('beat-feedback').textContent='';setStatus('Paused. Your score and notes are saved until you resume.');
+  $('beat-feedback').textContent='';setStatus('Paused. Your score and keycaps are saved until you resume.');
 }
 async function resume(){
   if(state!=='paused' || starting)return;
@@ -147,7 +163,7 @@ function finish(){
   updateBest();showOverlay('That’s a wrap!',`${result.score.toLocaleString()} points · ${result.accuracy}% accuracy`,'✦');
   $('beat-result-badge').textContent=personalBest?'New personal best':'Round complete';
   $('beat-results-title').textContent=result.grade==='Keep grooving'?'Keep grooving!':`Grade ${result.grade} · Nice rhythm!`;
-  $('beat-result-summary').textContent=`${result.score.toLocaleString()} points · ${result.accuracy}% accuracy · Best combo ${result.bestCombo} · ${result.hits}/${result.notes} notes hit`;
+  $('beat-result-summary').textContent=`${result.score.toLocaleString()} points · ${result.accuracy}% accuracy · Best combo ${result.bestCombo} · ${result.hits}/${result.notes} keycaps caught`;
   $('beat-results').hidden=false;$('beat-share').textContent='Copy my score';
   setStatus(`Round complete. ${result.score} points, ${result.accuracy}% accuracy. Play again or build your clicker.`);
   $('beat-results-title').focus();
@@ -157,7 +173,7 @@ function tap(lane){
   if(state==='paused')return;
   if(state==='playing'){
     clickSound(lane);const result=round.hit(lane,performance.now()-origin);
-    if(result){feedback({perfect:'Purrfect!',great:'Great!',good:'Good!',stray:'Follow the beat'}[result.judgment],result.judgment);updateHUD();}
+    if(result){feedback({perfect:'Perfect!',great:'Great!',good:'Good!',stray:'Wait for the keycap'}[result.judgment],result.judgment);updateHUD();}
   }else ensureAudio().then(()=>clickSound(lane));
 }
 pads.forEach((pad,i)=>{
@@ -190,11 +206,9 @@ for(let i=0;i<4;i++){
   const container=document.createElement('div');container.className='beat-custom-key';
   const button=document.createElement('button');button.type='button';button.className='beat-cat-choice';button.dataset.catChoice=i;button.setAttribute('aria-label',`Choose keycap for key ${KEY_NAMES[i]}`);
   const img=document.createElement('img');img.alt='';const name=document.createElement('span');name.textContent=KEY_NAMES[i];button.append(img,name);
-  button.addEventListener('click',()=>{pickerLane=i;$('beat-picker-title').textContent=`Choose a cat for ${KEY_NAMES[i]}`;
+  button.addEventListener('click',()=>{pickerLane=i;$('beat-picker-title').textContent=`Choose a keycap for ${KEY_NAMES[i]}`;
     document.querySelectorAll('[data-picker-cat]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.pickerCat)===cats[i])));$('beat-picker').showModal();});
-  const label=document.createElement('label');label.textContent=`${KEY_NAMES[i]} light`;const select=document.createElement('select');select.setAttribute('aria-label',`Light color for key ${KEY_NAMES[i]}`);
-  for(const color of Object.keys(COLORS)){const option=new Option(color,color);option.selected=colors[i]===color;select.add(option);}
-  select.addEventListener('change',()=>{colors[i]=select.value;updateCats();});label.appendChild(select);container.append(button,label);$('beat-customize').appendChild(container);
+  container.appendChild(button);$('beat-customize').appendChild(container);
 }
 for(let id=1;id<=11;id++){
   const button=document.createElement('button');button.type='button';button.dataset.pickerCat=id;
@@ -206,7 +220,7 @@ $('beat-picker').addEventListener('close',()=>document.querySelector(`[data-cat-
 $('beat-picker').addEventListener('click',event=>{if(event.target===$('beat-picker')){const r=$('beat-picker').getBoundingClientRect();if(event.clientX<r.left || event.clientX>r.right || event.clientY<r.top || event.clientY>r.bottom)$('beat-picker').close();}});
 $('beat-share').addEventListener('click',async()=>{
   const result=round?.results();if(!result)return;
-  const text=`I scored ${result.score.toLocaleString()} on Cat Beat (${DIFFICULTIES[round.difficulty].name})! ${result.accuracy}% accuracy, ${result.bestCombo} combo. Play: https://clickerlabstore.com/cat-beat.html`;
+  const text=`I scored ${result.score.toLocaleString()} on Click Rhythm (${DIFFICULTIES[round.difficulty].name})! ${result.accuracy}% accuracy, ${result.bestCombo} combo. Play: https://clickerlabstore.com/click-rhythm.html`;
   try{await navigator.clipboard.writeText(text);$('beat-share').textContent='Copied!';setStatus('Score copied. Share it with a friend!');}
   catch{setStatus(text);}
 });
