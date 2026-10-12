@@ -33,7 +33,10 @@ Review and approve merge/deployment before publishing. This feature changes stat
 
 ## Switch recording sources
 
-- `creamy-click.wav`: 170 ms from 24.790–24.960 seconds of the owner-uploaded `download.mp4`, labeled Creamy. Mono 44.1 kHz / 16-bit PCM; gentle high/low-pass filtering, edge fades, peak normalized to 0.75.
-- `clicky-click.wav`: 120 ms from 24.683–24.803 seconds of owner-uploaded `Download (1).mp4`, within the labeled Clicky fidget section. Same PCM format, high-pass filtering to reduce the surrounding low-frequency background, edge fades, peak normalized to 0.75.
+- Both samples now come from the owner’s replacement upload `copy_59A39A96-0874-4CB8-9FDB-DBCC90D4ABDB (1).MOV`; the earlier MP4 excerpts were replaced.
+- `creamy-click.wav`: 170 ms from 17.713–17.883 seconds in the labeled Creamy fidget section.
+- `clicky-click.wav`: 120 ms from 23.102–23.222 seconds in the labeled Clicky fidget section.
+- Mono 44.1 kHz / 16-bit PCM with gentle 70 Hz high-pass and 12 kHz low-pass filtering, edge fades, and peak normalization to 0.75. This replacement retains more of the recorded click body than the earlier Clicky sample’s stronger high-pass filter. Audio URLs are versioned to refresh cached samples.
+
 
 Only isolated sound effects are shipped, about 26 KB total. The full videos remain outside the repository. Browser verification inspects decoded buffer duration to confirm the correct recording is played for each style, and also checks the synthesized fallback when both audio assets are unavailable.

@@ -15,7 +15,7 @@ const voices=new Set();
 let recordings={},recordingContext=null,recordingDecode=null;
 // Preload short clicks from the owner's videos; no third-party player.
 const recordingData=Object.fromEntries(['Clicky','Creamy'].map(style=>[style,
-  fetch(`${style.toLowerCase()}-click.wav?v=4`,{signal:AbortSignal.timeout(3000)})
+  fetch(`${style.toLowerCase()}-click.wav?v=5`,{signal:AbortSignal.timeout(3000)})
     .then(response=>response.ok?response.arrayBuffer():null).catch(()=>null)]));
 const padTimers=[];
 function readBests(){
