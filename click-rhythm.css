@@ -21,19 +21,3 @@
 .beat-custom-options{margin:0 0 18px;border-top:1px solid #eee2d5;padding-top:13px}.beat-custom-options summary{cursor:pointer;font-size:13px;font-weight:800;color:#685361}.beat-custom-options .beat-customize{grid-template-columns:repeat(4,minmax(0,1fr));margin:12px 0 0;gap:6px}.beat-custom-options .beat-cat-choice{height:65px}.beat-custom-options .beat-cat-choice img{height:48px}.beat-custom-options .beat-cat-choice span{font-size:10px;right:4px}.beat-custom-key label,.beat-custom-key select{display:none}
 
 #beat-song-credit{margin:-8px 0 17px}
-
-/* A single connected clicker body, with four independently pressable switches. */
-.beat-tracks{position:absolute;left:50%;width:min(100%,440px);transform:translateX(-50%)}
-.beat-pads{bottom:8px;left:50%;right:auto;width:min(100%,440px);transform:translateX(-50%);isolation:isolate}
-.beat-pads::before{content:'';position:absolute;left:4px;right:4px;bottom:27px;height:44px;border:1px solid #cbc9c1;border-radius:12px;background:linear-gradient(180deg,#fff 0%,#fafaf5 54%,#e9e8e0 100%);box-shadow:0 7px 0 #c8c7bf,0 8px 0 #aaa9a2,0 11px 12px #493d2d22;z-index:-1}
-.beat-pad{height:110px;padding:0 5px 29px;border:0;border-radius:0;background:transparent;box-shadow:none}
-.beat-pad::before{content:'';position:absolute;top:53px;left:50%;width:26px;height:20px;transform:translateX(-50%);border:1px solid #c3c9c8;border-radius:4px;background:linear-gradient(135deg,#ffffffd9,#ccd3d0a6);box-shadow:inset 0 0 0 4px #ffffff85,0 2px 1px #8f979088;pointer-events:none}
-.beat-pad img{position:relative;z-index:1;height:76px;max-width:100px;margin:0 auto;mask-image:radial-gradient(ellipse at center,#000 53%,transparent 79%);transition:transform .08s ease}
-.beat-pad kbd{position:absolute;bottom:0;left:50%;transform:translateX(-50%);background:#fff9}
-.beat-pad.pressed{transform:none;background:transparent;box-shadow:none}
-.beat-pad.pressed img{transform:translateY(4px)}
-.beat-pad.pressed::before{height:16px;top:57px}
-.beat-hit-line{bottom:80px;left:50%;right:auto;width:min(100%,440px);transform:translateX(-50%)}
-.beat-keychain{position:absolute;right:7px;bottom:27px;width:37px;height:22px;pointer-events:none;stroke:#aaa99f;stroke-width:2;fill:none;filter:drop-shadow(0 1px 0 #fff);z-index:2}
-@media(max-width:700px){.beat-pad img{height:76px}.beat-pads::before{height:40px}}
-@media(prefers-reduced-motion:reduce){.beat-pad img{transition:none}}
