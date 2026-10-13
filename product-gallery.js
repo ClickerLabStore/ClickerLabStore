@@ -10,16 +10,14 @@
   const paths=[original.src,photo.dataset.gallerySecond || url.pathname.replace(/\.[^/.]+$/,'-2.png')];
   if(photo.dataset.galleryThird)paths.push(photo.dataset.galleryThird);
   const names=['main','second','third'];let selected=0;
-  function blendDarkPhoto(image,src){
+  function fillDarkPhoto(image,src){
    if(!/\/[1-4]-key-(?:dark-light-up-clicker|light-up-clicker-2)\.png$/.test(new URL(src,location.href).pathname))return;
    image.classList.add('product-gallery-dark-image');
-   const size=()=>{if(!image.naturalWidth)return;const ratio=image.naturalWidth/image.naturalHeight;image.style.setProperty('--photo-width',`${Math.min(1,ratio)*100}%`);image.style.setProperty('--photo-height',`${Math.min(1,1/ratio)*100}%`);};
-   image.addEventListener('load',size);size();
   }
   const thumbnails=document.createElement('div');thumbnails.className='product-gallery-thumbnails';thumbnails.setAttribute('role','group');thumbnails.setAttribute('aria-label','Product photos');gallery.appendChild(thumbnails);
   const entries=paths.map((src,index)=>{
    const image=index===0?main:document.createElement('img');
-   blendDarkPhoto(image,src);
+   fillDarkPhoto(image,src);
    const button=document.createElement('button');button.type='button';button.className='product-gallery-thumb';button.setAttribute('aria-label',`Show ${names[index]} photo of ${original.alt}`);button.setAttribute('aria-pressed',String(index===0));
    let placeholder=null;
    if(index===0){const thumb=document.createElement('img');thumb.src=src;thumb.alt='';button.appendChild(thumb);}
@@ -35,7 +33,6 @@
   function show(index){
    selected=index;count.textContent=`${index+1} / ${entries.length}`;
    photo.classList.toggle('product-gallery-dark',entries[index].image.classList.contains('product-gallery-dark-image'));
-   photo.style.setProperty('--photo-backdrop',`url("${new URL(entries[index].src,location.href).href}")`);
    entries.forEach((entry,i)=>{entry.button.setAttribute('aria-pressed',String(i===index));entry.image.hidden=i!==index || (i===0?main.complete && main.naturalWidth===0:!entry.loaded);if(entry.placeholder)entry.placeholder.hidden=i!==index || entry.loaded;});
    existingFallbacks.forEach(child=>{child.hidden=index!==0 || originalHidden.get(child);});
    const entry=entries[index];if(index>0 && !entry.attempted){entry.attempted=true;entry.image.src=entry.src;}
