@@ -10,6 +10,7 @@ const base=process.env.GALLERY_URL || 'http://127.0.0.1:8791';
   const context=await browser.newContext({viewport:{width,height:1000}});
   await context.route('**/api/keycaps',route=>route.fulfill({json:inventory}));
   await context.route('**/*-2.png',route=>route.fulfill({status:404,body:'Not found fixture'}));
+  await context.route('**/*-key-light-up-clicker-top-view.png',route=>route.fulfill({status:404,body:'Not found fixture'}));
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
   for(const product of pages){
    await page.goto(base+'/'+product);
@@ -59,7 +60,7 @@ const base=process.env.GALLERY_URL || 'http://127.0.0.1:8791';
  console.log('PASS: original light-up photo fallback survives gallery switching');
  for(const width of [1440,390]){
   const liveContext=await browser.newContext({viewport:{width,height:1000}});
-  await liveContext.route('**/api/keycaps',r=>r.fulfill({json:inventory}));await liveContext.route('**/*-key-light-up-clicker-top-view.png',r=>{const size=new URL(r.request().url()).pathname.split('/').at(-1).split('-')[0];return r.fulfill({path:path.resolve(`${size}-key-light-up-clicker-2.png`),contentType:'image/png'});});const live=await liveContext.newPage();
+  await liveContext.route('**/api/keycaps',r=>r.fulfill({json:inventory}));const live=await liveContext.newPage();
   for(const size of [1,2,3,4]){
    await live.goto(`${base}/${size}-key-light-up-clicker.html`);
    const buttons=live.locator('.product-gallery-thumb');
@@ -75,7 +76,7 @@ const base=process.env.GALLERY_URL || 'http://127.0.0.1:8791';
    await live.keyboard.press('End');assert.equal(await buttons.nth(3).getAttribute('aria-pressed'),'true');
    assert.ok(await live.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   }
-  console.log(`PASS ${width}px: all four LIGHT UP galleries show dark/main, original/second, existing/third and uploaded top-view/fourth (fixture)`);
+  console.log(`PASS ${width}px: all four LIGHT UP galleries show dark/main, original/second, existing/third and uploaded top-view/fourth with real images`);
   await liveContext.close();
  }
  await browser.close();
