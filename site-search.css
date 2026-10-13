@@ -1,0 +1,22 @@
+.site-search{box-sizing:border-box;margin:auto;width:min(680px,calc(100% - 32px));max-height:85dvh;padding:24px;border:1px solid #e0d5ca;border-radius:22px;background:#faf8f4;color:#161616;font-family:inherit;box-shadow:0 20px 70px #0003;overflow-y:auto}
+.site-search::backdrop{background:#0006}
+.site-search-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
+.site-search-heading h2{margin:0;font-size:25px;line-height:1.25;font-weight:800}
+.site-search button,.site-search input{font:inherit;box-sizing:border-box}
+.site-search-close{border:0;background:transparent;font-size:30px!important;cursor:pointer;width:44px;height:44px;color:#4b2247;flex-shrink:0}
+.site-search-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px}
+.site-search-form label{grid-column:1/-1;font-size:14px;font-weight:600}
+.site-search-form input{width:100%;min-width:0;padding:12px;border:1px solid #cfbeb0;border-radius:10px;background:white;color:#161616}
+.site-search-form button,.site-search-retry{border:0;border-radius:10px;padding:12px 16px;background:#4b2247;color:white;font-weight:700;cursor:pointer}
+.site-search-status{font-size:14px;color:#706054;margin:18px 0 12px}
+.site-search-results{display:grid;gap:8px}
+.site-search-result{display:flex;align-items:center;gap:14px;padding:12px;border:1px solid #e7dfd5;border-radius:12px;background:white;color:#161616;text-decoration:none}
+.site-search-result:hover{border-color:#a48670;background:#f6f1eb}
+.site-search-result img{width:64px;height:64px;object-fit:cover;border-radius:8px;flex-shrink:0}
+.site-search-result>span{min-width:0;display:grid;gap:5px}
+.site-search-result strong{font-size:16px;overflow-wrap:anywhere}
+.site-search-result span span{font-size:14px;color:#706054}
+.site-search-empty{font-size:15px;line-height:1.5}
+.site-search [hidden]{display:none!important}
+.site-search :focus-visible{outline:3px solid #a48670;outline-offset:3px}
+@media(max-width:480px){.site-search{padding:18px}.site-search-form input{font-size:16px}.site-search-heading h2{font-size:22px}.site-search-form button{padding:12px}.site-search-result{padding:10px;gap:10px}}
