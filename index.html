@@ -657,13 +657,26 @@
         }
 
         .feature-image-1-key {
-            background: #242424;
+            background: #292929;
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        .feature-image-1-key::before {
+            content: "";
+            position: absolute;
+            inset: -50px;
+            background: url('1-key-dark-light-up-clicker.png') center / cover;
+            filter: blur(40px);
+            z-index: -1;
         }
 
         .feature-image-1-key img {
+            width: 62.4%;
             mask-image:
-                linear-gradient(to right, transparent, black 6%, black 94%, transparent),
-                linear-gradient(to bottom, transparent, black 6%, black 94%, transparent);
+                linear-gradient(to right, transparent, black 8%, black 92%, transparent),
+                linear-gradient(to bottom, transparent, black 8%, black 92%, transparent);
             mask-composite: intersect;
         }
 
