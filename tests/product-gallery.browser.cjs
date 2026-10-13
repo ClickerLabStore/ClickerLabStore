@@ -15,7 +15,7 @@ const base=process.env.GALLERY_URL || 'http://127.0.0.1:8791';
    await page.goto(base+'/'+product);
    await page.waitForFunction(()=>document.querySelector('.product-gallery')?.querySelector('img')?.naturalWidth>0);
    const gallery=page.locator('.product-gallery'),buttons=gallery.getByRole('button');
-   const light=product.includes('-light-up-clicker');const total=light?3:2;assert.equal(await buttons.count(),total);const original=await gallery.locator('.product-photo>img,.bundle-detail-photo>img').first().getAttribute('src');
+   const light=product.includes('-light-up-clicker');const total=light?4:2;assert.equal(await buttons.count(),total);const original=await gallery.locator('.product-photo>img,.bundle-detail-photo>img').first().getAttribute('src');
    const title=await page.locator('h1').textContent();
    const selected=total-1;await buttons.nth(selected).click();assert.equal(await gallery.locator('.product-gallery-placeholder').last().isVisible(),true);
    assert.equal(await buttons.nth(selected).getAttribute('aria-pressed'),'true');
@@ -59,23 +59,23 @@ const base=process.env.GALLERY_URL || 'http://127.0.0.1:8791';
  console.log('PASS: original light-up photo fallback survives gallery switching');
  for(const width of [1440,390]){
   const liveContext=await browser.newContext({viewport:{width,height:1000}});
-  await liveContext.route('**/api/keycaps',r=>r.fulfill({json:inventory}));const live=await liveContext.newPage();
+  await liveContext.route('**/api/keycaps',r=>r.fulfill({json:inventory}));await liveContext.route('**/*-key-light-up-clicker-top-view.png',r=>{const size=new URL(r.request().url()).pathname.split('/').at(-1).split('-')[0];return r.fulfill({path:path.resolve(`${size}-key-light-up-clicker-2.png`),contentType:'image/png'});});const live=await liveContext.newPage();
   for(const size of [1,2,3,4]){
    await live.goto(`${base}/${size}-key-light-up-clicker.html`);
    const buttons=live.locator('.product-gallery-thumb');
-   await live.waitForFunction(()=>[...document.querySelectorAll('.product-gallery-thumb img')].length===3 && [...document.querySelectorAll('.product-gallery-thumb img')].every(i=>i.naturalWidth>0));
-   const expected=[`${size}-key-dark-light-up-clicker.png`,`${size}-key-light-up-clicker.png`,`${size}-key-light-up-clicker-2.png`];
-   for(let i=0;i<3;i++){
+   await live.waitForFunction(()=>[...document.querySelectorAll('.product-gallery-thumb img')].length===4 && [...document.querySelectorAll('.product-gallery-thumb img')].every(i=>i.naturalWidth>0));
+   const expected=[`${size}-key-dark-light-up-clicker.png`,`${size}-key-light-up-clicker.png`,`${size}-key-light-up-clicker-2.png`,`${size}-key-light-up-clicker-top-view.png`];
+   for(let i=0;i<4;i++){
     await buttons.nth(i).click();const image=live.locator('.product-photo>img').nth(i);await image.waitFor({state:'visible'});
     assert.equal((await image.getAttribute('src')).split('/').at(-1),expected[i]);
     assert.equal(await live.locator('.product-gallery-placeholder:visible').count(),0);
-    assert.equal(await live.locator('.product-gallery-count').textContent(),`${i+1} / 3`);
+    assert.equal(await live.locator('.product-gallery-count').textContent(),`${i+1} / 4`);
    }
    await live.keyboard.press('ArrowRight');assert.equal(await buttons.nth(0).getAttribute('aria-pressed'),'true');
-   await live.keyboard.press('End');assert.equal(await buttons.nth(2).getAttribute('aria-pressed'),'true');
+   await live.keyboard.press('End');assert.equal(await buttons.nth(3).getAttribute('aria-pressed'),'true');
    assert.ok(await live.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   }
-  console.log(`PASS ${width}px: all four LIGHT UP galleries show dark/main, original/second, top-view/third with real images`);
+  console.log(`PASS ${width}px: all four LIGHT UP galleries show dark/main, original/second, existing/third and uploaded top-view/fourth (fixture)`);
   await liveContext.close();
  }
  await browser.close();

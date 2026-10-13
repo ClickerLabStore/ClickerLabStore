@@ -9,7 +9,8 @@
   const url=new URL(original.src,location.href);
   const paths=[original.src,photo.dataset.gallerySecond || url.pathname.replace(/\.[^/.]+$/,'-2.png')];
   if(photo.dataset.galleryThird)paths.push(photo.dataset.galleryThird);
-  const names=['main','second','third'];let selected=0;
+  if(photo.dataset.galleryFourth)paths.push(photo.dataset.galleryFourth);
+  const names=['main','second','third','fourth'];let selected=0;
   function fillDarkPhoto(image,src){
    if(!/\/[1-4]-key-(?:dark-light-up-clicker|light-up-clicker-2)\.png$/.test(new URL(src,location.href).pathname))return;
    image.classList.add('product-gallery-dark-image');
@@ -50,7 +51,7 @@
    event.preventDefault();const index=event.key==='Home'?0:event.key==='End'?entries.length-1:(selected+(event.key==='ArrowRight'?1:-1)+entries.length)%entries.length;
    show(index);entries[index].button.focus();
   });
-  entries.forEach((entry,index)=>{if(index>0 && photo.dataset[index===1?'gallerySecond':'galleryThird']){entry.attempted=true;entry.image.src=entry.src;}});
+  entries.forEach((entry,index)=>{if(index>0 && photo.dataset[['','gallerySecond','galleryThird','galleryFourth'][index]]){entry.attempted=true;entry.image.src=entry.src;}});
   show(0);
  });
 })();
