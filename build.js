@@ -63,7 +63,7 @@
  next.addEventListener('click',async()=>{
   if(busy||next.disabled)return;if(step<4){showStep(step===2&&size===9?4:step+1);return;}
   const productId=`${size}-key-${lights?'light-up-':''}clicker`;
-  const item={productId,name:`${size}-Key ${lights?'Light Up ':''}Clicker`,price:lights?lightPrices[size]:prices[size],image:productId+'.png',quantity:qty(),options:{switchType,keycaps:[...keycaps],...(lights?{lightColors:[...lightColors]}:{})}};
+  const item={productId,name:`${size}-Key ${lights?'Light Up ':''}Clicker`,price:lights?lightPrices[size]:prices[size],image:lights?`${size}-key-dark-light-up-clicker.png`:productId+'.png',quantity:qty(),options:{switchType,keycaps:[...keycaps],...(lights?{lightColors:[...lightColors]}:{})}};
   busy=true;back.disabled=true;update();
   try{if(await window.ClickerCart.addItem(item))status.textContent='Your custom clicker was added to the cart.';}finally{busy=false;back.disabled=false;next.disabled=!stockFits();}
  });

@@ -15,13 +15,15 @@ const base=process.env.GALLERY_URL || 'http://127.0.0.1:8791';
    await page.goto(base+'/'+product);
    await page.waitForFunction(()=>document.querySelector('.product-gallery')?.querySelector('img')?.naturalWidth>0);
    const gallery=page.locator('.product-gallery'),buttons=gallery.getByRole('button');
-   assert.equal(await buttons.count(),2);const original=await gallery.locator('.product-photo>img,.bundle-detail-photo>img').first().getAttribute('src');
+   const light=product.includes('-light-up-clicker');const total=light?3:2;assert.equal(await buttons.count(),total);const original=await gallery.locator('.product-photo>img,.bundle-detail-photo>img').first().getAttribute('src');
    const title=await page.locator('h1').textContent();
-   await buttons.nth(1).click();assert.equal(await gallery.locator('.product-gallery-placeholder').isVisible(),true);
-   assert.equal(await buttons.nth(1).getAttribute('aria-pressed'),'true');
-   assert.equal(await gallery.locator('.product-gallery-count').textContent(),'2 / 2');
+   const selected=total-1;await buttons.nth(selected).click();assert.equal(await gallery.locator('.product-gallery-placeholder').last().isVisible(),true);
+   assert.equal(await buttons.nth(selected).getAttribute('aria-pressed'),'true');
+   assert.equal(await gallery.locator('.product-gallery-count').textContent(),`${total} / ${total}`);
    await page.keyboard.press('ArrowLeft');
-   assert.equal(await gallery.locator('.product-gallery-placeholder').isVisible(),false);
+   assert.equal(await buttons.nth(selected-1).getAttribute('aria-pressed'),'true');
+   await page.keyboard.press('Home');
+   assert.equal(await gallery.locator('.product-gallery-placeholder:visible').count(),0);
    assert.equal(await gallery.locator('.product-photo>img,.bundle-detail-photo>img').first().getAttribute('src'),original);
    assert.equal(await gallery.locator('.product-photo>img,.bundle-detail-photo>img').first().isVisible(),true);
    assert.equal(await page.locator('h1').textContent(),title);
@@ -40,20 +42,41 @@ const base=process.env.GALLERY_URL || 'http://127.0.0.1:8791';
  await context.route('**/4-key-clicker-2.png',r=>r.fulfill({path:path.resolve('4-key-clicker.png'),contentType:'image/png'}));
  await page.goto(base+'/4-key-clicker.html');
  await page.getByRole('button',{name:'Show second photo of 4-Key Clicker',exact:true}).click();
- await page.waitForFunction(()=>document.querySelector('.product-photo>img:nth-of-type(2)')?.naturalWidth>0);
- assert.equal(await page.locator('.product-gallery-placeholder').isVisible(),false);
+ await page.waitForFunction(()=>document.querySelector('.product-photo>img:nth-of-type(2)')?.naturalWidth>0 && !document.querySelector('.product-photo>img:nth-of-type(2)').hidden);
+ assert.equal(await page.locator('.product-gallery-placeholder:visible').count(),0);
  assert.equal(await page.locator('.product-photo>img').nth(1).isVisible(),true);
  await page.getByRole('button',{name:'Show main photo of 4-Key Clicker',exact:true}).click();
  assert.equal(await page.locator('.product-photo>img').first().isVisible(),true);
  console.log('PASS: an available second image replaces the placeholder and restores the main image');
- await context.route('**/1-key-light-up-clicker.png',r=>r.fulfill({status:404,body:'Unavailable primary fixture'}));
+ await context.route('**/1-key-dark-light-up-clicker.png',r=>r.fulfill({status:404,body:'Unavailable primary fixture'}));
  await context.route('**/1-key-light-up-clicker-2.png',r=>r.fulfill({status:404,body:'Unavailable secondary fixture'}));
  await page.goto(base+'/1-key-light-up-clicker.html');
  await page.getByText('Product Photo Coming Soon',{exact:true}).waitFor();
  await page.getByRole('button',{name:'Show second photo of 1-Key Light Up Clicker',exact:true}).click();
  await page.getByRole('button',{name:'Show main photo of 1-Key Light Up Clicker',exact:true}).click();
  assert.equal(await page.getByText('Product Photo Coming Soon',{exact:true}).isVisible(),true);
- assert.equal(await page.locator('.product-gallery-placeholder').isVisible(),false);
+ assert.equal(await page.locator('.product-gallery-placeholder:visible').count(),0);
  console.log('PASS: original light-up photo fallback survives gallery switching');
+ for(const width of [1440,390]){
+  const liveContext=await browser.newContext({viewport:{width,height:1000}});
+  await liveContext.route('**/api/keycaps',r=>r.fulfill({json:inventory}));const live=await liveContext.newPage();
+  for(const size of [1,2,3,4]){
+   await live.goto(`${base}/${size}-key-light-up-clicker.html`);
+   const buttons=live.locator('.product-gallery-thumb');
+   await live.waitForFunction(()=>[...document.querySelectorAll('.product-gallery-thumb img')].length===3 && [...document.querySelectorAll('.product-gallery-thumb img')].every(i=>i.naturalWidth>0));
+   const expected=[`${size}-key-dark-light-up-clicker.png`,`${size}-key-light-up-clicker.png`,`${size}-key-light-up-clicker-2.png`];
+   for(let i=0;i<3;i++){
+    await buttons.nth(i).click();const image=live.locator('.product-photo>img').nth(i);await image.waitFor({state:'visible'});
+    assert.equal((await image.getAttribute('src')).split('/').at(-1),expected[i]);
+    assert.equal(await live.locator('.product-gallery-placeholder:visible').count(),0);
+    assert.equal(await live.locator('.product-gallery-count').textContent(),`${i+1} / 3`);
+   }
+   await live.keyboard.press('ArrowRight');assert.equal(await buttons.nth(0).getAttribute('aria-pressed'),'true');
+   await live.keyboard.press('End');assert.equal(await buttons.nth(2).getAttribute('aria-pressed'),'true');
+   assert.ok(await live.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  }
+  console.log(`PASS ${width}px: all four LIGHT UP galleries show dark/main, original/second, top-view/third with real images`);
+  await liveContext.close();
+ }
  await browser.close();
 })().catch(error=>{console.error(error);process.exit(1)});
