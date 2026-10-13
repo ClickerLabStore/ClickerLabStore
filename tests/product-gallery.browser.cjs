@@ -10,6 +10,7 @@ const base=process.env.GALLERY_URL || 'http://127.0.0.1:8791';
   const context=await browser.newContext({viewport:{width,height:1000}});
   await context.route('**/api/keycaps',route=>route.fulfill({json:inventory}));
   await context.route('**/*-2.png',route=>route.fulfill({status:404,body:'Not found fixture'}));
+  await context.route('**/*-key-top-view-clicker.png',route=>route.fulfill({status:404,body:'Not found fixture'}));
   await context.route('**/*-key-light-up-clicker-top-view.png',route=>route.fulfill({status:404,body:'Not found fixture'}));
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
   for(const product of pages){
@@ -40,7 +41,7 @@ const base=process.env.GALLERY_URL || 'http://127.0.0.1:8791';
  }
  const context=await browser.newContext(),page=await context.newPage();
  await context.route('**/api/keycaps',r=>r.fulfill({json:inventory}));
- await context.route('**/4-key-clicker-2.png',r=>r.fulfill({path:path.resolve('4-key-clicker.png'),contentType:'image/png'}));
+ await context.route('**/4-key-top-view-clicker.png',r=>r.fulfill({path:path.resolve('4-key-clicker.png'),contentType:'image/png'}));
  await page.goto(base+'/4-key-clicker.html');
  await page.getByRole('button',{name:'Show second photo of 4-Key Clicker',exact:true}).click();
  await page.waitForFunction(()=>document.querySelector('.product-photo>img:nth-of-type(2)')?.naturalWidth>0 && !document.querySelector('.product-photo>img:nth-of-type(2)').hidden);
@@ -78,6 +79,21 @@ const base=process.env.GALLERY_URL || 'http://127.0.0.1:8791';
   }
   console.log(`PASS ${width}px: all four LIGHT UP galleries show dark/main, original/second, existing/third and uploaded top-view/fourth with real images`);
   await liveContext.close();
+ }
+ for(const width of [1440,390]){
+  const standard=await browser.newContext({viewport:{width,height:1000}});
+  await standard.route('**/api/keycaps',r=>r.fulfill({json:inventory}));const p=await standard.newPage();
+  for(const size of [1,2,3,4]){
+   await p.goto(`${base}/${size}-key-clicker.html`);
+   await p.waitForFunction(()=>document.querySelectorAll('.product-gallery-thumb img').length===2 && [...document.querySelectorAll('.product-gallery-thumb img')].every(i=>i.naturalWidth>0));
+   await p.locator('.product-gallery-thumb').nth(1).click();
+   const second=p.locator('.product-photo>img').nth(1);assert.equal(await second.isVisible(),true);
+   assert.equal(await second.getAttribute('src'),`/${size}-key-top-view-clicker.png`);
+   assert.equal(await p.locator('.product-gallery-placeholder:visible').count(),0);
+   assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+   await p.locator('.product-gallery-thumb').first().click();assert.equal(await p.locator('.product-photo>img').first().isVisible(),true);
+  }
+  console.log(`PASS ${width}px: four actual standard clicker top-view photos load second; original main photos preserved`);await standard.close();
  }
  await browser.close();
 })().catch(error=>{console.error(error);process.exit(1)});
