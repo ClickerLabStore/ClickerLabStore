@@ -717,7 +717,8 @@ function createCartDrawer() {
 
         .clicker-shipping-details { margin-bottom: 10px; }
         .clicker-shipping-details summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; cursor: pointer; font-size: 13px; font-weight: 700; }
-        .clicker-shipping-details summary span:last-child { color: #777; font-size: 12px; font-weight: 400; }
+        .clicker-shipping-rate-action { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; box-sizing: border-box; padding: 8px 12px; border-radius: 9px; background: #4b2247; color: #fff; font-size: 12px; font-weight: 800; text-align: center; }
+        .clicker-shipping-details summary:hover .clicker-shipping-rate-action { background: #64305e; }
         .clicker-shipping-details summary:focus-visible { outline: 2px solid #a48670; outline-offset: 2px; }
         .clicker-shipping-form { margin-bottom: 8px; font-size: 12px; }
         .clicker-shipping-form label { display: block; margin: 6px 0; }
@@ -878,7 +879,7 @@ function createCartDrawer() {
 
 
             <details id="clicker-shipping-details" class="clicker-shipping-details">
-            <summary><span>USPS shipping</span><span>Calculate / view rate ▾</span></summary>
+            <summary><span>USPS shipping</span><span class="clicker-shipping-rate-action">Calculate / view rate ▾</span></summary>
             <form id="clicker-shipping-form" class="clicker-shipping-form">
                 <label>Full name<input name="name" autocomplete="shipping name" required maxlength="150"></label>
                 <label>Street address<input name="street1" autocomplete="shipping address-line1" required maxlength="150"></label>
