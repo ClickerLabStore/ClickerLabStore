@@ -10,7 +10,7 @@ Pause freezes the chart and audio. Changing tabs, losing focus, or opening cart/
 
 The game introduces itself as a way to try the store’s real keycap designs and recorded switch sounds. The selected setup carries through to Build Your Own. Pads, falling notes, current choices, and picker tiles use each photo’s sampled neutral edge color (`KEYCAP_BACKGROUNDS` in `click-rhythm.js`), with no multiply tint on those photos. If a keycap photo changes, update its sampled background color.
 
-The main settings are song, pace, and Clicky/Creamy switch style. Optional keycap choices sit under a collapsed “Change keycaps” section; there are no light-color controls. “Build my clicker” passes standard four-key keycap and switch selections to Build Your Own. The builder validates the entire preset, uses existing prices, and retains normal live inventory and cart checks. Invalid presets are ignored. Visiting either page never adds or reserves stock automatically. Server Checkout still validates all product selections and prices.
+The main settings are song, pace, and Clicky/Creamy switch style. All four keycap choices are always visible in “Choose your keycaps”; there are no light-color controls. “Build my clicker” passes standard four-key keycap and switch selections to Build Your Own. The builder validates the entire preset, uses existing prices, and retains normal live inventory and cart checks. Invalid presets are ignored. Visiting either page never adds or reserves stock automatically. Server Checkout still validates all product selections and prices.
 
 ## Verification
 

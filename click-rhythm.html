@@ -157,7 +157,7 @@
         @media(max-width:900px){.navbar{height:auto;min-height:150px;background-size:cover}.navbar-inner{flex-wrap:wrap;padding:10px 18px 15px}.navbar-logo{width:225px}.nav-actions{margin-left:auto;margin-right:0}.nav-icon-button{width:52px;height:52px}.nav-links{width:100%;order:3;margin-left:0;justify-content:center;gap:25px}.nav-links a{font-size:16px}}
         @media(max-width:600px){.navbar-logo{width:185px}.nav-icon-button{width:46px;height:46px}.nav-actions{gap:5px}.nav-links{gap:14px;flex-wrap:wrap}.nav-links a{font-size:14px}}
     </style>
-    <link rel="stylesheet" href="click-rhythm.css?v=4">
+    <link rel="stylesheet" href="click-rhythm.css?v=5">
 <link rel="stylesheet" href="/site-search.css?v=1">
 </head>
 <body>
@@ -265,7 +265,7 @@
           <p class="beat-small" id="beat-song-credit">Original ClickerLab track</p>
           <label class="beat-field" for="beat-difficulty">Pick your pace<select id="beat-difficulty"><option value="cozy">Cozy · 90 BPM</option><option value="groove" selected>Groove · 110 BPM</option><option value="zoomies">Zoomies · 128 BPM</option></select></label>
           <div class="beat-field"><span id="beat-switch-label">Switch style</span><div class="beat-choice" role="group" aria-labelledby="beat-switch-label"><button type="button" data-switch-style="Clicky" aria-pressed="true">Clicky</button><button type="button" data-switch-style="Creamy" aria-pressed="false">Creamy</button></div></div>
-          <details class="beat-custom-options"><summary>Change keycaps</summary><div id="beat-customize" class="beat-customize"></div></details>
+          <section class="beat-custom-options" aria-labelledby="beat-keycaps-label"><p class="beat-field-label" id="beat-keycaps-label">Choose your keycaps</p><div id="beat-customize" class="beat-customize"></div></section>
           <label class="beat-field" for="beat-volume">Volume<input id="beat-volume" type="range" min="0" max="100" value="35"></label>
           <p class="beat-small">Compare Clicky and Creamy with recordings of our real clickers. Tap a key to hear your choice, then try it in a round.</p>
         </fieldset>
