@@ -438,6 +438,7 @@ function createCartDrawer() {
 
         .clicker-cart-items {
             flex: 1;
+            min-height: 0;
 
             overflow-y: auto;
 
@@ -683,7 +684,7 @@ function createCartDrawer() {
 
         .clicker-cart-footer {
             padding:
-                20px 22px 24px;
+                12px 20px 14px;
 
             border-top:
                 1px solid #eee7dc;
@@ -701,12 +702,12 @@ function createCartDrawer() {
 
             color: #111111;
 
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 900;
         }
 
         .clicker-cart-note {
-            margin-bottom: 17px;
+            margin-bottom: 8px;
 
             color: #777777;
 
@@ -714,7 +715,11 @@ function createCartDrawer() {
             line-height: 1.5;
         }
 
-        .clicker-shipping-form { margin-bottom: 14px; font-size: 12px; }
+        .clicker-shipping-details { margin-bottom: 10px; }
+        .clicker-shipping-details summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; cursor: pointer; font-size: 13px; font-weight: 700; }
+        .clicker-shipping-details summary span:last-child { color: #777; font-size: 12px; font-weight: 400; }
+        .clicker-shipping-details summary:focus-visible { outline: 2px solid #a48670; outline-offset: 2px; }
+        .clicker-shipping-form { margin-bottom: 8px; font-size: 12px; }
         .clicker-shipping-form label { display: block; margin: 6px 0; }
         .clicker-shipping-form [hidden] { display: none !important; }
         .clicker-shipping-form input, .clicker-shipping-form select {
@@ -724,12 +729,12 @@ function createCartDrawer() {
         .clicker-shipping-row { display: flex; gap: 8px; }
         .clicker-shipping-row label { flex: 1; }
         .clicker-shipping-form button { padding: 8px; cursor: pointer; }
-        .clicker-cart-footer { max-height: 65vh; overflow-y: auto; }
+        .clicker-cart-footer { max-height: 50vh; max-height: 50dvh; flex-shrink: 0; overflow-y: auto; }
 
         .clicker-cart-checkout {
             width: 100%;
 
-            min-height: 53px;
+            min-height: 44px;
 
             display: flex;
 
@@ -868,12 +873,13 @@ function createCartDrawer() {
 
 
             <p class="clicker-cart-note">
-                Shipping and taxes will be calculated at checkout.
+                Shipping and taxes added at checkout.
             </p>
 
 
+            <details id="clicker-shipping-details" class="clicker-shipping-details">
+            <summary><span>USPS shipping</span><span>Calculate / view rate ▾</span></summary>
             <form id="clicker-shipping-form" class="clicker-shipping-form">
-                <strong>USPS shipping</strong>
                 <label>Full name<input name="name" autocomplete="shipping name" required maxlength="150"></label>
                 <label>Street address<input name="street1" autocomplete="shipping address-line1" required maxlength="150"></label>
                 <label>Apt / unit (optional)<input name="street2" autocomplete="shipping address-line2" maxlength="150"></label>
@@ -886,6 +892,7 @@ function createCartDrawer() {
                 <p id="clicker-shipping-status" role="status" aria-live="polite">Enter your US delivery address to get a rate.</p>
                 <label id="clicker-shipping-choice" hidden>Shipping service<select id="clicker-shipping-rate"></select></label>
             </form>
+            </details>
 
             <button
                 type="button"
@@ -1987,6 +1994,8 @@ async function startCheckout() {
     const resuming = previousAttempt?.fingerprint === JSON.stringify(loadCart()) &&
         previousAttempt?.quoteId === shippingQuote?.id && previousAttempt?.rateId === selectedRate;
     if(!shippingQuote || (!resuming && shippingQuote.expires < Date.now())) {
+        document.getElementById("clicker-shipping-details").open = true;
+        document.getElementById("clicker-shipping-form").elements.name.focus();
         alert("Please calculate shipping for your delivery address first.");
         return;
     }
