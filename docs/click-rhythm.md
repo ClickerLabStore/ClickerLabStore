@@ -8,6 +8,8 @@ Timing scores: within 55 ms = 1,000 points; within 100 ms = 700; within 160 ms =
 
 Pause freezes the chart and audio. Changing tabs, losing focus, or opening cart/search pauses the round; resuming requires an explicit click. Switch style and volume remain usable during play or pause. Song/pace changes explicitly reset the round and let the player start again. Changing keycaps opens a picker and pauses the round. Paused sound previews briefly play only the sample, then suspend audio again; queued song voices are cancelled. Reduced-motion styling removes decorative pad transitions; falling keycaps remain part of gameplay.
 
+The game introduces itself as a way to try the store’s real keycap designs and recorded switch sounds. The selected setup carries through to Build Your Own. Pads, falling notes, current choices, and picker tiles use each photo’s sampled neutral edge color (`KEYCAP_BACKGROUNDS` in `click-rhythm.js`), with no multiply tint on those photos. If a keycap photo changes, update its sampled background color.
+
 The main settings are song, pace, and Clicky/Creamy switch style. Optional keycap choices sit under a collapsed “Change keycaps” section; there are no light-color controls. “Build my clicker” passes standard four-key keycap and switch selections to Build Your Own. The builder validates the entire preset, uses existing prices, and retains normal live inventory and cart checks. Invalid presets are ignored. Visiting either page never adds or reserves stock automatically. Server Checkout still validates all product selections and prices.
 
 ## Verification

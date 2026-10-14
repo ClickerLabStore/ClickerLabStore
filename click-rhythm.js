@@ -5,6 +5,12 @@ const $=id=>document.getElementById(id);
 const KEY_NAMES=['D','F','J','K'];
 const pads=[...document.querySelectorAll('[data-pad]')],lanes=[...document.querySelectorAll('.beat-lane')];
 const cats=[8,9,1,4];
+// Neutral edge colors sampled from each original keycap photo.
+const KEYCAP_BACKGROUNDS=['#f2efea','#f8f7f3','#f1eeea','#ede7e0','#f3f0ec','#f5f3f1','#f6f4f1','#f5f3f1','#f6f3f1','#f3f0ee','#f6f4f2'];
+function setKeycapPhoto(element,id){
+  element.querySelector('img').src=`keycap-${id}.png`;
+  element.style.setProperty('--keycap-background',KEYCAP_BACKGROUNDS[id-1]);
+}
 const STORAGE='clickerlab_click_rhythm_scores_v1';
 let switchStyle='Clicky',sound=true,round=null,state='ready',origin=0,pausedAt=0,frameId=0;
 let nextBeat=0,feedbackUntil=0,pickerLane=0,audio=null,master=null,starting=false,clickBuffer=null;
@@ -38,11 +44,11 @@ function updateBuild(){
 }
 function updateCats(){
   pads.forEach((pad,i)=>{
-    pad.querySelector('img').src=`keycap-${cats[i]}.png`;
+    setKeycapPhoto(pad,cats[i]);
     const choice=document.querySelector(`[data-cat-choice="${i}"]`);
-    if(choice) choice.querySelector('img').src=`keycap-${cats[i]}.png`;
+    if(choice) setKeycapPhoto(choice,cats[i]);
   });
-  round?.notes.forEach(note=>{if(note.element)note.element.querySelector('img').src=`keycap-${cats[note.lane]}.png`;});
+  round?.notes.forEach(note=>{if(note.element)setKeycapPhoto(note.element,cats[note.lane]);});
   updateBuild();
 }
 async function ensureAudio(){
@@ -170,7 +176,7 @@ async function start(){
     const seed=window.crypto?.getRandomValues?crypto.getRandomValues(new Uint32Array(1))[0]:Math.floor(Math.random()*4294967296);
     round=new BeatRound($('beat-difficulty').value,seed);round.song=$('beat-song').value;nextBeat=0;feedbackUntil=0;
     lanes.forEach(lane=>lane.replaceChildren());
-    round.notes.forEach(note=>{const element=document.createElement('span');element.className='beat-note';const image=document.createElement('img');image.src=`keycap-${cats[note.lane]}.png`;image.alt='';element.appendChild(image);element.hidden=true;lanes[note.lane].appendChild(element);note.element=element;});
+    round.notes.forEach(note=>{const element=document.createElement('span');element.className='beat-note';const image=document.createElement('img');image.alt='';element.appendChild(image);setKeycapPhoto(element,cats[note.lane]);element.hidden=true;lanes[note.lane].appendChild(element);note.element=element;});
     $('beat-results').hidden=true;$('beat-start').hidden=true;
     $('beat-pause').hidden=false;$('beat-restart').hidden=false;$('beat-pause').textContent='Pause';
     $('beat-feedback').textContent='';state='playing';origin=performance.now();updateHUD();
@@ -269,7 +275,7 @@ for(let i=0;i<4;i++){
 for(let id=1;id<=11;id++){
   const button=document.createElement('button');button.type='button';button.dataset.pickerCat=id;
   const img=document.createElement('img');img.src=`keycap-${id}.png`;img.alt=`Keycap ${id}`;const label=document.createElement('span');label.textContent=`Keycap ${id}`;
-  button.append(img,label);button.addEventListener('click',()=>{cats[pickerLane]=id;updateCats();$('beat-picker').close();});$('beat-picker-grid').appendChild(button);
+  button.append(img,label);setKeycapPhoto(button,id);button.addEventListener('click',()=>{cats[pickerLane]=id;updateCats();$('beat-picker').close();});$('beat-picker-grid').appendChild(button);
 }
 $('beat-picker-close').addEventListener('click',()=>$('beat-picker').close());
 $('beat-picker').addEventListener('close',()=>document.querySelector(`[data-cat-choice="${pickerLane}"]`).focus());
