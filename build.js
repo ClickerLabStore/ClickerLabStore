@@ -1,6 +1,6 @@
 (() => {
  const prices={1:2.49,2:3.99,3:5.99,4:6.99,9:14.99};
- const lightPrices={1:3.49,2:4.49,3:6.99,4:8.49};
+ const lightPrices={1:3.49,2:4.99,3:6.99,4:8.49};
  let lights=null,lightColors=[];
  let step=1,size=null,switchType=null,keycaps=[],active=0,busy=false;
  const next=document.getElementById('builder-next'),back=document.getElementById('builder-back'),status=document.getElementById('builder-status'),quantity=document.getElementById('builder-quantity');

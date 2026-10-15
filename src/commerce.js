@@ -2,7 +2,7 @@ import { paymentMode, isLive } from "./payment-mode.js";
 import { checkoutShipping } from "./shipping.js";
 export const LIGHT_IDS={White:1,Red:2,Blue:3,Yellow:4,Green:5};
 export const PRODUCTS = {
-  '2-key-light-up-clicker': {name:'2-Key Light Up Clicker',price:449,base:2,light:true},
+  '2-key-light-up-clicker': {name:'2-Key Light Up Clicker',price:499,base:2,light:true},
   '3-key-light-up-clicker': {name:'3-Key Light Up Clicker',price:699,base:3,light:true},
   '4-key-light-up-clicker': {name:'4-Key Light Up Clicker',price:849,base:4,light:true},
   '1-key-clicker': { name: '1-Key Clicker', price: 249, base: 1 },
