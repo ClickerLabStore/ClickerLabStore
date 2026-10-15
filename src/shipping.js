@@ -20,11 +20,11 @@ export function rateAmount(value) {
   if(!Number.isSafeInteger(amount) || amount <= 0) throw new Error('Invalid shipping amount');
   return amount;
 }
-export async function shippoRequest(env,path,payload) {
+export async function shippoRequest(env,path,payload,timeoutMs = 20000) {
   const response = await fetch(`https://api.goshippo.com${path}`,{
     method:payload ? 'POST':'GET',
     headers:{Authorization:`ShippoToken ${env.SHIPPO_API_TOKEN}`,'Content-Type':'application/json','SHIPPO-API-VERSION':'2018-02-08'},
-    body:payload ? JSON.stringify(payload):undefined,signal:AbortSignal.timeout(20000)
+    body:payload ? JSON.stringify(payload):undefined,signal:AbortSignal.timeout(timeoutMs)
   });
   if(!response.ok) throw new Error('Shippo API returned HTTP '+response.status);
   return response.json();

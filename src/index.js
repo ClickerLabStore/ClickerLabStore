@@ -2,12 +2,17 @@ import { protectRequest, cleanupAbuseData } from "./abuse.js";
 import { shippingRates } from "./shipping.js";
 import { inventory, checkout, webhook } from "./commerce.js";
 import { reconcileCheckouts } from "./reconciliation.js";
+import { purchaseOrderLabel, processShippingLabels } from "./labels.js";
 
 export default {
   async scheduled(event,env,ctx) {
-    ctx.waitUntil(Promise.all([cleanupAbuseData(env),reconcileCheckouts(env)]));
+    ctx.waitUntil((async()=>{
+      const outcomes=await Promise.allSettled([cleanupAbuseData(env),reconcileCheckouts(env)]);
+      if(outcomes.some(result=>result.status==='rejected'))console.warn('Scheduled checkout maintenance requires review');
+      await processShippingLabels(env);
+    })());
   },
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
     if (url.pathname === "/api/health") {
@@ -53,7 +58,9 @@ export default {
           request=protection.request; owner=protection.owner;
         }
         if (url.pathname === "/api/shipping-rates") return await shippingRates(request,env);
-        return url.pathname === "/api/checkout" ? await checkout(request,env,owner) : await webhook(request,env);
+        return url.pathname === "/api/checkout" ? await checkout(request,env,owner) : await webhook(request,env,id=>{
+          if(ctx)ctx.waitUntil(purchaseOrderLabel(env,id).catch(()=>console.warn('Shipping label background processing failed')));
+        });
       } catch {
         return Response.json({error:"Unable to process this request. Please try again."},{status:500});
       }

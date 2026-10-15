@@ -141,8 +141,8 @@ export async function checkout(request, env, reservationOwner = null) {
     const now = Math.floor(Date.now()/1000);
     try {
       await env.DB.batch([
-        env.DB.prepare("INSERT INTO orders(id,status,amount,cart_json,created_at,shipping_amount,shipping_countries,shipping_quote_id,shipping_rate_id,shipping_address_json,shipping_service,reservation_owner,payment_mode) VALUES (?,'creating',?,?,?,?,?,?,?,?,?,?,?)")
-          .bind(id,cart.amount,JSON.stringify(cart.lines),now,shipping.amount,'US',shipping.quoteId,shipping.rateId,JSON.stringify(shipping.address),shipping.service,reservationOwner,mode),
+        env.DB.prepare("INSERT INTO orders(id,status,amount,cart_json,created_at,shipping_amount,shipping_countries,shipping_quote_id,shipping_rate_id,shipping_address_json,shipping_service,reservation_owner,payment_mode,auto_label_eligible) VALUES (?,'creating',?,?,?,?,?,?,?,?,?,?,?,?)")
+          .bind(id,cart.amount,JSON.stringify(cart.lines),now,shipping.amount,'US',shipping.quoteId,shipping.rateId,JSON.stringify(shipping.address),shipping.service,reservationOwner,mode,env.AUTO_PURCHASE_LABELS==='true' ? 1 : 0),
         ...cart.components.map(c => env.DB.prepare('INSERT INTO order_components(order_id,kind,component_id,quantity) VALUES (?,?,?,?)')
           .bind(id,c.kind,c.id,c.quantity))
       ]);
@@ -196,7 +196,7 @@ export async function checkout(request, env, reservationOwner = null) {
     return Response.json({error:'Checkout could not start. Please contact the store before retrying.'},{status:502,headers:{'X-Checkout-Failure':error.stripeFailure || 'unknown'}});
   }
 }
-export async function webhook(request,env) {
+export async function webhook(request,env,onPaid) {
   const raw = await request.text();
   if(!env.STRIPE_WEBHOOK_SECRET) return new Response('Webhook not configured',{status:503});
   if(!await verifySignature(raw,request.headers.get('Stripe-Signature'),env.STRIPE_WEBHOOK_SECRET)) {
@@ -218,6 +218,7 @@ export async function webhook(request,env) {
         session.amount_total!==order.amount+shipping) return new Response('Amount mismatch',{status:400});
     await env.DB.prepare("UPDATE orders SET status='paid',paid_at=? WHERE id=? AND status='open'")
       .bind(Math.floor(Date.now()/1000),order.id).run();
+    if(onPaid) onPaid(order.id);
   } else {
     await env.DB.prepare("UPDATE orders SET status='expired' WHERE id=? AND status='open'").bind(order.id).run();
   }

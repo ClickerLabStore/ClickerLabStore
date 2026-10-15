@@ -89,7 +89,7 @@ In Stripe, complete account activation/business and payout requirements and leav
 
 Save `STRIPE_SECRET_KEY` (live secret beginning `sk_live_`) and `STRIPE_WEBHOOK_SECRET` (live endpoint signing secret) securely in Cloudflare Worker secrets. Save Shippo LIVE API token as `SHIPPO_API_TOKEN` as well; live payment checkout must use live USPS quotes. Do not paste secrets in chat or commit them. Codex can validate Stripe live account/API access if its environment also has the live secret key, but that does not substitute for the Worker secret.
 
-After credentials are verified, set tracked `PAYMENT_MODE` to `live`, obtain store-owner launch/deployment approval, merge and deploy with `--keep-vars`. Confirm HTTPS cart/shipping/Checkout, live session mode, correct address/amount, and webhook delivery. Do not submit a real payment without explicit authorization. Refresh shipping quotes after changing modes. Shipping label purchase/order notification automation is separate work; the store currently calculates a rate but does not buy a label automatically.
+After credentials are verified, set tracked `PAYMENT_MODE` to `live`, obtain store-owner launch/deployment approval, merge and deploy with `--keep-vars`. Confirm HTTPS cart/shipping/Checkout, live session mode, correct address/amount, and webhook delivery. Do not submit a real payment without explicit authorization. Refresh shipping quotes after changing modes. Automatic label purchases require the separate migration and activation described in [automatic-shipping-labels.md](automatic-shipping-labels.md). Seller email automation is separate work.
 
 ## Automatic checkout reconciliation
 
