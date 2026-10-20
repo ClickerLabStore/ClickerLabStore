@@ -9,7 +9,7 @@ test('server prices and components include shared bases and repeated keycaps',()
  assert.deepEqual(cart.components,[{kind:'base',id:3,quantity:2},{kind:'keycap',id:1,quantity:5},{kind:'keycap',id:2,quantity:2},{kind:'base',id:1,quantity:1},{kind:'light',id:3,quantity:1}]);
 });
 test('tampered products, incomplete selections and invalid quantities rejected',()=>{
- for(const items of [[],[item('unknown',[1])],[item('4-key-clicker',[1])],[item('1-key-clicker',[12])],[item('1-key-clicker',[1],0)],[item('1-key-clicker',[1],1.5)]]) assert.throws(()=>validateCart(items));
+ for(const items of [[],[item('unknown',[1])],[item('4-key-clicker',[1])],[item('1-key-clicker',[20])],[item('1-key-clicker',[1],0)],[item('1-key-clicker',[1],1.5)]]) assert.throws(()=>validateCart(items));
 });
 const sign=(raw,t=Math.floor(Date.now()/1000))=>`t=${t},v1=${createHmac('sha256','whsec_test').update(`${t}.${raw}`).digest('hex')}`;
 test('webhook HMAC rejects forgery, body changes and stale replay',async()=>{

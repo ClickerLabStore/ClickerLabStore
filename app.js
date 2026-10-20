@@ -51,13 +51,13 @@ async function refreshInventory() {
         if (!Array.isArray(data.keycaps)) throw new Error("Invalid inventory");
         const stock = {};
         for (const row of data.keycaps) {
-            if (!Number.isInteger(row.id) || row.id < 1 || row.id > 11 ||
+            if (!Number.isInteger(row.id) || row.id < 1 || row.id > 19 ||
                 !Number.isInteger(row.stock) || row.stock < 0 || row.id in stock) {
                 throw new Error("Invalid inventory row");
             }
             stock[row.id] = row.stock;
         }
-        if (Object.keys(stock).length !== 11) throw new Error("Incomplete inventory");
+        if (Object.keys(stock).length !== 19) throw new Error("Incomplete inventory");
         const bases = {};
         if (!Array.isArray(data.bases)) throw new Error("Missing base inventory");
         for (const row of data.bases) {
@@ -2064,6 +2064,14 @@ window.ClickerCart = {
 ========================= */
 
 function initializeClickerCart() {
+
+    // New keycaps remain identifiable while the owner uploads their photos.
+    document.addEventListener("error", event => {
+        const image = event.target;
+        if (image.tagName === "IMG" && /(?:^|\/)keycap-1[2-9]\.png(?:\?.*)?$/.test(image.getAttribute("src") || "")) {
+            image.src = "/keycap-photo-coming-soon.svg";
+        }
+    }, true);
 
     createCartDrawer();
 

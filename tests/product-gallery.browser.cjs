@@ -5,7 +5,7 @@ const base=process.env.GALLERY_URL || 'http://127.0.0.1:8791';
 (async()=>{
  const browser=await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE || '/usr/bin/chromium',headless:true,args:['--no-sandbox']});
  const pages=[...[1,2,3,4,9].map(n=>`${n}-key-clicker.html`),...[1,2,3,4].map(n=>`${n}-key-light-up-clicker.html`),...['starter-pack','starter-lab','clicker-trio','trio-lab','clickerlab-pack'].map(b=>`bundle-details.html?bundle=${b}`)];
- const inventory={keycaps:Array.from({length:11},(_,i)=>({id:i+1,name:`Keycap ${i+1}`,stock:100})),bases:[1,2,3,4,9].map(id=>({id,stock:100})),lights:['White','Red','Blue','Yellow','Green'].map((name,i)=>({id:i+1,name,stock:20}))};
+ const inventory={keycaps:Array.from({length:19},(_,i)=>({id:i+1,name:`Keycap ${i+1}`,stock:100})),bases:[1,2,3,4,9].map(id=>({id,stock:100})),lights:['White','Red','Blue','Yellow','Green'].map((name,i)=>({id:i+1,name,stock:20}))};
  for(const width of [1440,390]){
   const context=await browser.newContext({viewport:{width,height:1000}});
   await context.route('**/api/keycaps',route=>route.fulfill({json:inventory}));

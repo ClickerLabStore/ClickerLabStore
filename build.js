@@ -45,7 +45,7 @@
  }
  function buildPicker(){
   const grid=picker.querySelector('.bundle-picker-grid');grid.replaceChildren();const amount=validQty()?qty():1;
-  for(let id=1;id<=11;id++){
+  for(let id=1;id<=19;id++){
    const used=keycaps.filter((v,i)=>i!==active&&v===id).length;
    const available=Math.max(0,window.ClickerInventory.available(id)-used*amount);
    const b=document.createElement('button');b.type='button';b.className='bundle-picker-option'+(keycaps[active]===id?' selected':'');b.disabled=!window.ClickerInventory.ready()||available<amount;b.setAttribute('aria-label',`Keycap ${id}, ${available} available`);b.setAttribute('aria-pressed',String(keycaps[active]===id));b.innerHTML=`<img src="/keycap-${id}.png" alt="Keycap ${id}"><span>Keycap ${id} · ${b.disabled?'Unavailable':available+' available'}</span>`;b.addEventListener('click',()=>{keycaps[active]=id;renderSlots();picker.close();update();});grid.appendChild(b);
@@ -74,7 +74,7 @@
  if(preset.get('from')==='click-rhythm'){
   const keys=(preset.get('keys')||'').split(',').map(Number);
   const style=preset.get('switch');
-  if(keys.length===4&&keys.every(id=>Number.isInteger(id)&&id>=1&&id<=11)&&
+  if(keys.length===4&&keys.every(id=>Number.isInteger(id)&&id>=1&&id<=19)&&
     ['Clicky','Creamy'].includes(style)){
    size=4;keycaps=keys;switchType=style;lights=false;lightColors=Array(4).fill("White");
    document.querySelectorAll('[data-size],[data-switch]').forEach(b=>{const selected=b.hasAttribute('data-size')?Number(b.dataset.size)===size:b.dataset.switch===switchType;b.classList.toggle('selected',selected);b.setAttribute('aria-pressed',String(selected));});

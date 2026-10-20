@@ -12,7 +12,7 @@ function setup(page, initial = []) {
     const context = vm.createContext({ console, Event, AbortSignal, alert(message){context.alerts.push(message);}, alerts:[],
         localStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v)},
         document:{querySelectorAll(){return []},readyState:'loading',body:element(),addEventListener(){},getElementById(id){if (!elements.has(id)) elements.set(id,element()); return elements.get(id);},createElement:element},
-        fetch:async (url, options)=>{assert.equal(url,'/api/keycaps'); assert.equal(options.cache,'no-store'); calls++; return {ok:!failed,json:async()=>({lights:["White","Red","Blue","Yellow","Green"].map((name,i)=>({id:i+1,name,stock:20})),keycaps:rows || Array.from({length:11},(_,i)=>({id:i+1,name:`Keycap ${i+1}`,stock})),bases:Array.from({length:4},(_,i)=>({id:i+1,name:`Base ${i+1}`,stock:100}))})};}
+        fetch:async (url, options)=>{assert.equal(url,'/api/keycaps'); assert.equal(options.cache,'no-store'); calls++; return {ok:!failed,json:async()=>({lights:["White","Red","Blue","Yellow","Green"].map((name,i)=>({id:i+1,name,stock:20})),keycaps:rows || Array.from({length:19},(_,i)=>({id:i+1,name:`Keycap ${i+1}`,stock})),bases:Array.from({length:4},(_,i)=>({id:i+1,name:`Base ${i+1}`,stock:100}))})};}
     });
     context.window = context;
     context.addEventListener=(name,fn)=>(listeners[name] ||= []).push(fn);
@@ -33,6 +33,17 @@ test('repeated keycaps and stock across cart lines, fresh stock on add',async()=
  h.setStock(7); assert.equal(await h.context.ClickerCart.addItem(item([1])),false);
  assert.equal(h.context.ClickerCart.getItems().length,2); assert.equal(h.calls(),4);
 });
+test('new keycap inventory includes repeated selections and keycaps already in the cart',async()=>{
+ const h=setup();const stocks={12:18,13:13,14:19,15:18,16:5,17:30,18:5,19:7};
+ h.setRows(Array.from({length:19},(_,i)=>({id:i+1,stock:stocks[i+1] ?? 100})));
+ assert.equal(await h.context.ClickerCart.addItem(item([18,18,18])),true);
+ assert.equal(h.context.ClickerInventory.available(18),2);
+ assert.equal(await h.context.ClickerCart.addItem(item([18,18])),true);
+ assert.equal(await h.context.ClickerCart.addItem(item([18])),false);
+ assert.equal(h.context.ClickerInventory.available(18),0);
+ h.setRows(Array.from({length:18},(_,i)=>({id:i+1,stock:100})));
+ assert.equal(await h.context.ClickerCart.addItem(item([12])),false);
+});
 test('merged lines add exact quantities without stale maxQuantity truncation',async()=>{
  const h=setup(); await h.context.ClickerCart.addItem({...item([1],2),maxQuantity:2});
  await h.context.ClickerCart.addItem({...item([1],2),maxQuantity:2});
@@ -48,7 +59,7 @@ test('HTTP, malformed and incomplete inventory block additions, then recover',as
  assert.equal(await h.context.ClickerCart.addItem(item([1])),false);
  h.setFailure(false); h.setRows([{id:1,stock:10}]);
  assert.equal(await h.context.ClickerCart.addItem(item([1])),false);
- h.setRows(Array.from({length:11},(_,i)=>({id:i+1,stock:i===0?-1:8})));
+ h.setRows(Array.from({length:19},(_,i)=>({id:i+1,stock:i===0?-1:8})));
  assert.equal(await h.context.ClickerCart.addItem(item([1])),false);
  h.setRows(null); assert.equal(await h.context.ClickerCart.addItem(item([1])),true);
 });
@@ -93,7 +104,7 @@ test('saved cart from another page is included before adding',async()=>{
  assert.equal(h.context.ClickerInventory.available(1),0);
 });
 test('standard and light-up 1-key products share scarce bases',async()=>{
- const h=setup(); h.context.fetch=async()=>({ok:true,json:async()=>({lights:["White","Red","Blue","Yellow","Green"].map((name,i)=>({id:i+1,name,stock:20})),keycaps:Array.from({length:11},(_,i)=>({id:i+1,stock:100})),bases:Array.from({length:4},(_,i)=>({id:i+1,stock:1}))})});
+ const h=setup(); h.context.fetch=async()=>({ok:true,json:async()=>({lights:["White","Red","Blue","Yellow","Green"].map((name,i)=>({id:i+1,name,stock:20})),keycaps:Array.from({length:19},(_,i)=>({id:i+1,stock:100})),bases:Array.from({length:4},(_,i)=>({id:i+1,stock:1}))})});
  assert.equal(await h.context.ClickerCart.addItem(item([1])),true);
  assert.equal(h.context.ClickerInventory.availableBase('1-key-light-up-clicker'),0);
  assert.equal(await h.context.ClickerCart.addItem(item([2],1,'1-key-light-up-clicker')),false);
@@ -101,7 +112,7 @@ test('standard and light-up 1-key products share scarce bases',async()=>{
 });
 test('9-key page counts repeats and cart usage against the new base',async()=>{
  const h=setup('9-key-clicker.html');
- h.context.fetch=async()=>({ok:true,json:async()=>({lights:["White","Red","Blue","Yellow","Green"].map((name,i)=>({id:i+1,name,stock:20})),keycaps:Array.from({length:11},(_,i)=>({id:i+1,stock:20})),bases:[1,2,3,4,9].map(id=>({id,stock:100}))})});
+ h.context.fetch=async()=>({ok:true,json:async()=>({lights:["White","Red","Blue","Yellow","Green"].map((name,i)=>({id:i+1,name,stock:20})),keycaps:Array.from({length:19},(_,i)=>({id:i+1,stock:20})),bases:[1,2,3,4,9].map(id=>({id,stock:100}))})});
  await h.context.ClickerInventory.refresh();
  h.run('selectSwitch("Clicky"); selectedKeycaps=Array(9).fill(1); updateProduct()');
  assert.equal(h.run('getMaximumQuantity()'),2);

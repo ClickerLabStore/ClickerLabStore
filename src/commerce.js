@@ -46,7 +46,7 @@ export function validateCart(items) {
     const { keycaps, switchType, lightColor, lightColors } = item.options || {};
     if (!product || !Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > 99 ||
         !Array.isArray(keycaps) || keycaps.length !== product.base ||
-        keycaps.some(id => !Number.isInteger(id) || id < 1 || id > 11) ||
+        keycaps.some(id => !Number.isInteger(id) || id < 1 || id > 19) ||
         !['Clicky','Creamy'].includes(switchType) ||
         (product.light && (lightColors !== undefined ? (!Array.isArray(lightColors) || lightColors.length !== product.base || lightColors.some(color=>!['White','Red','Blue','Yellow','Green'].includes(color))) : !['White','Red','Blue','Yellow','Green'].includes(lightColor)))) {
       throw new Error('Invalid product selection');

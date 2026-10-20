@@ -7,7 +7,7 @@ const base=process.env.CART_URL || 'http://127.0.0.1:8793';
   const context=await browser.newContext({viewport:{width,height}});
   const item={cartId:'fixture-item',productId:'1-key-clicker',name:'1-Key Clicker',price:2.49,quantity:1,image:'/1-key-clicker.png',options:{switchType:'Clicky',keycaps:[8]}};
   await context.addInitScript(item=>localStorage.setItem('clickerlab_cart',JSON.stringify([item])),item);
-  await context.route('**/api/keycaps',r=>r.fulfill({json:{keycaps:Array.from({length:11},(_,i)=>({id:i+1,stock:100})),bases:[1,2,3,4,9].map(id=>({id,stock:100})),lights:['White','Red','Blue','Yellow','Green'].map((name,i)=>({id:i+1,name,stock:20}))}}));
+  await context.route('**/api/keycaps',r=>r.fulfill({json:{keycaps:Array.from({length:19},(_,i)=>({id:i+1,stock:100})),bases:[1,2,3,4,9].map(id=>({id,stock:100})),lights:['White','Red','Blue','Yellow','Green'].map((name,i)=>({id:i+1,name,stock:20}))}}));
   let shippingCalls=0,checkoutCalls=0;
   await context.route('**/api/shipping-rates',r=>{shippingCalls++;const body=r.request().postDataJSON();assert.equal(body.address.country,'US');assert.equal(body.address.zip,'91108');return r.fulfill({json:{quoteId:'fixture-quote',rates:[{id:'fixture-rate',service:'USPS Ground Advantage',amount:595}]}});});
   await context.route('**/api/checkout',r=>{checkoutCalls++;return r.fulfill({status:503,json:{error:'Fixture stops payment'}});});

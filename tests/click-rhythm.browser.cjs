@@ -4,7 +4,7 @@ const base=process.env.CLICK_RHYTHM_URL || 'http://127.0.0.1:8791';
 const artifacts=process.env.CLICK_RHYTHM_ARTIFACT_DIR || '/tmp';
 (async()=>{
  const browser=await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE || '/usr/bin/chromium',headless:true,args:['--no-sandbox']});
- const inventory={keycaps:Array.from({length:11},(_,i)=>({id:i+1,name:'Keycap '+(i+1),stock:100})),bases:[1,2,3,4,9].map(id=>({id,name:'Base '+id,stock:100})),lights:['White','Red','Blue','Yellow','Green'].map((name,i)=>({id:i+1,name,stock:20}))};
+ const inventory={keycaps:Array.from({length:19},(_,i)=>({id:i+1,name:'Keycap '+(i+1),stock:100})),bases:[1,2,3,4,9].map(id=>({id,name:'Base '+id,stock:100})),lights:['White','Red','Blue','Yellow','Green'].map((name,i)=>({id:i+1,name,stock:20}))};
  for(const width of [1440,390]){
   const context=await browser.newContext({viewport:{width,height:1000},reducedMotion:'reduce'});
   await context.route('**/api/keycaps',route=>route.fulfill({json:inventory}));
@@ -17,7 +17,7 @@ const artifacts=process.env.CLICK_RHYTHM_ARTIFACT_DIR || '/tmp';
   await page.locator('#beat-difficulty').selectOption('cozy');
   assert.equal(await page.locator('[data-cat-choice]:visible').count(),4);
   await page.locator('[data-cat-choice="0"]').click();
-  assert.equal(await page.locator('#beat-picker-grid img').count(),11);
+  assert.equal(await page.locator('#beat-picker-grid img').count(),19);
   assert.equal(await page.locator('[data-picker-cat="5"]').evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(243, 240, 236)');
   assert.equal(await page.locator('[data-picker-cat="5"] img').evaluate(el=>getComputedStyle(el).mixBlendMode),'normal');
   await page.locator('[data-picker-cat="5"]').click();

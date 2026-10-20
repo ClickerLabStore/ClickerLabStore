@@ -21,7 +21,7 @@
         const grid = picker.querySelector('.bundle-picker-grid');
         grid.replaceChildren();
         const quantity = Math.max(1, Number(document.getElementById('bundle-quantity').value) || 1);
-        for (let id=1; id<=11; id++) {
+        for (let id=1; id<=19; id++) {
             const used = slots().filter(s => s !== activeSlot && Number(s.dataset.keycap) === id).length;
             const available = Math.max(0,window.ClickerInventory.available(id) - used*quantity);
             const option = document.createElement('button');
