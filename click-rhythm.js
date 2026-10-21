@@ -6,7 +6,7 @@ const KEY_NAMES=['D','F','J','K'];
 const pads=[...document.querySelectorAll('[data-pad]')],lanes=[...document.querySelectorAll('.beat-lane')];
 const cats=[8,9,1,4];
 // Neutral edge colors sampled from each original keycap photo.
-const KEYCAP_BACKGROUNDS=['#f2efea','#f8f7f3','#f1eeea','#ede7e0','#f3f0ec','#f5f3f1','#f6f4f1','#f5f3f1','#f6f3f1','#f3f0ee','#f6f4f2'];
+const KEYCAP_BACKGROUNDS=['#f2efea','#f8f7f3','#f1eeea','#ede7e0','#f3f0ec','#f5f3f1','#f6f4f1','#f5f3f1','#f6f3f1','#f3f0ee','#f6f4f2','#f1f1f2','#f8f8f8','#e8e8e9','#e9e8e8','#eae9e9','#eae9ea','#ecebeb','#eae9eb'];
 function setKeycapPhoto(element,id){
   element.querySelector('img').src=`keycap-${id}.png`;
   element.style.setProperty('--keycap-background',KEYCAP_BACKGROUNDS[id-1] || '#f5f3f1');
