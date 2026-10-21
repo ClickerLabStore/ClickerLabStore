@@ -9,8 +9,8 @@ const stocks={12:18,13:13,14:19,15:18,16:5,17:30,18:5,19:7};
   const context=await browser.newContext({viewport:{width,height:1000}});
   await context.route('**/api/keycaps',r=>r.fulfill({json:{keycaps:Array.from({length:19},(_,i)=>({id:i+1,name:`Keycap ${i+1}`,stock:stocks[i+1] ?? 100})),bases:[1,2,3,4,9].map(id=>({id,stock:100})),lights:['White','Red','Blue','Yellow','Green'].map((name,i)=>({id:i+1,name,stock:20}))}}));
   // One uploaded-photo fixture and seven missing photos exercise both paths.
-  await context.route('**/keycap-12.png',r=>r.fulfill({path:path.resolve('keycap-1.png'),contentType:'image/png'}));
-  for(const id of [13,14,15,16,17,18,19])await context.route(`**/keycap-${id}.png`,r=>r.fulfill({status:404,body:'Awaiting owner upload fixture'}));
+  await context.route('**/keycap-12.png*',r=>r.fulfill({path:path.resolve('keycap-1.png'),contentType:'image/png'}));
+  for(const id of [13,14,15,16,17,18,19])await context.route(`**/keycap-${id}.png*`,r=>r.fulfill({status:404,body:'Awaiting owner upload fixture'}));
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
   for(const product of [...[1,2,3,4,9].map(n=>`${n}-key-clicker`),...[1,2,3,4].map(n=>`${n}-key-light-up-clicker`)]){
    await page.goto(`${base}/${product}.html`);await page.waitForFunction(()=>window.ClickerInventory?.ready());
@@ -18,7 +18,8 @@ const stocks={12:18,13:13,14:19,15:18,16:5,17:30,18:5,19:7};
    assert.equal(await page.locator('.keycap-option').count(),19);
    assert.match(await page.locator('.keycap-option.keycap-19 .stock-badge').textContent(),/7 available/);
    await page.waitForFunction(()=>document.querySelector('.keycap-option.keycap-12 img').naturalWidth>0);
-   assert.equal(await page.locator('.keycap-option.keycap-12 img').getAttribute('src'),'/keycap-12.png');
+   assert.equal(new URL(await page.locator('.keycap-option.keycap-12 img').getAttribute('src'),base).pathname,'/keycap-12.png');
+   assert.match(await page.locator('.keycap-option.keycap-12 img').getAttribute('src'),/[?&]v=d068fb4/);
    await page.locator('.keycap-option.keycap-19').click();
    assert.match(await slot.textContent(),/Keycap 19/);
    await page.waitForFunction(()=>[...document.querySelectorAll('.keycap-selector img,.keycap-slot img')].some(i=>i.getAttribute('src')==='/keycap-photo-coming-soon.svg'&&i.naturalWidth>0));

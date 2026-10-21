@@ -2,11 +2,12 @@
  // Visible keycap bounds in the owner's original photos; backgrounds/shadows
  // are excluded. Keeping source files intact also preserves full-size downloads.
  const bounds={
-  12:[158,368,929,1092],13:[68,244,1039,1207],
-  14:[277,347,1035,1101],15:[285,255,984,958],
-  16:[293,259,989,958],17:[291,250,997,961],
-  18:[289,260,986,956],19:[298,252,992,963]
+  12:[60,261,1030,1214],13:[87,272,1018,1199],
+  14:[75,285,1008,1215],15:[55,236,1031,1229],
+  16:[69,279,1027,1234],17:[72,294,1014,1221],
+  18:[93,296,1008,1178],19:[57,269,1030,1234]
  };
+ const photoVersion='d068fb4';
  function initialize(){
   const observed=new Set();
   const resize=new ResizeObserver(entries=>entries.forEach(entry=>frame(entry.target)));
@@ -18,6 +19,12 @@
   function frame(image){
    const match=/(?:^|\/)keycap-(1[2-9])\.png(?:\?.*)?$/.exec(image.getAttribute('src') || '');
    if(!match || !image.isConnected){release(image);return;}
+   // Replacing a photo under its existing filename must refresh every picker,
+   // selected preview, and game note, including dynamically inserted images.
+   const source=new URL(image.getAttribute('src'),location.href);
+   if(source.searchParams.get('v')!==photoVersion){
+    source.searchParams.set('v',photoVersion);image.src=source.pathname+source.search;return;
+   }
    if(!observed.has(image)){observed.add(image);resize.observe(image);}
    if(!image.complete || !image.naturalWidth)return;
    const width=image.clientWidth,height=image.clientHeight;
