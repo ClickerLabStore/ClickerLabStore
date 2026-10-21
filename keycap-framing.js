@@ -14,7 +14,7 @@
   function release(image){
    if(!observed.delete(image))return;
    resize.unobserve(image);
-   for(const property of ['transform','transform-origin','clip-path'])image.style.removeProperty(property);
+   for(const property of ['transform','transform-origin','clip-path','object-fit','object-position'])image.style.removeProperty(property);
   }
   function frame(image){
    const match=/(?:^|\/)keycap-(1[2-9])\.png(?:\?.*)?$/.exec(image.getAttribute('src') || '');
@@ -29,6 +29,13 @@
    if(!image.complete || !image.naturalWidth)return;
    const width=image.clientWidth,height=image.clientHeight;
    if(!width || !height)return; // ResizeObserver frames a hidden picker when it opens.
+   if(!image.closest('.beat-page,.beat-picker')){
+    // Product photo frames are square: fill the full box without the inset
+    // produced by the earlier subject-size normalization.
+    image.style.objectFit='cover';image.style.objectPosition='center';
+    image.style.transform='none';image.style.clipPath='none';
+    return;
+   }
    const [left,top,right,bottom]=bounds[Number(match[1])];
    const sourceWidth=image.naturalWidth,sourceHeight=image.naturalHeight;
    const fit=getComputedStyle(image).objectFit==='cover'?Math.max:Math.min;
