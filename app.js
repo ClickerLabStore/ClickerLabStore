@@ -2120,6 +2120,13 @@ async function checkCheckoutReturn() {
                 try { sessionStorage.removeItem("clickerlab_shipping_quote"); } catch {}
             }
             alert("Payment confirmed. Thank you!");
+            try { sessionStorage.setItem("clickerlab_review_session",session); } catch {}
+            if(!document.getElementById("reviews-purchase-note")) {
+                const note=document.createElement("aside");note.id="reviews-purchase-note";note.className="reviews-purchase-note";
+                const text=document.createElement("p");text.textContent="Thank you for your purchase. Save your private review link and share an honest review after you have tried your clicker.";
+                const link=document.createElement("a");link.href="/review.html#session="+encodeURIComponent(session);link.textContent="Your verified-purchase review link →";
+                note.append(text,link);(document.querySelector("main") || document.body).prepend(note);
+            }
         } else {
             alert("Your payment confirmation is still processing. Please keep your Stripe receipt.");
         }
