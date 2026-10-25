@@ -9,6 +9,4 @@
 .contact-card h2{margin:0 0 14px;font-size:clamp(26px,4vw,34px)}
 .contact-card p{line-height:1.7;overflow-wrap:anywhere}
 .contact-card a{color:#62432e;text-underline-offset:3px}
-.contact-card .contact-email-button{display:inline-flex;align-items:center;gap:16px;min-height:46px;margin-top:8px;padding:10px 18px;box-sizing:border-box;border-radius:12px;background:#342a22;color:#fff;font-weight:700;text-decoration:none}
-.contact-email-button:hover{background:#57402e}
 @media(max-width:520px){.site-footer{margin-top:32px;padding:24px 20px;gap:12px}.site-footer nav{gap:22px}.site-footer-brand{flex-basis:100%}}
