@@ -57,8 +57,16 @@ export async function shippingRates(request,env) {
   } catch(error) {
     // Log only our own diagnostics, never tokens, addresses, or provider bodies.
     console.warn('shipping-rate-check',error.message);
+    const code=/HTTP (401|403)/.test(error.message)?'provider_auth_'+error.message.match(/HTTP (401|403)/)[1]:
+      /mode does not match/.test(error.message)?'mode_mismatch':/No USPS/.test(error.message)?'no_usps_rate':
+      error.name==='TimeoutError'?'timeout':'provider_unavailable';
+    await shippingDiagnostic(env,code);
     return Response.json({error:error.message.startsWith('No USPS') ? error.message:'Unable to retrieve USPS rates. Please try again.'},{status:502});
   }
+}
+async function shippingDiagnostic(env,code){
+  try{await env.DB.prepare(`INSERT INTO store_diagnostics(kind,code,updated_at) VALUES ('shipping_quote_error',?,?)
+    ON CONFLICT(kind) DO UPDATE SET code=excluded.code,updated_at=excluded.updated_at`).bind(code,Math.floor(Date.now()/1000)).run();}catch{}
 }
 export async function checkoutShipping(env,body) {
   if(!/^[a-f0-9-]{36}$/.test(body.quoteId || '') || !/^[a-f0-9]{32}$/.test(body.rateId || '')) throw new Error('Choose a USPS shipping rate first.');

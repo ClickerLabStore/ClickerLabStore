@@ -4,18 +4,31 @@ import { inventory, checkout, webhook } from "./commerce.js";
 import { reconcileCheckouts } from "./reconciliation.js";
 import { purchaseOrderLabel, processShippingLabels } from "./labels.js";
 import { listReviews,reviewAccess,submitReview,previewReviewAccess } from "./reviews.js";
+import {collectFunnel} from './funnel.js';
 
 export default {
   async scheduled(event,env,ctx) {
     if(env.REVIEWS_PREVIEW==='true')return;
     ctx.waitUntil((async()=>{
-      const outcomes=await Promise.allSettled([cleanupAbuseData(env),reconcileCheckouts(env)]);
+      const outcomes=await Promise.allSettled([cleanupAbuseData(env),reconcileCheckouts(env),
+        env.DB.batch([env.DB.prepare("DELETE FROM funnel_events WHERE created_at < ?").bind(Math.floor(Date.now()/1000)-30*86400),
+          env.DB.prepare("UPDATE orders SET analytics_session_id=NULL WHERE analytics_session_id IS NOT NULL AND created_at < ?").bind(Math.floor(Date.now()/1000)-30*86400)])]);
       if(outcomes.some(result=>result.status==='rejected'))console.warn('Scheduled checkout maintenance requires review');
       await processShippingLabels(env);
     })());
   },
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+
+    if(url.pathname==='/api/funnel'){
+      if(request.method!=='POST')return new Response('Method not allowed',{status:405});
+      if(env.REVIEWS_PREVIEW==='true')return new Response(null,{status:204});
+      try{
+        const protection=await protectRequest(request,env,url.pathname);
+        if(protection instanceof Response)return protection;
+        return await collectFunnel(protection.request,env);
+      }catch{return new Response(null,{status:204});} // Measurement must never block shopping.
+    }
 
     if(url.pathname.startsWith('/api/reviews')){
       try{

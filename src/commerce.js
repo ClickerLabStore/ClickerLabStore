@@ -141,8 +141,8 @@ export async function checkout(request, env, reservationOwner = null) {
     const now = Math.floor(Date.now()/1000);
     try {
       await env.DB.batch([
-        env.DB.prepare("INSERT INTO orders(id,status,amount,cart_json,created_at,shipping_amount,shipping_countries,shipping_quote_id,shipping_rate_id,shipping_address_json,shipping_service,reservation_owner,payment_mode,auto_label_eligible) VALUES (?,'creating',?,?,?,?,?,?,?,?,?,?,?,?)")
-          .bind(id,cart.amount,JSON.stringify(cart.lines),now,shipping.amount,'US',shipping.quoteId,shipping.rateId,JSON.stringify(shipping.address),shipping.service,reservationOwner,mode,env.AUTO_PURCHASE_LABELS==='true' ? 1 : 0),
+        env.DB.prepare("INSERT INTO orders(id,status,amount,cart_json,created_at,shipping_amount,shipping_countries,shipping_quote_id,shipping_rate_id,shipping_address_json,shipping_service,reservation_owner,payment_mode,auto_label_eligible,analytics_session_id) VALUES (?,'creating',?,?,?,?,?,?,?,?,?,?,?,?,?)")
+          .bind(id,cart.amount,JSON.stringify(cart.lines),now,shipping.amount,'US',shipping.quoteId,shipping.rateId,JSON.stringify(shipping.address),shipping.service,reservationOwner,mode,env.AUTO_PURCHASE_LABELS==='true' ? 1 : 0, typeof body.analyticsSession==='string' && /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(body.analyticsSession) ? body.analyticsSession : null),
         ...cart.components.map(c => env.DB.prepare('INSERT INTO order_components(order_id,kind,component_id,quantity) VALUES (?,?,?,?)')
           .bind(id,c.kind,c.id,c.quantity))
       ]);

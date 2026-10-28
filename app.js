@@ -1,3 +1,5 @@
+/* Anonymous, optional funnel measurement; never send cart contents or contact details. */
+function trackFunnel(event,product) { try { window.ClickerFunnel?.track(event,product); } catch {} }
 /* =========================================================
    CLICKERLABSTORE CART
    ========================================================= */
@@ -1096,6 +1098,7 @@ function openCart() {
     }
 
 
+    trackFunnel("cart_open");
     drawer.classList.add(
         "open"
     );
@@ -1315,6 +1318,7 @@ function commitItemToCart(item) {
 
 
     saveCart();
+    trackFunnel("add_to_cart",safeItem.productId);
 
     openCart();
 
@@ -1970,6 +1974,7 @@ async function calculateShipping(event) {
     button.disabled = true;
     document.getElementById("clicker-shipping-choice").hidden = true;
     status.textContent = "Checking USPS rates…";
+    trackFunnel("shipping_requested");
     try {
         const response = await fetch("/api/shipping-rates",{
             method:"POST",headers:{"Content-Type":"application/json"},
@@ -1982,8 +1987,9 @@ async function calculateShipping(event) {
         }
         const expires = Date.now()+15*60*1000;
         showShippingQuote(result,expires);
+        trackFunnel("shipping_quoted");
         try { sessionStorage.setItem("clickerlab_shipping_quote",JSON.stringify({address,result,expires})); } catch {}
-    } catch(error) { status.textContent = error.message; }
+    } catch(error) { trackFunnel("shipping_error"); status.textContent = error.message; }
     finally { shippingBusy = false; button.disabled = false; }
 }
 
@@ -1997,9 +2003,11 @@ async function startCheckout() {
     if(!shippingQuote || (!resuming && shippingQuote.expires < Date.now())) {
         document.getElementById("clicker-shipping-details").open = true;
         document.getElementById("clicker-shipping-form").elements.name.focus();
+        trackFunnel("checkout_blocked");
         alert("Please calculate shipping for your delivery address first.");
         return;
     }
+    trackFunnel("checkout_requested");
     const quoteId = shippingQuote.id;
     const rateId = document.getElementById("clicker-shipping-rate").value;
     checkoutBusy = true;
@@ -2017,14 +2025,17 @@ async function startCheckout() {
         }
         const response = await fetch("/api/checkout", {
             method:"POST", headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({items,requestId:attempt.id,quoteId,rateId}), signal:AbortSignal.timeout(30000)
+            body:JSON.stringify({items,requestId:attempt.id,quoteId,rateId,analyticsSession:window.ClickerFunnel?.session()}), signal:AbortSignal.timeout(30000)
         });
         const result = await response.json();
         if (!response.ok) throw new Error(result.error || "Unable to start Checkout.");
         const target = new URL(result.url);
         if (target.origin !== "https://checkout.stripe.com") throw new Error("Invalid Checkout address.");
+        trackFunnel("checkout_redirect");
+        window.ClickerFunnel?.flush();
         window.location.assign(target.href);
     } catch(error) {
+        trackFunnel("checkout_error");
         alert(error.message);
     } finally {
         checkoutBusy = false;

@@ -12,3 +12,5 @@ tests/
 migrations/
 
 docs/
+
+scripts/
