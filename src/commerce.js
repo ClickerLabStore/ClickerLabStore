@@ -2,6 +2,8 @@ import { paymentMode, isLive } from "./payment-mode.js";
 import { checkoutShipping } from "./shipping.js";
 export const LIGHT_IDS={White:1,Red:2,Blue:3,Yellow:4,Green:5};
 export const PRODUCTS = {
+  'wasd-4-key-clicker': {name:'Wasd 4-Key Clicker',price:699,base:4,inventoryBase:5},
+  'wasd-4-key-light-up-clicker': {name:'Wasd 4-Key Light Up Clicker',price:849,base:4,inventoryBase:5,light:true},
   '2-key-light-up-clicker': {name:'2-Key Light Up Clicker',price:499,base:2,light:true},
   '3-key-light-up-clicker': {name:'3-Key Light Up Clicker',price:699,base:3,light:true},
   '4-key-light-up-clicker': {name:'4-Key Light Up Clicker',price:849,base:4,light:true},
@@ -51,7 +53,7 @@ export function validateCart(items) {
         (product.light && (lightColors !== undefined ? (!Array.isArray(lightColors) || lightColors.length !== product.base || lightColors.some(color=>!['White','Red','Blue','Yellow','Green'].includes(color))) : !['White','Red','Blue','Yellow','Green'].includes(lightColor)))) {
       throw new Error('Invalid product selection');
     }
-    add('base', product.base, item.quantity);
+    add('base', product.inventoryBase || product.base, item.quantity);
     for (const id of keycaps) add('keycap', id, item.quantity);
     if(product.light) for(const color of lightColors || Array(product.base).fill(lightColor)) add('light',LIGHT_IDS[color],item.quantity);
     amount += product.price * item.quantity;

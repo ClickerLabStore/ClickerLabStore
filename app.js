@@ -28,10 +28,13 @@ let baseStock = null;
 let lightStock = null;
 const LIGHT_NAMES=["White","Red","Blue","Yellow","Green"];
 const PRODUCT_BASES = {
+    "wasd-4-key-clicker": 4, "wasd-4-key-light-up-clicker": 4,
     "2-key-light-up-clicker": 2, "3-key-light-up-clicker": 3, "4-key-light-up-clicker": 4,
     "1-key-clicker": 1, "1-key-light-up-clicker": 1,
     "2-key-clicker": 2, "3-key-clicker": 3, "4-key-clicker": 4, "9-key-clicker": 9
 };
+const PRODUCT_INVENTORY_BASES = {"wasd-4-key-clicker":5,"wasd-4-key-light-up-clicker":5};
+const inventoryBaseId = productId => PRODUCT_INVENTORY_BASES[productId] || PRODUCT_BASES[productId];
 const BUNDLE_BASES = {'starter-pack':[1,4], 'starter-lab':[2,4], 'clicker-trio':[1,2,4], 'trio-lab':[1,3,4], 'clickerlab-pack':[1,2,3,4,9]};
 function itemClickers(item) {
     return item.options?.clickers || [{productId:item.productId,...item.options}];
@@ -63,7 +66,7 @@ async function refreshInventory() {
         const bases = {};
         if (!Array.isArray(data.bases)) throw new Error("Missing base inventory");
         for (const row of data.bases) {
-            if (!Number.isInteger(row.id) || ![1,2,3,4,9].includes(row.id) ||
+            if (!Number.isInteger(row.id) || ![1,2,3,4,5,9].includes(row.id) ||
                 !Number.isInteger(row.stock) || row.stock < 0 || row.id in bases) {
                 throw new Error("Invalid base inventory");
             }
@@ -102,10 +105,13 @@ function availableKeycapStock(id) {
 }
 
 function availableBaseStock(productId) {
-    const id = PRODUCT_BASES[productId];
+    return availableBaseInventoryStock(inventoryBaseId(productId));
+}
+
+function availableBaseInventoryStock(id) {
     if (!baseStock || !id) return 0;
     const used = cart.reduce((total,item) => total +
-        itemClickers(item).filter(c=>PRODUCT_BASES[c.productId]===id).length * Number(item.quantity),0);
+        itemClickers(item).filter(c=>inventoryBaseId(c.productId)===id).length * Number(item.quantity),0);
     return Math.max(0,(baseStock[id] || 0)-used);
 }
 
@@ -139,7 +145,8 @@ function queueInventoryAddition(item, commit) {
         for (const clicker of clickers) {
             const base = PRODUCT_BASES[clicker.productId];
             if (!base || !Array.isArray(clicker.keycaps) || clicker.keycaps.length !== base) throw new Error("Choose every keycap first.");
-            bases[base] = (bases[base] || 0)+1;
+            const inventoryBase=inventoryBaseId(clicker.productId);
+            bases[inventoryBase] = (bases[inventoryBase] || 0)+1;
             const colors=clickerLightColors(clicker);
             if(clicker.productId.includes('-light-up-clicker') && (colors.length!==base || colors.some(c=>!LIGHT_NAMES.includes(c)))) throw new Error("Choose a light color for each key.");
             for(const color of colors)lights[color]=(lights[color]||0)+1;
@@ -149,7 +156,7 @@ function queueInventoryAddition(item, commit) {
             }
         }
         for (const [base,count] of Object.entries(bases)) {
-            if (count*item.quantity > availableBaseStock(`${base}-key-clicker`)) throw new Error("Not enough clicker bases. Please reduce the quantity.");
+            if (count*item.quantity > availableBaseInventoryStock(Number(base))) throw new Error("Not enough clicker bases. Please reduce the quantity.");
         }
         for (const [id, count] of Object.entries(requirements)) {
             if (count * item.quantity > availableKeycapStock(id)) {
