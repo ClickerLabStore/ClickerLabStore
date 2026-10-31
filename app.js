@@ -1741,14 +1741,15 @@ function renderCart() {
                         );
 
 
+                    const productImage = {"wasd-4-key-clicker":"/WASD.png","wasd-4-key-light-up-clicker":"/WASD-light-dark.png"}[item.productId] || item.image;
                     const imageHTML =
-                        item.image
+                        productImage
                         ?
                         `
 
                             <img
                                 src="${escapeCartHTML(
-                                    item.image
+                                    productImage
                                 )}"
                                 alt="${escapeCartHTML(
                                     item.name
