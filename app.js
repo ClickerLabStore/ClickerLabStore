@@ -1741,7 +1741,7 @@ function renderCart() {
                         );
 
 
-                    const productImage = {"wasd-4-key-clicker":"/WASD.png?v=wasd2","wasd-4-key-light-up-clicker":"/WASD-light-dark.png?v=71e398b"}[item.productId] || item.image;
+                    const productImage = {"wasd-4-key-clicker":"/WASD.png?v=wasd2","wasd-4-key-light-up-clicker":"/WASD-light-dark.png?v=e2b81c6"}[item.productId] || item.image;
                     const imageHTML =
                         productImage
                         ?
